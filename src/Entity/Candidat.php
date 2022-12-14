@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CandidatRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -46,6 +48,18 @@ class Candidat
 
     #[ORM\OneToOne(inversedBy: 'candidat', cascade: ['persist', 'remove'])]
     private ?User $user = null;
+
+    #[ORM\OneToMany(mappedBy: 'candidat', targetEntity: RecrutementProcess::class, orphanRemoval: true)]
+    private Collection $recrutementProcesses;
+
+    #[ORM\ManyToMany(targetEntity: Annonce::class, mappedBy: 'favorite')]
+    private Collection $annonces;
+
+    public function __construct()
+    {
+        $this->recrutementProcesses = new ArrayCollection();
+        $this->annonces = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -180,6 +194,63 @@ class Candidat
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RecrutementProcess>
+     */
+    public function getRecrutementProcesses(): Collection
+    {
+        return $this->recrutementProcesses;
+    }
+
+    public function addRecrutementProcess(RecrutementProcess $recrutementProcess): self
+    {
+        if (!$this->recrutementProcesses->contains($recrutementProcess)) {
+            $this->recrutementProcesses->add($recrutementProcess);
+            $recrutementProcess->setCandidat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecrutementProcess(RecrutementProcess $recrutementProcess): self
+    {
+        if ($this->recrutementProcesses->removeElement($recrutementProcess)) {
+            // set the owning side to null (unless already changed)
+            if ($recrutementProcess->getCandidat() === $this) {
+                $recrutementProcess->setCandidat(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Annonce>
+     */
+    public function getAnnonces(): Collection
+    {
+        return $this->annonces;
+    }
+
+    public function addAnnonce(Annonce $annonce): self
+    {
+        if (!$this->annonces->contains($annonce)) {
+            $this->annonces->add($annonce);
+            $annonce->addFavorite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnnonce(Annonce $annonce): self
+    {
+        if ($this->annonces->removeElement($annonce)) {
+            $annonce->removeFavorite($this);
+        }
 
         return $this;
     }
