@@ -24,9 +24,16 @@ class Techno
     #[ORM\ManyToMany(targetEntity: Annonce::class, mappedBy: 'techno')]
     private Collection $annonces;
 
+    #[ORM\OneToMany(mappedBy: 'techno', targetEntity: CandidatHasTechno::class)]
+    private Collection $candidatHasTechnos;
+
+    #[ORM\ManyToOne(inversedBy: 'technos')]
+    private ?SearchProfile $searchProfile = null;
+
     public function __construct()
     {
         $this->annonces = new ArrayCollection();
+        $this->candidatHasTechnos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -81,6 +88,48 @@ class Techno
         if ($this->annonces->removeElement($annonce)) {
             $annonce->removeTechno($this);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CandidatHasTechno>
+     */
+    public function getCandidatHasTechnos(): Collection
+    {
+        return $this->candidatHasTechnos;
+    }
+
+    public function addCandidatHasTechno(CandidatHasTechno $candidatHasTechno): self
+    {
+        if (!$this->candidatHasTechnos->contains($candidatHasTechno)) {
+            $this->candidatHasTechnos->add($candidatHasTechno);
+            $candidatHasTechno->setTechno($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCandidatHasTechno(CandidatHasTechno $candidatHasTechno): self
+    {
+        if ($this->candidatHasTechnos->removeElement($candidatHasTechno)) {
+            // set the owning side to null (unless already changed)
+            if ($candidatHasTechno->getTechno() === $this) {
+                $candidatHasTechno->setTechno(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getSearchProfile(): ?SearchProfile
+    {
+        return $this->searchProfile;
+    }
+
+    public function setSearchProfile(?SearchProfile $searchProfile): self
+    {
+        $this->searchProfile = $searchProfile;
 
         return $this;
     }

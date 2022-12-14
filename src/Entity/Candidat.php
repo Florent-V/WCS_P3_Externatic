@@ -73,6 +73,12 @@ class Candidat
     #[ORM\ManyToMany(targetEntity: Annonce::class, mappedBy: 'favorite')]
     private Collection $annonces;
 
+    #[ORM\OneToMany(mappedBy: 'candidat', targetEntity: SearchProfile::class, orphanRemoval: true)]
+    private Collection $searchProfiles;
+
+    #[ORM\OneToMany(mappedBy: 'candidat', targetEntity: CandidatHasTechno::class)]
+    private Collection $candidatHasTechnos;
+
     public function __construct()
     {
         $this->experiences = new ArrayCollection();
@@ -83,6 +89,8 @@ class Candidat
         $this->hobbies = new ArrayCollection();
         $this->recrutementProcesses = new ArrayCollection();
         $this->annonces = new ArrayCollection();
+        $this->searchProfiles = new ArrayCollection();
+        $this->candidatHasTechnos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -445,6 +453,66 @@ class Candidat
     {
         if ($this->annonces->removeElement($annonce)) {
             $annonce->removeFavorite($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SearchProfile>
+     */
+    public function getSearchProfiles(): Collection
+    {
+        return $this->searchProfiles;
+    }
+
+    public function addSearchProfile(SearchProfile $searchProfile): self
+    {
+        if (!$this->searchProfiles->contains($searchProfile)) {
+            $this->searchProfiles->add($searchProfile);
+            $searchProfile->setCandidat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSearchProfile(SearchProfile $searchProfile): self
+    {
+        if ($this->searchProfiles->removeElement($searchProfile)) {
+            // set the owning side to null (unless already changed)
+            if ($searchProfile->getCandidat() === $this) {
+                $searchProfile->setCandidat(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CandidatHasTechno>
+     */
+    public function getCandidatHasTechnos(): Collection
+    {
+        return $this->candidatHasTechnos;
+    }
+
+    public function addCandidatHasTechno(CandidatHasTechno $candidatHasTechno): self
+    {
+        if (!$this->candidatHasTechnos->contains($candidatHasTechno)) {
+            $this->candidatHasTechnos->add($candidatHasTechno);
+            $candidatHasTechno->setCandidat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCandidatHasTechno(CandidatHasTechno $candidatHasTechno): self
+    {
+        if ($this->candidatHasTechnos->removeElement($candidatHasTechno)) {
+            // set the owning side to null (unless already changed)
+            if ($candidatHasTechno->getCandidat() === $this) {
+                $candidatHasTechno->setCandidat(null);
+            }
         }
 
         return $this;
