@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CandidatRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -46,6 +48,34 @@ class Candidat
 
     #[ORM\OneToOne(inversedBy: 'candidat', cascade: ['persist', 'remove'])]
     private ?User $user = null;
+
+    #[ORM\OneToMany(mappedBy: 'candidat', targetEntity: Experience::class, orphanRemoval: true)]
+    private Collection $experiences;
+
+    #[ORM\OneToMany(mappedBy: 'candidat', targetEntity: Certification::class, orphanRemoval: true)]
+    private Collection $certifications;
+
+    #[ORM\OneToMany(mappedBy: 'candidat', targetEntity: Language::class, orphanRemoval: true)]
+    private Collection $languages;
+
+    #[ORM\OneToMany(mappedBy: 'candidat', targetEntity: SoftSkill::class, orphanRemoval: true)]
+    private Collection $softSkills;
+
+    #[ORM\OneToMany(mappedBy: 'candidat', targetEntity: HardSkill::class, orphanRemoval: true)]
+    private Collection $hardSkills;
+
+    #[ORM\OneToMany(mappedBy: 'candidat', targetEntity: Hobbie::class, orphanRemoval: true)]
+    private Collection $hobbies;
+
+    public function __construct()
+    {
+        $this->experiences = new ArrayCollection();
+        $this->certifications = new ArrayCollection();
+        $this->languages = new ArrayCollection();
+        $this->softSkills = new ArrayCollection();
+        $this->hardSkills = new ArrayCollection();
+        $this->hobbies = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -180,6 +210,186 @@ class Candidat
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Experience>
+     */
+    public function getExperiences(): Collection
+    {
+        return $this->experiences;
+    }
+
+    public function addExperience(Experience $experience): self
+    {
+        if (!$this->experiences->contains($experience)) {
+            $this->experiences->add($experience);
+            $experience->setCandidat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExperience(Experience $experience): self
+    {
+        if ($this->experiences->removeElement($experience)) {
+            // set the owning side to null (unless already changed)
+            if ($experience->getCandidat() === $this) {
+                $experience->setCandidat(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Certification>
+     */
+    public function getCertifications(): Collection
+    {
+        return $this->certifications;
+    }
+
+    public function addCertification(Certification $certification): self
+    {
+        if (!$this->certifications->contains($certification)) {
+            $this->certifications->add($certification);
+            $certification->setCandidat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCertification(Certification $certification): self
+    {
+        if ($this->certifications->removeElement($certification)) {
+            // set the owning side to null (unless already changed)
+            if ($certification->getCandidat() === $this) {
+                $certification->setCandidat(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Language>
+     */
+    public function getLanguages(): Collection
+    {
+        return $this->languages;
+    }
+
+    public function addLanguage(Language $language): self
+    {
+        if (!$this->languages->contains($language)) {
+            $this->languages->add($language);
+            $language->setCandidat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLanguage(Language $language): self
+    {
+        if ($this->languages->removeElement($language)) {
+            // set the owning side to null (unless already changed)
+            if ($language->getCandidat() === $this) {
+                $language->setCandidat(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SoftSkill>
+     */
+    public function getSoftSkills(): Collection
+    {
+        return $this->softSkills;
+    }
+
+    public function addSoftSkill(SoftSkill $softSkill): self
+    {
+        if (!$this->softSkills->contains($softSkill)) {
+            $this->softSkills->add($softSkill);
+            $softSkill->setCandidat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSoftSkill(SoftSkill $softSkill): self
+    {
+        if ($this->softSkills->removeElement($softSkill)) {
+            // set the owning side to null (unless already changed)
+            if ($softSkill->getCandidat() === $this) {
+                $softSkill->setCandidat(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, HardSkill>
+     */
+    public function getHardSkills(): Collection
+    {
+        return $this->hardSkills;
+    }
+
+    public function addHardSkill(HardSkill $hardSkill): self
+    {
+        if (!$this->hardSkills->contains($hardSkill)) {
+            $this->hardSkills->add($hardSkill);
+            $hardSkill->setCandidat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHardSkill(HardSkill $hardSkill): self
+    {
+        if ($this->hardSkills->removeElement($hardSkill)) {
+            // set the owning side to null (unless already changed)
+            if ($hardSkill->getCandidat() === $this) {
+                $hardSkill->setCandidat(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Hobbie>
+     */
+    public function getHobbies(): Collection
+    {
+        return $this->hobbies;
+    }
+
+    public function addHobby(Hobbie $hobby): self
+    {
+        if (!$this->hobbies->contains($hobby)) {
+            $this->hobbies->add($hobby);
+            $hobby->setCandidat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHobby(Hobbie $hobby): self
+    {
+        if ($this->hobbies->removeElement($hobby)) {
+            // set the owning side to null (unless already changed)
+            if ($hobby->getCandidat() === $this) {
+                $hobby->setCandidat(null);
+            }
+        }
 
         return $this;
     }
