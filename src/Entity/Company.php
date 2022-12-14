@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CompanyRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -47,6 +49,14 @@ class Company
     #[ORM\ManyToOne(inversedBy: 'companies')]
     #[ORM\JoinColumn(nullable: true)]
     private ?ExternaticConsultant $externaticConsultant = null;
+
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Annonce::class, orphanRemoval: true)]
+    private Collection $annonces;
+
+    public function __construct()
+    {
+        $this->annonces = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -181,6 +191,36 @@ class Company
     public function setExternaticConsultant(?ExternaticConsultant $externaticConsultant): self
     {
         $this->externaticConsultant = $externaticConsultant;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Annonce>
+     */
+    public function getAnnonces(): Collection
+    {
+        return $this->annonces;
+    }
+
+    public function addAnnonce(Annonce $annonce): self
+    {
+        if (!$this->annonces->contains($annonce)) {
+            $this->annonces->add($annonce);
+            $annonce->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnnonce(Annonce $annonce): self
+    {
+        if ($this->annonces->removeElement($annonce)) {
+            // set the owning side to null (unless already changed)
+            if ($annonce->getCompany() === $this) {
+                $annonce->setCompany(null);
+            }
+        }
 
         return $this;
     }

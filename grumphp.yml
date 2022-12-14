@@ -21,3 +21,6 @@ grumphp:
                 - '\src\Kernel.php'
             ruleset:
                 - 'phpmd.xml'
+    fixer:
+        enabled: true
+        fix_by_default: true
