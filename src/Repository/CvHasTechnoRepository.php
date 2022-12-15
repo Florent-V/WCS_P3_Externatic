@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\CandidatHasTechno;
+use App\Entity\CvHasTechno;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<CandidatHasTechno>
+ * @extends ServiceEntityRepository<CvHasTechno>
  *
- * @method CandidatHasTechno|null find($id, $lockMode = null, $lockVersion = null)
- * @method CandidatHasTechno|null findOneBy(array $criteria, array $orderBy = null)
- * @method CandidatHasTechno[]    findAll()
- * @method CandidatHasTechno[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method CvHasTechno|null find($id, $lockMode = null, $lockVersion = null)
+ * @method CvHasTechno|null findOneBy(array $criteria, array $orderBy = null)
+ * @method CvHasTechno[]    findAll()
+ * @method CvHasTechno[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CandidatHasTechnoRepository extends ServiceEntityRepository
+class CvHasTechnoRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, CandidatHasTechno::class);
+        parent::__construct($registry, CvHasTechno::class);
     }
 
-    public function save(CandidatHasTechno $entity, bool $flush = false): void
+    public function save(CvHasTechno $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class CandidatHasTechnoRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(CandidatHasTechno $entity, bool $flush = false): void
+    public function remove(CvHasTechno $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class CandidatHasTechnoRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return CandidatHasTechno[] Returns an array of CandidatHasTechno objects
+//     * @return CvHasTechno[] Returns an array of CvHasTechno objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class CandidatHasTechnoRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?CandidatHasTechno
+//    public function findOneBySomeField($value): ?CvHasTechno
 //    {
 //        return $this->createQueryBuilder('c')
 //            ->andWhere('c.exampleField = :val')

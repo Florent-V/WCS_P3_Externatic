@@ -24,16 +24,16 @@ class Techno
     #[ORM\ManyToMany(targetEntity: Annonce::class, mappedBy: 'techno')]
     private Collection $annonces;
 
-    #[ORM\OneToMany(mappedBy: 'techno', targetEntity: CandidatHasTechno::class)]
-    private Collection $candidatHasTechnos;
-
     #[ORM\ManyToOne(inversedBy: 'technos')]
     private ?SearchProfile $searchProfile = null;
+
+    #[ORM\OneToMany(mappedBy: 'techno', targetEntity: CvHasTechno::class)]
+    private Collection $cvHasTechnos;
 
     public function __construct()
     {
         $this->annonces = new ArrayCollection();
-        $this->candidatHasTechnos = new ArrayCollection();
+        $this->cvHasTechnos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -92,36 +92,6 @@ class Techno
         return $this;
     }
 
-    /**
-     * @return Collection<int, CandidatHasTechno>
-     */
-    public function getCandidatHasTechnos(): Collection
-    {
-        return $this->candidatHasTechnos;
-    }
-
-    public function addCandidatHasTechno(CandidatHasTechno $candidatHasTechno): self
-    {
-        if (!$this->candidatHasTechnos->contains($candidatHasTechno)) {
-            $this->candidatHasTechnos->add($candidatHasTechno);
-            $candidatHasTechno->setTechno($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCandidatHasTechno(CandidatHasTechno $candidatHasTechno): self
-    {
-        if ($this->candidatHasTechnos->removeElement($candidatHasTechno)) {
-            // set the owning side to null (unless already changed)
-            if ($candidatHasTechno->getTechno() === $this) {
-                $candidatHasTechno->setTechno(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getSearchProfile(): ?SearchProfile
     {
         return $this->searchProfile;
@@ -130,6 +100,36 @@ class Techno
     public function setSearchProfile(?SearchProfile $searchProfile): self
     {
         $this->searchProfile = $searchProfile;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CvHasTechno>
+     */
+    public function getCvHasTechnos(): Collection
+    {
+        return $this->cvHasTechnos;
+    }
+
+    public function addCvHasTechno(CvHasTechno $cvHasTechno): self
+    {
+        if (!$this->cvHasTechnos->contains($cvHasTechno)) {
+            $this->cvHasTechnos->add($cvHasTechno);
+            $cvHasTechno->setTechno($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCvHasTechno(CvHasTechno $cvHasTechno): self
+    {
+        if ($this->cvHasTechnos->removeElement($cvHasTechno)) {
+            // set the owning side to null (unless already changed)
+            if ($cvHasTechno->getTechno() === $this) {
+                $cvHasTechno->setTechno(null);
+            }
+        }
 
         return $this;
     }

@@ -19,9 +19,8 @@ class Language
     #[ORM\Column(length: 45, nullable: true)]
     private ?string $level = null;
 
-    #[ORM\ManyToOne(inversedBy: 'languages')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Candidat $candidat = null;
+    #[ORM\ManyToOne(inversedBy: 'language')]
+    private ?Cv $cv = null;
 
     public function getId(): ?int
     {
@@ -52,14 +51,14 @@ class Language
         return $this;
     }
 
-    public function getCandidat(): ?Candidat
+    public function getCv(): ?Cv
     {
-        return $this->candidat;
+        return $this->cv;
     }
 
-    public function setCandidat(?Candidat $candidat): self
+    public function setCv(?Cv $cv): self
     {
-        $this->candidat = $candidat;
+        $this->cv = $cv;
 
         return $this;
     }

@@ -42,6 +42,9 @@ class Experience
     #[ORM\JoinColumn(nullable: false)]
     private ?Candidat $candidat = null;
 
+    #[ORM\ManyToOne(inversedBy: 'experience')]
+    private ?Cv $cv = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -151,6 +154,18 @@ class Experience
     public function setCandidat(?Candidat $candidat): self
     {
         $this->candidat = $candidat;
+
+        return $this;
+    }
+
+    public function getCv(): ?Cv
+    {
+        return $this->cv;
+    }
+
+    public function setCv(?Cv $cv): self
+    {
+        $this->cv = $cv;
 
         return $this;
     }

@@ -16,9 +16,8 @@ class HardSkill
     #[ORM\Column(length: 100)]
     private ?string $name = null;
 
-    #[ORM\ManyToOne(inversedBy: 'hardSkills')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Candidat $candidat = null;
+    #[ORM\ManyToOne(inversedBy: 'hardSkill')]
+    private ?Skills $skills = null;
 
     public function getId(): ?int
     {
@@ -37,14 +36,14 @@ class HardSkill
         return $this;
     }
 
-    public function getCandidat(): ?Candidat
+    public function getSkills(): ?Skills
     {
-        return $this->candidat;
+        return $this->skills;
     }
 
-    public function setCandidat(?Candidat $candidat): self
+    public function setSkills(?Skills $skills): self
     {
-        $this->candidat = $candidat;
+        $this->skills = $skills;
 
         return $this;
     }

@@ -40,32 +40,11 @@ class Candidat
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $cvFile = null;
-
     #[ORM\Column]
     private ?bool $canPostulate = null;
 
     #[ORM\OneToOne(inversedBy: 'candidat', cascade: ['persist', 'remove'])]
     private ?User $user = null;
-
-    #[ORM\OneToMany(mappedBy: 'candidat', targetEntity: Experience::class, orphanRemoval: true)]
-    private Collection $experiences;
-
-    #[ORM\OneToMany(mappedBy: 'candidat', targetEntity: Certification::class, orphanRemoval: true)]
-    private Collection $certifications;
-
-    #[ORM\OneToMany(mappedBy: 'candidat', targetEntity: Language::class, orphanRemoval: true)]
-    private Collection $languages;
-
-    #[ORM\OneToMany(mappedBy: 'candidat', targetEntity: SoftSkill::class, orphanRemoval: true)]
-    private Collection $softSkills;
-
-    #[ORM\OneToMany(mappedBy: 'candidat', targetEntity: HardSkill::class, orphanRemoval: true)]
-    private Collection $hardSkills;
-
-    #[ORM\OneToMany(mappedBy: 'candidat', targetEntity: Hobbie::class, orphanRemoval: true)]
-    private Collection $hobbies;
 
     #[ORM\OneToMany(mappedBy: 'candidat', targetEntity: RecrutementProcess::class, orphanRemoval: true)]
     private Collection $recrutementProcesses;
@@ -76,21 +55,14 @@ class Candidat
     #[ORM\OneToMany(mappedBy: 'candidat', targetEntity: SearchProfile::class, orphanRemoval: true)]
     private Collection $searchProfiles;
 
-    #[ORM\OneToMany(mappedBy: 'candidat', targetEntity: CandidatHasTechno::class)]
-    private Collection $candidatHasTechnos;
+    #[ORM\OneToOne(mappedBy: 'candidat', cascade: ['persist', 'remove'])]
+    private ?Cv $cv = null;
 
     public function __construct()
     {
-        $this->experiences = new ArrayCollection();
-        $this->certifications = new ArrayCollection();
-        $this->languages = new ArrayCollection();
-        $this->softSkills = new ArrayCollection();
-        $this->hardSkills = new ArrayCollection();
-        $this->hobbies = new ArrayCollection();
         $this->recrutementProcesses = new ArrayCollection();
         $this->annonces = new ArrayCollection();
         $this->searchProfiles = new ArrayCollection();
-        $this->candidatHasTechnos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -194,18 +166,6 @@ class Candidat
         return $this;
     }
 
-    public function getCvFile(): ?string
-    {
-        return $this->cvFile;
-    }
-
-    public function setCvFile(?string $cvFile): self
-    {
-        $this->cvFile = $cvFile;
-
-        return $this;
-    }
-
     public function isCanPostulate(): ?bool
     {
         return $this->canPostulate;
@@ -231,45 +191,17 @@ class Candidat
     }
 
     /**
-     * @return Collection<int, Experience>
-     */
-    public function getExperiences(): Collection
-    {
-        return $this->experiences;
-    }
-
-    public function addExperience(Experience $experience): self
-    {
-        if (!$this->experiences->contains($experience)) {
-            $this->experiences->add($experience);
-            $experience->setCandidat($this);
-        }
-        return $this;
-    }
-    /**
      * @return Collection<int, RecrutementProcess>
      */
     public function getRecrutementProcesses(): Collection
     {
         return $this->recrutementProcesses;
     }
-
     public function addRecrutementProcess(RecrutementProcess $recrutementProcess): self
     {
         if (!$this->recrutementProcesses->contains($recrutementProcess)) {
             $this->recrutementProcesses->add($recrutementProcess);
             $recrutementProcess->setCandidat($this);
-        }
-        return $this;
-    }
-
-    public function removeExperience(Experience $experience): self
-    {
-        if ($this->experiences->removeElement($experience)) {
-            // set the owning side to null (unless already changed)
-            if ($experience->getCandidat() === $this) {
-                $experience->setCandidat(null);
-            }
         }
         return $this;
     }
@@ -285,22 +217,6 @@ class Candidat
         return $this;
     }
 
-    /**
-     * @return Collection<int, Certification>
-     */
-    public function getCertifications(): Collection
-    {
-        return $this->certifications;
-    }
-
-    public function addCertification(Certification $certification): self
-    {
-        if (!$this->certifications->contains($certification)) {
-            $this->certifications->add($certification);
-            $certification->setCandidat($this);
-        }
-        return $this;
-    }
      /**
      * @return Collection<int, Annonce>
      */
@@ -319,136 +235,6 @@ class Candidat
         return $this;
     }
 
-    public function removeCertification(Certification $certification): self
-    {
-        if ($this->certifications->removeElement($certification)) {
-            // set the owning side to null (unless already changed)
-            if ($certification->getCandidat() === $this) {
-                $certification->setCandidat(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Language>
-     */
-    public function getLanguages(): Collection
-    {
-        return $this->languages;
-    }
-
-    public function addLanguage(Language $language): self
-    {
-        if (!$this->languages->contains($language)) {
-            $this->languages->add($language);
-            $language->setCandidat($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLanguage(Language $language): self
-    {
-        if ($this->languages->removeElement($language)) {
-            // set the owning side to null (unless already changed)
-            if ($language->getCandidat() === $this) {
-                $language->setCandidat(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, SoftSkill>
-     */
-    public function getSoftSkills(): Collection
-    {
-        return $this->softSkills;
-    }
-
-    public function addSoftSkill(SoftSkill $softSkill): self
-    {
-        if (!$this->softSkills->contains($softSkill)) {
-            $this->softSkills->add($softSkill);
-            $softSkill->setCandidat($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSoftSkill(SoftSkill $softSkill): self
-    {
-        if ($this->softSkills->removeElement($softSkill)) {
-            // set the owning side to null (unless already changed)
-            if ($softSkill->getCandidat() === $this) {
-                $softSkill->setCandidat(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, HardSkill>
-     */
-    public function getHardSkills(): Collection
-    {
-        return $this->hardSkills;
-    }
-
-    public function addHardSkill(HardSkill $hardSkill): self
-    {
-        if (!$this->hardSkills->contains($hardSkill)) {
-            $this->hardSkills->add($hardSkill);
-            $hardSkill->setCandidat($this);
-        }
-
-        return $this;
-    }
-
-    public function removeHardSkill(HardSkill $hardSkill): self
-    {
-        if ($this->hardSkills->removeElement($hardSkill)) {
-            // set the owning side to null (unless already changed)
-            if ($hardSkill->getCandidat() === $this) {
-                $hardSkill->setCandidat(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Hobbie>
-     */
-    public function getHobbies(): Collection
-    {
-        return $this->hobbies;
-    }
-
-    public function addHobby(Hobbie $hobby): self
-    {
-        if (!$this->hobbies->contains($hobby)) {
-            $this->hobbies->add($hobby);
-            $hobby->setCandidat($this);
-        }
-
-        return $this;
-    }
-
-    public function removeHobby(Hobbie $hobby): self
-    {
-        if ($this->hobbies->removeElement($hobby)) {
-            // set the owning side to null (unless already changed)
-            if ($hobby->getCandidat() === $this) {
-                $hobby->setCandidat(null);
-            }
-        }
-        return $this;
-    }
     public function removeAnnonce(Annonce $annonce): self
     {
         if ($this->annonces->removeElement($annonce)) {
@@ -488,32 +274,24 @@ class Candidat
         return $this;
     }
 
-    /**
-     * @return Collection<int, CandidatHasTechno>
-     */
-    public function getCandidatHasTechnos(): Collection
+    public function getCv(): ?Cv
     {
-        return $this->candidatHasTechnos;
+        return $this->cv;
     }
 
-    public function addCandidatHasTechno(CandidatHasTechno $candidatHasTechno): self
+    public function setCv(?Cv $cv): self
     {
-        if (!$this->candidatHasTechnos->contains($candidatHasTechno)) {
-            $this->candidatHasTechnos->add($candidatHasTechno);
-            $candidatHasTechno->setCandidat($this);
+        // unset the owning side of the relation if necessary
+        if ($cv === null && $this->cv !== null) {
+            $this->cv->setCandidat(null);
         }
 
-        return $this;
-    }
-
-    public function removeCandidatHasTechno(CandidatHasTechno $candidatHasTechno): self
-    {
-        if ($this->candidatHasTechnos->removeElement($candidatHasTechno)) {
-            // set the owning side to null (unless already changed)
-            if ($candidatHasTechno->getCandidat() === $this) {
-                $candidatHasTechno->setCandidat(null);
-            }
+        // set the owning side of the relation if necessary
+        if ($cv !== null && $cv->getCandidat() !== $this) {
+            $cv->setCandidat($this);
         }
+
+        $this->cv = $cv;
 
         return $this;
     }
