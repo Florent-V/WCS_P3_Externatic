@@ -1,0 +1,27 @@
+footer {
+    background-color: $primary !important;
+    margin-top: auto;
+    padding:$space1;
+    color: $light !important;
+    font-size: medium;
+
+    .text-1 {
+        width: 40ch;
+    }
+    .all {
+        justify-content: space-evenly;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .link1 {
+        text-align:center;
+    }
+
+    .social-media img {
+        height:2rem;
+        margin:calc($space1/2);
+    }
+}
+
+

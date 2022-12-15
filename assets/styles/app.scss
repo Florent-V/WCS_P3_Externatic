@@ -1,2 +1,9 @@
-//start coding by removing this file and adding yours ;)
-@import "wcs";
+@import "_variables.scss";
+// the ~ allows you to reference things in node_modules
+@import "~bootstrap/scss/bootstrap";
+@import "_global.scss";
+@import "_navbar.scss";
+@import "_footer.scss";
+
+
+

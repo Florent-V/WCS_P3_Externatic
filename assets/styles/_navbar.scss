@@ -1,0 +1,24 @@
+nav.navbar {
+    height: $navbarHeight;
+}
+
+nav.navbar {
+    a {
+        color: $light;
+        text-transform: uppercase;
+        font-size: $navTextHeight;
+        font-weight: bold;
+
+        &.connexion {
+            color: $primary;
+        }
+
+        &:hover {
+            color: $secondary;
+        }
+    }
+
+    .logo {
+        height: $navbarHeight - 0.5rem;
+    }
+}
