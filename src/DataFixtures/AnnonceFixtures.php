@@ -7,6 +7,7 @@ use Faker\Factory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use DateTime;
 
 class AnnonceFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -26,16 +27,17 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
                 self::$annonceIndex++;
                 $annonce->setTitle($faker->sentence(3));
                 $annonce->setPicture('https://fakeimg.pl/200x200/?text=picture');
-                $annonce->setSalary($faker->numberBetween(25000, 60000));
+                $annonce->setSalary($faker->numberBetween(25000, 60000) . "€");
                 $annonce->setContractType($faker->word());
                 $annonce->setStudyLevel($faker->word());
                 $annonce->setRemote($faker->boolean());
                 $annonce->setDescription($faker->paragraphs(3, true));
-                $annonce->setWorkTime($faker->numberBetween(15, 39));
+                $annonce->setWorkTime($faker->numberBetween(15, 39) . "h");
                 $annonce->setPublicationStatus($faker->word());
-                $annonce->setCreatedAt(new \DateTime($faker->date('Y-m-d')));
+                $annonce->setCreatedAt(new DateTime($faker->date('Y-m-d')));
                 $annonce->setCompany($this->getReference('company_' . $i));
-                $annonce->setAuthor($this->getReference('consultant_' . $faker->numberBetween(1, ExternaticConsultantFixtures::$consultantIndex)));
+                $annonce->setAuthor($this->getReference('consultant_' .
+                    $faker->numberBetween(1, ExternaticConsultantFixtures::$consultantIndex)));
                 $manager->persist($annonce);
             }
         }
