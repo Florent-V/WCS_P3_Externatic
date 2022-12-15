@@ -27,13 +27,13 @@ class Techno
     #[ORM\ManyToOne(inversedBy: 'technos')]
     private ?SearchProfile $searchProfile = null;
 
-    #[ORM\OneToMany(mappedBy: 'techno', targetEntity: CvHasTechno::class)]
-    private Collection $cvHasTechnos;
+    #[ORM\OneToMany(mappedBy: 'techno', targetEntity: CurriculumHasTechno::class)]
+    private Collection $curriculumHasTechnos;
 
     public function __construct()
     {
         $this->annonces = new ArrayCollection();
-        $this->cvHasTechnos = new ArrayCollection();
+        $this->curriculumHasTechnos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -105,29 +105,27 @@ class Techno
     }
 
     /**
-     * @return Collection<int, CvHasTechno>
+     * @return Collection<int, CurriculumHasTechno>
      */
-    public function getCvHasTechnos(): Collection
+    public function getCurriculumHasTechnos(): Collection
     {
-        return $this->cvHasTechnos;
+        return $this->curriculumHasTechnos;
     }
-
-    public function addCvHasTechno(CvHasTechno $cvHasTechno): self
+    public function addCurriculumHasTechno(CurriculumHasTechno $curriculumHasTechno): self
     {
-        if (!$this->cvHasTechnos->contains($cvHasTechno)) {
-            $this->cvHasTechnos->add($cvHasTechno);
-            $cvHasTechno->setTechno($this);
+        if (!$this->curriculumHasTechnos->contains($curriculumHasTechno)) {
+            $this->curriculumHasTechnos->add($curriculumHasTechno);
+            $curriculumHasTechno->setTechno($this);
         }
 
         return $this;
     }
-
-    public function removeCvHasTechno(CvHasTechno $cvHasTechno): self
+    public function removeCurriculumHasTechno(CurriculumHasTechno $curriculumHasTechno): self
     {
-        if ($this->cvHasTechnos->removeElement($cvHasTechno)) {
+        if ($this->curriculumHasTechnos->removeElement($curriculumHasTechno)) {
             // set the owning side to null (unless already changed)
-            if ($cvHasTechno->getTechno() === $this) {
-                $cvHasTechno->setTechno(null);
+            if ($curriculumHasTechno->getTechno() === $this) {
+                $curriculumHasTechno->setTechno(null);
             }
         }
 

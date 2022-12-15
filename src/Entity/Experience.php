@@ -43,7 +43,7 @@ class Experience
     private ?Candidat $candidat = null;
 
     #[ORM\ManyToOne(inversedBy: 'experience')]
-    private ?Cv $cv = null;
+    private ?Curriculum $curriculum = null;
 
     public function getId(): ?int
     {
@@ -158,14 +158,14 @@ class Experience
         return $this;
     }
 
-    public function getCv(): ?Cv
+    public function getCurriculum(): ?Curriculum
     {
-        return $this->cv;
+        return $this->curriculum;
     }
 
-    public function setCv(?Cv $cv): self
+    public function setCurriculum(?Curriculum $curriculum): self
     {
-        $this->cv = $cv;
+        $this->curriculum = $curriculum;
 
         return $this;
     }

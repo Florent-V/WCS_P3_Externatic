@@ -2,22 +2,22 @@
 
 namespace App\Entity;
 
-use App\Repository\CvHasTechnoRepository;
+use App\Repository\CurriculumHasTechnoRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CvHasTechnoRepository::class)]
-class CvHasTechno
+#[ORM\Entity(repositoryClass: CurriculumHasTechnoRepository::class)]
+class CurriculumHasTechno
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'cvHasTechnos')]
+    #[ORM\ManyToOne(inversedBy: 'curriculumHasTechnos')]
     #[ORM\JoinColumn(nullable: true)]
-    private ?Cv $cv = null;
+    private ?Curriculum $curriculum = null;
 
-    #[ORM\ManyToOne(inversedBy: 'cvHasTechnos')]
+    #[ORM\ManyToOne(inversedBy: 'curriculumHasTechnos')]
     private ?Techno $techno = null;
 
     #[ORM\Column(length: 100)]
@@ -28,14 +28,14 @@ class CvHasTechno
         return $this->id;
     }
 
-    public function getCv(): ?Cv
+    public function getCurriculum(): ?Curriculum
     {
-        return $this->cv;
+        return $this->curriculum;
     }
 
-    public function setCv(?Cv $cv): self
+    public function setCurriculum(?Curriculum $curriculum): self
     {
-        $this->cv = $cv;
+        $this->curriculum = $curriculum;
 
         return $this;
     }

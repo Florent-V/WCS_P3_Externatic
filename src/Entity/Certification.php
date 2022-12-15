@@ -24,7 +24,7 @@ class Certification
     private ?string $link = null;
 
     #[ORM\ManyToOne(inversedBy: 'certifications')]
-    private ?Cv $cv = null;
+    private ?Curriculum $curriculum = null;
 
     public function getId(): ?int
     {
@@ -67,14 +67,14 @@ class Certification
         return $this;
     }
 
-    public function getCv(): ?Cv
+    public function getCurriculum(): ?Curriculum
     {
-        return $this->cv;
+        return $this->curriculum;
     }
 
-    public function setCv(?Cv $cv): self
+    public function setCurriculum(?Curriculum $curriculum): self
     {
-        $this->cv = $cv;
+        $this->curriculum = $curriculum;
 
         return $this;
     }

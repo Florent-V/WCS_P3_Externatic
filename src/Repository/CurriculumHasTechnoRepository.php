@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\CvHasTechno;
+use App\Entity\CurriculumHasTechno;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<CvHasTechno>
+ * @extends ServiceEntityRepository<CurriculumHasTechno>
  *
- * @method CvHasTechno|null find($id, $lockMode = null, $lockVersion = null)
- * @method CvHasTechno|null findOneBy(array $criteria, array $orderBy = null)
- * @method CvHasTechno[]    findAll()
- * @method CvHasTechno[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method CurriculumHasTechno|null find($id, $lockMode = null, $lockVersion = null)
+ * @method CurriculumHasTechno|null findOneBy(array $criteria, array $orderBy = null)
+ * @method CurriculumHasTechno[]    findAll()
+ * @method CurriculumHasTechno[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CvHasTechnoRepository extends ServiceEntityRepository
+class CurriculumHasTechnoRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, CvHasTechno::class);
+        parent::__construct($registry, CurriculumHasTechno::class);
     }
 
-    public function save(CvHasTechno $entity, bool $flush = false): void
+    public function save(CurriculumHasTechno $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class CvHasTechnoRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(CvHasTechno $entity, bool $flush = false): void
+    public function remove(CurriculumHasTechno $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 

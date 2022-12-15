@@ -31,7 +31,7 @@ class SearchProfile
     private ?bool $isRemote = null;
 
     #[ORM\ManyToOne(inversedBy: 'searchProfiles')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Candidat $candidat = null;
 
     #[ORM\OneToMany(mappedBy: 'searchProfile', targetEntity: Techno::class)]

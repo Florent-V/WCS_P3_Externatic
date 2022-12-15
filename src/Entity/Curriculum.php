@@ -2,40 +2,40 @@
 
 namespace App\Entity;
 
-use App\Repository\CvRepository;
+use App\Repository\CurriculumRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CvRepository::class)]
-class Cv
+#[ORM\Entity(repositoryClass: CurriculumRepository::class)]
+class Curriculum
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToMany(mappedBy: 'cv', targetEntity: Certification::class)]
+    #[ORM\OneToMany(mappedBy: 'curriculum', targetEntity: Certification::class)]
     private Collection $certifications;
 
-    #[ORM\OneToMany(mappedBy: 'cv', targetEntity: Experience::class)]
+    #[ORM\OneToMany(mappedBy: 'curriculum', targetEntity: Experience::class)]
     private Collection $experience;
 
-    #[ORM\OneToMany(mappedBy: 'cv', targetEntity: Language::class)]
+    #[ORM\OneToMany(mappedBy: 'curriculum', targetEntity: Language::class)]
     private Collection $language;
 
-    #[ORM\OneToMany(mappedBy: 'cv', targetEntity: Hobbie::class)]
+    #[ORM\OneToMany(mappedBy: 'curriculum', targetEntity: Hobbie::class)]
     private Collection $hobbie;
 
-    #[ORM\OneToOne(inversedBy: 'cv', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'curriculum', cascade: ['persist', 'remove'])]
     private ?Candidat $candidat = null;
 
-    #[ORM\OneToOne(inversedBy: 'cv', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'curriculum', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Skills $skills = null;
 
-    #[ORM\OneToMany(mappedBy: 'cv', targetEntity: CvHasTechno::class, orphanRemoval: true)]
-    private Collection $cvHasTechnos;
+    #[ORM\OneToMany(mappedBy: 'curriculum', targetEntity: CurriculumHasTechno::class, orphanRemoval: true)]
+    private Collection $curriculumHasTechnos;
 
     public function __construct()
     {
@@ -43,7 +43,7 @@ class Cv
         $this->experience = new ArrayCollection();
         $this->language = new ArrayCollection();
         $this->hobbie = new ArrayCollection();
-        $this->cvHasTechnos = new ArrayCollection();
+        $this->curriculumHasTechnos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -63,7 +63,7 @@ class Cv
     {
         if (!$this->certifications->contains($certification)) {
             $this->certifications->add($certification);
-            $certification->setCv($this);
+            $certification->setCurriculum($this);
         }
 
         return $this;
@@ -73,8 +73,8 @@ class Cv
     {
         if ($this->certifications->removeElement($certification)) {
             // set the owning side to null (unless already changed)
-            if ($certification->getCv() === $this) {
-                $certification->setCv(null);
+            if ($certification->getCurriculum() === $this) {
+                $certification->setCurriculum(null);
             }
         }
 
@@ -93,7 +93,7 @@ class Cv
     {
         if (!$this->experience->contains($experience)) {
             $this->experience->add($experience);
-            $experience->setCv($this);
+            $experience->setCurriculum($this);
         }
 
         return $this;
@@ -103,8 +103,8 @@ class Cv
     {
         if ($this->experience->removeElement($experience)) {
             // set the owning side to null (unless already changed)
-            if ($experience->getCv() === $this) {
-                $experience->setCv(null);
+            if ($experience->getCurriculum() === $this) {
+                $experience->setCurriculum(null);
             }
         }
 
@@ -123,9 +123,8 @@ class Cv
     {
         if (!$this->language->contains($language)) {
             $this->language->add($language);
-            $language->setCv($this);
+            $language->setCurriculum($this);
         }
-
         return $this;
     }
 
@@ -133,8 +132,8 @@ class Cv
     {
         if ($this->language->removeElement($language)) {
             // set the owning side to null (unless already changed)
-            if ($language->getCv() === $this) {
-                $language->setCv(null);
+            if ($language->getCurriculum() === $this) {
+                $language->setCurriculum(null);
             }
         }
 
@@ -153,7 +152,7 @@ class Cv
     {
         if (!$this->hobbie->contains($hobbie)) {
             $this->hobbie->add($hobbie);
-            $hobbie->setCv($this);
+            $hobbie->setCurriculum($this);
         }
 
         return $this;
@@ -163,8 +162,8 @@ class Cv
     {
         if ($this->hobbie->removeElement($hobbie)) {
             // set the owning side to null (unless already changed)
-            if ($hobbie->getCv() === $this) {
-                $hobbie->setCv(null);
+            if ($hobbie->getCurriculum() === $this) {
+                $hobbie->setCurriculum(null);
             }
         }
 
@@ -196,29 +195,29 @@ class Cv
     }
 
     /**
-     * @return Collection<int, CvHasTechno>
+     * @return Collection<int, CurriculumHasTechno>
      */
-    public function getCvHasTechnos(): Collection
+    public function getCurriculumHasTechnos(): Collection
     {
-        return $this->cvHasTechnos;
+        return $this->curriculumHasTechnos;
     }
 
-    public function addCvHasTechno(CvHasTechno $cvHasTechno): self
+    public function addCurriculumHasTechno(CurriculumHasTechno $curriculumHasTechno): self
     {
-        if (!$this->cvHasTechnos->contains($cvHasTechno)) {
-            $this->cvHasTechnos->add($cvHasTechno);
-            $cvHasTechno->setCv($this);
+        if (!$this->curriculumHasTechnos->contains($curriculumHasTechno)) {
+            $this->curriculumHasTechnos->add($curriculumHasTechno);
+            $curriculumHasTechno->setCurriculum($this);
         }
 
         return $this;
     }
 
-    public function removeCvHasTechno(CvHasTechno $cvHasTechno): self
+    public function removeCurriculumHasTechno(CurriculumHasTechno $curriculumHasTechno): self
     {
-        if ($this->cvHasTechnos->removeElement($cvHasTechno)) {
+        if ($this->curriculumHasTechnos->removeElement($curriculumHasTechno)) {
             // set the owning side to null (unless already changed)
-            if ($cvHasTechno->getCv() === $this) {
-                $cvHasTechno->setCv(null);
+            if ($curriculumHasTechno->getCurriculum() === $this) {
+                $curriculumHasTechno->setCurriculum(null);
             }
         }
 

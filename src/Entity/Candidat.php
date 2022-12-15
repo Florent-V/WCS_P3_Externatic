@@ -56,7 +56,7 @@ class Candidat
     private Collection $searchProfiles;
 
     #[ORM\OneToOne(mappedBy: 'candidat', cascade: ['persist', 'remove'])]
-    private ?Cv $cv = null;
+    private ?Curriculum $curriculum = null;
 
     public function __construct()
     {
@@ -274,24 +274,24 @@ class Candidat
         return $this;
     }
 
-    public function getCv(): ?Cv
+    public function getCurriculum(): ?Curriculum
     {
-        return $this->cv;
+        return $this->curriculum;
     }
 
-    public function setCv(?Cv $cv): self
+    public function setCurriculum(?Curriculum $curriculum): self
     {
         // unset the owning side of the relation if necessary
-        if ($cv === null && $this->cv !== null) {
-            $this->cv->setCandidat(null);
+        if ($curriculum === null && $this->curriculum !== null) {
+            $this->curriculum->setCandidat(null);
         }
 
         // set the owning side of the relation if necessary
-        if ($cv !== null && $cv->getCandidat() !== $this) {
-            $cv->setCandidat($this);
+        if ($curriculum !== null && $curriculum->getCandidat() !== $this) {
+            $curriculum->setCandidat($this);
         }
 
-        $this->cv = $cv;
+        $this->curriculum = $curriculum;
 
         return $this;
     }

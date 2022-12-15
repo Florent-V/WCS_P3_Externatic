@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\Cv;
+use App\Entity\Curriculum;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Cv>
+ * @extends ServiceEntityRepository<Curriculum>
  *
- * @method Cv|null find($id, $lockMode = null, $lockVersion = null)
- * @method Cv|null findOneBy(array $criteria, array $orderBy = null)
- * @method Cv[]    findAll()
- * @method Cv[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Curriculum|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Curriculum|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Curriculum[]    findAll()
+ * @method Curriculum[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CvRepository extends ServiceEntityRepository
+class CurriculumRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Cv::class);
+        parent::__construct($registry, Curriculum::class);
     }
 
-    public function save(Cv $entity, bool $flush = false): void
+    public function save(Curriculum $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class CvRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Cv $entity, bool $flush = false): void
+    public function remove(Curriculum $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 

@@ -22,7 +22,7 @@ class Skills
     private Collection $hardSkill;
 
     #[ORM\OneToOne(mappedBy: 'skills', cascade: ['persist', 'remove'])]
-    private ?Cv $cv = null;
+    private ?Curriculum $curriculum = null;
 
     public function __construct()
     {
@@ -95,19 +95,19 @@ class Skills
         return $this;
     }
 
-    public function getCv(): ?Cv
+    public function getCurriculum(): ?Curriculum
     {
-        return $this->cv;
+        return $this->curriculum;
     }
 
-    public function setCv(Cv $cv): self
+    public function setCurriculum(Curriculum $curriculum): self
     {
         // set the owning side of the relation if necessary
-        if ($cv->getSkills() !== $this) {
-            $cv->setSkills($this);
+        if ($curriculum->getSkills() !== $this) {
+            $curriculum->setSkills($this);
         }
 
-        $this->cv = $cv;
+        $this->curriculum = $curriculum;
 
         return $this;
     }
