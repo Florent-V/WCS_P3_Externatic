@@ -90,7 +90,7 @@ class ExternaticConsultant
     {
         if (!$this->annonces->contains($annonce)) {
             $this->annonces->add($annonce);
-            $annonce->setConsultant($this);
+            $annonce->setAuthor($this);
         }
 
         return $this;
@@ -100,8 +100,8 @@ class ExternaticConsultant
     {
         if ($this->annonces->removeElement($annonce)) {
             // set the owning side to null (unless already changed)
-            if ($annonce->getConsultant() === $this) {
-                $annonce->setConsultant(null);
+            if ($annonce->getAuthor() === $this) {
+                $annonce->setAuthor(null);
             }
         }
 

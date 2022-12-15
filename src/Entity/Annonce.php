@@ -9,7 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AnnonceRepository::class)]
-class Annonce
+class  Annonce
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -43,10 +43,10 @@ class Annonce
     #[ORM\Column(length: 45, nullable: true)]
     private ?string $publicationStatus = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $endingAt = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'annonces')]
@@ -55,7 +55,7 @@ class Annonce
 
     #[ORM\ManyToOne(inversedBy: 'annonces')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?ExternaticConsultant $consultant = null;
+    private ?ExternaticConsultant $author = null;
 
     #[ORM\OneToMany(mappedBy: 'annonce', targetEntity: RecrutementProcess::class, orphanRemoval: true)]
     private Collection $recrutementProcesses;
@@ -222,14 +222,14 @@ class Annonce
         return $this;
     }
 
-    public function getConsultant(): ?ExternaticConsultant
+    public function getAuthor(): ?ExternaticConsultant
     {
-        return $this->consultant;
+        return $this->author;
     }
 
-    public function setConsultant(?ExternaticConsultant $consultant): self
+    public function setAuthor(?ExternaticConsultant $author): self
     {
-        $this->consultant = $consultant;
+        $this->author = $author;
 
         return $this;
     }
