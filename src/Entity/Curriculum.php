@@ -21,9 +21,6 @@ class Curriculum
     #[ORM\OneToMany(mappedBy: 'curriculum', targetEntity: Experience::class)]
     private Collection $experience;
 
-    #[ORM\OneToMany(mappedBy: 'curriculum', targetEntity: Language::class)]
-    private Collection $language;
-
     #[ORM\OneToMany(mappedBy: 'curriculum', targetEntity: Hobbie::class)]
     private Collection $hobbie;
 
@@ -41,7 +38,6 @@ class Curriculum
     {
         $this->certifications = new ArrayCollection();
         $this->experience = new ArrayCollection();
-        $this->language = new ArrayCollection();
         $this->hobbie = new ArrayCollection();
         $this->curriculumHasTechnos = new ArrayCollection();
     }
@@ -110,36 +106,6 @@ class Curriculum
 
         return $this;
     }
-
-    /**
-     * @return Collection<int, Language>
-     */
-    public function getLanguage(): Collection
-    {
-        return $this->language;
-    }
-
-    public function addLanguage(Language $language): self
-    {
-        if (!$this->language->contains($language)) {
-            $this->language->add($language);
-            $language->setCurriculum($this);
-        }
-        return $this;
-    }
-
-    public function removeLanguage(Language $language): self
-    {
-        if ($this->language->removeElement($language)) {
-            // set the owning side to null (unless already changed)
-            if ($language->getCurriculum() === $this) {
-                $language->setCurriculum(null);
-            }
-        }
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Hobbie>
      */

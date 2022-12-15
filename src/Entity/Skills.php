@@ -24,10 +24,14 @@ class Skills
     #[ORM\OneToOne(mappedBy: 'skills', cascade: ['persist', 'remove'])]
     private ?Curriculum $curriculum = null;
 
+    #[ORM\OneToMany(mappedBy: 'skills', targetEntity: Language::class)]
+    private Collection $languages;
+
     public function __construct()
     {
         $this->softSkill = new ArrayCollection();
         $this->hardSkill = new ArrayCollection();
+        $this->languages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -108,6 +112,36 @@ class Skills
         }
 
         $this->curriculum = $curriculum;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Language>
+     */
+    public function getLanguages(): Collection
+    {
+        return $this->languages;
+    }
+
+    public function addLanguage(Language $language): self
+    {
+        if (!$this->languages->contains($language)) {
+            $this->languages->add($language);
+            $language->setSkills($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLanguage(Language $language): self
+    {
+        if ($this->languages->removeElement($language)) {
+            // set the owning side to null (unless already changed)
+            if ($language->getSkills() === $this) {
+                $language->setSkills(null);
+            }
+        }
 
         return $this;
     }

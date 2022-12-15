@@ -19,8 +19,8 @@ class Language
     #[ORM\Column(length: 45, nullable: true)]
     private ?string $level = null;
 
-    #[ORM\ManyToOne(inversedBy: 'language')]
-    private ?Curriculum $curriculum = null;
+    #[ORM\ManyToOne(inversedBy: 'languages')]
+    private ?Skills $skills = null;
 
     public function getId(): ?int
     {
@@ -51,14 +51,14 @@ class Language
         return $this;
     }
 
-    public function getCurriculum(): ?Curriculum
+    public function getSkills(): ?Skills
     {
-        return $this->curriculum;
+        return $this->skills;
     }
 
-    public function setCurriculum(?Curriculum $curriculum): self
+    public function setSkills(?Skills $skills): self
     {
-        $this->curriculum = $curriculum;
+        $this->skills = $skills;
 
         return $this;
     }
