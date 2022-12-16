@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Externatic{% endblock %}
+
+{% block body %}
+    {% for annonce in annonces %}
+        {%  include '_include/_card_result.html.twig' %}
+    {% endfor %}
+{% endblock %}

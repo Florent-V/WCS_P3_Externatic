@@ -7,14 +7,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class HomeController extends AbstractController
+#[route('/search', name: "search_")]
+class AnnonceController extends AbstractController
 {
-    #[Route('/', name: 'home')]
+    #[Route('/results', name: 'results')]
     public function index(AnnonceRepository $annonceRepository): Response
     {
-        $annoncesLandingPage = $annonceRepository->findBy([], ["createdAt" => "DESC"], 3);
-        return $this->render('home/index.html.twig', [
-            'annoncesLandingPage' => $annoncesLandingPage
+        $annonces = $annonceRepository->findAll();
+        return $this->render('annonce/results.html.twig', [
+            'annonces' => $annonces,
         ]);
     }
 }
