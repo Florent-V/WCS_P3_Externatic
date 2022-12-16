@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserFixtures extends Fixture
@@ -100,6 +101,8 @@ class UserFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
+        $faker = Factory::create('fr_FR');
+
         foreach (self::ADMIN_INFOS as $adminInfo) {
             self::$userAdminIndex++;
             $user = new User();
@@ -115,6 +118,8 @@ class UserFixtures extends Fixture
 
             $user->setFirstname($adminInfo['firstname']);
             $user->setLastname($adminInfo['lastname']);
+            $user->setPhone($faker->phoneNumber());
+            $user->setIsVerified(true);
             $manager->persist($user);
             $this->addReference('userAdmin_' . self::$userAdminIndex, $user);
         }
@@ -134,6 +139,8 @@ class UserFixtures extends Fixture
 
             $user->setFirstname($consultantInfo['firstname']);
             $user->setLastname($consultantInfo['lastname']);
+            $user->setPhone($faker->phoneNumber());
+            $user->setIsVerified(true);
             $manager->persist($user);
             $this->addReference('userConsultant_' . self::$userConsultantIndex, $user);
         }
@@ -153,6 +160,8 @@ class UserFixtures extends Fixture
 
             $user->setFirstname($candidatInfo['firstname']);
             $user->setLastname($candidatInfo['lastname']);
+            $user->setPhone($faker->phoneNumber());
+            $user->setIsVerified(true);
             $manager->persist($user);
             $this->addReference('userCandidat_' . self::$userCandidatIndex, $user);
         }
