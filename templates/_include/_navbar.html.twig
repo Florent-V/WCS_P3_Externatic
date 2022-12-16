@@ -4,7 +4,9 @@
         <button class="border-0 navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling" >
             <span class="navbar-toggler-icon"></span>
         </button>
-        <img class="logo" src="{{ asset('build/images/externatic.png') }}" alt="logo externatic"/>
+
+        <img class="logo d-none d-md-block" src="{{ asset('build/images/externatic.png') }}" alt="logo externatic"/>
+        <img class="logo d-initial d-md-none" src="{{ asset('build/images/logo-petit.png') }}" alt="logo externatic"/>
 
         {% if app.user %}
             {{ app.user.firstname }}

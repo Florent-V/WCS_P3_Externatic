@@ -1,0 +1,16 @@
+<article class="cardResult bg-light border-1 m-1">
+    <div class="cardHeader d-flex p-2">
+        <img class="p-1 align-self-center rounded-1" src="{{ annonce.picture }}" alt="photo of an enterprise"/>
+        <div class="d-flex flex-column justify-content-between align-items-start">
+            <h3 class="cardTitle text-start">{{ annonce.title }}</h3>
+            <div class="annonceInfos"><small>{{ annonce.company.name }}</small>
+                <small>{{ annonce.createdAt|date("m/d/Y") }}</small></div>
+        </div>
+    </div>
+    <div class="row row-cols-2 g-2 m-2">
+        <p class="rounded-1 bg-success p-1">{{ annonce.contractType}}</p>
+        <p class="rounded-1 bg-success p-1">{{ annonce.workTime }}</p>
+        <p class="rounded-1 bg-success p-1">{{ annonce.studyLevel }}</p>
+        <p class="rounded-1 bg-success p-1">{{ annonce.salary }}</p>
+    </div>
+</article>
