@@ -1,0 +1,14 @@
+.loginForm {
+    margin-top: 2rem;
+    h1 {
+        text-align: center;
+    }
+    form, .newUser {
+        max-width: 500px;
+        margin: auto;
+    }
+    button {
+        display: block;
+        margin: auto;
+    }
+}

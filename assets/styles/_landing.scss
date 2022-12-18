@@ -1,0 +1,102 @@
+main.landing {
+
+    margin-top: $navbarHeight;
+
+    section.research {
+        background-image: url("/assets/images/landing.webp");
+        background-position: center;
+        background-size: cover;
+        min-height: 50vh;
+        @include media-breakpoint-up(lg) {
+            min-height: 75vh;
+        }
+    }
+
+    article.services {
+        color:$light;
+        div.card-body {
+            background-image: url("/assets/images/landing.webp");
+            background-position: center;
+            background-size: cover;
+        }
+
+        div.cardHeaderServices {
+            height: 3.4375rem;
+        }
+
+        div {
+            max-width: 18rem;
+            @include media-breakpoint-up(xl) {
+                max-width: 23rem;
+                height: 15rem;
+            }
+        }
+    }
+
+
+
+    article.cardResult {
+        height: 15rem;
+        width:20rem;
+        border-radius: $card-border-radius;
+        box-shadow: $card-box-shadow;
+        padding:.4rem;
+
+        .cardHeader{
+            height:35%;
+        }
+
+        .annonceInfos{
+            color:$gray-600;
+            font-style:italic;
+        }
+
+        img {
+            margin : $spacer+.2rem $spacer+.2rem 0 .5rem;
+            height: 4.4rem;
+            background-color: $gray-200;
+        }
+
+        h3 {
+            font-size: 0.85rem;
+            @include media-breakpoint-up(md) {
+                font-size:1rem;
+            }
+        }
+
+        small {
+           font-size: .7rem;
+            @include media-breakpoint-up(lg) {
+                display:initial;
+            }
+        }
+
+        &:nth-last-child(1){
+            display:none;
+            @include media-breakpoint-up(lg) {
+                display:initial;
+            }
+        }
+    }
+
+    .desc-number {
+        img {
+            height: 3rem;
+            width: 3rem;
+            @include media-breakpoint-up(md) {
+                width: 5rem;
+                height: 5rem;
+            }
+        }
+        h3{
+            font-size: 1rem;
+            @include media-breakpoint-up(sm) {
+                font-size: 1.2rem;
+            }
+            @include media-breakpoint-up(md) {
+                font-size: 1.7rem;
+            }
+        }
+    }
+}
+

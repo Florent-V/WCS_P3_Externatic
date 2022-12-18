@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+
 use App\Entity\Annonce;
 use App\Form\AnnonceType;
 use App\Repository\AnnonceRepository;
@@ -10,19 +11,22 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/annonce', name: 'annonce')]
+
+#[route('/search', name: "search_")]
 class AnnonceController extends AbstractController
 {
-    #[Route('/', name:'app_annonce_index', methods: ['GET'])]
+
+    #[Route('/results', name: 'results')]
     public function index(AnnonceRepository $annonceRepository): Response
     {
+        $annonces = $annonceRepository->findAll();
+        return $this->render('annonce/results.html.twig', [
+            'annonces' => $annonces,
 
-        return $this->render('annonce/index.html.twig', [
-            'annonces' => $annonceRepository->findAll(),
         ]);
     }
 
-    #[Route('/new', name: 'annonce_new', methods: ['GET','POST'])]
+    #[Route('/new', name: 'annonce_new', methods: ['GET', 'POST'])]
     public function new(Request $request, AnnonceRepository $annonceRepository): Response
     {
         $annonce = new Annonce();
@@ -34,7 +38,11 @@ class AnnonceController extends AbstractController
         }
         return $this->renderForm('annonce/_form.html.twig', [
             'form' => $form,
-            'annonce' => $annonce
-        ]);
+            'annonce' => $annonce]);
     }
 }
+
+
+
+
+

@@ -1,7 +1,7 @@
 footer {
     background-color: $primary !important;
     margin-top: auto;
-    padding:$space1;
+    padding: $spacer;
     color: $light !important;
     font-size: medium;
 
@@ -9,7 +9,7 @@ footer {
         width: 40ch;
     }
     .all {
-        justify-content: space-evenly;
+        justify-content: space-between;
         display: flex;
         flex-wrap: wrap;
     }
@@ -20,7 +20,7 @@ footer {
 
     .social-media img {
         height:2rem;
-        margin:calc($space1/2);
+        margin:calc($spacer /2);
     }
 }
 

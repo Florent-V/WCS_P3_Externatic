@@ -28,9 +28,6 @@ class Candidat
     #[ORM\Column(length: 45, nullable: true)]
     private ?string $zipCode = null;
 
-    #[ORM\Column(length: 45, nullable: true)]
-    private ?string $phone = null;
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $address = null;
 
@@ -114,18 +111,6 @@ class Candidat
     public function setZipCode(?string $zipCode): self
     {
         $this->zipCode = $zipCode;
-
-        return $this;
-    }
-
-    public function getPhone(): ?string
-    {
-        return $this->phone;
-    }
-
-    public function setPhone(?string $phone): self
-    {
-        $this->phone = $phone;
 
         return $this;
     }

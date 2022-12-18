@@ -4,8 +4,16 @@
         <button class="border-0 navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling" >
             <span class="navbar-toggler-icon"></span>
         </button>
-        <img class="logo" src="{{ asset('build/images/externatic.png') }}" alt="logo externatic"/>
-        <a class="connexion navbar-brand" href="#">connection</a>
+
+        <img class="logo d-none d-md-block" src="{{ asset('build/images/externatic.png') }}" alt="logo externatic"/>
+        <img class="logo d-initial d-md-none" src="{{ asset('build/images/logo-petit.png') }}" alt="logo externatic"/>
+
+        {% if app.user %}
+            {{ app.user.firstname }}
+            <a class="connexion navbar-brand" href="{{ path('app_logout') }}">Déconnexion</a>
+        {% else %}
+            <a class="connexion navbar-brand" href="{{ path('app_login') }}">Connexion</a>
+        {% endif %}
 
         <div class="offcanvas offcanvas-start bg-primary text-light text-uppercase shadow-sm" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
             <div class="offcanvas-header">
@@ -25,3 +33,4 @@
         </div>
     </div>
 </nav>
+<div class="blank"></div>

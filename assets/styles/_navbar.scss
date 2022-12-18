@@ -19,6 +19,13 @@ nav.navbar {
     }
 
     .logo {
-        height: $navbarHeight - 0.5rem;
+        height: $navbarHeight - 2rem;
+        @include media-breakpoint-up(md){
+            height: $navbarHeight - 0.5rem;
+        }
     }
+}
+
+.blank {
+    margin-top: $navbarHeight;
 }
