@@ -1,9 +1,25 @@
 .form-annonce{
-    margin:10rem auto;
+    margin:calc($space1)*5 auto;
     color:$primary;
     background-color:rgb(201, 25, 97, 0.2);
-    padding: 1em;
-    border-radius: 2%;
+    padding: $space1;
+    border-radius: calc($space1)*2;
+    width:45em;
+div.btn{
+    display: flex;
+    justify-content: center;
+}
 
+.btn{
+    background-color: white;
+    border-radius: calc($space1)*2;
+    color: $primary;
+}
+}
 
+.annonce-title{
+    margin: 5rem auto 0;
+    padding-top: calc($space1)*5;
+    color: $primary;
+    text-decoration: underline;
 }

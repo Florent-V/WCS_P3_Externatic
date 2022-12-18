@@ -3,3 +3,30 @@
 twig:
     form_themes:
         - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
+
+
+fos_ck_editor:
+    configs:
+        contentsCss:
+            - '/build/admin.css'
+        light:
+            toolbar:
+                - name: main
+                  items:
+                      - Bold
+                      - Italic
+                      - Underline
+                      - Strike
+                      - Subscript
+                      - Superscript
+                      - '-'
+                      - CopyFormatting
+                      - RemoveFormat
+                      - Print
+                      - Cut
+                      - Copy
+                      - Paste
+                      - Undo
+                      - Redo
+                      - Smiley
+                      - SpecialChar
