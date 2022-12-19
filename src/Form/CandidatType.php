@@ -19,10 +19,6 @@ class CandidatType extends AbstractType
             ->add('address')
             ->add('city')
             ->add('description')
-            ->add('canPostulate')
-            ->add('user')
-            ->add('annonces')
-            ->add('curriculum')
         ;
     }
 

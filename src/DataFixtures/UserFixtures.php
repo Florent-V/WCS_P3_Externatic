@@ -153,6 +153,7 @@ class UserFixtures extends Fixture
             self::$userCandidatIndex++;
             $user = new User();
             $candidat = new Candidat();
+
             $user->setEmail($candidatInfo['email']);
 
             $hashedPassword = $this->passwordHasher->hashPassword(

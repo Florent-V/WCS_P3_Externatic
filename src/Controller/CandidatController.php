@@ -16,22 +16,41 @@ class CandidatController extends AbstractController
 {
     #[IsGranted('ROLE_CANDIDAT')]
     #[Route('/', name: 'app_candidat_profile', methods: ['GET'])]
-    public function profile(): Response
+    public function profile(CandidatRepository $candidatRepository): Response
     {
-//        if (!$this->getUser()) {
-//            return $this->redirectToRoute('app_login');
-//        }
-        return $this->render('candidat/profile.html.twig', []);
+        $user = $this->getUser();
+
+        $candidat = $candidatRepository->findOneBy(
+            ['user' => $user]
+        );
+
+        return $this->render('candidat/profile.html.twig', [
+            'candidat' => $candidat,
+        ]);
     }
 
-    #[IsGranted('ROLE_CANDIDAT')]
     #[Route('/complete', name: 'app_candidat_complete', methods: ['GET'])]
-    public function complete(): Response
+    public function complete(Request $request, CandidatRepository $candidatRepository): Response
     {
-        if (!$this->getUser()) {
-            return $this->redirectToRoute('app_login');
+        $user = $this->getUser();
+
+        $candidat = $candidatRepository->findOneBy(
+            ['user' => $user]
+        );
+
+        $form = $this->createForm(CandidatType::class, $candidat);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $candidatRepository->save($candidat, true);
+
+            return $this->redirectToRoute('app_candidat_profile', [], Response::HTTP_SEE_OTHER);
         }
-        return $this->render('candidat/complete.html.twig', []);
+
+        return $this->renderForm('candidat/complete.html.twig', [
+            'candidat' => $candidat,
+            'form' => $form,
+        ]);
     }
 
 
