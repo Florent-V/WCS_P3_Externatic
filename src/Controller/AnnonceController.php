@@ -6,20 +6,21 @@ use App\Entity\Annonce;
 use App\Form\AnnonceType;
 use App\Repository\AnnonceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 #[route('/search', name: "search_")]
 class AnnonceController extends AbstractController
 {
     #[Route('/results', name: 'results')]
-    public function index(AnnonceRepository $annonceRepository): Response
+    public function index(Request $request, AnnonceRepository $annonceRepository): Response
     {
-        $annonces = $annonceRepository->findAll();
+        $fetchedAnnonces = is_null($request->get('form')['searchQuery']) ?
+            $annonceRepository->annonceFinder("*") :
+            $annonceRepository->annonceFinder($request->get('form')['searchQuery']);
         return $this->render('annonce/results.html.twig', [
-            'annonces' => $annonces,
-
+            'fetchedAnnonces' => $fetchedAnnonces,
         ]);
     }
 

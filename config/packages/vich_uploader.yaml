@@ -1,0 +1,11 @@
+vich_uploader:
+    db_driver: orm
+    metadata:
+        type: attribute
+
+    mappings:
+        techno_picture:
+            # alias qui nous permet d'accéder à nos images depuis le navigateur
+            uri_prefix: /uploads/images/logo
+            upload_destination: '%upload_directory%images/logo/'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
