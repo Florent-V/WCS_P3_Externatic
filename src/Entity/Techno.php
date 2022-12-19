@@ -3,11 +3,18 @@
 namespace App\Entity;
 
 use App\Repository\TechnoRepository;
+use DateTime;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TechnoRepository::class)]
+#[Vich\Uploadable]
 class Techno
 {
     #[ORM\Id]
@@ -20,6 +27,16 @@ class Techno
 
     #[ORM\Column(length: 255)]
     private ?string $picture = null;
+
+    #[Vich\UploadableField(mapping: 'techno_picture', fileNameProperty: 'picture')]
+    #[Assert\File(
+        maxSize: '1M',
+        mimeTypes: ['image/jpeg', 'image/png', 'image/webp'],
+    )]
+    private ?File $pictureFile = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?DatetimeInterface $updatedAt = null;
 
     #[ORM\ManyToMany(targetEntity: Annonce::class, mappedBy: 'techno')]
     private Collection $annonces;
@@ -117,7 +134,6 @@ class Techno
             $this->curriculumHasTechnos->add($curriculumHasTechno);
             $curriculumHasTechno->setTechno($this);
         }
-
         return $this;
     }
     public function removeCurriculumHasTechno(CurriculumHasTechno $curriculumHasTechno): self
@@ -128,7 +144,43 @@ class Techno
                 $curriculumHasTechno->setTechno(null);
             }
         }
+        return $this;
+    }
 
+    /**
+     * @return File|null
+     */
+    public function getPictureFile(): ?File
+    {
+        return $this->pictureFile;
+    }
+
+    /**
+     * @param File|null $pictureFile
+     */
+    public function setPictureFile(?File $pictureFile = null): self
+    {
+        $this->pictureFile = $pictureFile;
+        if ($pictureFile) {
+            $this->updatedAt = new DateTime('now');
+        }
+        return $this;
+    }
+
+    /**
+     * @return DatetimeInterface|null
+     */
+    public function getUpdatedAt(): ?DatetimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param DatetimeInterface|null $updatedAt
+     */
+    public function setUpdatedAt(?DatetimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
         return $this;
     }
 }

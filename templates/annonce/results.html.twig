@@ -3,7 +3,11 @@
 {% block title %}Externatic{% endblock %}
 
 {% block body %}
-    {% for annonce in annonces %}
+<main class="searchEngine">
+<div class="annoncesSample container-fluid-md d-flex flex-column flex-sm-row justify-content-around align-items-center flex-sm-wrap">
+    {% for annonce in fetchedAnnonces %}
         {%  include '_include/_card_result.html.twig' %}
     {% endfor %}
+    <div>
+</main>
 {% endblock %}

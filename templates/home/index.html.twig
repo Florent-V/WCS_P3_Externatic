@@ -9,6 +9,10 @@
                 <h1 class="text-light text-uppercase font-weight-bold">
                     Trouvez un poste qui vous correspond !
                 </h1>
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button type="submit">C'est parti !</button>
+                {{ form_end(form) }}
                 <div class="annoncesSample container-fluid-md d-flex flex-column flex-sm-row justify-content-around align-items-center">
                     {% for annonce in annoncesLandingPage %}
                         {% include '_include/_card_result.html.twig' %}
