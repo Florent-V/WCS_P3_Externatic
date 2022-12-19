@@ -39,6 +39,16 @@ class AnnonceRepository extends ServiceEntityRepository
         }
     }
 
+    public function annonceFinder(string $searchQuery): array
+    {
+        $queryBuilder = $this->createQueryBuilder('a')
+            ->where('a.title LIKE :searchQuery')
+            ->setParameter('searchQuery', '%' . $searchQuery . '%')
+            ->orderBy('a.title', 'ASC')
+            ->getQuery();
+        return $queryBuilder->getResult();
+    }
+
 //    /**
 //     * @return Annonce[] Returns an array of Annonce objects
 //     */
