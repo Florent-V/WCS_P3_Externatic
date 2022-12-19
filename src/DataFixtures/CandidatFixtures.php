@@ -60,27 +60,39 @@ class CandidatFixtures extends Fixture implements DependentFixtureInterface
             'description' => 'Bonjour Marcel Pagnol je suis hacker a la Défense',
             'can_postulate' => true,
         ],
+        [
+            'age' => 8,
+            'linked_in' => 'https://www.linkedin.com/JeSuIHPI',
+            'github' => 'https://www.github.com/PorteDuMdIT',
+            'zip_code' => '95080',
+            'address' => '74 Rue Préuoce',
+            'city' => 'Le Havrke',
+            'description' => 'Bonjour Marcele Pagnol je suis hacker a la Défense',
+            'can_postulate' => true,
+        ],
 
 
     ];
     public function load(ObjectManager $manager): void
     {
-        for ($i = 1; $i <= UserFixtures::$userCandidatIndex; $i++) {
-            foreach (self::CANDIDATS as $candidatinf) {
-                $candidat = new Candidat();
 
-                $candidat->setAge($candidatinf['age']);
-                $candidat->setLinkedIn($candidatinf['linked_in']);
-                $candidat->setGithub($candidatinf['github']);
-                $candidat->setZipCode($candidatinf['zip_code']);
-                $candidat->setAddress($candidatinf['address']);
-                $candidat->setCity($candidatinf['city']);
-                $candidat->setDescription($candidatinf['description']);
-                $candidat->setCanPostulate($candidatinf['can_postulate']);
-                $candidat->setUser($this->getReference('userCandidat_' . $i));
-                $manager->persist($candidat);
-            }
+        $iteration = 1;
+        foreach (self::CANDIDATS as $candidatinf) {
+            $candidat = new Candidat();
+
+            $candidat->setAge($candidatinf['age']);
+            $candidat->setLinkedIn($candidatinf['linked_in']);
+            $candidat->setGithub($candidatinf['github']);
+            $candidat->setZipCode($candidatinf['zip_code']);
+            $candidat->setAddress($candidatinf['address']);
+            $candidat->setCity($candidatinf['city']);
+            $candidat->setDescription($candidatinf['description']);
+            $candidat->setCanPostulate($candidatinf['can_postulate']);
+            $candidat->setUser($this->getReference('userCandidat_' . $iteration));
+            $manager->persist($candidat);
+            $iteration++;
         }
+
 
         $manager->flush();
     }
