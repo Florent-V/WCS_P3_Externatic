@@ -21,5 +21,9 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    App\Controller\RegistrationController:
+        arguments:
+            $authenticator: '@security.authenticator.form_login.main'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Candidat;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -106,6 +107,7 @@ class UserFixtures extends Fixture
         foreach (self::ADMIN_INFOS as $adminInfo) {
             self::$userAdminIndex++;
             $user = new User();
+
             $user->setEmail($adminInfo['email']);
 
             $hashedPassword = $this->passwordHasher->hashPassword(
@@ -120,6 +122,8 @@ class UserFixtures extends Fixture
             $user->setLastname($adminInfo['lastname']);
             $user->setPhone($faker->phoneNumber());
             $user->setIsVerified(true);
+
+
             $manager->persist($user);
             $this->addReference('userAdmin_' . self::$userAdminIndex, $user);
         }
@@ -148,6 +152,7 @@ class UserFixtures extends Fixture
         foreach (self::CANDIDAT_INFOS as $candidatInfo) {
             self::$userCandidatIndex++;
             $user = new User();
+            $candidat = new Candidat();
             $user->setEmail($candidatInfo['email']);
 
             $hashedPassword = $this->passwordHasher->hashPassword(
@@ -162,7 +167,13 @@ class UserFixtures extends Fixture
             $user->setLastname($candidatInfo['lastname']);
             $user->setPhone($faker->phoneNumber());
             $user->setIsVerified(true);
+
+            $candidat->setUser($user);
+            $candidat->setCanPostulate(false);
+
+            $manager->persist($candidat);
             $manager->persist($user);
+
             $this->addReference('userCandidat_' . self::$userCandidatIndex, $user);
         }
 
