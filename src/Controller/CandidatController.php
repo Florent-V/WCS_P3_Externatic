@@ -4,12 +4,15 @@ namespace App\Controller;
 
 use App\Entity\Candidat;
 use App\Form\CandidatType;
+use App\Form\UserUpdateType;
 use App\Repository\CandidatRepository;
+use App\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[Route('/profile')]
 class CandidatController extends AbstractController
@@ -19,7 +22,6 @@ class CandidatController extends AbstractController
     public function profile(CandidatRepository $candidatRepository): Response
     {
         $user = $this->getUser();
-
         $candidat = $candidatRepository->findOneBy(
             ['user' => $user]
         );
@@ -29,27 +31,41 @@ class CandidatController extends AbstractController
         ]);
     }
 
-    #[Route('/complete', name: 'app_candidat_complete', methods: ['GET'])]
-    public function complete(Request $request, CandidatRepository $candidatRepository): Response
-    {
-        $user = $this->getUser();
+    #[IsGranted('ROLE_CANDIDAT')]
+    #[Route('/complete', name: 'app_candidat_complete', methods: ['GET', 'POST'])]
+    public function complete(
+        Request $request,
+        UserInterface $user,
+        CandidatRepository $candidatRepository,
+        UserRepository $userRepository
+    ): Response {
 
         $candidat = $candidatRepository->findOneBy(
             ['user' => $user]
         );
 
-        $form = $this->createForm(CandidatType::class, $candidat);
-        $form->handleRequest($request);
+        $candidatForm = $this->createForm(CandidatType::class, $candidat);
+        $candidatForm->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        $userForm = $this->createForm(UserUpdateType::class, $user);
+        $userForm->handleRequest($request);
+
+        if ($candidatForm->isSubmitted() && $candidatForm->isValid()) {
             $candidatRepository->save($candidat, true);
 
-            return $this->redirectToRoute('app_candidat_profile', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_candidat_profile', ['candidat' => $candidat,], Response::HTTP_SEE_OTHER);
+        }
+
+        if ($userForm->isSubmitted() && $userForm->isValid()) {
+            $userRepository->save($user, true);
+
+            return $this->redirectToRoute('app_candidat_profile', ['candidat' => $candidat,], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('candidat/complete.html.twig', [
             'candidat' => $candidat,
-            'form' => $form,
+            'candidatForm' => $candidatForm,
+            'userForm' => $userForm,
         ]);
     }
 
