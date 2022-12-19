@@ -38,7 +38,7 @@ class AnnonceType extends AbstractType
 
             ->add('techno')
             ->add('description', CKEditorType::class, [
-            'config_name' => 'light'
+                'config_name' => 'light'
             ])
             ->add('author', EntityType::class, [
                 'class' => ExternaticConsultant::class,
