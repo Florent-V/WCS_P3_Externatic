@@ -77,7 +77,7 @@ class CandidatFixtures extends Fixture implements DependentFixtureInterface
                 $candidat->setCity($candidatinf['city']);
                 $candidat->setDescription($candidatinf['description']);
                 $candidat->setCanPostulate($candidatinf['can_postulate']);
-                $candidat->
+                $candidat->setUser($this->getReference('userCandidat_' . $i));
                 $manager->persist($candidat);
             }
         }
