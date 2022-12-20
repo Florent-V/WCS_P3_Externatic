@@ -1,0 +1,47 @@
+{{ form_start(userForm) }}
+
+
+        {{ form_row(userForm.email, {
+            label: 'Email',
+            attr: {
+                placeholder: 'john@doe.fr'
+            },
+            row_attr: {
+                class: 'form-floating mb-3'
+            }
+        }) }}
+
+        {{ form_row(userForm.firstname, {
+            label: 'Prénom',
+            attr: {
+                placeholder: 'John'
+            },
+            row_attr: {
+                class: 'form-floating mb-3'
+            }
+        }) }}
+
+
+        {{ form_row(userForm.lastname, {
+            label: 'Nom',
+            attr: {
+                placeholder: 'Doe'
+            },
+            row_attr: {
+                class: 'form-floating mb-3'
+            }
+        }) }}
+
+        {{ form_row(userForm.phone, {
+            label: 'Numéro de téléphone',
+            attr: {
+                placeholder: '+33...'
+            },
+            row_attr: {
+                class: 'form-floating mb-3'
+            }
+        }) }}
+
+
+<button type="submit" class="btn btn-primary">{{ button_label|default('Mettre à jour') }}</button>
+{{ form_end(userForm) }}

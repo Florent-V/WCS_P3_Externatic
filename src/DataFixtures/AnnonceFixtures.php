@@ -28,12 +28,13 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
                 self::$annonceIndex++;
                 $annonce->setTitle($faker->sentence(3));
                 $annonce->setPicture('https://fakeimg.pl/200x200/?text=picture');
-                $annonce->setSalary($faker->numberBetween(25000, 60000));
                 $annonce->setContractType(self::CONTRACT_TYPE[$faker->numberBetween(
                     0,
                     count(self::CONTRACT_TYPE) - 1
                 )]);
                 $annonce->setStudyLevel("bac+" . $faker->numberBetween(0, 8));
+                $annonce->setSalaryMin($faker->numberBetween(25000, 35000));
+                $annonce->setSalaryMax($faker->numberBetween(40000, 60000));
                 $annonce->setRemote($faker->boolean());
                 $annonce->setDescription($faker->paragraphs(3, true));
                 $annonce->setWorkTime($faker->numberBetween(15, 39));
@@ -42,13 +43,12 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
                 $annonce->setCompany($this->getReference('company_' . $i));
                 $annonce->setAuthor($this->getReference('consultant_' .
                     $faker->numberBetween(1, ExternaticConsultantFixtures::$consultantIndex)));
-
                 for ($k = 1; $k <= $faker->numberBetween(1, 5); $k++) {
                     $annonce->addTechno($this->getReference('techno_' .
                         $faker->unique()->numberBetween(1, TechnoFixtures::$technoIndex)));
                 }
                 $faker->unique(true);
-
+                $annonce->setOptionalInfo($faker->paragraphs(3, true));
                 $manager->persist($annonce);
             }
         }

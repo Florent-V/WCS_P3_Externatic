@@ -24,7 +24,7 @@ class Annonce
     private ?string $picture = null;
 
     #[ORM\Column(length: 255)]
-    private ?int $salary = null;
+    private ?int $salaryMin = null;
 
     #[ORM\Column(length: 45)]
     private ?string $contractType = null;
@@ -67,6 +67,12 @@ class Annonce
     #[ORM\ManyToMany(targetEntity: Techno::class, inversedBy: 'annonces')]
     private Collection $techno;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $optionalInfo = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $salaryMax = null;
+
     public function __construct()
     {
         $this->recrutementProcesses = new ArrayCollection();
@@ -103,14 +109,15 @@ class Annonce
         return $this;
     }
 
-    public function getSalary(): ?int
+    public function getSalaryMin(): ?int
     {
-        return $this->salary;
+        return $this->salaryMin;
     }
 
-    public function setSalary(int $salary): self
+    public function setSalaryMin(int $salaryMin): self
+
     {
-        $this->salary = $salary;
+        $this->salaryMin = $salaryMin;
 
         return $this;
     }
@@ -309,6 +316,30 @@ class Annonce
     public function removeTechno(Techno $techno): self
     {
         $this->techno->removeElement($techno);
+
+        return $this;
+    }
+
+    public function getOptionalInfo(): ?string
+    {
+        return $this->optionalInfo;
+    }
+
+    public function setOptionalInfo(?string $optionalInfo): self
+    {
+        $this->optionalInfo = $optionalInfo;
+
+        return $this;
+    }
+
+    public function getSalaryMax(): ?int
+    {
+        return $this->salaryMax;
+    }
+
+    public function setSalaryMax(?int $salaryMax): self
+    {
+        $this->salaryMax = $salaryMax;
 
         return $this;
     }
