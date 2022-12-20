@@ -20,7 +20,7 @@ class AnnonceController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'results')]
+    #[Route('/{id}', name: 'show')]
     public function show(Annonce $annonce): response
     {
         return $this->render('annonce/show.html.twig', [

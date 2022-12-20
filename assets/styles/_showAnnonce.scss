@@ -47,11 +47,11 @@
     .created_at{
         position: absolute;
         right: 1rem;
-        top: 7.1rem;
+        top: 8.5rem;
         font-size: 0.65rem;
         @include media-breakpoint-up(sm) {
-            top: 8.3rem;
             font-size: 0.75rem;
+            top: 9.5rem
         }
         @include media-breakpoint-up(md) {
             margin-right: 5rem;
@@ -84,6 +84,13 @@
         font-size: 1.5rem;
         @include media-breakpoint-up(sm) {
             font-size: 1.7rem;
+        }
+    }
+
+    h1{
+        font-size: 1.5rem;
+        @include media-breakpoint-up(md) {
+            font-size: 2rem;
         }
     }
 }

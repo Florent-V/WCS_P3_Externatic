@@ -1,11 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <a href="{{ path("search_results") }}" class="ms-4">Retours aux offres</a>
     <main class="show_annonce">
         <div class="d-flex">
             <img src="{{ annonce.picture }}" alt="logo de l'entreprise" class="ms-5 logo">
             <div class="w-100 d-flex flex-column justify-content-center">
-                <h1><strong>{{ annonce.title }}</strong></h1>
+                <h1 class="mt-2"><strong>{{ annonce.title }}</strong></h1>
                 <div class="d-flex justify-content-center">
                         <h2 class="name_company d-inline-block align-items-center m-0">{{ annonce.company.name }}</h2>
                         <p class="created_at d-flex align-items-center m-0">Posté le {{ annonce.createdAt|date('d-m-Y') }}</p>
