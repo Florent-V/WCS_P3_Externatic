@@ -21,7 +21,8 @@ class AnnonceType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('company', null, ['choice_label' => 'name'])
+            ->add('company', null, ['choice_label' => 'name',
+                'required'   => false])
             ->add('salary')
             ->add('contractType')
             ->add('studyLevel')
@@ -42,6 +43,7 @@ class AnnonceType extends AbstractType
             ])
             ->add('author', EntityType::class, [
                 'class' => ExternaticConsultant::class,
+                "required" => false,
                 'choice_label' => function (ExternaticConsultant $consultant) {
                     return $consultant->getUser()->getFirstname();
                 }
