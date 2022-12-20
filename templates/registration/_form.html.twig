@@ -1,0 +1,59 @@
+{{ form_start(registrationForm) }}
+
+
+        {{ form_row(registrationForm.email, {
+            label: 'Email',
+            attr: {
+                placeholder: 'john@doe.fr'
+            },
+            row_attr: {
+                class: 'form-floating mb-3'
+            }
+        }) }}
+
+        {{ form_row(registrationForm.firstname, {
+            label: 'Prénom',
+            attr: {
+                placeholder: 'John'
+            },
+            row_attr: {
+                class: 'form-floating mb-3'
+            }
+        }) }}
+
+
+        {{ form_row(registrationForm.lastname, {
+            label: 'Nom',
+            attr: {
+                placeholder: 'Doe'
+            },
+            row_attr: {
+                class: 'form-floating mb-3'
+            }
+        }) }}
+
+        {{ form_row(registrationForm.phone, {
+            label: 'Numéro de téléphone',
+            attr: {
+                placeholder: '+33...'
+            },
+            row_attr: {
+                class: 'form-floating mb-3'
+            }
+        }) }}
+
+        {{ form_row(registrationForm.plainPassword, {
+            label: 'Password',
+            attr: {
+                placeholder: 'password'
+            },
+            row_attr: {
+                class: 'form-floating mb-3'
+            }
+        }) }}
+
+
+        {{ form_row(registrationForm.agreeTerms) }}
+
+<button type="submit" class="btn btn-primary">{{ button_label|default('S\'enregistrer') }}</button>
+{{ form_end(registrationForm) }}
