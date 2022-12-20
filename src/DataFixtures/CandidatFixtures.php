@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Candidat;
+use App\Entity\Curriculum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -69,6 +70,7 @@ class CandidatFixtures extends Fixture implements DependentFixtureInterface
             'city' => 'Le Havrke',
             'description' => 'Bonjour Marcele Pagnol je suis hacker a la Défense',
             'can_postulate' => true,
+
         ],
 
 
@@ -79,7 +81,7 @@ class CandidatFixtures extends Fixture implements DependentFixtureInterface
         $iteration = 1; //phpstan m'empêche de déclarer une variable de moins de 3 caractères
         foreach (self::CANDIDATS as $candidatinf) {
             $candidat = new Candidat();
-
+            $curriculum = new Curriculum();
             $candidat->setAge($candidatinf['age']);
             $candidat->setLinkedIn($candidatinf['linked_in']);
             $candidat->setGithub($candidatinf['github']);
@@ -88,6 +90,7 @@ class CandidatFixtures extends Fixture implements DependentFixtureInterface
             $candidat->setCity($candidatinf['city']);
             $candidat->setDescription($candidatinf['description']);
             $candidat->setCanPostulate($candidatinf['can_postulate']);
+            $candidat->setCurriculum($curriculum);
             $candidat->setUser($this->getReference('userCandidat_' . $iteration));
             $manager->persist($candidat);
             $iteration++;
