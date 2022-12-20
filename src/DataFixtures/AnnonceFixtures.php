@@ -27,7 +27,8 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
                 self::$annonceIndex++;
                 $annonce->setTitle($faker->sentence(3));
                 $annonce->setPicture('https://fakeimg.pl/200x200/?text=picture');
-                $annonce->setSalary($faker->numberBetween(25000, 60000) . "€");
+                $annonce->setSalaryMin($faker->numberBetween(25000, 35000));
+                $annonce->setSalaryMax($faker->numberBetween(40000, 60000));
                 $annonce->setContractType($faker->word());
                 $annonce->setStudyLevel($faker->word());
                 $annonce->setRemote($faker->boolean());
@@ -35,9 +36,14 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
                 $annonce->setWorkTime($faker->numberBetween(15, 39) . "h");
                 $annonce->setPublicationStatus($faker->word());
                 $annonce->setCreatedAt(new DateTime($faker->date('Y-m-d')));
+                $annonce->setOptionalInfo($faker->paragraphs(3, true));
                 $annonce->setCompany($this->getReference('company_' . $i));
                 $annonce->setAuthor($this->getReference('consultant_' .
                     $faker->numberBetween(1, ExternaticConsultantFixtures::$consultantIndex)));
+                for ($a = 1; $a <= 8; $a++) {
+                    $annonce->addTechno($this->getReference('techno_' . $faker->unique()->numberBetween(1, 21)));
+                }
+                $faker->unique(true);
                 $manager->persist($annonce);
             }
         }
@@ -50,6 +56,7 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
         return [
             ExternaticConsultantFixtures::class,
             CompanyFixtures::class,
+            TechnoFixtures::class,
         ];
     }
 }
