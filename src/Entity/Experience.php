@@ -38,10 +38,6 @@ class Experience
     #[ORM\Column(nullable: true)]
     private ?bool $isFormation = null;
 
-    #[ORM\ManyToOne(inversedBy: 'experiences')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Candidat $candidat = null;
-
     #[ORM\ManyToOne(inversedBy: 'experience')]
     private ?Curriculum $curriculum = null;
 
@@ -142,18 +138,6 @@ class Experience
     public function setIsFormation(?bool $isFormation): self
     {
         $this->isFormation = $isFormation;
-
-        return $this;
-    }
-
-    public function getCandidat(): ?Candidat
-    {
-        return $this->candidat;
-    }
-
-    public function setCandidat(?Candidat $candidat): self
-    {
-        $this->candidat = $candidat;
 
         return $this;
     }
