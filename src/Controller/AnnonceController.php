@@ -39,7 +39,7 @@ class AnnonceController extends AbstractController
         return $this->renderForm('annonce/_form.html.twig', [
             'form' => $form,
             'annonce' => $annonce]);
-
+    }
     #[Route('/{id}', name: 'show')]
     public function show(Annonce $annonce): response
     {
