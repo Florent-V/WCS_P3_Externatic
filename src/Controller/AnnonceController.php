@@ -24,7 +24,6 @@ class AnnonceController extends AbstractController
         ]);
     }
 
-
     #[Route('/new', name: 'annonce_new', methods: ['GET', 'POST'])]
     public function new(Request $request, AnnonceRepository $annonceRepository): Response
     {
