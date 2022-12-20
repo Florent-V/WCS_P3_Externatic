@@ -9,6 +9,7 @@ use App\Form\ExperienceType;
 use App\Form\FormationType;
 use App\Form\UserUpdateType;
 use App\Repository\CandidatRepository;
+use App\Repository\CurriculumRepository;
 use App\Repository\ExperienceRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -39,6 +40,7 @@ class CandidatController extends AbstractController
         Request $request,
         UserInterface $user,
         CandidatRepository $candidatRepository,
+        CurriculumRepository $curriculumRepository,
         UserRepository $userRepository,
         ExperienceRepository $experienceRepository
     ): Response {
@@ -47,9 +49,11 @@ class CandidatController extends AbstractController
             ['user' => $user]
         );
         $user = $candidat->getUser();
+        $curriculum = $curriculumRepository->findOneBy(
+            ['candidat' => $candidat]
+        );
 
         $experience = new Experience();
-
         $formation = new Experience();
 
         $candidatForm = $this->createForm(CandidatType::class, $candidat);
@@ -79,7 +83,7 @@ class CandidatController extends AbstractController
 
         if ($experienceForm->isSubmitted() && $experienceForm->isValid()) {
             $experience->setIsFormation(false);
-            $experience->setCandidat($candidat);
+            $experience->setCurriculum($curriculum);
             $experienceRepository->save($experience, true);
 
             return $this->redirectToRoute('app_candidat_profile', ['candidat' => $candidat,], Response::HTTP_SEE_OTHER);
@@ -87,7 +91,7 @@ class CandidatController extends AbstractController
 
         if ($formationForm->isSubmitted() && $formationForm->isValid()) {
             $formation->setIsFormation(true);
-            $formation->setCandidat($candidat);
+            $formation->setCurriculum($curriculum);
             $experienceRepository->save($formation, true);
 
             return $this->redirectToRoute('app_candidat_profile', ['candidat' => $candidat,], Response::HTTP_SEE_OTHER);

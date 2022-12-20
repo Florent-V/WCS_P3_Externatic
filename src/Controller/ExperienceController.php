@@ -31,7 +31,7 @@ class ExperienceController extends AbstractController
         );
 
         $experiences = $experienceRepository->findBy(
-            ['candidat' => $candidat]
+            ['curriculum' => $curriculum]
         );
 
         return $this->render('experience/index.html.twig', [
