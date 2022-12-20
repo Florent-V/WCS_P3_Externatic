@@ -4,10 +4,11 @@
         <div class="d-flex flex-column justify-content-between align-items-start">
             <h3 class="cardTitle text-start">{{ annonce.title }}</h3>
             <div class="annonceInfos"><small>{{ annonce.company.name }}</small>
-                <small>{{ annonce.createdAt|date("m/d/Y") }}</small></div>
+                <small>{{ annonce.createdAt|date("d/m/Y") }}</small></div>
         </div>
     </div>
     <div class="row row-cols-2 g-2 m-2">
+        <p class="rounded-1 bg-success p-1">{{ annonce.remote}}</p>
         <p class="rounded-1 bg-success p-1">{{ annonce.contractType}}</p>
         <p class="rounded-1 bg-success p-1">{{ annonce.workTime }}</p>
         <p class="rounded-1 bg-success p-1">{{ annonce.studyLevel }}</p>

@@ -11,6 +11,7 @@ use DateTime;
 
 class AnnonceFixtures extends Fixture implements DependentFixtureInterface
 {
+    public const CONTRACT_TYPE = ['CDD', 'CDI', 'stage', 'alternance'];
     public static int $annonceIndex = 0;
 
     /**
@@ -27,14 +28,17 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
                 self::$annonceIndex++;
                 $annonce->setTitle($faker->sentence(3));
                 $annonce->setPicture('https://fakeimg.pl/200x200/?text=picture');
-                $annonce->setSalary($faker->numberBetween(25000, 60000) . "€");
-                $annonce->setContractType($faker->word());
-                $annonce->setStudyLevel($faker->word());
+                $annonce->setSalary($faker->numberBetween(25000, 60000));
+                $annonce->setContractType(self::CONTRACT_TYPE[$faker->numberBetween(
+                    0,
+                    count(self::CONTRACT_TYPE) - 1
+                )]);
+                $annonce->setStudyLevel("bac+" . $faker->numberBetween(0, 8));
                 $annonce->setRemote($faker->boolean());
                 $annonce->setDescription($faker->paragraphs(3, true));
-                $annonce->setWorkTime($faker->numberBetween(15, 39) . "h");
+                $annonce->setWorkTime($faker->numberBetween(15, 39));
                 $annonce->setPublicationStatus($faker->word());
-                $annonce->setCreatedAt(new DateTime($faker->date('Y-m-d')));
+                $annonce->setCreatedAt($faker->dateTimeThisMonth());
                 $annonce->setCompany($this->getReference('company_' . $i));
                 $annonce->setAuthor($this->getReference('consultant_' .
                     $faker->numberBetween(1, ExternaticConsultantFixtures::$consultantIndex)));

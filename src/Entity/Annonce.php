@@ -23,7 +23,7 @@ class Annonce
     private ?string $picture = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $salary = null;
+    private ?int $salary = null;
 
     #[ORM\Column(length: 45)]
     private ?string $contractType = null;
@@ -37,8 +37,8 @@ class Annonce
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 45, nullable: true)]
-    private ?string $workTime = null;
+    #[ORM\Column(nullable: true)]
+    private ?int $workTime = null;
 
     #[ORM\Column(length: 45, nullable: true)]
     private ?string $publicationStatus = null;
