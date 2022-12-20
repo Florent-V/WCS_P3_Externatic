@@ -76,7 +76,7 @@ class CandidatFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager): void
     {
 
-        $iteration = 1;
+        $iteration = 1; //phpstan m'empêche de déclarer une variable de moins de 3 caractères
         foreach (self::CANDIDATS as $candidatinf) {
             $candidat = new Candidat();
 
