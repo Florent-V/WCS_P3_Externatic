@@ -55,7 +55,7 @@ class AnnonceRepository extends ServiceEntityRepository
 
         //Minimum Salary
         if (!empty($searchInformations['salaryMin'])) {
-            $queryBuilder->andWhere('a.salary > :salaryMin')
+            $queryBuilder->andWhere('a.salaryMin > :salaryMin')
                 ->setParameter('salaryMin', $searchInformations['salaryMin']);
         }
 
