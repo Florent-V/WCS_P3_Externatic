@@ -46,6 +46,5 @@ class AnnonceController extends AbstractController
         return $this->render('annonce/show.html.twig', [
             'annonce' => $annonce,
         ]);
-
     }
 }
