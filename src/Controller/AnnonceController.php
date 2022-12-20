@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Annonce;
 use App\Repository\AnnonceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,6 +17,14 @@ class AnnonceController extends AbstractController
         $annonces = $annonceRepository->findAll();
         return $this->render('annonce/results.html.twig', [
             'annonces' => $annonces,
+        ]);
+    }
+
+    #[Route('/{id}', name: 'results')]
+    public function show(Annonce $annonce): response
+    {
+        return $this->render('annonce/show.html.twig', [
+            'annonce' => $annonce,
         ]);
     }
 }
