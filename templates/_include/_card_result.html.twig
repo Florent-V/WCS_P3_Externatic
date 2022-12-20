@@ -12,6 +12,11 @@
         <p class="rounded-1 bg-success p-1">{{ annonce.contractType}}</p>
         <p class="rounded-1 bg-success p-1">{{ annonce.workTime }}</p>
         <p class="rounded-1 bg-success p-1">{{ annonce.studyLevel }}</p>
-        <p class="rounded-1 bg-success p-1">{{ annonce.salary }}</p>
+        <p class="rounded-1 bg-success p-1">{{ annonce.salaryMin }} € à {{ annonce.salaryMax }} €</p>
+        <p class="rounded-1 bg-success p-1">
+            {%  for techno in annonce.techno %}
+            {{ techno.name }},
+            {% endfor %}
+        </p>
     </div>
 </article>
