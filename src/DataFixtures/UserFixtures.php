@@ -152,7 +152,7 @@ class UserFixtures extends Fixture
         foreach (self::CANDIDAT_INFOS as $candidatInfo) {
             self::$userCandidatIndex++;
             $user = new User();
-            $candidat = new Candidat();
+
 
             $user->setEmail($candidatInfo['email']);
 
@@ -169,10 +169,8 @@ class UserFixtures extends Fixture
             $user->setPhone($faker->phoneNumber());
             $user->setIsVerified(true);
 
-            $candidat->setUser($user);
-            $candidat->setCanPostulate(false);
 
-            $manager->persist($candidat);
+
             $manager->persist($user);
 
             $this->addReference('userCandidat_' . self::$userCandidatIndex, $user);
