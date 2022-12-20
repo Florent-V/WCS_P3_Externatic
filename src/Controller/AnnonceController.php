@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Annonce;
 use App\Form\AnnonceType;
+
 use App\Repository\AnnonceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +25,7 @@ class AnnonceController extends AbstractController
         ]);
     }
 
+
     #[Route('/new', name: 'annonce_new', methods: ['GET', 'POST'])]
     public function new(Request $request, AnnonceRepository $annonceRepository): Response
     {
@@ -37,5 +39,12 @@ class AnnonceController extends AbstractController
         return $this->renderForm('annonce/_form.html.twig', [
             'form' => $form,
             'annonce' => $annonce]);
+
+    #[Route('/{id}', name: 'show')]
+    public function show(Annonce $annonce): response
+    {
+        return $this->render('annonce/show.html.twig', [
+            'annonce' => $annonce,
+        ]);
     }
 }

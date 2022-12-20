@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Candidat{% endblock %}
+
+{% block body %}
+
+
+    <h1>Candidat</h1>
+    <a href="{{ path('app_candidat_complete') }}">Compléter mon profil</a>
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ candidat.id }}</td>
+        </tr>
+        <tr>
+            <th>Age</th>
+            <td>{{ candidat.age }}</td>
+        </tr>
+        <tr>
+            <th>LinkedIn</th>
+            <td>{{ candidat.linkedIn }}</td>
+        </tr>
+        <tr>
+            <th>Github</th>
+            <td>{{ candidat.github }}</td>
+        </tr>
+        <tr>
+            <th>ZipCode</th>
+            <td>{{ candidat.zipCode }}</td>
+        </tr>
+        <tr>
+            <th>Address</th>
+            <td>{{ candidat.address }}</td>
+        </tr>
+        <tr>
+            <th>City</th>
+            <td>{{ candidat.city }}</td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td>{{ candidat.description }}</td>
+        </tr>
+        <tr>
+            <th>CanPostulate</th>
+            <td>{{ candidat.canPostulate ? 'Yes' : 'No' }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_candidat_index') }}">back to list</a>
+
+    <a href="{{ path('app_candidat_edit', {'id': candidat.id}) }}">edit</a>
+
+    {{ include('candidat/_delete_form.html.twig') }}
+{% endblock %}
