@@ -1,0 +1,79 @@
+{{ form_start(formationForm) }}
+
+        {{ form_row(formationForm.title, {
+            label: 'Nom de la formation',
+            attr: {
+                placeholder: 'Nom de la formation'
+            },
+            row_attr: {
+                class: 'form-floating mb-3'
+            }
+        }) }}
+
+        {{ form_row(formationForm.beginning, {
+            label: 'Date de début',
+            attr: {
+                placeholder: '...'
+            },
+            row_attr: {
+                class: 'form-floating mb-3'
+            }
+        }) }}
+
+
+        {{ form_row(formationForm.end, {
+            label: 'Date de fin',
+            attr: {
+                placeholder: '...'
+            },
+            row_attr: {
+                class: 'form-floating mb-3'
+            }
+        }) }}
+
+        {{ form_row(formationForm.organism, {
+            label: 'Nom de l\'organisme de formation',
+            attr: {
+                placeholder: 'numéro, rue etc...'
+            },
+            row_attr: {
+                class: 'form-floating mb-3'
+            }
+        }) }}
+
+        {{ form_row(formationForm.location, {
+            label: 'Adresse',
+            attr: {
+                placeholder: 'Adresse, ville...'
+            },
+            row_attr: {
+                class: 'form-floating mb-3'
+            }
+        }) }}
+
+        {{ form_row(formationForm.description, {
+            label: 'Description de la formation',
+            attr: {
+                placeholder: 'Description'
+            },
+            row_attr: {
+                class: 'form-floating mb-3'
+            }
+        }) }}
+
+
+        {{ form_row(formationForm.diploma, {
+            label: 'Nom du diplôme obtenu',
+            attr: {
+                placeholder: 'Diplôme de ...'
+            },
+            row_attr: {
+                class: 'form-floating mb-3'
+            }
+        }) }}
+
+
+
+
+<button type="submit" class="btn btn-primary">{{ button_label|default('Valider') }}</button>
+{{ form_end(formationForm) }}

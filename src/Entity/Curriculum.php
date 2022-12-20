@@ -18,7 +18,7 @@ class Curriculum
     #[ORM\OneToMany(mappedBy: 'curriculum', targetEntity: Certification::class)]
     private Collection $certifications;
 
-    #[ORM\OneToMany(mappedBy: 'curriculum', targetEntity: Experience::class)]
+    #[ORM\OneToMany(mappedBy: 'curriculum', targetEntity: Experience::class, orphanRemoval: true)]
     private Collection $experience;
 
     #[ORM\OneToMany(mappedBy: 'curriculum', targetEntity: Hobbie::class)]

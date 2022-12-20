@@ -4,9 +4,13 @@
 
 {% block body %}
 
+    <h1>Profil de {{ user.firstname }}  {{ user.lastname }}</h1>
 
-    <h1>Candidat</h1>
-    <a href="{{ path('app_candidat_complete') }}">Compléter mon profil</a>
+    <h2>Information du compte</h2>
+
+    {{ include('user/_overview.html.twig') }}
+
+    <h2>Informations personnelles</h2>
 
     <table class="table">
         <tbody>
@@ -49,9 +53,12 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_candidat_index') }}">back to list</a>
+    <a href="{{ path('app_experience_index') }}">Mes expériences et formations</a>
 
-    <a href="{{ path('app_candidat_edit', {'id': candidat.id}) }}">edit</a>
+    <br>
+
+    <a href="{{ path('app_candidat_complete') }}">Compléter mon profil</a>
 
     {{ include('candidat/_delete_form.html.twig') }}
+
 {% endblock %}
