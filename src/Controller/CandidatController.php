@@ -44,6 +44,8 @@ class CandidatController extends AbstractController
             ['user' => $user]
         );
 
+        $user = $candidat->getUser();
+
         $candidatForm = $this->createForm(CandidatType::class, $candidat);
         $candidatForm->handleRequest($request);
 
