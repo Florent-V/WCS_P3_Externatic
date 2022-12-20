@@ -38,7 +38,6 @@ class SearchBarController extends AbstractController
                     'placeholder' => 'votre recherche'],
                 'required' => false,
                 'row_attr' => ['class' => 'form-floating'],
-                'empty_data' => '*'
             ])
             ->add('salaryMin', MoneyType::class, [
                 'label' => "Salaire Min",

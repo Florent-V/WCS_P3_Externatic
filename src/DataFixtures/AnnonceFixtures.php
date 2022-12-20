@@ -42,6 +42,13 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
                 $annonce->setCompany($this->getReference('company_' . $i));
                 $annonce->setAuthor($this->getReference('consultant_' .
                     $faker->numberBetween(1, ExternaticConsultantFixtures::$consultantIndex)));
+
+                for ($k = 1; $k <= $faker->numberBetween(1, 5); $k++) {
+                    $annonce->addTechno($this->getReference('techno_' .
+                        $faker->unique()->numberBetween(1, TechnoFixtures::$technoIndex)));
+                }
+                $faker->unique(true);
+
                 $manager->persist($annonce);
             }
         }
@@ -54,6 +61,7 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
         return [
             ExternaticConsultantFixtures::class,
             CompanyFixtures::class,
+            TechnoFixtures::class,
         ];
     }
 }

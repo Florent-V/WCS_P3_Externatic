@@ -3,7 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Annonce;
+use DateInterval;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -41,12 +44,9 @@ class AnnonceRepository extends ServiceEntityRepository
         }
     }
 
-    public function annonceFinder(array $searchInformations): array
+    public function annonceFinder(mixed $searchInformations): array
     {
 
-        $searchInformations['searchQuery'] = empty($searchInformations['searchQuery']) ? "*"
-            : $searchInformations['searchQuery'];
-        //dd($searchInformations);
         //Annonce title
         $queryBuilder = $this->createQueryBuilder('a')
             ->distinct()
@@ -61,15 +61,7 @@ class AnnonceRepository extends ServiceEntityRepository
 
         //Contract types
         if (!empty($searchInformations['contractType'])) {
-            foreach ($searchInformations['contractType'] as $key => $contractType) {
-                if ($key == 0) {
-                    $queryBuilder->andWhere('a.contractType=:contractType')
-                        ->setParameter('contractType', $contractType);
-                } else {
-                    $queryBuilder->orWhere('a.contractType=:contractType')
-                        ->setParameter('contractType', $contractType);
-                }
-            }
+                $queryBuilder->addCriteria(self::getContractQuery($searchInformations['contractType']));
         }
 
         //remote
@@ -86,10 +78,21 @@ class AnnonceRepository extends ServiceEntityRepository
 
         //date
         if (!empty($searchInformations['period'])) {
-            $searchPeriod = new \DateTime();
-            $searchPeriod->sub(new \DateInterval("P" . $searchInformations['period'] . "D"));
-            $queryBuilder->andWhere("a.createdAt < :searchPeriod")
+            $searchPeriod = new DateTime();
+            $searchPeriod->sub(new DateInterval("P" . $searchInformations['period'] . "D"));
+            $queryBuilder->andWhere("a.createdAt > :searchPeriod")
                 ->setParameter("searchPeriod", $searchPeriod);
+        }
+
+        if (!empty($searchInformations['company'])) {
+            $queryBuilder->join("a.company", "c")
+                ->andWhere("c.id = :company_id")
+                ->setParameter("company_id", $searchInformations['company']);
+        }
+
+        if (!empty($searchInformations['techno'])) {
+            $queryBuilder->join("a.techno", "t");
+            $queryBuilder->addCriteria(self::getTechnoQuery($searchInformations['techno']));
         }
 
         $queryBuilder->orderBy('a.createdAt', 'ASC');
@@ -97,6 +100,34 @@ class AnnonceRepository extends ServiceEntityRepository
 
         return $query->getResult();
     }
+
+    public static function getContractQuery(array $contractTypes): Criteria
+    {
+        $criteria = Criteria::create();
+        foreach ($contractTypes as $key => $contractType) {
+            if ($key == 0) {
+                $criteria->andWhere(Criteria::expr()->eq('contractType', $contractType));
+            } else {
+                $criteria->orWhere(Criteria::expr()->eq('contractType', $contractType));
+            }
+        }
+        return $criteria;
+    }
+
+    public static function getTechnoQuery(array $technos): Criteria
+    {
+        $criteria = Criteria::create();
+        foreach ($technos as $key => $techno) {
+            if ($key == 0) {
+                $criteria->andWhere(Criteria::expr()->eq('t.id', $techno));
+            } else {
+                $criteria->orWhere(Criteria::expr()->eq('t.id', $techno));
+            }
+        }
+        return $criteria;
+    }
+
+
 
 //    /**
 //     * @return Annonce[] Returns an array of Annonce objects

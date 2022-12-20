@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Criteria;
 
 #[ORM\Entity(repositoryClass: AnnonceRepository::class)]
 class Annonce
@@ -102,12 +103,12 @@ class Annonce
         return $this;
     }
 
-    public function getSalary(): ?string
+    public function getSalary(): ?int
     {
         return $this->salary;
     }
 
-    public function setSalary(string $salary): self
+    public function setSalary(int $salary): self
     {
         $this->salary = $salary;
 
@@ -162,12 +163,12 @@ class Annonce
         return $this;
     }
 
-    public function getWorkTime(): ?string
+    public function getWorkTime(): ?int
     {
         return $this->workTime;
     }
 
-    public function setWorkTime(?string $workTime): self
+    public function setWorkTime(?int $workTime): self
     {
         $this->workTime = $workTime;
 

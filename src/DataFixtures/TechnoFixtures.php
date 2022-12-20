@@ -42,6 +42,7 @@ class TechnoFixtures extends Fixture
             ) {
                 $techno->setPicture('Logo' . $langage['name'] . '.png');
             }
+            $this->addReference('techno_' . self::$technoIndex, $techno);
             $manager->persist($techno);
         }
         $manager->flush();
