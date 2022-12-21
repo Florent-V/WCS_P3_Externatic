@@ -115,7 +115,6 @@ class Annonce
     }
 
     public function setSalaryMin(int $salaryMin): self
-
     {
         $this->salaryMin = $salaryMin;
 
