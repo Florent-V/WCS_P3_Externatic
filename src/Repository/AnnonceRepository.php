@@ -7,6 +7,7 @@ use DateInterval;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -53,22 +54,14 @@ class AnnonceRepository extends ServiceEntityRepository
             ->andWhere('a.title LIKE :searchQuery')
             ->setParameter('searchQuery', '%' . $searchInformations['searchQuery'] . '%');
 
-        //Minimum Salary
-        if (!empty($searchInformations['salaryMin'])) {
-            $queryBuilder->andWhere('a.salaryMin > :salaryMin')
-                ->setParameter('salaryMin', $searchInformations['salaryMin']);
-        }
+        //Minimum Salary and remote
+        $this->getSalaryAndRemoteQuery($queryBuilder, $searchInformations);
 
         //Contract types
         if (!empty($searchInformations['contractType'])) {
-                $queryBuilder->addCriteria(self::getContractQuery($searchInformations['contractType']));
+            $queryBuilder->addCriteria(self::getContractQuery($searchInformations['contractType']));
         }
 
-        //remote
-        if (isset($searchInformations['remote']) && $searchInformations['remote'] != "") {
-            $queryBuilder->andWhere('a.remote=:remote')
-                ->setParameter('remote', $searchInformations['remote']);
-        }
 
         //workTime
         if (isset($searchInformations['workTime']) && $searchInformations['workTime'] != "") {
@@ -125,6 +118,18 @@ class AnnonceRepository extends ServiceEntityRepository
             }
         }
         return $criteria;
+    }
+
+    private function getSalaryAndRemoteQuery(QueryBuilder $queryBuilder, mixed $searchInformations): void
+    {
+        if (!empty($searchInformations['salaryMin'])) {
+            $queryBuilder->andWhere('a.salaryMin > :salaryMin')
+                ->setParameter('salaryMin', $searchInformations['salaryMin']);
+        }
+        if (isset($searchInformations['remote']) && $searchInformations['remote'] != "") {
+            $queryBuilder->andWhere('a.remote=:remote')
+                ->setParameter('remote', $searchInformations['remote']);
+        }
     }
 
 
