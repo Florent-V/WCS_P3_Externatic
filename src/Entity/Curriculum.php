@@ -18,7 +18,7 @@ class Curriculum
     #[ORM\OneToMany(mappedBy: 'curriculum', targetEntity: Certification::class)]
     private Collection $certifications;
 
-    #[ORM\OneToMany(mappedBy: 'curriculum', targetEntity: Experience::class)]
+    #[ORM\OneToMany(mappedBy: 'curriculum', targetEntity: Experience::class, orphanRemoval: true)]
     private Collection $experience;
 
     #[ORM\OneToMany(mappedBy: 'curriculum', targetEntity: Hobbie::class)]
@@ -28,7 +28,7 @@ class Curriculum
     private ?Candidat $candidat = null;
 
     #[ORM\OneToOne(inversedBy: 'curriculum', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Skills $skills = null;
 
     #[ORM\OneToMany(mappedBy: 'curriculum', targetEntity: CurriculumHasTechno::class, orphanRemoval: true)]
