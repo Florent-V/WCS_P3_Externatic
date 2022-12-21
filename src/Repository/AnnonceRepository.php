@@ -47,7 +47,7 @@ class AnnonceRepository extends ServiceEntityRepository
 
     public function annonceFinder(mixed $searchInformations): array
     {
-
+        $searchInformations['searchQuery'] ??= '';
         //Annonce title
         $queryBuilder = $this->createQueryBuilder('a')
             ->distinct()
