@@ -50,7 +50,7 @@ class Annonce
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'annonces')]
+    #[ORM\ManyToOne(targetEntity: Company::class, inversedBy: 'annonces')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Company $company = null;
 
