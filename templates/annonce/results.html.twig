@@ -3,6 +3,9 @@
 {% block title %}Externatic{% endblock %}
 
 {% block body %}
+    <header class="container">
+        {{ render(controller('App\\Controller\\SearchBarController::searchBar')) }}
+    </header>
 <main class="searchEngine">
 <div class="annoncesSample container-fluid-md d-flex flex-column flex-sm-row justify-content-around align-items-center flex-sm-wrap">
     {% for annonce in fetchedAnnonces %}

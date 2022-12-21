@@ -26,8 +26,8 @@ class HomeController extends AbstractController
 
         $annoncesLandingPage = $annonceRepository->findBy([], ["createdAt" => "DESC"], 3);
 
-        return $this->render('home/index.html.twig', [
-            'form' => $form->createView(),
+        return $this->renderForm('home/index.html.twig', [
+            'form' => $form,
             'annoncesLandingPage' => $annoncesLandingPage
         ]);
     }
