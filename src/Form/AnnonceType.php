@@ -23,7 +23,8 @@ class AnnonceType extends AbstractType
             ->add('title')
             ->add('company', null, ['choice_label' => 'name',
                 'required' => false])
-            ->add('salary')
+            ->add('salaryMin')
+            ->add('salaryMax')
             ->add('contractType')
             ->add('studyLevel')
             ->add('remote')
