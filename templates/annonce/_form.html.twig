@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 {% form_theme form 'bootstrap_5_layout.html.twig' %}
+
 {% block title %}Ajouter une annonce {% endblock %}
+
 {% block body %}
     <div class="annonce-title">
         <h1>
@@ -9,7 +11,6 @@
     </div>
 
     <div class="form-annonce">
-
         {{ form_start(form) }}
         {{ form_row(form.title, {
             label: 'Titre',
@@ -65,7 +66,6 @@
             attr: { placeholder : 'oui'},
             row_attr: { class: 'form-floating mb-3' }
         }) }}
-
         {{ form_widget(form) }}
         <div class="btn"><button class="btn">{{ button_label|default('Mettre l\'annonce en ligne') }}</button></div>
         {{ form_end(form) }}

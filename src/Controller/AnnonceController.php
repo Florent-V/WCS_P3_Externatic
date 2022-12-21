@@ -25,7 +25,6 @@ class AnnonceController extends AbstractController
         ]);
     }
 
-
     #[Route('/new', name: 'annonce_new', methods: ['GET', 'POST'])]
     public function new(Request $request, AnnonceRepository $annonceRepository): Response
     {
@@ -40,8 +39,9 @@ class AnnonceController extends AbstractController
             'form' => $form,
             'annonce' => $annonce]);
     }
+
     #[Route('/{id}', name: 'show')]
-    public function show(Annonce $annonce): response
+    public function show(Annonce $annonce): Response
     {
         return $this->render('annonce/show.html.twig', [
             'annonce' => $annonce,
