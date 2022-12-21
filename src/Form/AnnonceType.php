@@ -35,7 +35,6 @@ class AnnonceType extends AbstractType
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
             ))
-
             ->add('techno')
             ->add('description', CKEditorType::class, [
                 'config_name' => 'light'
@@ -47,6 +46,7 @@ class AnnonceType extends AbstractType
                 }
             ]);
     }
+
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
