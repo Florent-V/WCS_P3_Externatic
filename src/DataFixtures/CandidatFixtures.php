@@ -14,7 +14,7 @@ class CandidatFixtures extends Fixture implements DependentFixtureInterface
         [
             'age' => 25,
             'linked_in' => 'https://www.linkedin.com/Baboulinet',
-            'github' => '',
+            'github' => 'https://www.github.com/Baboulinet',
             'zip_code' => '33789',
             'address' => '19 Rue Pommier',
             'city' => 'Metz',
@@ -24,7 +24,7 @@ class CandidatFixtures extends Fixture implements DependentFixtureInterface
         [
             'age' => 38,
             'linked_in' => 'https://www.linkedin.com/Glandouille',
-            'github' => '',
+            'github' => 'https://www.github.com/Glandouille',
             'zip_code' => '91000',
             'address' => '74 Impasse Philippe Etchebest',
             'city' => 'Marmande',
