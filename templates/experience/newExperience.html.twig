@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une nouvelle expérience{% endblock %}
+
+{% block body %}
+
+    <main class="candidatForm container-md">
+        <h1>Ajouter une expérience</h1>
+
+        {{ include('experience/_experienceForm.html.twig') }}
+
+        <a href="{{ path('app_experience_index') }}">Retour à la liste</a>
+        <br>
+        <a href="{{ path('app_candidat_profile') }}">Retour au profil</a>
+    </main>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Hobby{% endblock %}
+
+{% block body %}
+<main class="candidatForm container-md">
+    <h1>Ajouter un hobby</h1>
+
+    {{ include('hobbie/_form.html.twig') }}
+
+    <a href="{{ path('app_hobbie_index') }}">Retour à la liste des hobbies</a>
+</main>
+{% endblock %}
