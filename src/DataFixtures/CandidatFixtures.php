@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\DataFixtures\UserFixtures;
 use App\Entity\Candidat;
 use App\Entity\Curriculum;
+use App\Entity\Skills;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -15,7 +16,7 @@ class CandidatFixtures extends Fixture implements DependentFixtureInterface
         [
             'age' => 25,
             'linked_in' => 'https://www.linkedin.com/Baboulinet',
-            'github' => '',
+            'github' => 'https://www.github.com/Baboulinet',
             'zip_code' => '33789',
             'address' => '19 Rue Pommier',
             'city' => 'Metz',
@@ -25,7 +26,7 @@ class CandidatFixtures extends Fixture implements DependentFixtureInterface
         [
             'age' => 38,
             'linked_in' => 'https://www.linkedin.com/Glandouille',
-            'github' => '',
+            'github' => 'https://www.github.com/Glandouille',
             'zip_code' => '91000',
             'address' => '74 Impasse Philippe Etchebest',
             'city' => 'Marmande',
@@ -94,7 +95,10 @@ class CandidatFixtures extends Fixture implements DependentFixtureInterface
             $candidat->setCanPostulate($candidatinf['can_postulate']);
             $candidat->setCurriculum($curriculum);
             $candidat->setUser($this->getReference('userCandidat_' . self::$candidatIndex));
-            $this->addReference('candidat_' . self::$candidatIndex);
+            $skills = new Skills();
+            $curriculum->setSkills($skills);
+            $manager->persist($curriculum);
+//            $this->addReference('candidat_' . self::$candidatIndex);
             $manager->persist($candidat);
         }
 

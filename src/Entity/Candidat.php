@@ -38,7 +38,7 @@ class Candidat
     private ?string $description = null;
 
     #[ORM\Column]
-    private ?bool $canPostulate = null;
+    private ?bool $canPostulate = false;
 
     #[ORM\OneToOne(inversedBy: 'candidat', cascade: ['persist', 'remove'])]
     private ?User $user = null;
