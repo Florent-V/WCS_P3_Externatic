@@ -51,7 +51,7 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
                 }
                 $faker->unique(true);
                 $annonce->setOptionalInfo($faker->paragraphs(3, true));
-                $this->addReference("annonce_" . self::$annonceIndex);
+                $this->addReference("annonce_" . self::$annonceIndex, $annonce);
                 $manager->persist($annonce);
             }
         }

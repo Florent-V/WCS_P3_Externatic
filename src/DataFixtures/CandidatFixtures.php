@@ -98,7 +98,7 @@ class CandidatFixtures extends Fixture implements DependentFixtureInterface
             $skills = new Skills();
             $curriculum->setSkills($skills);
             $manager->persist($curriculum);
-//            $this->addReference('candidat_' . self::$candidatIndex);
+            $this->addReference('candidat_' . self::$candidatIndex, $candidat);
             $manager->persist($candidat);
         }
 
