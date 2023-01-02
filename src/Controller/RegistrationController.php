@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Candidat;
+use App\Entity\Curriculum;
+use App\Entity\Skills;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
@@ -45,8 +48,21 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-
+            //Affectation du rôle
+            $user->setRoles(['ROLE_CANDIDAT']);
+            //Creation of Candidat Entity and set to User
+            $candidat = new Candidat();
+            $user->setCandidat($candidat);
+            //Creation of Curriculum Entity and set to Candidat
+            $curriculum = new Curriculum();
+            $candidat->setCurriculum($curriculum);
+            //Creation df Skills entity
+            $skills = new Skills();
+            $curriculum->setSkills($skills);
+            //Persit & Flush
             $entityManager->persist($user);
+            $entityManager->persist($candidat);
+            $entityManager->persist($curriculum);
             $entityManager->flush();
 
             // generate a signed url and email it to the user
