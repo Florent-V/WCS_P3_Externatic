@@ -2,12 +2,14 @@
 
 namespace App\DataFixtures;
 
+use App\DataFixtures\CompanyFixtures;
+use App\DataFixtures\ExternaticConsultantFixtures;
+use App\DataFixtures\TechnoFixtures;
 use App\Entity\Annonce;
 use Faker\Factory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use DateTime;
 
 class AnnonceFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -49,6 +51,7 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
                 }
                 $faker->unique(true);
                 $annonce->setOptionalInfo($faker->paragraphs(3, true));
+                $this->addReference("annonce_" . self::$annonceIndex);
                 $manager->persist($annonce);
             }
         }
