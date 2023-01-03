@@ -2,9 +2,6 @@
 
 namespace App\DataFixtures;
 
-use App\DataFixtures\CompanyFixtures;
-use App\DataFixtures\ExternaticConsultantFixtures;
-use App\DataFixtures\TechnoFixtures;
 use App\Entity\Annonce;
 use Faker\Factory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -30,10 +27,7 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
                 self::$annonceIndex++;
                 $annonce->setTitle($faker->sentence(3));
                 $annonce->setPicture('https://fakeimg.pl/200x200/?text=picture');
-                $annonce->setContractType(self::CONTRACT_TYPE[$faker->numberBetween(
-                    0,
-                    count(self::CONTRACT_TYPE) - 1
-                )]);
+                $annonce->setContractType($faker->randomElement(self::CONTRACT_TYPE));
                 $annonce->setStudyLevel("bac+" . $faker->numberBetween(0, 8));
                 $annonce->setSalaryMin($faker->numberBetween(25000, 35000));
                 $annonce->setSalaryMax($faker->numberBetween(40000, 60000));

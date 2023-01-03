@@ -19,7 +19,7 @@ class RecruitmentProcess
     #[ORM\Column(length: 45)]
     private ?string $status = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $information = null;
 
     #[ORM\Column(nullable: true)]
