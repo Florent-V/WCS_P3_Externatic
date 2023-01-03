@@ -21,13 +21,12 @@ class RecruitmentProcessFixtures extends Fixture implements DependentFixtureInte
     {
         $faker = Factory::create();
 
-        for ($i = 0; $i < AnnonceFixtures::$annonceIndex; $i++) {
+        for ($i = 1; $i <= AnnonceFixtures::$annonceIndex; $i++) {
             for ($j = 0; $j < $faker->numberBetween(0, 3); $j++) {
                 $recruitmentProcess = new RecruitmentProcess();
                 self::$recruitmentIndex++;
                 $recruitmentProcess->setCreatedAt($faker->dateTimeThisMonth());
-                $recruitmentProcess->setAnnonce($this->getReference("annonce_" .
-                    $faker->numberBetween(1, AnnonceFixtures::$annonceIndex)));
+                $recruitmentProcess->setAnnonce($this->getReference("annonce_" . $i));
                 $recruitmentProcess->setCandidat($this->getReference("candidat_" .
                     $faker->numberBetween(1, CandidatFixtures::$candidatIndex)));
                 $recruitmentProcess->setStatus($faker->randomElement(self::RECRUIT_STATUS));
