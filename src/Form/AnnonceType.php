@@ -37,7 +37,7 @@ class AnnonceType extends AbstractType
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
             ))
-            ->add('techno')
+            ->add('techno', null, ['choice_label' => 'name'])
             ->add('description', CKEditorType::class, [
                 'config_name' => 'light'
             ])

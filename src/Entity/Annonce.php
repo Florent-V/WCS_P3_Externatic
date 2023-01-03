@@ -61,9 +61,6 @@ class Annonce
     #[ORM\OneToMany(mappedBy: 'annonce', targetEntity: RecrutementProcess::class, orphanRemoval: true)]
     private Collection $recrutementProcesses;
 
-    #[ORM\ManyToMany(targetEntity: Candidat::class, inversedBy: 'annonces')]
-    private Collection $favorite;
-
     #[ORM\ManyToMany(targetEntity: Techno::class, inversedBy: 'annonces')]
     private Collection $techno;
 
@@ -73,11 +70,14 @@ class Annonce
     #[ORM\Column(nullable: true)]
     private ?int $salaryMax = null;
 
+    #[ORM\ManyToMany(targetEntity: Candidat::class, mappedBy: 'favoriteOffers')]
+    private Collection $followers;
+
     public function __construct()
     {
         $this->recrutementProcesses = new ArrayCollection();
-        $this->favorite = new ArrayCollection();
         $this->techno = new ArrayCollection();
+        $this->followers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -272,30 +272,6 @@ class Annonce
     }
 
     /**
-     * @return Collection<int, Candidat>
-     */
-    public function getFavorite(): Collection
-    {
-        return $this->favorite;
-    }
-
-    public function addFavorite(Candidat $favorite): self
-    {
-        if (!$this->favorite->contains($favorite)) {
-            $this->favorite->add($favorite);
-        }
-
-        return $this;
-    }
-
-    public function removeFavorite(Candidat $favorite): self
-    {
-        $this->favorite->removeElement($favorite);
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Techno>
      */
     public function getTechno(): Collection
@@ -339,6 +315,33 @@ class Annonce
     public function setSalaryMax(?int $salaryMax): self
     {
         $this->salaryMax = $salaryMax;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Candidat>
+     */
+    public function getFollowers(): Collection
+    {
+        return $this->followers;
+    }
+
+    public function addFollower(Candidat $follower): self
+    {
+        if (!$this->followers->contains($follower)) {
+            $this->followers->add($follower);
+            $follower->addFavoriteOffer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFollower(Candidat $follower): self
+    {
+        if ($this->followers->removeElement($follower)) {
+            $follower->removeFavoriteOffer($this);
+        }
 
         return $this;
     }

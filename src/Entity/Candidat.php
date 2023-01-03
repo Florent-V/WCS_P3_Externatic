@@ -46,20 +46,21 @@ class Candidat
     #[ORM\OneToMany(mappedBy: 'candidat', targetEntity: RecrutementProcess::class, orphanRemoval: true)]
     private Collection $recrutementProcesses;
 
-    #[ORM\ManyToMany(targetEntity: Annonce::class, mappedBy: 'favorite')]
-    private Collection $annonces;
-
     #[ORM\OneToMany(mappedBy: 'candidat', targetEntity: SearchProfile::class, orphanRemoval: true)]
     private Collection $searchProfiles;
 
     #[ORM\OneToOne(mappedBy: 'candidat', cascade: ['persist', 'remove'])]
     private ?Curriculum $curriculum = null;
 
+    #[ORM\ManyToMany(targetEntity: Annonce::class, inversedBy: 'followers')]
+    #[ORM\JoinTable(name:'favorite_offers')]
+    private Collection $favoriteOffers;
+
     public function __construct()
     {
         $this->recrutementProcesses = new ArrayCollection();
-        $this->annonces = new ArrayCollection();
         $this->searchProfiles = new ArrayCollection();
+        $this->favoriteOffers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -202,33 +203,6 @@ class Candidat
         return $this;
     }
 
-     /**
-     * @return Collection<int, Annonce>
-     */
-    public function getAnnonces(): Collection
-    {
-        return $this->annonces;
-    }
-
-    public function addAnnonce(Annonce $annonce): self
-    {
-        if (!$this->annonces->contains($annonce)) {
-            $this->annonces->add($annonce);
-            $annonce->addFavorite($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAnnonce(Annonce $annonce): self
-    {
-        if ($this->annonces->removeElement($annonce)) {
-            $annonce->removeFavorite($this);
-        }
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, SearchProfile>
      */
@@ -279,5 +253,34 @@ class Candidat
         $this->curriculum = $curriculum;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Annonce>
+     */
+    public function getFavoriteOffers(): Collection
+    {
+        return $this->favoriteOffers;
+    }
+
+    public function addToFavoriteOffer(Annonce $favoriteOffer): self
+    {
+        if (!$this->favoriteOffers->contains($favoriteOffer)) {
+            $this->favoriteOffers->add($favoriteOffer);
+        }
+
+        return $this;
+    }
+
+    public function removeFromFavoriteOffer(Annonce $favoriteOffer): self
+    {
+        $this->favoriteOffers->removeElement($favoriteOffer);
+
+        return $this;
+    }
+
+    public function isInFavorite(Annonce $annonce): bool
+    {
+        return $this->favoriteOffers->contains($annonce);
     }
 }

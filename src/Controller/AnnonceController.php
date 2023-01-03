@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Annonce;
 use App\Form\AnnonceType;
 use App\Repository\AnnonceRepository;
+use App\Repository\CandidatRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,10 +14,10 @@ use Symfony\Component\HttpFoundation\Request;
 
 use function PHPUnit\Framework\isEmpty;
 
-#[route('/search', name: "search_")]
+#[route('/annonce', name: "annonce_")]
 class AnnonceController extends AbstractController
 {
-    #[Route('/results', name: 'results')]
+    #[Route('/search/results', name: 'search_results')]
     public function index(Request $request, AnnonceRepository $annonceRepository): Response
     {
         $fetchedAnnonces = $annonceRepository->annonceFinder($request->get('form'));
@@ -25,7 +27,7 @@ class AnnonceController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'annonce_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
     public function new(Request $request, AnnonceRepository $annonceRepository): Response
     {
         $annonce = new Annonce();
@@ -36,8 +38,34 @@ class AnnonceController extends AbstractController
             $this->addFlash('success', 'Annonce en ligne');
         }
         return $this->renderForm('annonce/_form.html.twig', [
+            'annonce' => $annonce,
             'form' => $form,
-            'annonce' => $annonce]);
+            ]);
+    }
+
+    #[Route('/{id}/favorite', name:'favorite', methods: ['GET'])]
+    public function addToFavorite(
+        Annonce $annonce,
+        EntityManagerInterface $manager,
+        CandidatRepository $candidatRepository
+    ): Response {
+        if (!$annonce) {
+            throw $this->createNotFoundException(
+                'No program with this id found in program\'s table.'
+            );
+        }
+
+        $user = $this->getUser();
+        $candidat = $candidatRepository->findOneBy(
+            ['user' => $user]
+        );
+
+        if ($candidat->isInFavorite($annonce)) {
+            $candidat->removeFromFavoriteOffer($annonce);
+        } else {
+            $candidat->addToFavoriteOffer($annonce);
+        }
+        $manager->flush();
     }
 
     #[Route('/{id}', name: 'show')]
