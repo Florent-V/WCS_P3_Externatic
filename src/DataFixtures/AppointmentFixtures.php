@@ -22,7 +22,7 @@ class AppointmentFixtures extends Fixture implements DependentFixtureInterface
                 self::$appointmentIndex++;
                 $appointment->setDescription($faker->sentence);
                 $appointment->setDate($faker->dateTimeThisYear('+10 months'));
-                $appointment->setRecruitmentProcess($this->getReference('recruitmentProcess_' . $i));
+                $appointment->setRecruitmentProcess($this->getReference("recruitmentProcess_$i"));
                 $manager->persist($appointment);
             }
         }

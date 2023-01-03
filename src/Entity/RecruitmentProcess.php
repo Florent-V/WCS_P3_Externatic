@@ -39,9 +39,13 @@ class RecruitmentProcess
     #[ORM\OneToMany(mappedBy: 'recruitmentProcess', targetEntity: Appointement::class, orphanRemoval: true)]
     private Collection $appointements;
 
+    #[ORM\OneToMany(mappedBy: 'recruitmentProcess', targetEntity: Message::class)]
+    private Collection $messages;
+
     public function __construct()
     {
         $this->appointements = new ArrayCollection();
+        $this->messages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -145,6 +149,36 @@ class RecruitmentProcess
             // set the owning side to null (unless already changed)
             if ($appointement->getRecruitmentProcess() === $this) {
                 $appointement->setRecruitmentProcess(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Message>
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Message $message): self
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages->add($message);
+            $message->setRecruitmentProcess($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Message $message): self
+    {
+        if ($this->messages->removeElement($message)) {
+            // set the owning side to null (unless already changed)
+            if ($message->getRecruitmentProcess() === $this) {
+                $message->setRecruitmentProcess(null);
             }
         }
 
