@@ -58,7 +58,7 @@ class Annonce
     #[ORM\JoinColumn(nullable: false)]
     private ?ExternaticConsultant $author = null;
 
-    #[ORM\OneToMany(mappedBy: 'annonce', targetEntity: RecrutementProcess::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'annonce', targetEntity: RecruitmentProcess::class, orphanRemoval: true)]
     private Collection $recrutementProcesses;
 
     #[ORM\ManyToMany(targetEntity: Candidat::class, inversedBy: 'annonces')]
@@ -242,14 +242,14 @@ class Annonce
     }
 
     /**
-     * @return Collection<int, RecrutementProcess>
+     * @return Collection<int, RecruitmentProcess>
      */
     public function getRecrutementProcesses(): Collection
     {
         return $this->recrutementProcesses;
     }
 
-    public function addRecrutementProcess(RecrutementProcess $recrutementProcess): self
+    public function addRecrutementProcess(RecruitmentProcess $recrutementProcess): self
     {
         if (!$this->recrutementProcesses->contains($recrutementProcess)) {
             $this->recrutementProcesses->add($recrutementProcess);
@@ -259,7 +259,7 @@ class Annonce
         return $this;
     }
 
-    public function removeRecrutementProcess(RecrutementProcess $recrutementProcess): self
+    public function removeRecrutementProcess(RecruitmentProcess $recrutementProcess): self
     {
         if ($this->recrutementProcesses->removeElement($recrutementProcess)) {
             // set the owning side to null (unless already changed)

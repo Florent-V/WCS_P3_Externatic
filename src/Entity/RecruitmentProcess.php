@@ -2,14 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\RecrutementProcessRepository;
+use App\Repository\RecruitmentProcessRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: RecrutementProcessRepository::class)]
-class RecrutementProcess
+#[ORM\Entity(repositoryClass: RecruitmentProcessRepository::class)]
+class RecruitmentProcess
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -19,7 +19,7 @@ class RecrutementProcess
     #[ORM\Column(length: 45)]
     private ?string $status = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $information = null;
 
     #[ORM\Column(nullable: true)]
@@ -39,9 +39,13 @@ class RecrutementProcess
     #[ORM\OneToMany(mappedBy: 'recruitmentProcess', targetEntity: Appointement::class, orphanRemoval: true)]
     private Collection $appointements;
 
+    #[ORM\OneToMany(mappedBy: 'recruitmentProcess', targetEntity: Message::class)]
+    private Collection $messages;
+
     public function __construct()
     {
         $this->appointements = new ArrayCollection();
+        $this->messages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -145,6 +149,36 @@ class RecrutementProcess
             // set the owning side to null (unless already changed)
             if ($appointement->getRecruitmentProcess() === $this) {
                 $appointement->setRecruitmentProcess(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Message>
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Message $message): self
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages->add($message);
+            $message->setRecruitmentProcess($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Message $message): self
+    {
+        if ($this->messages->removeElement($message)) {
+            // set the owning side to null (unless already changed)
+            if ($message->getRecruitmentProcess() === $this) {
+                $message->setRecruitmentProcess(null);
             }
         }
 
