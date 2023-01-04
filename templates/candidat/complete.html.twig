@@ -21,7 +21,7 @@
                      data-bs-parent="#accordionExample">
                     <div class="accordion-body">
 
-                        {{ include('user/_updateForm.html.twig', {'button_label': 'Mettre à jour'}) }}
+                        {{ component('user_update') }}
 
                     </div>
                 </div>
@@ -38,9 +38,11 @@
                      data-bs-parent="#accordionExample">
                     <div class="accordion-body">
 
-                        {{ include('candidat/_form.html.twig', {'button_label': 'Update'}) }}
+                        {{ component('candidat_form', {
+                            candidat: app.user.candidat
+                        }) }}
 
-                        <a href="{{ path('app_candidat_profile') }}">back to list</a>
+                        <a href="{{ path('app_candidat_profile') }}">Retour au profil</a>
 
                     </div>
                 </div>
@@ -57,7 +59,7 @@
                      data-bs-parent="#accordionExample">
                     <div class="accordion-body">
 
-                        {{ include('experience/_experienceForm.html.twig', {'button_label': 'Ajouter'}) }}
+                        {{ component('experience_form') }}
 
                     </div>
                 </div>
@@ -74,7 +76,9 @@
                      data-bs-parent="#accordionExample">
                     <div class="accordion-body">
 
-                        {{ include('experience/_formationForm.html.twig', {'button_label': 'Ajouter'}) }}
+                        {{ component('formation_form', {
+                            formation : null
+                        }) }}
 
                     </div>
                 </div>
@@ -91,7 +95,9 @@
                      data-bs-parent="#accordionExample">
                     <div class="accordion-body">
 
-                        {{ include('certification/_form.html.twig', {'button_label': 'Ajouter'}) }}
+                        {{ component('certification_form', {
+                            experience : null
+                        }) }}
 
                     </div>
                 </div>
