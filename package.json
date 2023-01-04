@@ -27,6 +27,7 @@
     "dependencies": {
         "@ckeditor/ckeditor5-build-classic": "^35.4.0",
         "@popperjs/core": "^2.11.6",
+        "bootstrap-icons": "^1.10.3",
         "ckeditor": "^4.12.1",
         "ckeditor4": "^4.20.1",
         "ckeditor5": "^35.4.0"

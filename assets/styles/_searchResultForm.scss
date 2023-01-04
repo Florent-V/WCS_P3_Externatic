@@ -1,0 +1,52 @@
+.searchResultForm{
+
+    .form{
+        width: 80vw;
+        margin-right: auto;
+        margin-left: auto;
+    }
+    .searchQuery{
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+    .remote{
+        width: 45%;
+    }
+    .workTime{
+        width: 45%
+    }
+    .period{
+        width: 45%;
+    }
+    .company{
+        width: 45%;
+    }
+    .salaryMin{
+        width: 45%;
+    }
+    .contractType{
+        width: 45%;
+        .col-form-label{
+            text-align: center;
+        }
+        #form_contractType{
+            flex-wrap: wrap;
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+    .techno{
+        margin-top: 1rem;
+        .col-form-label{
+            text-align: center;
+        }
+        #form_techno{
+            display: flex;
+            flex-wrap: wrap;
+        }
+        #form_techno > *{
+            margin-right: 1rem;
+            margin-bottom: 0.5rem;
+        }
+    }
+}
