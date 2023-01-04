@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}RecruitmentProcess{% endblock %}
+
+{% block body %}
+    <h1>RecruitmentProcess</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ recruitment_process.id }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ recruitment_process.status }}</td>
+            </tr>
+            <tr>
+                <th>Information</th>
+                <td>{{ recruitment_process.information }}</td>
+            </tr>
+            <tr>
+                <th>Rate</th>
+                <td>{{ recruitment_process.rate }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ recruitment_process.createdAt ? recruitment_process.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_recruitment_process_index') }}">back to list</a>
+
+    <a href="{{ path('app_recruitment_process_edit', {'id': recruitment_process.id}) }}">edit</a>
+
+    {{ include('recruitment_process/_delete_form.html.twig') }}
+{% endblock %}
