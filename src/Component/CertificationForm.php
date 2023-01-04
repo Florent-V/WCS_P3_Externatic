@@ -32,7 +32,7 @@ class CertificationForm extends AbstractController
     }
 
     #[LiveAction]
-    public function save(EntityManagerInterface $entityManager)
+    public function save(EntityManagerInterface $entityManager): void
     {
         // shortcut to submit the form with form values
         // if any validation fails, an exception is thrown automatically
