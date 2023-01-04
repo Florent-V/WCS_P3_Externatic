@@ -81,7 +81,10 @@
                      data-bs-parent="#accordionExample">
                     <div class="accordion-body">
 
+                        {{  dump(app.request.pathInfo) }}
+
                         {{ component('formation_form', {
+                            pathInfo : app.request.pathInfo,
                             formation : null
                         }) }}
 

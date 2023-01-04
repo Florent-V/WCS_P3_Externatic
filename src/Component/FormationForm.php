@@ -8,11 +8,13 @@ use App\Form\FormationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\ComponentWithFormTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
+use Symfony\Component\HttpFoundation\Response;
 
 #[AsLiveComponent('formation_form')]
 class FormationForm extends AbstractController
@@ -23,22 +25,22 @@ class FormationForm extends AbstractController
     #[LiveProp]
     public bool $isSubmitted = false;
 
-    #[LiveProp(dehydrateWith: 'dehydrateFormation', fieldName: 'formationField')]
-    public ?Experience $formation = null;
+    #[LiveProp(fieldName: 'path')]
+    public string $pathInfo = '';
 
-    public function dehydrateFormation(): void
-    {
-    }
+    #[LiveProp(fieldName: 'formationField')]
+    public ?Experience $formation = null;
 
     protected function instantiateForm(): FormInterface
     {
-        $this->formation = new Experience();
         return $this->createForm(FormationType::class, $this->formation);
     }
 
     #[LiveAction]
-    public function save(EntityManagerInterface $entityManager)
-    {
+    public function save(
+        EntityManagerInterface $entityManager,
+        UrlGeneratorInterface $urlGenerator
+    ): Response|null {
         // shortcut to submit the form with form values
         // if any validation fails, an exception is thrown automatically
         // and the component will be re-rendered with the form errors
@@ -54,7 +56,11 @@ class FormationForm extends AbstractController
         $entityManager->persist($formation);
         $entityManager->flush();
         $this->isSubmitted = true;
-        //unset($formation);
         $this->formValues = null;
+        if ($this->pathInfo !== $urlGenerator->generate('app_candidat_complete')) {
+            $this->addFlash('success', 'Nouvelle expérience professionnelle ajoutée!');
+            return $this->redirectToRoute('app_experience_index');
+        }
+        return null;
     }
 }
