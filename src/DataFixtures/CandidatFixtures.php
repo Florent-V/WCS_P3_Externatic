@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\DataFixtures\UserFixtures;
 use App\Entity\Candidat;
 use App\Entity\Curriculum;
 use App\Entity\Skills;
@@ -76,11 +77,12 @@ class CandidatFixtures extends Fixture implements DependentFixtureInterface
 
 
     ];
+    public static int $candidatIndex = 0;
     public function load(ObjectManager $manager): void
     {
 
-        $iteration = 1; //phpstan m'empêche de déclarer une variable de moins de 3 caractères
         foreach (self::CANDIDATS as $candidatinf) {
+            self::$candidatIndex++;
             $candidat = new Candidat();
             $curriculum = new Curriculum();
             $candidat->setAge($candidatinf['age']);
@@ -92,12 +94,12 @@ class CandidatFixtures extends Fixture implements DependentFixtureInterface
             $candidat->setDescription($candidatinf['description']);
             $candidat->setCanPostulate($candidatinf['can_postulate']);
             $candidat->setCurriculum($curriculum);
-            $candidat->setUser($this->getReference('userCandidat_' . $iteration));
+            $candidat->setUser($this->getReference('userCandidat_' . self::$candidatIndex));
             $skills = new Skills();
             $curriculum->setSkills($skills);
             $manager->persist($curriculum);
+            $this->addReference('candidat_' . self::$candidatIndex, $candidat);
             $manager->persist($candidat);
-            $iteration++;
         }
 
 

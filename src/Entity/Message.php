@@ -28,6 +28,9 @@ class Message
     #[ORM\JoinColumn(nullable: false)]
     private ?User $sendBy = null;
 
+    #[ORM\ManyToOne(inversedBy: 'messages')]
+    private ?RecruitmentProcess $recruitmentProcess = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -77,6 +80,18 @@ class Message
     public function setSendBy(?User $sendBy): self
     {
         $this->sendBy = $sendBy;
+
+        return $this;
+    }
+
+    public function getRecruitmentProcess(): ?RecruitmentProcess
+    {
+        return $this->recruitmentProcess;
+    }
+
+    public function setRecruitmentProcess(?RecruitmentProcess $recruitmentProcess): self
+    {
+        $this->recruitmentProcess = $recruitmentProcess;
 
         return $this;
     }

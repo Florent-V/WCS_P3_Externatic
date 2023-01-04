@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\DataFixtures\ExternaticConsultantFixtures;
 use App\Entity\Company;
 use App\Entity\ExternaticConsultant;
 use Doctrine\Bundle\FixturesBundle\Fixture;
