@@ -2,9 +2,9 @@
 
 namespace App\Component;
 
-use App\Entity\Experience;
+use App\Entity\SoftSkill;
 use App\Entity\User;
-use App\Form\ExperienceType;
+use App\Form\SoftSkillType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
@@ -13,10 +13,9 @@ use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\ComponentWithFormTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
-use Symfony\Component\HttpFoundation\Response;
 
-#[AsLiveComponent('experience_form')]
-class ExperienceForm extends AbstractController
+#[AsLiveComponent('softskill_form')]
+class SoftSkillForm extends AbstractController
 {
     use DefaultActionTrait;
     use ComponentWithFormTrait;
@@ -24,41 +23,28 @@ class ExperienceForm extends AbstractController
     #[LiveProp]
     public bool $isSubmitted = false;
 
-    #[LiveProp(fieldName: 'path')]
-    public string $pathInfo = '';
-
-    #[LiveProp(fieldName: 'experienceField')]
-    public ?Experience $experience = null;
-
     protected function instantiateForm(): FormInterface
     {
-        $experience = new Experience();
-        return $this->createForm(ExperienceType::class, $experience);
+        $softskill = new SoftSkill();
+        return $this->createForm(SoftSkillType::class, $softskill);
     }
 
     #[LiveAction]
-    public function save(EntityManagerInterface $entityManager): Response|null
+    public function save(EntityManagerInterface $entityManager)
     {
         // shortcut to submit the form with form values
         // if any validation fails, an exception is thrown automatically
         // and the component will be re-rendered with the form errors
         $this->submitForm();
-        $experience = $this->getFormInstance()->getData();
+        $softskill = $this->getFormInstance()->getData();
 
         $user = $this->getUser();
         if ($user instanceof User) {
-            $curriculum = $user->getCandidat()->getCurriculum();
-            $experience->setCurriculum($curriculum);
-            $experience->setIsFormation(false);
+            $skills = $user->getCandidat()->getCurriculum()->getSkills();
+            $softskill->setSkills($skills);
         }
-        $entityManager->persist($experience);
+        $entityManager->persist($softskill);
         $entityManager->flush();
         $this->isSubmitted = true;
-
-        if ($this->pathInfo !== '/profile/complete') {
-            $this->addFlash('success', 'Post saved!');
-            return $this->redirectToRoute('app_experience_index');
-        }
-        return null;
     }
 }

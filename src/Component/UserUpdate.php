@@ -36,6 +36,5 @@ class UserUpdate extends AbstractController
         $entityManager->persist($user);
         $entityManager->flush();
         $this->isSubmitted = true;
-
     }
 }

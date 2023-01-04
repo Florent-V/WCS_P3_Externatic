@@ -1,10 +1,12 @@
-<div {{ attributes }}>
-    {% if this.isSubmitted %}
-        <div class="alert bg-success">
-            enregistrement effectué
-        </div>
+{% if this.isSubmitted %}
+    <div class="alert bg-success">
+        enregistrement effectué
+    </div>
 
-    {% endif %}
+{% endif %}
+
+<div {{ attributes }}>
+
 
     {{ form_start(form, {
         attr: {

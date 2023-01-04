@@ -52,54 +52,61 @@ class ExperienceController extends AbstractController
         CurriculumRepository $curriculumRepository
     ): Response {
 
-        $user = $this->getUser();
-        $candidat = $candidatRepository->findOneBy(
-            ['user' => $user]
-        );
-        $curriculum = $curriculumRepository->findOneBy(
-            ['candidat' => $candidat]
-        );
-
+//        $user = $this->getUser();
+//        $candidat = $candidatRepository->findOneBy(
+//            ['user' => $user]
+//        );
+//        $curriculum = $curriculumRepository->findOneBy(
+//            ['candidat' => $candidat]
+//        );
+//
+//        if ('experience' === $type) {
+//            //Experience Entity & Form
+//            $experience = new Experience();
+//            $experienceForm = $this->createForm(ExperienceType::class, $experience);
+//            $experienceForm->handleRequest($request);
+//            //Validation Form Experience Data
+//            if ($experienceForm->isSubmitted() && $experienceForm->isValid()) {
+//                $experience->setIsFormation(false);
+//                $experience->setCurriculum($curriculum);
+//                $experienceRepository->save($experience, true);
+//
+//                return $this->redirectToRoute(
+//                    'app_candidat_profile',
+//                    ['candidat' => $candidat,],
+//                    Response::HTTP_SEE_OTHER
+//                );
+//            }
+//            return $this->renderForm('experience/newExperience.html.twig', [
+//                'experienceForm' => $experienceForm,
+//            ]);
+//        } elseif ('formation' === $type) {
+//            //Experience Entity & Formation Form
+//            $formation = new Experience();
+//            $formationForm = $this->createForm(FormationType::class, $formation);
+//            $formationForm->handleRequest($request);
+//            //Validation Form Formation Data
+//            if ($formationForm->isSubmitted() && $formationForm->isValid()) {
+//                $formation->setIsFormation(true);
+//                $formation->setCurriculum($curriculum);
+//                $experienceRepository->save($formation, true);
+//
+//                return $this->redirectToRoute(
+//                    'app_candidat_profile',
+//                    ['candidat' => $candidat,],
+//                    Response::HTTP_SEE_OTHER
+//                );
+//            }
+//            return $this->renderForm('experience/newFormation.html.twig', [
+//                'formationForm' => $formationForm,
+//            ]);
+//        } else {
+//            throw $this->createNotFoundException('The page doesn\'t exist');
+//        }
         if ('experience' === $type) {
-            //Experience Entity & Form
-            $experience = new Experience();
-            $experienceForm = $this->createForm(ExperienceType::class, $experience);
-            $experienceForm->handleRequest($request);
-            //Validation Form Experience Data
-            if ($experienceForm->isSubmitted() && $experienceForm->isValid()) {
-                $experience->setIsFormation(false);
-                $experience->setCurriculum($curriculum);
-                $experienceRepository->save($experience, true);
-
-                return $this->redirectToRoute(
-                    'app_candidat_profile',
-                    ['candidat' => $candidat,],
-                    Response::HTTP_SEE_OTHER
-                );
-            }
-            return $this->renderForm('experience/newExperience.html.twig', [
-                'experienceForm' => $experienceForm,
-            ]);
+            return $this->renderForm('experience/newExperience.html.twig');
         } elseif ('formation' === $type) {
-            //Experience Entity & Formation Form
-            $formation = new Experience();
-            $formationForm = $this->createForm(FormationType::class, $formation);
-            $formationForm->handleRequest($request);
-            //Validation Form Formation Data
-            if ($formationForm->isSubmitted() && $formationForm->isValid()) {
-                $formation->setIsFormation(true);
-                $formation->setCurriculum($curriculum);
-                $experienceRepository->save($formation, true);
-
-                return $this->redirectToRoute(
-                    'app_candidat_profile',
-                    ['candidat' => $candidat,],
-                    Response::HTTP_SEE_OTHER
-                );
-            }
-            return $this->renderForm('experience/newFormation.html.twig', [
-                'formationForm' => $formationForm,
-            ]);
+            return $this->renderForm('experience/newFormation.html.twig');
         } else {
             throw $this->createNotFoundException('The page doesn\'t exist');
         }

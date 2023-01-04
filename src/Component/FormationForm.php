@@ -23,7 +23,7 @@ class FormationForm extends AbstractController
     #[LiveProp]
     public bool $isSubmitted = false;
 
-    #[LiveProp(fieldName: 'formationField', dehydrateWith: 'dehydrateFormation')]
+    #[LiveProp(dehydrateWith: 'dehydrateFormation', fieldName: 'formationField')]
     public ?Experience $formation = null;
 
     public function dehydrateFormation(): void
@@ -49,10 +49,12 @@ class FormationForm extends AbstractController
         if ($user instanceof User) {
             $curriculum = $user->getCandidat()->getCurriculum();
             $formation->setCurriculum($curriculum);
+            $formation->setIsFormation(true);
         }
         $entityManager->persist($formation);
         $entityManager->flush();
         $this->isSubmitted = true;
+        //unset($formation);
         $this->formValues = null;
     }
 }
