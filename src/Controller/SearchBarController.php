@@ -102,7 +102,7 @@ class SearchBarController extends AbstractController
             ])
             ->setMethod('GET')
 
-            ->setAction($this->generateUrl('search_results'))
+            ->setAction($this->generateUrl('annonce_search_results'))
 
             ->getForm();
 

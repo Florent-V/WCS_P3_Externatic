@@ -12,10 +12,10 @@ use Symfony\Component\HttpFoundation\Request;
 
 use function PHPUnit\Framework\isEmpty;
 
-#[route('/search', name: "search_")]
+#[route('/annonce', name: "annonce_")]
 class AnnonceController extends AbstractController
 {
-    #[Route('/results', name: 'results')]
+    #[Route('/search/results', name: 'search_results')]
     public function index(Request $request, AnnonceRepository $annonceRepository): Response
     {
         $fetchedAnnonces = $annonceRepository->annonceFinder($request->get('form'));
@@ -25,7 +25,7 @@ class AnnonceController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'annonce_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
     public function new(Request $request, AnnonceRepository $annonceRepository): Response
     {
         $annonce = new Annonce();
