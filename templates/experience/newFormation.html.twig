@@ -7,7 +7,10 @@
     <main class="candidatForm container-md">
         <h1>Ajouter une formation</h1>
 
-        {{ include('experience/_formationForm.html.twig') }}
+        {{ component('experience_form', {
+            pathInfo : app.request.pathInfo,
+            experience : null
+        }) }}
 
         <a href="{{ path('app_experience_index') }}">Retour à la liste</a>
         <br>

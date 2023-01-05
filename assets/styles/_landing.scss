@@ -1,7 +1,5 @@
 main.landing {
 
-    margin-top: $navbarHeight;
-
     section.research {
         background-image: url("/assets/images/landing.webp");
         background-position: center;
@@ -36,44 +34,12 @@ main.landing {
 
 
     article.cardResult {
-        height: 15rem;
-        width:20rem;
-        border-radius: $card-border-radius;
-        box-shadow: $card-box-shadow;
-        padding:.4rem;
-
-        .cardHeader{
-            height:35%;
-        }
-
-        .annonceInfos{
-            color:$gray-600;
-            font-style:italic;
-        }
-
-        img {
-            margin : $spacer+.2rem $spacer+.2rem 0 .5rem;
-            height: 4.4rem;
-            background-color: $gray-200;
-        }
-
-        h3 {
-            font-size: 0.85rem;
-            @include media-breakpoint-up(md) {
-                font-size:1rem;
-            }
-        }
-
-        small {
-           font-size: .7rem;
-            @include media-breakpoint-up(lg) {
-                display:initial;
-            }
-        }
 
         &:nth-last-child(1){
-            display:none;
-            @include media-breakpoint-up(lg) {
+            @include media-breakpoint-up(md) {
+                display:none;
+            }
+            @include media-breakpoint-up(xl) {
                 display:initial;
             }
         }

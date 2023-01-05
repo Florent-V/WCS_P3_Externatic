@@ -1,0 +1,80 @@
+<div {{ attributes }}>
+    {% if this.isSubmitted %}
+        <div class="alert bg-success">
+            enregistrement effectué
+        </div>
+    {% endif %}
+
+    {{ form_start(form, {
+        attr: {
+            'data-action': 'live#action',
+            'data-action-name': 'prevent|save'
+        }
+    }) }}
+
+    {{ form_row(form.title, {
+        label: 'Nom de poste occupé',
+        attr: {
+            placeholder: 'Nom de poste occupé'
+        },
+        row_attr: {
+            class: 'form-floating mb-3'
+        }
+    }) }}
+
+    {{ form_row(form.beginning, {
+        label: 'Date de début',
+        attr: {
+            placeholder: '...'
+        },
+        row_attr: {
+            class: 'form-floating mb-3'
+        }
+    }) }}
+
+
+    {{ form_row(form.end, {
+        label: 'Date de fin',
+        attr: {
+            placeholder: '...'
+        },
+        row_attr: {
+            class: 'form-floating mb-3'
+        }
+    }) }}
+
+    {{ form_row(form.organism, {
+        label: 'Nom de l\'entreprise',
+        attr: {
+            placeholder: 'numéro, rue etc...'
+        },
+        row_attr: {
+            class: 'form-floating mb-3'
+        }
+    }) }}
+
+    {{ form_row(form.location, {
+        label: 'Lieu',
+        attr: {
+            placeholder: 'adresse, ville...'
+        },
+        row_attr: {
+            class: 'form-floating mb-3'
+        }
+    }) }}
+
+    {{ form_row(form.description, {
+        label: 'Description des missions effectuées',
+        attr: {
+            placeholder: 'Paris'
+        },
+        row_attr: {
+            class: 'form-floating mb-3'
+        }
+    }) }}
+
+
+    <button type="submit" class="btn btn-primary">{{ button_label|default('Ajouter') }}</button>
+    {{ form_end(form) }}
+
+</div>

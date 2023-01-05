@@ -1,0 +1,60 @@
+<div {{ attributes }}>
+    {% if this.isSubmitted %}
+        <div class="alert bg-success">
+            enregistrement effectué
+        </div>
+    {% endif %}
+
+    {{ form_start(form, {
+        attr: {
+            'data-action': 'live#action',
+            'data-action-name': 'prevent|save'
+        }
+    }) }}
+
+    {{ form_row(form.title, {
+        label: 'Nom de la certification',
+        attr: {
+            placeholder: 'Nom de la certification'
+        },
+        row_attr: {
+            class: 'form-floating mb-3'
+        }
+    }) }}
+
+    {{ form_row(form.year, {
+        label: 'Année d\'obtention',
+        attr: {
+            placeholder: '01/01/1990'
+        },
+        row_attr: {
+            class: 'form-floating mb-3'
+        }
+    }) }}
+
+    {{ form_row(form.link, {
+        label: 'Lien de l\'organisme',
+        attr: {
+            placeholder: 'http://'
+        },
+        row_attr: {
+            class: 'form-floating mb-3'
+        }
+    }) }}
+
+    {{ form_row(form.description, {
+        label: 'Description de la formation',
+        attr: {
+            placeholder: 'Notions abordées...'
+        },
+        row_attr: {
+            class: 'form-floating mb-3'
+        }
+    }) }}
+
+    <button type="submit" class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+
+    {{ form_end(form) }}
+
+
+</div>

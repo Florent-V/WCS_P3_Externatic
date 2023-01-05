@@ -43,7 +43,7 @@ class Candidat
     #[ORM\OneToOne(inversedBy: 'candidat', cascade: ['persist', 'remove'])]
     private ?User $user = null;
 
-    #[ORM\OneToMany(mappedBy: 'candidat', targetEntity: RecrutementProcess::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'candidat', targetEntity: RecruitmentProcess::class, orphanRemoval: true)]
     private Collection $recrutementProcesses;
 
     #[ORM\OneToMany(mappedBy: 'candidat', targetEntity: SearchProfile::class, orphanRemoval: true)]
@@ -177,13 +177,13 @@ class Candidat
     }
 
     /**
-     * @return Collection<int, RecrutementProcess>
+     * @return Collection<int, RecruitmentProcess>
      */
     public function getRecrutementProcesses(): Collection
     {
         return $this->recrutementProcesses;
     }
-    public function addRecrutementProcess(RecrutementProcess $recrutementProcess): self
+    public function addRecrutementProcess(RecruitmentProcess $recrutementProcess): self
     {
         if (!$this->recrutementProcesses->contains($recrutementProcess)) {
             $this->recrutementProcesses->add($recrutementProcess);
@@ -191,7 +191,7 @@ class Candidat
         }
         return $this;
     }
-    public function removeRecrutementProcess(RecrutementProcess $recrutementProcess): self
+    public function removeRecrutementProcess(RecruitmentProcess $recrutementProcess): self
     {
         if ($this->recrutementProcesses->removeElement($recrutementProcess)) {
             // set the owning side to null (unless already changed)

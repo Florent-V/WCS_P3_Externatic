@@ -11,91 +11,12 @@
     </div>
 
     <div class="form-annonce">
+
         {{ form_start(form) }}
+        {{ form_widget(form) }}
 
-            {{ form_row(form.title, {
-                label: 'Titre',
-                attr: {placeholder: 'oui'},
-                row_attr: {class: 'form-floating mb-3'}
-            } ) }}
-
-            {{ form_row(form.salaryMin, {
-                label: 'Salaire Minimum',
-                attr: {placeholder: 'oui'},
-                row_attr: {class: 'form-floating mb-3'}
-            }) }}
-
-            {{ form_row(form.salaryMax, {
-                label: 'Salaire Maximum',
-                attr: {placeholder: 'oui'},
-                row_attr: {class: 'form-floating mb-3'}
-            }) }}
-
-            {{ form_row(form.contractType, {
-                label: 'Type de contrat (ex:Alternance, CDI, etc...)',
-                attr: {placeholder: 'oui'},
-                row_attr: { class: 'form-floating mb-3'}
-            }) }}
-
-            {{ form_row(form.studyLevel, {
-                label: 'Niveau d\'étude',
-                attr: {placeholder: 'oui'},
-                row_attr: {class: 'form-floating mb-3'}
-            }) }}
-
-            {{ form_row(form.workTime, {
-                label: 'Durée',
-                attr: { placeholder: 'oui'},
-                row_attr: { class: 'form-floating mb-3'}
-            }) }}
-
-        {{ form_row(form.remote, {
-            label: 'Teletravail',
-            attr: { placeholder: 'oui'},
-            row_attr: { class: 'form-floating mb-3'}
-        }) }}
-
-            {{ form_row(form.company, {
-                label: 'Entreprise',
-                attr: { placeholder : 'oui'},
-                row_attr: { class: 'form-floating mb-3' }
-            }) }}
-
-            {{ form_row(form.createdAt, {
-                label: 'Date de création',
-                attr: { placeholder : 'oui'},
-                row_attr: { class: 'form-floating mb-3' }
-            }) }}
-
-            {{ form_row(form.endingAt, {
-                label: 'Date d\'éxpiration',
-                attr: { placeholder : 'oui'},
-                row_attr: { class: 'form-floating mb-3' }
-            }) }}
-
-            {{ form_row(form.techno, {
-                label: 'Hard Skills',
-                attr: { placeholder : 'oui'},
-                row_attr: { class: 'form-floating mb-3' }
-            }) }}
-
-            {{ form_row(form.author, {
-                label: 'Consultant',
-                attr: { placeholder : 'oui'},
-                row_attr: { class: 'form-floating mb-3' }
-            }) }}
-
-        {{ form_row(form.description, {
-            label: 'Description de l\'annonce :',
-            attr: { placeholder : 'oui'},
-            row_attr: { class: '' }
-        }) }}
-
-        <div class="btn">
-            <button class="btn">{{ button_label|default('Mettre l\'annonce en ligne') }}</button>
-        </div>
+        <div class="btn"><button class="btn">{{ button_label|default('Mettre l\'annonce en ligne') }}</button></div>
         {{ form_end(form) }}
     </div>
 
 {% endblock %}
-

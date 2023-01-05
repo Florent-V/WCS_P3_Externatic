@@ -1,0 +1,36 @@
+<div {{ attributes }}>
+    {% if this.isSubmitted %}
+        <div class="alert bg-success">
+            enregistrement effectué
+        </div>
+    {% endif %}
+
+    {{ form_start(form, {
+        attr: {
+            'data-action': 'live#action',
+            'data-action-name': 'prevent|save'
+        }
+    }) }}
+
+    {{ form_row(form.language, {
+        label: 'Langue',
+        attr: {
+            placeholder: 'Nom de la certification'
+        },
+        row_attr: {
+            class: 'form-floating mb-3'
+        }
+    }) }}
+
+    {{ form_row(form.level, {
+        label: 'Niveau',
+        attr: {
+            placeholder: 'A1'
+        },
+        row_attr: {
+            class: 'form-floating mb-3'
+        }
+    }) }}
+    <button class="btn">{{ button_label|default('Ajouter') }}</button>
+    {{ form_end(form) }}
+</div>

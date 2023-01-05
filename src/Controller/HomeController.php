@@ -20,7 +20,7 @@ class HomeController extends AbstractController
                 'label' => "Recherchez l'offre qui vont correspond !",
                 'required' => false
                 ])
-            ->setAction($this->generateUrl('search_results'))
+            ->setAction($this->generateUrl('annonce_search_results'))
             ->setMethod('GET')
             ->getForm();
 

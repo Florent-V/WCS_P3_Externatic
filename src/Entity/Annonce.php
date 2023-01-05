@@ -17,7 +17,7 @@ class Annonce
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 50)]
     private ?string $title = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -58,7 +58,7 @@ class Annonce
     #[ORM\JoinColumn(nullable: false)]
     private ?ExternaticConsultant $author = null;
 
-    #[ORM\OneToMany(mappedBy: 'annonce', targetEntity: RecrutementProcess::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'annonce', targetEntity: RecruitmentProcess::class, orphanRemoval: true)]
     private Collection $recrutementProcesses;
 
     #[ORM\ManyToMany(targetEntity: Techno::class, inversedBy: 'annonces')]
@@ -242,14 +242,14 @@ class Annonce
     }
 
     /**
-     * @return Collection<int, RecrutementProcess>
+     * @return Collection<int, RecruitmentProcess>
      */
     public function getRecrutementProcesses(): Collection
     {
         return $this->recrutementProcesses;
     }
 
-    public function addRecrutementProcess(RecrutementProcess $recrutementProcess): self
+    public function addRecrutementProcess(RecruitmentProcess $recrutementProcess): self
     {
         if (!$this->recrutementProcesses->contains($recrutementProcess)) {
             $this->recrutementProcesses->add($recrutementProcess);
@@ -259,7 +259,7 @@ class Annonce
         return $this;
     }
 
-    public function removeRecrutementProcess(RecrutementProcess $recrutementProcess): self
+    public function removeRecrutementProcess(RecruitmentProcess $recrutementProcess): self
     {
         if ($this->recrutementProcesses->removeElement($recrutementProcess)) {
             // set the owning side to null (unless already changed)
@@ -331,7 +331,7 @@ class Annonce
     {
         if (!$this->followers->contains($follower)) {
             $this->followers->add($follower);
-            $follower->addFavoriteOffer($this);
+            $follower->addToFavoriteOffer($this);
         }
 
         return $this;
@@ -340,7 +340,7 @@ class Annonce
     public function removeFollower(Candidat $follower): self
     {
         if ($this->followers->removeElement($follower)) {
-            $follower->removeFavoriteOffer($this);
+            $follower->removeFromFavoriteOffer($this);
         }
 
         return $this;

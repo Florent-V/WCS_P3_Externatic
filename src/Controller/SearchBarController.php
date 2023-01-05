@@ -33,29 +33,13 @@ class SearchBarController extends AbstractController
         //Creating search engine
         $form = $this->createFormBuilder()
             ->add('searchQuery', TextType::class, [
-                'label' => "Recherche",
                 'attr' => [
-                    'placeholder' => 'votre recherche'],
+                    'placeholder' => 'votre recherche'
+                    ],
                 'required' => false,
-                'row_attr' => ['class' => 'form-floating'],
-            ])
-            ->add('salaryMin', MoneyType::class, [
-                'label' => "Salaire Min",
-                'row_attr' => ['class' => 'text-editor'],
-                'grouping' => true,
-                "required" => false,
-            ])
-
-            ->add('contractType', ChoiceType::class, [
-                'label' => "Type de contrat",
-                'choices' => $contractTypeFromDb,
-                "required" => false,
-                'expanded' => true,
-                'multiple' => true,
             ])
 
             ->add('remote', ChoiceType::class, [
-                'label' => "Remote",
                 'choices'  => [
                     'Total/partiel' => true,
                     'Présentiel' => false,
@@ -64,7 +48,6 @@ class SearchBarController extends AbstractController
             ])
 
             ->add('workTime', ChoiceType::class, [
-                'label' => "Temps de travail",
                 'choices'  => [
                     'Plein temps' => true,
                     'Temps partiel' => false,
@@ -73,17 +56,15 @@ class SearchBarController extends AbstractController
             ])
 
             ->add('period', ChoiceType::class, [
-                    'label' => "Ancienneté des annonces",
-                    'choices'  => [
-                        '1 jour' => 1,
-                        '5 jours' => 5,
-                        '2 semaines' => 15,
-                    ],
-                    "required" => false,
-                ])
+                'choices'  => [
+                    '1 jour' => 1,
+                    '5 jours' => 5,
+                    '2 semaines' => 15,
+                ],
+                "required" => false,
+            ])
 
             ->add('company', EntityType::class, [
-                'label' => 'Entreprise',
                 'class' => Company::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('c')
@@ -92,8 +73,23 @@ class SearchBarController extends AbstractController
                 'attr' => [
                     'placeholder' => 'Entreprise'],
                 'choice_label' => 'name',
-                "required" => false
+                "required" => false,
             ])
+
+            ->add('salaryMin', MoneyType::class, [
+                'grouping' => true,
+                "required" => false,
+            ])
+
+            ->add('contractType', ChoiceType::class, [
+                'choices' => $contractTypeFromDb,
+                "required" => false,
+                'expanded' => true,
+                'multiple' => true,
+                'attr' => ['class' => '']
+            ])
+
+
             ->add('techno', EntityType::class, [
                 'class' => Techno::class,
                 'query_builder' => function (EntityRepository $er) {
@@ -106,7 +102,7 @@ class SearchBarController extends AbstractController
             ])
             ->setMethod('GET')
 
-            ->setAction($this->generateUrl('search_results'))
+            ->setAction($this->generateUrl('annonce_search_results'))
 
             ->getForm();
 

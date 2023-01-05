@@ -1,0 +1,60 @@
+<div{{ attributes }}>
+    {% if this.isSubmitted %}
+        <div class="alert bg-success">
+            enregistrement effectué
+        </div>
+    {% endif %}
+    {{ form_start(form, {
+        attr: {
+            'data-action': 'live#action',
+            'data-action-name': 'prevent|save'
+        }
+    }) }}
+
+
+    {{ form_row(form.email, {
+        label: 'Email',
+        attr: {
+            placeholder: 'john@doe.fr'
+        },
+        row_attr: {
+            class: 'form-floating mb-3'
+        }
+    }) }}
+
+    {{ form_row(form.firstname, {
+        label: 'Prénom',
+        attr: {
+            placeholder: 'John'
+        },
+        row_attr: {
+            class: 'form-floating mb-3'
+        }
+    }) }}
+
+
+    {{ form_row(form.lastname, {
+        label: 'Nom',
+        attr: {
+            placeholder: 'Doe'
+        },
+        row_attr: {
+            class: 'form-floating mb-3'
+        }
+    }) }}
+
+    {{ form_row(form.phone, {
+        label: 'Numéro de téléphone',
+        attr: {
+            placeholder: '+33...'
+        },
+        row_attr: {
+            class: 'form-floating mb-3'
+        }
+    }) }}
+
+
+    <button type="submit" class="btn btn-primary">{{ button_label|default('Mettre à jour') }}</button>
+    {{ form_end(form) }}
+
+</div>

@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\RecrutementProcess;
+use App\Entity\RecruitmentProcess;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<RecrutementProcess>
+ * @extends ServiceEntityRepository<RecruitmentProcess>
  *
- * @method RecrutementProcess|null find($id, $lockMode = null, $lockVersion = null)
- * @method RecrutementProcess|null findOneBy(array $criteria, array $orderBy = null)
- * @method RecrutementProcess[]    findAll()
- * @method RecrutementProcess[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method RecruitmentProcess|null find($id, $lockMode = null, $lockVersion = null)
+ * @method RecruitmentProcess|null findOneBy(array $criteria, array $orderBy = null)
+ * @method RecruitmentProcess[]    findAll()
+ * @method RecruitmentProcess[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class RecrutementProcessRepository extends ServiceEntityRepository
+class RecruitmentProcessRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, RecrutementProcess::class);
+        parent::__construct($registry, RecruitmentProcess::class);
     }
 
-    public function save(RecrutementProcess $entity, bool $flush = false): void
+    public function save(RecruitmentProcess $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class RecrutementProcessRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(RecrutementProcess $entity, bool $flush = false): void
+    public function remove(RecruitmentProcess $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class RecrutementProcessRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return RecrutementProcess[] Returns an array of RecrutementProcess objects
+//     * @return RecruitmentProcess[] Returns an array of RecruitmentProcess objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class RecrutementProcessRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?RecrutementProcess
+//    public function findOneBySomeField($value): ?RecruitmentProcess
 //    {
 //        return $this->createQueryBuilder('r')
 //            ->andWhere('r.exampleField = :val')

@@ -21,7 +21,7 @@
                      data-bs-parent="#accordionExample">
                     <div class="accordion-body">
 
-                        {{ include('user/_updateForm.html.twig', {'button_label': 'Mettre à jour'}) }}
+                        {{ component('user_update') }}
 
                     </div>
                 </div>
@@ -38,9 +38,11 @@
                      data-bs-parent="#accordionExample">
                     <div class="accordion-body">
 
-                        {{ include('candidat/_form.html.twig', {'button_label': 'Update'}) }}
+                        {{ component('candidat_form', {
+                            candidat: app.user.candidat
+                        }) }}
 
-                        <a href="{{ path('app_candidat_profile') }}">back to list</a>
+                        <a href="{{ path('app_candidat_profile') }}">Retour au profil</a>
 
                     </div>
                 </div>
@@ -57,7 +59,12 @@
                      data-bs-parent="#accordionExample">
                     <div class="accordion-body">
 
-                        {{ include('experience/_experienceForm.html.twig', {'button_label': 'Ajouter'}) }}
+                        {{  dump(app.request.pathInfo) }}
+
+                        {{ component('experience_form', {
+                            pathInfo : app.request.pathInfo,
+                            experience : null
+                        }) }}
 
                     </div>
                 </div>
@@ -74,7 +81,12 @@
                      data-bs-parent="#accordionExample">
                     <div class="accordion-body">
 
-                        {{ include('experience/_formationForm.html.twig', {'button_label': 'Ajouter'}) }}
+                        {{  dump(app.request.pathInfo) }}
+
+                        {{ component('formation_form', {
+                            pathInfo : app.request.pathInfo,
+                            formation : null
+                        }) }}
 
                     </div>
                 </div>
@@ -91,12 +103,52 @@
                      data-bs-parent="#accordionExample">
                     <div class="accordion-body">
 
-                        {{ include('certification/_form.html.twig', {'button_label': 'Ajouter'}) }}
+                        {{ component('certification_form', {
+                            experience : null
+                        }) }}
 
                     </div>
                 </div>
             </div>
 
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="skills">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                        Ajouter des compétences
+                    </button>
+                </h2>
+                <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="skills"
+                     data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+
+                        <h3>Soft Skills</h3>
+                        {{ component('softskill_form') }}
+                        <h3>Hard Skills</h3>
+                        {{ component('hardskill_form') }}
+                        <h3>Language</h3>
+                        {{ component('language_form') }}
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="skills">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                        Ajouter des hobbies
+                    </button>
+                </h2>
+                <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="hobbies"
+                     data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+
+                        {{ component('hobby_form') }}
+
+                    </div>
+                </div>
+            </div>
 
 
 
