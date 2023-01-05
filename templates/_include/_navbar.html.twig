@@ -27,6 +27,8 @@
                     <a class="connexion navbar-brand" href="{{ path('app_login') }}">Connexion</a>
                 {% endif %}
             </div>
+        {% else %}
+            <a class="connexion navbar-brand" href="{{ path('app_login') }}">Connexion</a>
         {% endif %}
 
         <div class="offcanvas offcanvas-start bg-primary text-light text-uppercase shadow-sm" data-bs-scroll="true"

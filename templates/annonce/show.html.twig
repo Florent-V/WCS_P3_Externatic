@@ -66,9 +66,14 @@
                      data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         {% if is_granted("ROLE_CANDIDAT") %}
-                            {{ form(form) }}
+                            {% if recruProcessActuel == null %}
+                                {{ form(form) }}
+                            {% else %}
+                                <p>Vous avez déjà un processus en cours</p>
+                            {% endif %}
                         {% elseif is_granted("ROLE_CONSULTANT") %}
-                            <p>Encart réservé aux candidats - <a href="{{ path('consultant_board') }}">Retourner à votre tableau de bord</a></p>
+                            <p>Encart réservé aux candidats - <a href="{{ path('consultant_board') }}">Retourner à votre
+                                    tableau de bord</a></p>
                         {% else %}
                             <a href="{{ path('app_login') }}">Il faut vous connecter pour postuler !</a>
                         {% endif %}

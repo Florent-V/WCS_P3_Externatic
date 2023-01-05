@@ -57,13 +57,13 @@ class AnnonceController extends AbstractController
         $message = new Message();
         $form = $this->createForm(MessageType::class, $message);
         $form->handleRequest($request);
+        /**
+         * @var User $user
+         */
+        $user = $this->getUser();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $date = new DateTime();
-            /**
-             * @var User $user
-             */
-            $user = $this->getUser();
 
             $recruitmentProcess = new RecruitmentProcess();
             $recruitmentProcess->setStatus('Applied');
@@ -85,9 +85,16 @@ class AnnonceController extends AbstractController
         }
 
 
+        $candidat = $user->getCandidat() ?: null;
+        $recruProcessActuel = $recruitProcessRepo->findOneBy([
+            "annonce" => $annonce,
+            "candidat" => $candidat
+            ]);
+
         return $this->renderForm('annonce/show.html.twig', [
             'annonce' => $annonce,
             'form' => $form,
+            'recruProcessActuel' => $recruProcessActuel,
         ]);
     }
 }
