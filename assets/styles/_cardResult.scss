@@ -1,6 +1,7 @@
 .cards-result{
     .cardResult{
         background-color: #f3f3f3 !important;
+        position: relative;
     }
     img{
         height: 5.75rem;
@@ -29,5 +30,14 @@
     .third-line{
         height: 3.5rem;
     }
-
+    .clickable-article {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+    .fav-offer {
+        z-index: 10;
+    }
 }

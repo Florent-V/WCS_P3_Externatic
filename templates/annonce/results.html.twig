@@ -6,7 +6,7 @@
     <header class="container">
         {{ render(controller('App\\Controller\\SearchBarController::searchBar')) }}
     </header>
-<main class="search">
+<main class="search" {{ stimulus_controller('favoriteoffer') }}>
 <div class="row row-cols-xl-3 row-cols-md-2">
     {% for annonce in fetchedAnnonces %}
         <div class="col mt-4 cards-result">
