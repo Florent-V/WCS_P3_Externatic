@@ -43,13 +43,11 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
                 if ($isSendByCandidat) {
                     $message->setSendBy($this->getReference($candidat));
                     $message->setSendTo($this->getReference($externaticConsultant));
-                    $isSendByCandidat = !$isSendByCandidat;
                 } else {
                     $message->setSendBy($this->getReference($externaticConsultant));
                     $message->setSendTo($this->getReference($candidat));
-                    $isSendByCandidat = !$isSendByCandidat;
                 }
-
+                $isSendByCandidat = !$isSendByCandidat;
                 $manager->persist($message);
             }
         }
