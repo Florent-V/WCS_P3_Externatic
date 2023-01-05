@@ -16,7 +16,7 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create();
 
-        for ($i = 1; $i <= $faker->numberBetween(50, 100); $i++) {
+        for ($i = 1; $i <= $faker->numberBetween(80, 150); $i++) {
             //Attachement à un processus de recrutement
             $recruitmentProcess = null;
             if ($faker->boolean()) {
@@ -33,7 +33,9 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
             for ($j = 0; $j < $faker->numberBetween(1, 5); $j++) {
                 self::$messageIndex++;
                 $message = new Message();
-                $message->setDate($faker->dateTimeThisYear('+10 months'));
+                $date = $faker->dateTimeBetween('-1 year', 'now');
+                $date->setTime(intval($faker->time('H')), intval($faker->time('i')), intval($faker->time('s')));
+                $message->setDate($date);
                 $message->setContent($faker->paragraph);
                 if (!is_null($recruitmentProcess)) {
                     $message->setRecruitmentProcess($this->getReference($recruitmentProcess));
@@ -45,7 +47,7 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
                     $message->setSendBy($this->getReference($externaticConsultant));
                     $message->setSendTo($this->getReference($candidat));
                 }
-
+                $isSendByCandidat = !$isSendByCandidat;
                 $manager->persist($message);
             }
         }

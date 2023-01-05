@@ -119,7 +119,7 @@ class UserFixtures extends Fixture
             $user->setRoles(array($adminInfo['role']));
 
             $user->setFirstname($adminInfo['firstname']);
-            $user->setLastname($adminInfo['lastname']);
+            $user->setLastname($faker->lastName);
             $user->setPhone($faker->phoneNumber());
             $user->setIsVerified(true);
 
@@ -142,7 +142,7 @@ class UserFixtures extends Fixture
             $user->setRoles(array($consultantInfo['role']));
 
             $user->setFirstname($consultantInfo['firstname']);
-            $user->setLastname($consultantInfo['lastname']);
+            $user->setLastname($faker->lastName);
             $user->setPhone($faker->phoneNumber());
             $user->setIsVerified(true);
             $manager->persist($user);
@@ -165,7 +165,7 @@ class UserFixtures extends Fixture
             $user->setRoles(array($candidatInfo['role']));
 
             $user->setFirstname($candidatInfo['firstname']);
-            $user->setLastname($candidatInfo['lastname']);
+            $user->setLastname($faker->lastName);
             $user->setPhone($faker->phoneNumber());
             $user->setIsVerified(true);
 
