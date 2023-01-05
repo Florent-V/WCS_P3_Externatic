@@ -53,6 +53,7 @@ security:
         - { path: ^/experience, roles: ROLE_CANDIDAT }
         - { path: ^/certification, roles: ROLE_CANDIDAT }
         - { path: ^/language, roles: ROLE_CANDIDAT }
+        - { path: ^/consultant, roles: ROLE_CONSULTANT }
 
 when@test:
     security:

@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}RecruitmentProcess index{% endblock %}
+
+{% block body %}
+    <h1>RecruitmentProcess index</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Status</th>
+            <th>Information</th>
+            <th>Rate</th>
+            <th>CreatedAt</th>
+            <th>actions</th>
+            <th>rdv</th>
+            <th>messages</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for recruitment_process in recruitment_processes %}
+            <tr>
+                <td>{{ recruitment_process.id }}</td>
+                <td>{{ recruitment_process.status }}</td>
+                <td>{{ recruitment_process.information }}</td>
+                <td>{{ recruitment_process.rate }}</td>
+                <td>{{ recruitment_process.createdAt ? recruitment_process.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_recruitment_process_show', {'id': recruitment_process.id}) }}">show</a>
+                    <a href="{{ path('app_recruitment_process_edit', {'id': recruitment_process.id}) }}">edit</a>
+                </td>
+
+                {% if recruitment_process.appointements != null %}
+                    <td>
+                        {{ recruitment_process.appointements|length }}
+                    </td>
+                {% endif %}
+                {% if recruitment_process.messages != null %}
+                    <td>
+                        {{ recruitment_process.messages|length }}
+                    </td>
+                {% endif %}
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_recruitment_process_new') }}">Create new</a>
+{% endblock %}

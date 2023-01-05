@@ -21,8 +21,12 @@ class AppointmentFixtures extends Fixture implements DependentFixtureInterface
                 $appointment = new Appointement();
                 self::$appointmentIndex++;
                 $appointment->setDescription($faker->sentence);
-                $appointment->setDate($faker->dateTimeThisYear('+10 months'));
+                $date = $faker->dateTimeBetween('-2 months', '+10 months');
+                $date->setTime(intval($faker->time('H')), intval($faker->time('i')));
+                $appointment->setDate($date);
                 $appointment->setRecruitmentProcess($this->getReference("recruitmentProcess_$i"));
+                $appointment->setConsultant($this->getReference("consultant_" .
+                    $faker->numberBetween(1, ExternaticConsultantFixtures::$consultantIndex)));
                 $manager->persist($appointment);
             }
         }
@@ -33,6 +37,7 @@ class AppointmentFixtures extends Fixture implements DependentFixtureInterface
     {
         return [
             RecruitmentProcessFixtures::class,
+            ExternaticConsultantFixtures::class
         ];
     }
 }
