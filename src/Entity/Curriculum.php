@@ -27,8 +27,9 @@ class Curriculum
     #[ORM\OneToOne(inversedBy: 'curriculum', cascade: ['persist', 'remove'])]
     private ?Candidat $candidat = null;
 
-    #[ORM\OneToOne(inversedBy: 'curriculum', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: true)]
+
+
+    #[ORM\OneToOne(mappedBy: 'curriculum', cascade: ['persist', 'remove'])]
     private ?Skills $skills = null;
 
     #[ORM\OneToMany(mappedBy: 'curriculum', targetEntity: CurriculumHasTechno::class, orphanRemoval: true)]

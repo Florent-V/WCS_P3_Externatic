@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mettre à jour une certification{% endblock %}
+
+{% block body %}
+    <main class="candidatForm container-md">
+        <h1>Mettre à jour une certification </h1>
+
+        {{ include('certification/_form.html.twig', {'button_label': 'Update'}) }}
+
+        <a href="{{ path('app_certification_index') }}">Retour à la liste des certifications</a>
+
+        {{ include('certification/_delete_form.html.twig') }}
+    </main>
+{% endblock %}

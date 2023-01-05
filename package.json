@@ -4,6 +4,7 @@
         "@babel/preset-env": "^7.16.0",
         "@hotwired/stimulus": "^3.0.0",
         "@symfony/stimulus-bridge": "^3.2.0",
+        "@symfony/ux-live-component": "file:vendor/symfony/ux-live-component/assets",
         "@symfony/webpack-encore": "^4.0.0",
         "bootstrap": "^5.2.3",
         "core-js": "^3.0.0",
@@ -27,6 +28,7 @@
     "dependencies": {
         "@ckeditor/ckeditor5-build-classic": "^35.4.0",
         "@popperjs/core": "^2.11.6",
+        "bootstrap-icons": "^1.10.3",
         "ckeditor": "^4.12.1",
         "ckeditor4": "^4.20.1",
         "ckeditor5": "^35.4.0"

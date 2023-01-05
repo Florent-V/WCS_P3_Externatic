@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau HardSkill{% endblock %}
+
+{% block body %}
+
+    <main class="candidatForm container-md">
+        <h1>Ajouter un nouveau Hard Skill</h1>
+
+        {{ include('hard_skill/_form.html.twig') }}
+
+        <a href="{{ path('app_skills_index') }}">Retour à la liste des compétences</a>
+    </main>
+{% endblock %}

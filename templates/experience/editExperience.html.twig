@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mettre à jour une Expérience{% endblock %}
+
+{% block body %}
+    <main class="candidatForm container-md">
+        <h1>Mettre à jour l'expérience</h1>
+
+        {{ include('experience/_experienceForm.html.twig', {'button_label': 'Update'}) }}
+
+        <a href="{{ path('app_experience_index') }}">Retour à la liste</a>
+
+        {{ include('experience/_delete_form.html.twig') }}
+    </main>
+{% endblock %}

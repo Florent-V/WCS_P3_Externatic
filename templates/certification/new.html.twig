@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une nouvelle certification{% endblock %}
+
+{% block body %}
+
+    <main class="candidatForm container-md mb-5">
+        <h1>Ajouter une certification</h1>
+
+        {{ include('certification/_form.html.twig') }}
+
+        <a href="{{ path('app_certification_index') }}">Retour à la liste des certifications</a>
+
+    </main>
+
+
+{% endblock %}

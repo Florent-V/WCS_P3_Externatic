@@ -21,7 +21,8 @@ class Skills
     #[ORM\OneToMany(mappedBy: 'skills', targetEntity: HardSkill::class)]
     private Collection $hardSkill;
 
-    #[ORM\OneToOne(mappedBy: 'skills', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'skills', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Curriculum $curriculum = null;
 
     #[ORM\OneToMany(mappedBy: 'skills', targetEntity: Language::class)]

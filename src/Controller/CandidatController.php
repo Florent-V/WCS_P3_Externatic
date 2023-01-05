@@ -3,14 +3,18 @@
 namespace App\Controller;
 
 use App\Entity\Candidat;
+use App\Entity\Certification;
 use App\Entity\Experience;
 use App\Form\CandidatType;
+use App\Form\CertificationType;
 use App\Form\ExperienceType;
 use App\Form\FormationType;
 use App\Form\UserUpdateType;
 use App\Repository\CandidatRepository;
+use App\Repository\CertificationRepository;
 use App\Repository\CurriculumRepository;
 use App\Repository\ExperienceRepository;
+use App\Repository\SkillsRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,74 +39,63 @@ class CandidatController extends AbstractController
         ]);
     }
 
-    #[Route('/complete', name: 'app_candidat_complete', methods: ['GET', 'POST'])]
-    public function complete(
+    #[Route('/account', name: 'app_candidat_account', methods: ['GET', 'POST'])]
+    public function account(
         Request $request,
         UserInterface $user,
-        CandidatRepository $candidatRepository,
-        CurriculumRepository $curriculumRepository,
         UserRepository $userRepository,
-        ExperienceRepository $experienceRepository
+        CandidatRepository $candidatRepository
     ): Response {
 
         $candidat = $candidatRepository->findOneBy(
             ['user' => $user]
         );
         $user = $candidat->getUser();
-        $curriculum = $curriculumRepository->findOneBy(
-            ['candidat' => $candidat]
-        );
 
-        $experience = new Experience();
-        $formation = new Experience();
-
-        $candidatForm = $this->createForm(CandidatType::class, $candidat);
-        $candidatForm->handleRequest($request);
-
+        //Account Data Form
         $userForm = $this->createForm(UserUpdateType::class, $user);
         $userForm->handleRequest($request);
+        //Validation Form User Account Data
+        if ($userForm->isSubmitted() && $userForm->isValid()) {
+            $userRepository->save($user, true);
 
-        $experienceForm = $this->createForm(ExperienceType::class, $experience);
-        $experienceForm->handleRequest($request);
+            return $this->redirectToRoute('app_candidat_profile', [], Response::HTTP_SEE_OTHER);
+        }
+        return $this->renderForm('user/update.html.twig', [
+            'userForm' => $userForm,
+        ]);
+    }
 
-        $formationForm = $this->createForm(FormationType::class, $formation);
-        $formationForm->handleRequest($request);
-
-
+    #[Route('/candidat', name: 'app_candidat_data', methods: ['GET', 'POST'])]
+    public function candidat(
+        Request $request,
+        UserInterface $user,
+        UserRepository $userRepository,
+        CandidatRepository $candidatRepository
+    ): Response {
+        //Get Candidat Entity form User
+        $candidat = $candidatRepository->findOneBy(
+            ['user' => $user]
+        );
+        //Candidat Data Form
+        $candidatForm = $this->createForm(CandidatType::class, $candidat);
+        $candidatForm->handleRequest($request);
+        //Validation Form Candidat Data
         if ($candidatForm->isSubmitted() && $candidatForm->isValid()) {
             $candidatRepository->save($candidat, true);
 
             return $this->redirectToRoute('app_candidat_profile', ['candidat' => $candidat,], Response::HTTP_SEE_OTHER);
         }
-
-        if ($userForm->isSubmitted() && $userForm->isValid()) {
-            $userRepository->save($user, true);
-
-            return $this->redirectToRoute('app_candidat_profile', ['candidat' => $candidat,], Response::HTTP_SEE_OTHER);
-        }
-
-        if ($experienceForm->isSubmitted() && $experienceForm->isValid()) {
-            $experience->setIsFormation(false);
-            $experience->setCurriculum($curriculum);
-            $experienceRepository->save($experience, true);
-
-            return $this->redirectToRoute('app_candidat_profile', ['candidat' => $candidat,], Response::HTTP_SEE_OTHER);
-        }
-
-        if ($formationForm->isSubmitted() && $formationForm->isValid()) {
-            $formation->setIsFormation(true);
-            $formation->setCurriculum($curriculum);
-            $experienceRepository->save($formation, true);
-
-            return $this->redirectToRoute('app_candidat_profile', ['candidat' => $candidat,], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('candidat/complete.html.twig', [
-            'candidat' => $candidat,
+        return $this->renderForm('candidat/update.html.twig', [
             'candidatForm' => $candidatForm,
-            'userForm' => $userForm,
-            'experienceForm' => $experienceForm,
-            'formationForm' => $formationForm
         ]);
+    }
+
+
+    #[Route('/complete', name: 'app_candidat_complete', methods: ['GET', 'POST'])]
+    public function complete(): Response
+    {
+
+        return $this->renderForm('candidat/complete.html.twig');
     }
 }
