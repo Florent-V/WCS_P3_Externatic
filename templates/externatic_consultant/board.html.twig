@@ -85,7 +85,7 @@
                     {% for annonce in app.user.consultant.annonces %}
                         <tr>
                             <td><img src="{{ annonce.picture }}" alt="logo of an enterprise"/> {{ annonce.company.name }}</td>
-                            <td><a href="{{ path('search_show', {"id": annonce.id}) }}"><strong>{{ annonce.title }}</strong><small>
+                            <td><a href="{{ path('annonce_show', {"id": annonce.id}) }}"><strong>{{ annonce.title }}</strong><small>
                                     - {{ annonce.createdAt|date("d-m-y") }}</small></a></td>
                             <td>{{ annonce.recrutementProcesses|length }}</td>
                         </tr>
