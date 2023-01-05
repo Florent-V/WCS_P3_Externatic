@@ -1,0 +1,91 @@
+<div {{ attributes }}>
+    {% if this.isSubmitted %}
+        <div class="alert bg-success">
+            enregistrement effectué
+        </div>
+    {% endif %}
+
+    {{ form_start(form, {
+        attr: {
+            'data-action': 'live#action',
+            'data-action-name': 'prevent|save'
+        }
+    }) }}
+
+
+    {{ form_row(form.age, {
+        label: 'Age',
+        attr: {
+            placeholder: '24'
+        },
+        row_attr: {
+            class: 'form-floating mb-3'
+        }
+    }) }}
+
+    {{ form_row(form.linkedIn, {
+        label: 'Profil LinkedIn',
+        attr: {
+            placeholder: 'http://...'
+        },
+        row_attr: {
+            class: 'form-floating mb-3'
+        }
+    }) }}
+
+
+    {{ form_row(form.github, {
+        label: 'GitHub',
+        attr: {
+            placeholder: 'http://...'
+        },
+        row_attr: {
+            class: 'form-floating mb-3'
+        }
+    }) }}
+
+    {{ form_row(form.address, {
+        label: 'Adresse Complète',
+        attr: {
+            placeholder: 'numéro, rue etc...'
+        },
+        row_attr: {
+            class: 'form-floating mb-3'
+        }
+    }) }}
+
+    {{ form_row(form.zipCode, {
+        label: 'Code Postal',
+        attr: {
+            placeholder: '75000'
+        },
+        row_attr: {
+            class: 'form-floating mb-3'
+        }
+    }) }}
+
+    {{ form_row(form.city, {
+        label: 'Ville',
+        attr: {
+            placeholder: 'Paris'
+        },
+        row_attr: {
+            class: 'form-floating mb-3'
+        }
+    }) }}
+
+
+    {{ form_row(form.description, {
+        label: 'Décrivez vous en quelques lignes',
+        attr: {
+            placeholder: 'Je suis...'
+        },
+        row_attr: {
+            class: 'form-floating mb-3'
+        }
+    }) }}
+
+
+    <button type="submit" class="btn btn-primary">{{ button_label|default('Valider') }}</button>
+    {{ form_end(form) }}
+</div>

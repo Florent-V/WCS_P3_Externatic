@@ -22,7 +22,7 @@ class Appointement
 
     #[ORM\ManyToOne(inversedBy: 'appointements')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?RecrutementProcess $recruitmentProcess = null;
+    private ?RecruitmentProcess $recruitmentProcess = null;
 
     public function getId(): ?int
     {
@@ -53,12 +53,12 @@ class Appointement
         return $this;
     }
 
-    public function getRecruitmentProcess(): ?RecrutementProcess
+    public function getRecruitmentProcess(): ?RecruitmentProcess
     {
         return $this->recruitmentProcess;
     }
 
-    public function setRecruitmentProcess(?RecrutementProcess $recruitmentProcess): self
+    public function setRecruitmentProcess(?RecruitmentProcess $recruitmentProcess): self
     {
         $this->recruitmentProcess = $recruitmentProcess;
 

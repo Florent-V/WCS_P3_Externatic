@@ -22,7 +22,7 @@ class ExternaticConsultant
     #[ORM\OneToMany(mappedBy: 'externaticConsultant', targetEntity: Company::class)]
     private Collection $companies;
 
-    #[ORM\OneToMany(mappedBy: 'consultant', targetEntity: Annonce::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Annonce::class, orphanRemoval: true)]
     private Collection $annonces;
 
     public function __construct()
