@@ -59,7 +59,7 @@
                         <tr>
                             <td>{{ message.date|format_datetime('short', 'short', locale='fr') }}</td>
                             <td>{{ message.sendBy.lastName|upper }} {{ message.sendBy.firstname|capitalize }}</td>
-                            <td class="messageContent">{{ message.content }}</td>
+                            <td class="messageContent">{{ message.content|raw }}</td>
                         </tr>
                         {% if loop.index == 10 %}
                             <tr>

@@ -9,6 +9,11 @@ nav.navbar {
         font-size: $navTextHeight;
         font-weight: bold;
 
+        &.userName {
+            color:black;
+            text-decoration: none;
+        }
+
         &.connexion {
             color: $primary;
         }

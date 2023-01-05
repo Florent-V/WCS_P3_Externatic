@@ -9,6 +9,7 @@ fos_ck_editor:
         light:
             toolbar:
                 - name: light
+                  uiColor: ""#FFFFFF"
                   items:
                       - Bold
                       - Italic

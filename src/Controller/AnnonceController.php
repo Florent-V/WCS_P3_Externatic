@@ -3,8 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Annonce;
+use App\Entity\Message;
+use App\Entity\RecruitmentProcess;
+use App\Entity\User;
 use App\Form\AnnonceType;
+use App\Form\MessageType;
 use App\Repository\AnnonceRepository;
+use App\Repository\MessageRepository;
+use App\Repository\RecruitmentProcessRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -40,11 +47,47 @@ class AnnonceController extends AbstractController
             'annonce' => $annonce]);
     }
 
-    #[Route('/{id}', name: 'show')]
-    public function show(Annonce $annonce): Response
-    {
-        return $this->render('annonce/show.html.twig', [
+    #[Route('/{id}', name: 'show', methods: ['GET', 'POST'])]
+    public function show(
+        Request $request,
+        Annonce $annonce,
+        MessageRepository $messageRepository,
+        RecruitmentProcessRepository $recruitProcessRepo
+    ): Response {
+        $message = new Message();
+        $form = $this->createForm(MessageType::class, $message);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $date = new DateTime();
+            /**
+             * @var User $user
+             */
+            $user = $this->getUser();
+
+            $recruitmentProcess = new RecruitmentProcess();
+            $recruitmentProcess->setStatus('Applied');
+            $recruitmentProcess->setCandidat($user->getCandidat());
+            $recruitmentProcess->setCreatedAt($date);
+            $recruitmentProcess->setAnnonce($annonce);
+            $recruitProcessRepo->save($recruitmentProcess, true);
+
+            $message->setRecruitmentProcess($recruitmentProcess);
+
+            $message->setSendBy($user);
+            $message->setSendTo($annonce->getAuthor()->getUser());
+            $message->setDate($date);
+
+            $messageRepository->save($message, true);
+
+            $this->addFlash('success', 'Vous avez postulé !');
+            return $this->redirectToRoute('annonce_show', ['id' => $annonce->getId()]);
+        }
+
+
+        return $this->renderForm('annonce/show.html.twig', [
             'annonce' => $annonce,
+            'form' => $form,
         ]);
     }
 }

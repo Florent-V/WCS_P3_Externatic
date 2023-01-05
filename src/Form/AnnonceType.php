@@ -80,7 +80,8 @@ class AnnonceType extends AbstractType
 
             ])
             ->add('description', CKEditorType::class, [
-                'config_name' => 'light'
+                'config_name' => 'light',
+                'config'      => ['editorplaceholder' => "Décrivez votre annonce..."]
             ])
             ->add('author', EntityType::class, [
                 'class' => ExternaticConsultant::class,

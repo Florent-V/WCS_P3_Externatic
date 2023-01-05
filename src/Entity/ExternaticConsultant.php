@@ -15,7 +15,7 @@ class ExternaticConsultant
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToOne(inversedBy: 'consultantId', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'consultant', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
