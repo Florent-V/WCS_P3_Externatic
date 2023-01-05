@@ -3,12 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Annonce;
+use App\Entity\User;
 use App\Form\AnnonceType;
 use App\Repository\AnnonceRepository;
+use App\Repository\CandidatRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 use function PHPUnit\Framework\isEmpty;
 
@@ -36,9 +39,49 @@ class AnnonceController extends AbstractController
             $this->addFlash('success', 'Annonce en ligne');
         }
         return $this->renderForm('annonce/_form.html.twig', [
+            'annonce' => $annonce,
             'form' => $form,
-            'annonce' => $annonce]);
+            ]);
     }
+
+    #[Route('/{id}/favorite', name:'add_favorite', methods: ['GET'])]
+    public function addToFavorite(
+        Annonce $annonce,
+        CandidatRepository $candidatRepository
+    ): Response {
+
+        $user = $this->getUser();
+        $candidat = $candidatRepository->findOneBy(
+            ['user' => $user]
+        );
+
+        if ($candidat->isInFavorite($annonce)) {
+            $candidat->removeFromFavoriteOffer($annonce);
+        } else {
+            $candidat->addToFavoriteOffer($annonce);
+        }
+        $candidatRepository->save($candidat, true);
+
+        $isInFavorite = $user instanceof User ? $user->getCandidat()->isInFavorite($annonce) : null;
+        return $this->json([
+            'isInFavorite' => $isInFavorite
+        ]);
+    }
+
+    #[Route('/favorite', name:'show_favorite', methods: ['GET'])]
+    public function showFavorites(
+        UserInterface $user,
+        CandidatRepository $candidatRepository
+    ): Response {
+        $candidat = $candidatRepository->findOneBy(
+            ['user' => $user]
+        );
+
+        return $this->render('annonce/favorites.html.twig', [
+            'fetchedAnnonces' => $candidat->getFavoriteOffers()
+        ]);
+    }
+
 
     #[Route('/{id}', name: 'show')]
     public function show(Annonce $annonce): Response
