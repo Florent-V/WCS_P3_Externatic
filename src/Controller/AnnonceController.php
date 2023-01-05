@@ -62,12 +62,7 @@ class AnnonceController extends AbstractController
         }
         $candidatRepository->save($candidat, true);
 
-        $isInFavorite = '';
-        if ($user instanceof User) {
-            $isInFavorite = $user->getCandidat()->isInFavorite($annonce);
-        }
-
-
+        $isInFavorite = $user instanceof User ? $user->getCandidat()->isInFavorite($annonce) : null;
         return $this->json([
             'isInFavorite' => $isInFavorite
         ]);
