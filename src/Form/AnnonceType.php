@@ -84,7 +84,7 @@ class AnnonceType extends AbstractType
             ])
             ->add('author', EntityType::class, [
                 'class' => ExternaticConsultant::class,
-                "required" => false,
+                "required" => true,
                 'choice_label' => function (ExternaticConsultant $consultant) {
                     return $consultant->getUser()->getFirstname();
                 }
