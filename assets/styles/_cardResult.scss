@@ -1,0 +1,33 @@
+.cards-result{
+    .cardResult{
+        background-color: #f3f3f3 !important;
+    }
+    img{
+        height: 5.75rem;
+        width: 5.75rem;
+        object-fit: contain;
+        margin-left: 1.5%;
+    }
+    h3{
+        font-size: 1rem;
+    }
+    .row-cols-2 > *{
+        width: 47% !important;
+        margin-right: 1.5%;
+        margin-left: 1.5%;
+    }
+    .annonceInfos{
+        font-style: italic;
+        color:$gray-600;
+    }
+    .fav-icon{
+        width: 1rem;
+        margin-left: 4.75rem;
+        margin-right: 1.5%;
+        text-align: right;
+    }
+    .third-line{
+        height: 3.5rem;
+    }
+
+}
