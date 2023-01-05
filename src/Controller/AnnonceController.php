@@ -3,12 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Annonce;
+use App\Entity\User;
 use App\Entity\Message;
 use App\Entity\RecruitmentProcess;
-use App\Entity\User;
 use App\Form\AnnonceType;
 use App\Form\MessageType;
 use App\Repository\AnnonceRepository;
+use App\Repository\CandidatRepository;
 use App\Repository\MessageRepository;
 use App\Repository\RecruitmentProcessRepository;
 use DateTime;
@@ -16,6 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 use function PHPUnit\Framework\isEmpty;
 
@@ -43,9 +45,49 @@ class AnnonceController extends AbstractController
             $this->addFlash('success', 'Annonce en ligne');
         }
         return $this->renderForm('annonce/_form.html.twig', [
+            'annonce' => $annonce,
             'form' => $form,
-            'annonce' => $annonce]);
+            ]);
     }
+
+    #[Route('/{id}/favorite', name:'add_favorite', methods: ['GET'])]
+    public function addToFavorite(
+        Annonce $annonce,
+        CandidatRepository $candidatRepository
+    ): Response {
+
+        $user = $this->getUser();
+        $candidat = $candidatRepository->findOneBy(
+            ['user' => $user]
+        );
+
+        if ($candidat->isInFavorite($annonce)) {
+            $candidat->removeFromFavoriteOffer($annonce);
+        } else {
+            $candidat->addToFavoriteOffer($annonce);
+        }
+        $candidatRepository->save($candidat, true);
+
+        $isInFavorite = $user instanceof User ? $user->getCandidat()->isInFavorite($annonce) : null;
+        return $this->json([
+            'isInFavorite' => $isInFavorite
+        ]);
+    }
+
+    #[Route('/favorite', name:'show_favorite', methods: ['GET'])]
+    public function showFavorites(
+        UserInterface $user,
+        CandidatRepository $candidatRepository
+    ): Response {
+        $candidat = $candidatRepository->findOneBy(
+            ['user' => $user]
+        );
+
+        return $this->render('annonce/favorites.html.twig', [
+            'fetchedAnnonces' => $candidat->getFavoriteOffers()
+        ]);
+    }
+
 
     #[Route('/{id}', name: 'show', methods: ['GET', 'POST'])]
     public function show(
@@ -58,7 +100,7 @@ class AnnonceController extends AbstractController
         $form = $this->createForm(MessageType::class, $message);
         $form->handleRequest($request);
         /**
-         * @var User $user
+         * @var ?User $user
          */
         $user = $this->getUser();
 
@@ -84,8 +126,11 @@ class AnnonceController extends AbstractController
             return $this->redirectToRoute('annonce_show', ['id' => $annonce->getId()]);
         }
 
+        $candidat = null;
+        if (!is_null($user)) {
+            $candidat = $user->getCandidat();
+        }
 
-        $candidat = $user->getCandidat() ?: null;
         $recruProcessActuel = $recruitProcessRepo->findOneBy([
             "annonce" => $annonce,
             "candidat" => $candidat

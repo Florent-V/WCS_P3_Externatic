@@ -31,7 +31,7 @@
             <a class="connexion navbar-brand" href="{{ path('app_login') }}">Connexion</a>
         {% endif %}
 
-        <div class="offcanvas offcanvas-start bg-primary text-light text-uppercase shadow-sm" data-bs-scroll="true"
+        <div class="offcanvas offcanvas-start bg-primary text-light text-uppercase shadow-sm {{ is_granted("ROLE_CONSULTANT") ? 'show' : '' }}" data-bs-scroll="true"
              data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
             <div class="offcanvas-header">
                 <h5 class="offcanvas-title text-light text-uppercase" id="offcanvasScrollingLabel">
@@ -49,7 +49,7 @@
                             <a class="nav-link" href="{{ path('annonce_search_results') }}">Rechercher une offre</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">Annonces sauvegardées</a>
+                            <a class="nav-link" href="{{  path('annonce_show_favorite') }}">Annonces sauvegardées</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('app_candidat_complete') }}">Compléter mon profil
