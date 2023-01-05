@@ -1,0 +1,22 @@
+{{ form_start(languageForm) }}
+            {{ form_row(languageForm.language, {
+                label: 'Langue',
+                attr: {
+                    placeholder: 'Nom de la certification'
+                },
+                row_attr: {
+                    class: 'form-floating mb-3'
+                }
+            }) }}
+
+        {{ form_row(languageForm.level, {
+            label: 'Niveau',
+            attr: {
+                placeholder: 'A1'
+            },
+            row_attr: {
+                class: 'form-floating mb-3'
+            }
+        }) }}
+    <button class="btn">{{ button_label|default('Ajouter') }}</button>
+{{ form_end(languageForm) }}

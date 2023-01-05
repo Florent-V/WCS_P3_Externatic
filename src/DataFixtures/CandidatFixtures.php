@@ -2,7 +2,6 @@
 
 namespace App\DataFixtures;
 
-use App\DataFixtures\UserFixtures;
 use App\Entity\Candidat;
 use App\Entity\Curriculum;
 use App\Entity\Skills;
@@ -96,10 +95,11 @@ class CandidatFixtures extends Fixture implements DependentFixtureInterface
             $candidat->setCurriculum($curriculum);
             $candidat->setUser($this->getReference('userCandidat_' . self::$candidatIndex));
             $skills = new Skills();
-            $curriculum->setSkills($skills);
+            $skills->setCurriculum($curriculum);
             $manager->persist($curriculum);
             $this->addReference('candidat_' . self::$candidatIndex, $candidat);
             $manager->persist($candidat);
+            $manager->persist($skills);
         }
 
 

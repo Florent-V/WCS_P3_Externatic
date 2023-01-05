@@ -26,6 +26,9 @@ class Certification
     #[ORM\ManyToOne(inversedBy: 'certifications')]
     private ?Curriculum $curriculum = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $description = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +78,18 @@ class Certification
     public function setCurriculum(?Curriculum $curriculum): self
     {
         $this->curriculum = $curriculum;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

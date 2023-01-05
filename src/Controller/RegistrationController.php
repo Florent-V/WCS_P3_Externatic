@@ -58,11 +58,12 @@ class RegistrationController extends AbstractController
             $candidat->setCurriculum($curriculum);
             //Creation df Skills entity
             $skills = new Skills();
-            $curriculum->setSkills($skills);
+            $skills->setCurriculum($curriculum);
             //Persit & Flush
             $entityManager->persist($user);
             $entityManager->persist($candidat);
             $entityManager->persist($curriculum);
+            $entityManager->persist($skills);
             $entityManager->flush();
 
             // generate a signed url and email it to the user
