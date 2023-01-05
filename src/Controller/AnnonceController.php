@@ -3,14 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Annonce;
+use App\Entity\User;
 use App\Form\AnnonceType;
 use App\Repository\AnnonceRepository;
 use App\Repository\CandidatRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 use function PHPUnit\Framework\isEmpty;
 
@@ -43,17 +44,11 @@ class AnnonceController extends AbstractController
             ]);
     }
 
-    #[Route('/{id}/favorite', name:'favorite', methods: ['GET'])]
+    #[Route('/{id}/favorite', name:'add_favorite', methods: ['GET'])]
     public function addToFavorite(
         Annonce $annonce,
-        EntityManagerInterface $manager,
         CandidatRepository $candidatRepository
     ): Response {
-        if (!$annonce) {
-            throw $this->createNotFoundException(
-                'No program with this id found in program\'s table.'
-            );
-        }
 
         $user = $this->getUser();
         $candidat = $candidatRepository->findOneBy(
@@ -65,8 +60,33 @@ class AnnonceController extends AbstractController
         } else {
             $candidat->addToFavoriteOffer($annonce);
         }
-        $manager->flush();
+        $candidatRepository->save($candidat, true);
+
+        $isInFavorite = '';
+        if ($user instanceof User) {
+            $isInFavorite = $user->getCandidat()->isInFavorite($annonce);
+        }
+
+
+        return $this->json([
+            'isInFavorite' => $isInFavorite
+        ]);
     }
+
+    #[Route('/favorite', name:'show_favorite', methods: ['GET'])]
+    public function showFavorites(
+        UserInterface $user,
+        CandidatRepository $candidatRepository
+    ): Response {
+        $candidat = $candidatRepository->findOneBy(
+            ['user' => $user]
+        );
+
+        return $this->render('annonce/favorites.html.twig', [
+            'fetchedAnnonces' => $candidat->getFavoriteOffers()
+        ]);
+    }
+
 
     #[Route('/{id}', name: 'show')]
     public function show(Annonce $annonce): Response
