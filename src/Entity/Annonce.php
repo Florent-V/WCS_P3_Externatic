@@ -41,8 +41,8 @@ class Annonce
     #[ORM\Column(nullable: true)]
     private ?int $workTime = null;
 
-    #[ORM\Column(length: 45, nullable: true)]
-    private ?string $publicationStatus = null;
+    #[ORM\Column(nullable: true)]
+    private ?int $publicationStatus = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $endingAt = null;
@@ -181,12 +181,12 @@ class Annonce
         return $this;
     }
 
-    public function getPublicationStatus(): ?string
+    public function getPublicationStatus(): ?int
     {
         return $this->publicationStatus;
     }
 
-    public function setPublicationStatus(?string $publicationStatus): self
+    public function setPublicationStatus(?int $publicationStatus): self
     {
         $this->publicationStatus = $publicationStatus;
 

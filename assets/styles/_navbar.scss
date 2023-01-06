@@ -29,8 +29,13 @@ nav.navbar {
             height: $navbarHeight - 0.5rem;
         }
     }
+
+    .navPannel {
+        width:18rem;
+    }
 }
 
 .blank {
     margin-top: $navbarHeight;
 }
+

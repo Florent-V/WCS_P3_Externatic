@@ -25,16 +25,16 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
             for ($j = 1; $j <= $nbAnnonce; $j++) {
                 $annonce = new Annonce();
                 self::$annonceIndex++;
-                $annonce->setTitle($faker->sentence(3));
+                $annonce->setTitle(self::$annonceIndex . " - Developeur " . $faker->word());
                 $annonce->setPicture('https://fakeimg.pl/200x200/?text=picture');
                 $annonce->setContractType($faker->randomElement(self::CONTRACT_TYPE));
                 $annonce->setStudyLevel("bac+" . $faker->numberBetween(0, 8));
                 $annonce->setSalaryMin($faker->numberBetween(25000, 35000));
                 $annonce->setSalaryMax($faker->numberBetween(40000, 60000));
                 $annonce->setRemote($faker->boolean());
-                $annonce->setDescription($faker->paragraphs(3, true));
+                $annonce->setDescription("descr-ann/ " . $faker->paragraphs(3, true));
                 $annonce->setWorkTime($faker->numberBetween(15, 39));
-                $annonce->setPublicationStatus($faker->word());
+                $annonce->setPublicationStatus($faker->numberBetween(0, 1));
                 $annonce->setCreatedAt($faker->dateTimeThisMonth());
                 $annonce->setCompany($this->getReference('company_' . $i));
                 $annonce->setAuthor($this->getReference('consultant_' .
@@ -44,7 +44,7 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
                         $faker->unique()->numberBetween(1, TechnoFixtures::$technoIndex)));
                 }
                 $faker->unique(true);
-                $annonce->setOptionalInfo($faker->paragraphs(3, true));
+                $annonce->setOptionalInfo("info-sup./ " . $faker->paragraphs(3, true));
                 $this->addReference("annonce_" . self::$annonceIndex, $annonce);
                 $manager->persist($annonce);
             }
