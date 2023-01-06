@@ -21,7 +21,7 @@ class AppointmentFixtures extends Fixture implements DependentFixtureInterface
                 $appointment = new Appointement();
                 self::$appointmentIndex++;
                 $appointment->setDescription($faker->sentence);
-                $date = $faker->dateTimeBetween('-2 months', '+10 months');
+                $date = $faker->dateTimeBetween('-1 months', '+5 months');
                 $date->setTime(intval($faker->time('H')), intval($faker->time('i')));
                 $appointment->setDate($date);
                 $appointment->setRecruitmentProcess($this->getReference("recruitmentProcess_$i"));

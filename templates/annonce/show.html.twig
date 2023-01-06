@@ -31,10 +31,10 @@
 
             <div class="d-flex flex-column all_info mt-3">
                 <div class="header_info">
-                    <p class="mb-1">{{ annonce.company.city }}, {{ annonce.company.address }}
-                        ({{ annonce.company.zipCode }})</p>
-                    <p> De {{ annonce.salaryMin }}€ à {{ annonce.salaryMax }}€ par ans - {{ annonce.workTime }}
-                        , {{ annonce.contractType }}, {{ annonce.studyLevel }} </p>
+                    <p class="mb-1"><strong>{{ annonce.company.city|upper }}</strong> - {{ annonce.company.zipCode }}, {{ annonce.company.address }}
+                        </p>
+                    <p> {{ annonce.salaryMin }}€ à {{ annonce.salaryMax }}€ - {{annonce.workTime}}h -
+                        {{ annonce.contractType }}, {{ annonce.studyLevel }} </p>
                 </div>
 
                 <div>

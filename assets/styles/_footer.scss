@@ -4,6 +4,7 @@ footer {
     padding: $spacer;
     color: $light !important;
     font-size: medium;
+    z-index:9000;
 
     .text-1 {
         width: 40ch;

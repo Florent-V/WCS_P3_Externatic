@@ -17,6 +17,7 @@ use App\Repository\CandidatRepository;
 use App\Repository\MessageRepository;
 use App\Repository\RecruitmentProcessRepository;
 use DateTime;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,6 +40,7 @@ class AnnonceController extends AbstractController
     }
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_CONSULTANT')]
     public function new(
         Request $request,
         AnnonceRepository $annonceRepository,
@@ -49,7 +51,9 @@ class AnnonceController extends AbstractController
         $form = $this->createForm(AnnonceType::class, $annonce);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $annonce->setCreatedAt(new DateTime('now'));
+            $date = new DateTime();
+            $annonce->setCreatedAt($date);
+            //$annonce->setAuthor();
             $annonceRepository->save($annonce, true);
             $this->addFlash('success', 'Annonce en ligne');
             foreach ($userRepository->findByRole('ROLE_CANDIDAT') as $user) {
@@ -65,7 +69,7 @@ class AnnonceController extends AbstractController
 
             return $this->redirectToRoute('annonce_show', ['id' => $annonce->getId() ]);
         }
-        return $this->renderForm('annonce/_form.html.twig', [
+        return $this->renderForm('annonce/new.html.twig', [
             'annonce' => $annonce,
             'form' => $form,
             ]);
