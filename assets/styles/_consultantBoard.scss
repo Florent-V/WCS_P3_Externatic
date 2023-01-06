@@ -1,5 +1,5 @@
 .consultantBoard {
-    margin-left:18rem;
+    margin-left: $navBarWidth;
     section {
         height:30vh;
         overflow-y: scroll;
@@ -41,8 +41,13 @@
         }
 
     }
-
 }
 
+.openNavBar {
+    margin-left: $navBarWidth;
+}
+.closedNavBar {
+    margin-left: initial;
+}
 
 
