@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Annonce;
+use App\Entity\Notif;
 use App\Entity\Company;
 use App\Entity\User;
 use App\Entity\Message;
@@ -10,6 +11,8 @@ use App\Entity\RecruitmentProcess;
 use App\Form\AnnonceType;
 use App\Form\MessageType;
 use App\Repository\AnnonceRepository;
+use App\Repository\NotifRepository;
+use App\Repository\UserRepository;
 use App\Repository\CandidatRepository;
 use App\Repository\MessageRepository;
 use App\Repository\RecruitmentProcessRepository;
@@ -38,8 +41,12 @@ class AnnonceController extends AbstractController
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_CONSULTANT')]
-    public function new(Request $request, AnnonceRepository $annonceRepository): Response
-    {
+    public function new(
+        Request $request,
+        AnnonceRepository $annonceRepository,
+        UserRepository $userRepository,
+        NotifRepository $notifRepository
+    ): Response {
         $annonce = new Annonce();
         $form = $this->createForm(AnnonceType::class, $annonce);
         $form->handleRequest($request);
@@ -49,6 +56,18 @@ class AnnonceController extends AbstractController
             //$annonce->setAuthor();
             $annonceRepository->save($annonce, true);
             $this->addFlash('success', 'Annonce en ligne');
+            foreach ($userRepository->findByRole('ROLE_CANDIDAT') as $user) {
+                $notification = new Notif();
+                $notification->setContent($annonce->getTitle());
+                $notification->setType('newAnnonce');
+                $notification->setCreatedAt(new DateTime('now'));
+                $notification->setUser($user);
+                $notification->setParameter($annonce->getId());
+                $notification->setWasRead(false);
+                $notifRepository->save($notification, true);
+            }
+
+            return $this->redirectToRoute('annonce_show', ['id' => $annonce->getId() ]);
         }
         return $this->renderForm('annonce/new.html.twig', [
             'annonce' => $annonce,
@@ -116,7 +135,8 @@ class AnnonceController extends AbstractController
         Request $request,
         Annonce $annonce,
         MessageRepository $messageRepository,
-        RecruitmentProcessRepository $recruitProcessRepo
+        RecruitmentProcessRepository $recruitProcessRepo,
+        NotifRepository $notifRepository
     ): Response {
         $message = new Message();
         $form = $this->createForm(MessageType::class, $message);
@@ -125,6 +145,14 @@ class AnnonceController extends AbstractController
          * @var ?User $user
          */
         $user = $this->getUser();
+        if (!is_null($user)) {
+            foreach ($user->getNotifications() as $notif) {
+                if ($notif->getParameter() == $annonce->getId()) {
+                    $notif->setWasRead(true);
+                    $notifRepository->save($notif, true);
+                }
+            }
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             $date = new DateTime();

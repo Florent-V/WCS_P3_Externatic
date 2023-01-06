@@ -5,16 +5,31 @@
     padding: 1rem;
     border-radius:2rem;
     width:45em;
-div.btn{
-    display: flex;
-    justify-content: center;
-}
 
-.btn{
-    background-color: white;
-    border-radius: 2rem;
-    color: $primary;
-}
+    div.btn{
+        display: flex;
+        justify-content: center;
+    }
+
+    .btn{
+        background-color: white;
+        border-radius: 2rem;
+        color: $primary;
+    }
+
+    .techno{
+        display: flex;
+        flex-direction: column-reverse;
+        #annonce_techno{
+            display: flex;
+            flex-wrap: wrap;
+        }
+        #annonce_techno > *{
+            margin-right: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+    }
 }
 
 .annonce-title{
