@@ -56,11 +56,16 @@ class Candidat
     #[ORM\JoinTable(name:'favorite_offers')]
     private Collection $favoriteOffers;
 
+    #[ORM\ManyToMany(targetEntity: Company::class, inversedBy: 'followers')]
+    #[ORM\JoinTable(name:'favorite_companies')]
+    private Collection $favoriteCompanies;
+
     public function __construct()
     {
         $this->recrutementProcesses = new ArrayCollection();
         $this->searchProfiles = new ArrayCollection();
         $this->favoriteOffers = new ArrayCollection();
+        $this->favoriteCompanies = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -282,5 +287,34 @@ class Candidat
     public function isInFavorite(Annonce $annonce): bool
     {
         return $this->favoriteOffers->contains($annonce);
+    }
+
+    /**
+     * @return Collection<int, Company>
+     */
+    public function getFavoriteCompanies(): Collection
+    {
+        return $this->favoriteCompanies;
+    }
+
+    public function addCompanyToFavorite(Company $favoriteCompany): self
+    {
+        if (!$this->favoriteCompanies->contains($favoriteCompany)) {
+            $this->favoriteCompanies->add($favoriteCompany);
+        }
+
+        return $this;
+    }
+
+    public function removeCompanyFromFavorite(Company $favoriteCompany): self
+    {
+        $this->favoriteCompanies->removeElement($favoriteCompany);
+
+        return $this;
+    }
+
+    public function isCompanyFavorite(Company $company): bool
+    {
+        return $this->favoriteCompanies->contains($company);
     }
 }
