@@ -3,21 +3,37 @@
 {% block title %}Hello NotifController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-    <pre>
-        {{ dump(notification) }}
-    </pre>
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'D:/developement/projet/2022-09-php-remote-externatic/src/Controller/NotifController.php'|file_link(0) }}">src/Controller/NotifController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'D:/developement/projet/2022-09-php-remote-externatic/templates/notif/index.html.twig'|file_link(0) }}">templates/notif/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <main class="notif">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle w-auto">
+                <thead>
+                    <tr>
+                        <th>Vos notifications</th>
+                        <th>Il y a</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for notification in notifications %}
+                        {% set difference = notification.createdAt.diff(date("now")) %}
+                        <tr>
+                            <td class="table-notif">{% if notification.wasRead == false %}
+                                    <span class="dot"></span>
+                                {% endif %}
+                                {% if notification.type == 'newAnnonce' %}
+                                    Une nouvelle annonce <a href="{{ path('search_show', {'id': notification.parameter}) }}">"{{ notification.content }}"</a> vient d'étre créée</td>
+                                {% endif %}
+                            <td class="table-time">{% if difference.d >= 1 %}
+                                    {{ difference|date("%d jours, %h heures") }}
+                                {% elseif difference.h >= 1 %}
+                                    {{ difference|date("%hh%i") }}
+                                {% else %}
+                                    {{ difference|date("%i minutes") }}
+                                {% endif %}</td>
+                            <td class="delete-row"><a href="{{ path('notif_delete', {'id': notification.id}) }}"><button class="delete-button">supprimer</button></a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
 {% endblock %}

@@ -21,11 +21,17 @@ class Notif
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $path = null;
-
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
+
+    #[ORM\Column]
+    private ?bool $wasRead = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $parameter = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $type = null;
 
     public function getId(): ?int
     {
@@ -56,18 +62,6 @@ class Notif
         return $this;
     }
 
-    public function getPath(): ?string
-    {
-        return $this->path;
-    }
-
-    public function setPath(?string $path): self
-    {
-        $this->path = $path;
-
-        return $this;
-    }
-
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
@@ -76,6 +70,42 @@ class Notif
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function isWasRead(): ?bool
+    {
+        return $this->wasRead;
+    }
+
+    public function setWasRead(bool $wasRead): self
+    {
+        $this->wasRead = $wasRead;
+
+        return $this;
+    }
+
+    public function getParameter(): ?int
+    {
+        return $this->parameter;
+    }
+
+    public function setParameter(?int $parameter): self
+    {
+        $this->parameter = $parameter;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }

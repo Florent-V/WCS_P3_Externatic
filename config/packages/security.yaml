@@ -51,6 +51,7 @@ security:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/profile, roles: ROLE_CANDIDAT }
         - { path: ^/experience, roles: ROLE_CANDIDAT }
+        - { path: ^/notif, roles: IS_AUTHENTICATED }
 
 when@test:
     security:

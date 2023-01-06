@@ -33,7 +33,7 @@ class AnnonceController extends AbstractController
         Request $request,
         AnnonceRepository $annonceRepository,
         UserRepository $userRepository,
-        NotifRepository $notificationRepository
+        NotifRepository $notifRepository
     ): Response {
         $annonce = new Annonce();
         $form = $this->createForm(AnnonceType::class, $annonce);
@@ -44,11 +44,13 @@ class AnnonceController extends AbstractController
             $this->addFlash('success', 'Annonce en ligne');
             foreach ($userRepository->findByRole('ROLE_CANDIDAT') as $user) {
                 $notification = new Notif();
-                $notification->setContent('Une nouvelle annonce a été créer');
-                $notification->setPath('search/' . $annonce->getId());
+                $notification->setContent($annonce->getTitle());
+                $notification->setType('newAnnonce');
                 $notification->setCreatedAt(new DateTime('now'));
                 $notification->setUser($user);
-                $notificationRepository->save($notification, true);
+                $notification->setParameter($annonce->getId());
+                $notification->setWasRead(false);
+                $notifRepository->save($notification, true);
             }
 
             return $this->redirectToRoute('search_annonce_new');
@@ -59,8 +61,19 @@ class AnnonceController extends AbstractController
     }
 
     #[Route('/{id}', name: 'show')]
-    public function show(Annonce $annonce): Response
+    public function show(Annonce $annonce, NotifRepository $notifRepository): Response
     {
+        /**
+         * @var ?User $user
+         */
+        $user = $this->getUser();
+        foreach ($user->getNotifications() as $notif) {
+            if ($notif->getParameter() == $annonce->getId()) {
+                $notif->setWasRead(true);
+                $notifRepository->save($notif, true);
+            }
+        }
+
         return $this->render('annonce/show.html.twig', [
             'annonce' => $annonce,
         ]);
