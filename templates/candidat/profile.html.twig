@@ -1,0 +1,160 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Candidat{% endblock %}
+
+{% block body %}
+
+    <main class="candidatProfile container-md mb-3">
+
+        <h1>Profil de {{ user.firstname }}  {{ user.lastname }}</h1>
+
+        <div class="candidatInfos mb-3">
+
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">Informations du compte</h2>
+                    <p class="card-text">Identifiants et autres informations de contact</p>
+                </div>
+                <div class="list-group list-group-flush">
+                    <div class="list-group-item">
+                        <p>Email</p>
+                        <p>{{ user.email }}</p>
+                    </div>
+                    <div class="list-group-item">
+                        <p>Prénom</p>
+                        <p>{{ user.firstname }}</p>
+                    </div>
+                    <div class="list-group-item">
+                        <p>Nom</p>
+                        <p>{{ user.lastname }}</p>
+                    </div>
+                    <div class="list-group-item">
+                        <p>Téléphone</p>
+                        <p>{{ user.phone }}</p>
+                    </div>
+                    <div class="list-group-item">
+                        <p>Compte Vérifié ?</p>
+                        <p>{{ user.isVerfied ? 'Yes' : 'No' }}</p>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <a href="{{ path('app_candidat_account') }}" class="card-link">Editer</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">Informations personnelles</h2>
+                    <p class="card-text">Informations personnelles de votre CV</p>
+                </div>
+                <div class="list-group list-group-flush">
+                    <div class="list-group-item">
+                        <p>Age</p>
+                        <p>{{ candidat.age }}</p>
+                    </div>
+                    <div class="list-group-item">
+                        <p>Profil LinkedIn</p>
+                        <p>{{ candidat.linkedIn }}</p>
+                    </div>
+                    <div class="list-group-item">
+                        <p>Page GitHub</p>
+                        <p>{{ candidat.github }}</p>
+                    </div>
+                    <div class="list-group-item">
+                        <p>Adresse</p>
+                        <p>{{ candidat.address }}</p>
+                    </div>
+                    <div class="list-group-item">
+                        <p>Code Postal</p>
+                        <p>{{ candidat.zipCode }}</p>
+                    </div>
+                    <div class="list-group-item">
+                        <p>Ville</p>
+                        <p>{{ candidat.city }}</p>
+                    </div>
+                    <div class="list-group-item">
+                        <p>Description</p>
+                        <p>{{ candidat.description }}</p>
+                    </div>
+                    <div class="list-group-item">
+                        <p>Peut postuler ?</p>
+                        <p>{{ candidat.canPostulate ? 'Yes' : 'No' }}</p>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <a href="{{ path('app_candidat_data') }}" class="card-link">Editer</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="candidatCurriculum mb-3">
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Mes Expériences et formations</h5>
+                    <p class="card-text">Consulter et ajouter vos expériences et formations ici.</p>
+                    <div class="buttons">
+                        <a href="{{ path('app_experience_index') }}" class="btn btn-primary">Consulter</a>
+                        <a href="{{ path('app_experience_new', {type: 'experience'}) }}" class="btn btn-primary">Ajouter une expérience</a>
+                        <a href="{{ path('app_experience_new', {type: 'formation'}) }}" class="btn btn-primary">Ajouter une formation</a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Mes Certifications</h5>
+                    <p class="card-text">Consulter et ajouter vos certifications ici.</p>
+                    <div class="buttons">
+                        <a href="{{ path('app_certification_index') }}" class="btn btn-primary">Consulter</a>
+                        <a href="{{ path('app_certification_new') }}" class="btn btn-primary">Ajouter</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Mes Compétences</h5>
+                    <p class="card-text">Consulter et ajouter vos compétences ici.</p>
+                    <div class="buttons">
+                        <a href="{{ path('app_skills_index') }}" class="btn btn-primary">Consulter mes compétences</a>
+                        <a href="{{ path('app_soft_skill_new') }}" class="btn btn-primary">Ajouter des soft skills</a>
+                        <a href="{{ path('app_hard_skill_new') }}" class="btn btn-primary">Ajouter des hard skills</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Mes langages</h5>
+                    <p class="card-text">Consulter et ajouter vos langues parlées ici.</p>
+                    <div class="buttons">
+                        <a href="{{ path('app_language_index') }}" class="btn btn-primary">Consulter </a>
+                        <a href="{{ path('app_language_new') }}" class="btn btn-primary">Ajouter</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Mes hobbies</h5>
+                    <p class="card-text">Consulter et ajouter vos hobbies ici.</p>
+                    <div class="buttons">
+                        <a href="{{ path('app_hobbie_index') }}" class="btn btn-primary">Consulter </a>
+                        <a href="{{ path('app_hobbie_new') }}" class="btn btn-primary">Ajouter</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <br>
+
+    <a href="{{ path('app_candidat_complete') }}">Compléter mon profil</a>
+
+
+{% endblock %}

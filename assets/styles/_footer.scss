@@ -1,0 +1,28 @@
+footer {
+    background-color: $primary !important;
+    margin-top: auto;
+    padding: $spacer;
+    color: $light !important;
+    font-size: medium;
+    z-index:9000;
+
+    .text-1 {
+        width: 40ch;
+    }
+    .all {
+        justify-content: space-between;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .link1 {
+        text-align:center;
+    }
+
+    .social-media img {
+        height:2rem;
+        margin:calc($spacer /2);
+    }
+}
+
+

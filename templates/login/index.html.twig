@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Externatic - Login Page{% endblock %}
+
+{% block body %}
+
+    <main class="loginForm container-md">
+
+        <h1 class="">Bienvenue chez Externatic ! ✅</h1>
+
+        {% if error %}
+            <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+
+        <form action="{{ path('app_login') }}" method="post">
+
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="username" name="_username" value="{{ last_username }}">
+                <label for="username">Email:</label>
+            </div>
+
+
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="password" name="_password">
+                <label for="password">Password:</label>
+            </div>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            {# If you want to control the URL the user is redirected to on success
+        <input type="hidden" name="_target_path" value="/account"> #}
+            <button class="btn btn-primary" type="submit">login</button>
+
+        </form>
+
+        <div class="newUser">
+            <p>Pas encore enregistré ?</p>
+            <p>Créer un compte <a href="{{ path('app_register') }}">ici</a></p>
+        </div>
+
+    </main>
+
+{% endblock %}

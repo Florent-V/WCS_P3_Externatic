@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau Langage{% endblock %}
+
+{% block body %}
+
+    <main class="candidatForm container-md">
+        <h1>Ajouter un nouveau Langage</h1>
+
+        {{ include('language/_form.html.twig') }}
+
+        <a href="{{ path('app_language_index') }}">Retour à la liste des langues</a>
+    </main>
+{% endblock %}

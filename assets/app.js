@@ -10,3 +10,20 @@ import './styles/app.scss';
 
 // start the Stimulus application
 import './bootstrap';
+
+//Import bootstrap Icons
+import 'bootstrap-icons/font/bootstrap-icons.css';
+
+require("bootstrap")
+
+
+function alertCounter()
+{
+    const alerts = document.getElementsByClassName("alert");
+    for (let alert of alerts) {
+        alert.textContent += " || suppression dans 5 secondes";
+        setTimeout(function () {
+            alert.remove(); }, 5000)
+    }
+}
+alertCounter();

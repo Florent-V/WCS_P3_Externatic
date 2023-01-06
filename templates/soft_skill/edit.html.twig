@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit SoftSkill{% endblock %}
+
+{% block body %}
+    <main class="candidatForm container-md">
+        <h1>Modifier la compétence</h1>
+
+        {{ include('soft_skill/_form.html.twig', {'button_label': 'Update'}) }}
+
+        <a href="{{ path('app_skills_index') }}">back to list</a>
+
+        {{ include('soft_skill/_delete_form.html.twig') }}
+    </main>
+{% endblock %}

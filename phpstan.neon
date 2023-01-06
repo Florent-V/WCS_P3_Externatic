@@ -4,8 +4,9 @@ includes:
     - vendor/phpstan/phpstan-symfony/extension.neon
 parameters:
     excludePaths:
-    - src/Security
+        - src/Security
     ignoreErrors:
+        - '#Call to an undefined method Faker#'
     reportUnmatchedIgnoredErrors: false
     checkGenericClassInNonGenericObjectType: false
     checkMissingIterableValueType: false

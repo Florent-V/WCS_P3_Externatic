@@ -1,2 +1,17 @@
-//start coding by removing this file and adding yours ;)
-@import "wcs";
+@import "_variables.scss";
+// the ~ allows you to reference things in node_modules
+@import "~bootstrap/scss/bootstrap";
+@import "_cardResult.scss";
+@import "_global.scss";
+@import "_navbar.scss";
+@import "_landing.scss";
+@import "_footer.scss";
+@import "_form_annonce.scss";
+@import "_searchResultForm";
+@import "showAnnonce";
+@import "loginForm";
+@import "_notif.scss";
+@import "_consultantBoard.scss";
+@import "candidatForm";
+@import "candidatProfile";
+

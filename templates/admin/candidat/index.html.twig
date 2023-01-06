@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Candidat index{% endblock %}
+
+{% block body %}
+    <h1>Candidat index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Age</th>
+                <th>LinkedIn</th>
+                <th>Github</th>
+                <th>ZipCode</th>
+                <th>Address</th>
+                <th>City</th>
+                <th>Description</th>
+                <th>CanPostulate</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for candidat in candidats %}
+            <tr>
+                <td>{{ candidat.id }}</td>
+                <td>{{ candidat.age }}</td>
+                <td>{{ candidat.linkedIn }}</td>
+                <td>{{ candidat.github }}</td>
+                <td>{{ candidat.zipCode }}</td>
+                <td>{{ candidat.address }}</td>
+                <td>{{ candidat.city }}</td>
+                <td>{{ candidat.description }}</td>
+                <td>{{ candidat.canPostulate ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_candidat_show', {'id': candidat.id}) }}">show</a>
+                    <a href="{{ path('app_candidat_edit', {'id': candidat.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

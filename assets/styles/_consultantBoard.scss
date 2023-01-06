@@ -1,0 +1,53 @@
+.consultantBoard {
+    margin-left: $navBarWidth;
+    section {
+        height:30vh;
+        overflow-y: scroll;
+        border: 1px solid $primary;
+        padding: $spacer;
+        border-radius:$border-radius;
+
+        h2{
+            text-align:center;
+        }
+
+        .messageContent {
+            text-overflow: ellipsis;
+        }
+
+        table {
+            max-width:100%;
+        }
+
+        &.recruitProssList{
+            a {
+                text-decoration: none;
+                color:initial;
+            }
+            img {
+                height:1rem;
+            }
+        }
+
+        //Barre de défilement
+        scrollbar-color: $primary $light;
+        scrollbar-width: thin;
+        &::-webkit-scrollbar{
+            width: .5rem;
+        }
+        &::-webkit-scrollbar-thumb{
+            background: $primary;
+            border-radius: $border-radius;
+        }
+
+    }
+}
+
+.openNavBar {
+    margin-left: $navBarWidth;
+}
+.closedNavBar {
+    margin-left: initial;
+}
+
+

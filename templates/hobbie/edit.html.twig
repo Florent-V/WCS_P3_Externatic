@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Hobbie{% endblock %}
+
+{% block body %}
+<main class="candidatForm container-md">
+    <h1>Modifier le Hobby</h1>
+
+    {{ include('hobbie/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_hobbie_index') }}">Retour à la liste des hobbies</a>
+
+    {{ include('hobbie/_delete_form.html.twig') }}
+</main>
+{% endblock %}

@@ -1,15 +1,77 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Externatic{% endblock %}
 
 {% block body %}
-    <div class="pink-stripe">
-        <h1>
-            Let's start coding&nbsp;&#129304;
-        </h1>
-    </div>
-    <div class="white-stripe">
-        <img src="{{ asset('build/images/LOGO_WILD_CODE_SCHOOL.png') }}"
-             alt="">
-    </div>
+    <main class="landing" {{ stimulus_controller('favoriteoffer') }}>
+        <section class="research container-fluid">
+            <div class="container text-center searchBar p-4">
+                <h1 class="text-light text-uppercase font-weight-bold">
+                    Trouvez un poste qui vous correspond !
+                </h1>
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button type="submit">C'est parti !</button>
+                {{ form_end(form) }}
+                <div class="cards-result container-fluid-md d-flex flex-column flex-md-row justify-content-around align-items-center">
+                    {% for annonce in annoncesLandingPage %}
+                        {% include '_include/_card_result.html.twig' %}
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+
+        <h3 class="ms-3 mt-3">Inscrivez vous pour accéder à tous nos services :</h3>
+        <article class="d-flex flex-column flex-md-row justify-content-around align-items-center services">
+            <div class="card text-black bg-light mb-3 mx-3 mt-3 my-5">
+                <div class="cardHeaderServices card-header bg-primary d-flex align-items-center">Postuler en un clic
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title fs-5">Primary card title</h4>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                </div>
+            </div>
+            <div class="card text-black bg-light mb-3 mx-3 mt-3">
+                <div class="cardHeaderServices card-header bg-primary d-flex align-items-center">De nouvelles offres
+                    chaque jour
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title fs-5">Primary card title</h4>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                </div>
+            </div>
+            <div class="card text-black bg-light mb-3 mx-3 mt-3">
+                <div class="cardHeaderServices card-header bg-primary d-flex align-items-center">Faite vous remarquer
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title fs-5">Primary card title</h4>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                </div>
+            </div>
+        </article>
+
+
+        <h3 class="ms-3 mt-4">Externatic en chiffre c'est :</h3>
+        <article class="desc-number d-flex justify-content-around mt-4 pb-5">
+            <div class="d-flex flex-column align-items-center">
+                <img src="{{ asset('build/images/batiment.png') }}" alt="photo of an enterprise"/>
+                <p class="fs-1 m-0"><strong>2000</strong></p>
+                <p class="text-center fs-3 mb-0">Entreprises inscrites</p>
+            </div>
+            <div class="d-flex flex-column align-items-center">
+                <img src="{{ asset('build/images/silhouettes.png') }}" alt="photo of three person"/>
+                <p class="fs-1 m-0"><strong>2000</strong></p>
+                <p class="text-center fs-3 mb-0">candidats inscrits</p>
+            </div>
+            <div class="d-flex flex-column align-items-center">
+                <img src="{{ asset('build/images/mallette.png') }}" alt="photo of a mallete"/>
+                <p class="fs-1 mb-0"><strong>2000</strong></p>
+                <p class="text-center fs-3 mb-0">Entreprises inscrites</p>
+            </div>
+        </article>
+    </main>
 {% endblock %}

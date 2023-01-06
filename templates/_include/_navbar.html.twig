@@ -1,0 +1,95 @@
+<nav class="navbar bg-light fixed-top" {{ stimulus_controller("consultantBoardMargin") }}>
+    <div class="container-fluid d-flex">
+
+        <button class="border-0 navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <a class="d-none d-md-block" href="/"><img class="logo" src="{{ asset('build/images/externatic.png') }}"
+                                                   alt="logo externatic"/></a>
+        <a class="d-initial d-md-none" href="/"><img class="logo d-initial d-md-none"
+                                                     src="{{ asset('build/images/logo-petit.png') }}"
+                                                     alt="logo externatic"/></a>
+
+        {% if app.user %}
+            <div>
+                {% if is_granted("ROLE_CANDIDAT") %}
+                    <a class="userName" href="">{{ app.user.firstname }}</a>
+                    <a class="connexion navbar-brand" href="{{ path('app_logout') }}">Déconnexion</a>
+                {% elseif is_granted("ROLE_CONSULTANT") %}
+                    <a class="userName" href={{ path('consultant_board') }}>{{ app.user.firstname }}</a>
+                    <a class="connexion navbar-brand" href="{{ path('app_logout') }}">Déconnexion</a>
+                {% elseif is_granted("ROLE_ADMIN") %}
+                    <a class="userName" href="">{{ app.user.firstname }}</a>
+                    <a class="connexion navbar-brand" href="{{ path('app_logout') }}">Déconnexion</a>
+                {% else %}
+                    <a class="connexion navbar-brand" href="{{ path('app_login') }}">Connexion</a>
+                {% endif %}
+            </div>
+        {% else %}
+            <a class="connexion navbar-brand" href="{{ path('app_login') }}">Connexion</a>
+        {% endif %}
+
+        <div class="navPannel offcanvas offcanvas-start bg-primary text-light text-uppercase shadow-sm {{ is_granted("ROLE_CONSULTANT") and "consultant" in app.request.requestUri  ? 'show' : '' }}" data-bs-scroll="true"
+             data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title text-light text-uppercase" id="offcanvasScrollingLabel">
+                    Bonjour {{ app.user ? app.user.firstname : '' }}
+                </h5>
+                <button type="button" class="btn-close close-cross" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    {% if is_granted("ROLE_CANDIDAT") %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_candidat_profile') }}">Mon Compte</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('annonce_search_results') }}">Rechercher une offre</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{  path('annonce_show_favorite') }}">Mes Annonces</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{  path('app_company_show_favorite') }}">Mes entreprises</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_candidat_complete') }}">Compléter mon profil
+                                candidat</a>
+                        </li>
+                    {% elseif is_granted("ROLE_CONSULTANT") %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('consultant_board') }}">Tableau de bord</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Messagerie</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Mes Annonces</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Mes Processus de recrutement</a>
+                        </li>
+                    {% elseif is_granted("ROLE_ADMIN") %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">PLACEHOLDER 1</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">PLACEHOLDER 2</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_login') }}">Se connecter</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_register') }}">S'inscrire</a>
+                        </li>
+                    {% endif %}
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+<div class="blank"></div>

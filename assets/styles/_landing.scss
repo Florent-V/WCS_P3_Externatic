@@ -1,0 +1,68 @@
+main.landing {
+
+    section.research {
+        background-image: url("/assets/images/landing.webp");
+        background-position: center;
+        background-size: cover;
+        min-height: 50vh;
+        @include media-breakpoint-up(lg) {
+            min-height: 75vh;
+        }
+    }
+
+    article.services {
+        color:$light;
+        div.card-body {
+            background-image: url("/assets/images/landing.webp");
+            background-position: center;
+            background-size: cover;
+        }
+
+        div.cardHeaderServices {
+            height: 3.4375rem;
+        }
+
+        div {
+            max-width: 18rem;
+            @include media-breakpoint-up(xl) {
+                max-width: 23rem;
+                height: 15rem;
+            }
+        }
+    }
+
+
+
+    article.cardResult {
+
+        &:nth-last-child(1){
+            @include media-breakpoint-up(md) {
+                display:none;
+            }
+            @include media-breakpoint-up(xl) {
+                display:initial;
+            }
+        }
+    }
+
+    .desc-number {
+        img {
+            height: 3rem;
+            width: 3rem;
+            @include media-breakpoint-up(md) {
+                width: 5rem;
+                height: 5rem;
+            }
+        }
+        h3{
+            font-size: 1rem;
+            @include media-breakpoint-up(sm) {
+                font-size: 1.2rem;
+            }
+            @include media-breakpoint-up(md) {
+                font-size: 1.7rem;
+            }
+        }
+    }
+}
+

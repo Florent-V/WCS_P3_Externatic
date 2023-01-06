@@ -1,0 +1,41 @@
+nav.navbar {
+    height: $navbarHeight;
+}
+
+nav.navbar {
+    a {
+        color: $light;
+        text-transform: uppercase;
+        font-size: $navTextHeight;
+        font-weight: bold;
+
+        &.userName {
+            color:black;
+            text-decoration: none;
+        }
+
+        &.connexion {
+            color: $primary;
+        }
+
+        &:hover {
+            color: $secondary;
+        }
+    }
+
+    .logo {
+        height: $navbarHeight - 2rem;
+        @include media-breakpoint-up(md){
+            height: $navbarHeight - 0.5rem;
+        }
+    }
+
+    .navPannel {
+        width:$navBarWidth;
+    }
+}
+
+.blank {
+    margin-top: $navbarHeight;
+}
+

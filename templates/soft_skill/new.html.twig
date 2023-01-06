@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau SoftSkill{% endblock %}
+
+{% block body %}
+
+    <main class="candidatForm container-md">
+        <h1>Ajouter un nouveau Soft Skill</h1>
+
+        {{ include('soft_skill/_form.html.twig') }}
+
+        <a href="{{ path('app_skills_index') }}">Retour à la liste des compétences</a>
+    </main>
+{% endblock %}

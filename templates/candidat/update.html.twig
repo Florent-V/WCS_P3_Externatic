@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+
+    <main class="candidatForm container-md">
+
+        <h1>Informations personnelles</h1>
+
+        {{ include('candidat/_form.html.twig') }}
+
+        <br>
+        <a href="{{ path('app_candidat_profile') }}">Retour au profil</a>
+
+    </main>
+
+
+{% endblock %}

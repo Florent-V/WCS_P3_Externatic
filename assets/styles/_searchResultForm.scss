@@ -1,0 +1,39 @@
+.searchResultForm{
+
+    .form{
+        width: 80vw;
+        margin-right: auto;
+        margin-left: auto;
+    }
+    .searchQuery{
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+    .size-bar{
+        width: 45%;
+    }
+    .contractType{
+        .col-form-label{
+            text-align: center;
+        }
+        #form_contractType{
+            flex-wrap: wrap;
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+    .techno{
+        margin-top: 1rem;
+        .col-form-label{
+            text-align: center;
+        }
+        #form_techno{
+            display: flex;
+            flex-wrap: wrap;
+        }
+        #form_techno > *{
+            margin-right: 1rem;
+            margin-bottom: 0.5rem;
+        }
+    }
+}

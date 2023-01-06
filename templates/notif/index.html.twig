@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello NotifController!{% endblock %}
+
+{% block body %}
+    <main class="notif">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle w-auto">
+                <thead>
+                    <tr>
+                        <th>Vos notifications</th>
+                        <th>Il y a</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for notification in notifications %}
+                        {% set difference = notification.createdAt.diff(date("now")) %}
+                        <tr>
+                            <td class="table-notif">{% if notification.wasRead == false %}
+                                    <span class="dot"></span>
+                                {% endif %}
+                                {% if notification.type == 'newAnnonce' %}
+                                    Une nouvelle annonce <a href="{{ path('annonce_show', {'id': notification.parameter}) }}">"{{ notification.content }}"</a> vient d'étre créée</td>
+                                {% endif %}
+                            <td class="table-time">{% if difference.d >= 1 %}
+                                    {{ difference|date("%d jours, %h heures") }}
+                                {% elseif difference.h >= 1 %}
+                                    {{ difference|date("%hh%i") }}
+                                {% else %}
+                                    {{ difference|date("%i minutes") }}
+                                {% endif %}</td>
+                            <td class="delete-row"><a href="{{ path('notif_delete', {'id': notification.id}) }}"><button class="delete-button">supprimer</button></a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+{% endblock %}

@@ -1,0 +1,10 @@
+controllers:
+    resource: ../../src/Controller/**/*
+    exclude: ../../src/Controller/Admin
+    type: attribute
+
+admin:
+    resource: ../../src/Controller/Admin
+    type: attribute
+    prefix: '/admin'
+    name_prefix: 'admin_'

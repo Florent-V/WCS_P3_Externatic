@@ -1,0 +1,66 @@
+{{ form_start(experienceForm) }}
+
+        {{ form_row(experienceForm.title, {
+            label: 'Nom de poste occupé',
+            attr: {
+                placeholder: 'Nom de poste occupé'
+            },
+            row_attr: {
+                class: 'form-floating mb-3'
+            }
+        }) }}
+
+        {{ form_row(experienceForm.beginning, {
+            label: 'Date de début',
+            attr: {
+                placeholder: '...'
+            },
+            row_attr: {
+                class: 'form-floating mb-3'
+            }
+        }) }}
+
+
+        {{ form_row(experienceForm.end, {
+            label: 'Date de fin',
+            attr: {
+                placeholder: '...'
+            },
+            row_attr: {
+                class: 'form-floating mb-3'
+            }
+        }) }}
+
+        {{ form_row(experienceForm.organism, {
+            label: 'Nom de l\'entreprise',
+            attr: {
+                placeholder: 'numéro, rue etc...'
+            },
+            row_attr: {
+                class: 'form-floating mb-3'
+            }
+        }) }}
+
+        {{ form_row(experienceForm.location, {
+            label: 'Lieu',
+            attr: {
+                placeholder: 'adresse, ville...'
+            },
+            row_attr: {
+                class: 'form-floating mb-3'
+            }
+        }) }}
+
+        {{ form_row(experienceForm.description, {
+            label: 'Description des missions effectuées',
+            attr: {
+                placeholder: 'Paris'
+            },
+            row_attr: {
+                class: 'form-floating mb-3'
+            }
+        }) }}
+
+
+<button type="submit" class="btn btn-primary">{{ button_label|default('Ajouter') }}</button>
+{{ form_end(experienceForm) }}

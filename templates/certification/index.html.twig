@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Certification index{% endblock %}
+
+{% block body %}
+    <h1>Certification index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Year</th>
+                <th>Link</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for certification in certifications %}
+            <tr>
+                <td>{{ certification.id }}</td>
+                <td>{{ certification.title }}</td>
+                <td>{{ certification.year ? certification.year|date('Y-m-d') : '' }}</td>
+                <td>{{ certification.link }}</td>
+                <td>{{ certification.description }}</td>
+                <td>
+                    <a href="{{ path('app_certification_show', {'id': certification.id}) }}">show</a>
+                    <a href="{{ path('app_certification_edit', {'id': certification.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_certification_new') }}">Ajouter une nouvelle certification</a>
+    <br>
+    <a href="{{ path('app_candidat_profile') }}">Retour au profil</a>
+{% endblock %}

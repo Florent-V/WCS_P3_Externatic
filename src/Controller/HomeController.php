@@ -2,15 +2,33 @@
 
 namespace App\Controller;
 
+use App\Entity\Annonce;
+use App\Repository\AnnonceRepository;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
-    #[Route('/', name: 'app_home')]
-    public function index(): Response
+    #[Route('/', name: 'home')]
+    public function index(Request $request, AnnonceRepository $annonceRepository): Response
     {
-        return $this->render('home/index.html.twig');
+        $form = $this->createFormBuilder()
+            ->add('searchQuery', TextType::class, [
+                'label' => "Recherchez l'offre qui vont correspond !",
+                'required' => false
+                ])
+            ->setAction($this->generateUrl('annonce_search_results'))
+            ->setMethod('GET')
+            ->getForm();
+
+        $annoncesLandingPage = $annonceRepository->findBy([], ["createdAt" => "DESC"], 3);
+
+        return $this->renderForm('home/index.html.twig', [
+            'form' => $form,
+            'annoncesLandingPage' => $annoncesLandingPage
+        ]);
     }
 }

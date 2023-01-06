@@ -1,0 +1,28 @@
+twig:
+    form_themes:
+        - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
+
+fos_ck_editor:
+    configs:
+        contentsCss:
+            - '/build/admin.css'
+        light:
+            toolbar:
+                - name: light
+                  uiColor: ""#FFFFFF"
+                  items:
+                      - Bold
+                      - Italic
+                      - Underline
+                      - Strike
+                      - Subscript
+                      - Superscript
+                      - '-'
+                      - CopyFormatting
+                      - RemoveFormat
+                      - Cut
+                      - Copy
+                      - Paste
+                      - Smiley
+                      - Undo
+                      - Redo

@@ -2,17 +2,42 @@ security:
     enable_authenticator_manager: true
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
-        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+        # auto hasher with default options for the User class (and children)
+        App\Entity\User: 'auto'
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+            algorithm: 'auto'
+            cost: 15
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
-        users_in_memory: { memory: null }
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+
+    role_hierarchy:
+        ROLE_CANDIDAT: ROLE_USER
+        ROLE_CONSULTANT: ROLE_USER
+        ROLE_ADMIN: ROLE_CONSULTANT
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             lazy: true
-            provider: users_in_memory
+            provider: app_user_provider
+            form_login:
+                # "app_login" is the name of the route in LoginController
+                login_path: app_login
+                check_path: app_login
+                # default_target_path: nom_route
+            logout:
+                path: app_logout
+        secured_area:
+            form_login:
+                enable_csrf: true
+
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -23,8 +48,13 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/profile, roles: ROLE_CANDIDAT }
+        - { path: ^/experience, roles: ROLE_CANDIDAT }
+        - { path: ^/notif, roles: IS_AUTHENTICATED }
+        - { path: ^/certification, roles: ROLE_CANDIDAT }
+        - { path: ^/language, roles: ROLE_CANDIDAT }
+        - { path: ^/consultant, roles: ROLE_CONSULTANT }
 
 when@test:
     security:

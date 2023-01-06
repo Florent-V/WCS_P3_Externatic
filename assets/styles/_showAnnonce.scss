@@ -1,0 +1,96 @@
+.show_annonce{
+
+    h1{
+        text-align: center;
+    }
+
+    .name_company{
+        margin-left: 10rem;
+    }
+
+    .image_techno{
+        height: 1.5rem;
+        width: 1.5rem;
+        object-fit: contain;
+        @include media-breakpoint-up(sm) {
+            height: 2rem;
+            width: 2rem;
+        }
+    }
+
+    ul {
+        list-style-type: none;
+    }
+
+    .tech {
+        border-color: rgb(17, 17, 17);
+        border: solid;
+        border-width:1px;
+        min-height: 18rem;
+        min-width: 7rem;
+        @include media-breakpoint-up(sm) {
+            min-width: 9.3rem;
+        }
+        @include media-breakpoint-up(md) {
+            min-width: 10rem;
+            margin-left: 3rem;
+        }
+    }
+
+    .header_info{
+        font-style: italic;
+        @include media-breakpoint-up(md) {
+            margin-left: 3rem;
+        }
+    }
+
+    .created_at{
+        position: absolute;
+        right: 1rem;
+        top: 8.5rem;
+        font-size: 0.65rem;
+        @include media-breakpoint-up(sm) {
+            font-size: 0.75rem;
+            top: 9.5rem
+        }
+        @include media-breakpoint-up(md) {
+            margin-right: 5rem;
+            font-size: 1rem;
+            top: 11.5rem;
+        }
+    }
+
+    .logo{
+        display: none;
+        @include media-breakpoint-up(sm) {
+            height: 6.25rem;
+            width: 6.25rem;
+            display: initial;
+        }
+        @include media-breakpoint-up(md) {
+            height: 10rem;
+            width: 10rem;
+        }
+    }
+
+    .all_info{
+        margin-left: 1rem;
+        @include media-breakpoint-up(sm) {
+            margin-left: 3rem;
+        }
+    }
+
+    .h2-info{
+        font-size: 1.5rem;
+        @include media-breakpoint-up(sm) {
+            font-size: 1.7rem;
+        }
+    }
+
+    h1{
+        font-size: 1.5rem;
+        @include media-breakpoint-up(md) {
+            font-size: 2rem;
+        }
+    }
+}

@@ -1,0 +1,80 @@
+{{ form_start(candidatForm) }}
+
+
+        {{ form_row(candidatForm.age, {
+            label: 'Age',
+            attr: {
+                placeholder: '24'
+            },
+            row_attr: {
+                class: 'form-floating mb-3'
+            }
+        }) }}
+
+        {{ form_row(candidatForm.linkedIn, {
+            label: 'Profil LinkedIn',
+            attr: {
+                placeholder: 'http://...'
+            },
+            row_attr: {
+                class: 'form-floating mb-3'
+            }
+        }) }}
+
+
+        {{ form_row(candidatForm.github, {
+            label: 'GitHub',
+            attr: {
+                placeholder: 'http://...'
+            },
+            row_attr: {
+                class: 'form-floating mb-3'
+            }
+        }) }}
+
+        {{ form_row(candidatForm.address, {
+            label: 'Adresse Complète',
+            attr: {
+                placeholder: 'numéro, rue etc...'
+            },
+            row_attr: {
+                class: 'form-floating mb-3'
+            }
+        }) }}
+
+        {{ form_row(candidatForm.zipCode, {
+            label: 'Code Postal',
+            attr: {
+                placeholder: '75000'
+            },
+            row_attr: {
+                class: 'form-floating mb-3'
+            }
+        }) }}
+
+        {{ form_row(candidatForm.city, {
+            label: 'Ville',
+            attr: {
+                placeholder: 'Paris'
+            },
+            row_attr: {
+                class: 'form-floating mb-3'
+            }
+        }) }}
+
+
+        {{ form_row(candidatForm.description, {
+            label: 'Décrivez vous en quelques lignes',
+            attr: {
+                placeholder: 'Je suis...'
+            },
+            row_attr: {
+                class: 'form-floating mb-3'
+            }
+        }) }}
+
+
+
+
+<button type="submit" class="btn btn-primary">{{ button_label|default('Valider') }}</button>
+{{ form_end(candidatForm) }}
