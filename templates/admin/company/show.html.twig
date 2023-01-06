@@ -53,6 +53,10 @@
             </tr>
         </tbody>
     </table>
-    <a class="btn btn-primary" href="">Mettre l'entreprise en favoris</a>
 
+    <a href="{{ path('app_company_index') }}">back to list</a>
+
+    <a href="{{ path('app_company_edit', {'id': company.id}) }}">edit</a>
+
+    {{ include('company/_delete_form.html.twig') }}
 {% endblock %}
