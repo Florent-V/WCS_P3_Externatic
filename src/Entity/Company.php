@@ -241,7 +241,7 @@ class Company
     {
         if (!$this->followers->contains($follower)) {
             $this->followers->add($follower);
-            $follower->addFavoriteCompany($this);
+            $follower->addCompanyToFavorite($this);
         }
 
         return $this;
@@ -250,7 +250,7 @@ class Company
     public function removeFollower(Candidat $follower): self
     {
         if ($this->followers->removeElement($follower)) {
-            $follower->removeFavoriteCompany($this);
+            $follower->removeCompanyFromFavorite($this);
         }
 
         return $this;
