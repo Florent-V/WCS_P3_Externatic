@@ -53,9 +53,13 @@ class Company
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: Annonce::class, orphanRemoval: true)]
     private Collection $annonces;
 
+    #[ORM\ManyToMany(targetEntity: Candidat::class, mappedBy: 'favoriteCompanies')]
+    private Collection $followers;
+
     public function __construct()
     {
         $this->annonces = new ArrayCollection();
+        $this->followers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -220,6 +224,33 @@ class Company
             if ($annonce->getCompany() === $this) {
                 $annonce->setCompany(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Candidat>
+     */
+    public function getFollowers(): Collection
+    {
+        return $this->followers;
+    }
+
+    public function addFollower(Candidat $follower): self
+    {
+        if (!$this->followers->contains($follower)) {
+            $this->followers->add($follower);
+            $follower->addCompanyToFavorite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFollower(Candidat $follower): self
+    {
+        if ($this->followers->removeElement($follower)) {
+            $follower->removeCompanyFromFavorite($this);
         }
 
         return $this;

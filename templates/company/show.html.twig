@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Company{% endblock %}
+
+{% block body %}
+    <h1 {{ stimulus_controller('favoritecompany') }}>Company</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ company.id }}</td>
+            </tr>
+            <tr>
+                <th>Siret</th>
+                <td>{{ company.siret }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ company.name }}</td>
+            </tr>
+            <tr>
+                <th>Logo</th>
+                <td>{{ company.logo }}</td>
+            </tr>
+            <tr>
+                <th>ZipCode</th>
+                <td>{{ company.zipCode }}</td>
+            </tr>
+            <tr>
+                <th>Address</th>
+                <td>{{ company.address }}</td>
+            </tr>
+            <tr>
+                <th>City</th>
+                <td>{{ company.city }}</td>
+            </tr>
+            <tr>
+                <th>PhoneNumber</th>
+                <td>{{ company.phoneNumber }}</td>
+            </tr>
+            <tr>
+                <th>ContactName</th>
+                <td>{{ company.contactName }}</td>
+            </tr>
+            <tr>
+                <th>Size</th>
+                <td>{{ company.size }}</td>
+            </tr>
+            <tr>
+                <th>Information</th>
+                <td>{{ company.information }}</td>
+            </tr>
+        </tbody>
+    </table>
+    {% if is_granted("ROLE_CANDIDAT") %}
+        <a href="{{ path('app_company_add_favorite', {id: company.id}) }}" id="fav-company" class="btn btn-primary fav-icon mt-2">
+            <span>{{ app.user.candidat.isCompanyFavorite(company) ? 'Retirer l\'entreprise des favoris' : 'Mettre l\'entreprise en favoris' }}</span>
+            <i class="bi {{ app.user.candidat.isCompanyFavorite(company) ? 'bi-heart-fill' : 'bi-heart' }}"></i>
+        </a>
+    {% endif %}
+
+{% endblock %}
