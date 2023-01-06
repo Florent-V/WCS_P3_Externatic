@@ -5,17 +5,34 @@ namespace App\Form;
 use App\Entity\Annonce;
 use App\Entity\ExternaticConsultant;
 use App\Entity\Techno;
+use App\Repository\AnnonceRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 
 class AnnonceType extends AbstractType
 {
+    public function __construct(private readonly AnnonceRepository $annonceRepository)
+    {
+    }
+    public function fetchingContractTypes(): array
+    {
+        $contractTypeQuery = $this->annonceRepository->createQueryBuilder("a")
+            ->select("distinct (a.contractType)")
+            ->getQuery()
+            ->getResult();
+
+        $contractTypeFromDb = [];
+        foreach ($contractTypeQuery as $contractType) {
+            $contractTypeFromDb[ucfirst($contractType[1])] = $contractType[1];
+        }
+        ksort($contractTypeFromDb);
+        return $contractTypeFromDb;
+    }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -34,10 +51,11 @@ class AnnonceType extends AbstractType
                 'attr' => ['placeholder' => 'Salaire Max'],
                 'row_attr' => ['class' => 'form-floating mb-3'],
             ])
-            ->add('contractType', null, [
-                'label' => 'Type de contrat (ex:Alternance, CDI, etc...)',
-                'attr' => ['placeholder' => 'contractType'],
-                'row_attr' => ['class' => 'form-floating mb-3'],
+            ->add('contractType', ChoiceType::class, [
+                'choices' => $this->fetchingContractTypes(),
+                'expanded' => true,
+                'multiple' => true,
+                'attr' => ['class' => '']
             ])
             ->add('studyLevel', null, [
                 'label' => 'Niveau d\'étude',
