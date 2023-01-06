@@ -63,7 +63,7 @@ class AnnonceController extends AbstractController
                 $notifRepository->save($notification, true);
             }
 
-            return $this->redirectToRoute('search_annonce_new');
+            return $this->redirectToRoute('annonce_show', ['id' => $annonce->getId() ]);
         }
         return $this->renderForm('annonce/_form.html.twig', [
             'annonce' => $annonce,
