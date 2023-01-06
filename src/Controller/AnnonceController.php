@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Annonce;
 use App\Entity\Notif;
+use App\Entity\Company;
 use App\Entity\User;
 use App\Entity\Message;
 use App\Entity\RecruitmentProcess;
@@ -108,6 +109,22 @@ class AnnonceController extends AbstractController
         ]);
     }
 
+    #[Route('/company/{id}', name:'show_by_company', methods: ['GET'])]
+    public function showAnnonceByCompany(
+        UserInterface $user,
+        Company $company,
+        AnnonceRepository $annonceRepository
+    ): Response {
+
+        return $this->render('annonce/favorites.html.twig', [
+            'fetchedAnnonces' => $annonceRepository->findBy(
+                [
+                    'company' => $company
+                ]
+            )
+        ]);
+    }
+
 
     #[Route('/{id}', name: 'show', methods: ['GET', 'POST'])]
     public function show(
@@ -124,11 +141,12 @@ class AnnonceController extends AbstractController
          * @var ?User $user
          */
         $user = $this->getUser();
-
-        foreach ($user->getNotifications() as $notif) {
-            if ($notif->getParameter() == $annonce->getId()) {
-                $notif->setWasRead(true);
-                $notifRepository->save($notif, true);
+        if (!is_null($user)) {
+            foreach ($user->getNotifications() as $notif) {
+                if ($notif->getParameter() == $annonce->getId()) {
+                    $notif->setWasRead(true);
+                    $notifRepository->save($notif, true);
+                }
             }
         }
 
