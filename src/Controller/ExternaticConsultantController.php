@@ -16,11 +16,13 @@ class ExternaticConsultantController extends AbstractController
     #[Route('/board', name: 'board')]
     public function board(AppointementRepository $appointRepository, MessageRepository $messageRepository): Response
     {
+        /**
+         * @var User $user
+         */
         $user = $this->getUser();
-        $consultantId = ($user instanceof User) ? $user->getConsultant()->getId() : null;
 
-        $weekAppointments = $appointRepository->findAppoitmentList($consultantId, "thisWeek");
-        $otherAppointments = $appointRepository->findAppoitmentList($consultantId, "thisMonth");
+        $weekAppointments = $appointRepository->findAppoitmentList($user->getConsultant()->getId(), "thisWeek");
+        $otherAppointments = $appointRepository->findAppoitmentList($user->getConsultant()->getId(), "thisMonth");
 
         $messages = $messageRepository->findBy(["sendTo" => $user ], ["date" => 'DESC'], 10);
 

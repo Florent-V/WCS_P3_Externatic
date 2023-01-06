@@ -8,8 +8,9 @@
             <div class="w-100 d-flex flex-column justify-content-center">
                 <h1 class="mt-2"><strong>{{ annonce.title }}</strong></h1>
                 <div class="d-flex justify-content-center">
-                        <h2 class="name_company d-inline-block align-items-center m-0">{{ annonce.company.name }}</h2>
-                        <p class="created_at d-flex align-items-center m-0">Posté le {{ annonce.createdAt|date('d-m-Y') }}</p>
+                    <h2 class="name_company d-inline-block align-items-center m-0">{{ annonce.company.name }}</h2>
+                    <p class="created_at d-flex align-items-center m-0">Posté
+                        le {{ annonce.createdAt|date('d-m-Y') }}</p>
                 </div>
             </div>
         </div>
@@ -19,8 +20,9 @@
                 <ul class="ms-2 ps-0 mt-2 pb-2">
                     {% for tech in annonce.techno %}
                         <li class="mt-3">
-                            <img src="{{ asset('/uploads/images/logo/' ~ tech.picture) }}" alt="image de {{ tech.name }}"
-                            class="image_techno">
+                            <img src="{{ asset('/uploads/images/logo/' ~ tech.picture) }}"
+                                 alt="image de {{ tech.name }}"
+                                 class="image_techno">
                             <p class="d-inline-block">{{ tech.name }}</p>
                         </li>
                     {% endfor %}
@@ -29,8 +31,10 @@
 
             <div class="d-flex flex-column all_info mt-3">
                 <div class="header_info">
-                    <p class="mb-1">{{ annonce.company.city }}, {{ annonce.company.address }} ({{ annonce.company.zipCode }})</p>
-                    <p> De {{ annonce.salaryMin }}€ à {{ annonce.salaryMax }}€ par ans - {{ annonce.workTime }}, {{ annonce.contractType }}, {{ annonce.studyLevel }} </p>
+                    <p class="mb-1">{{ annonce.company.city }}, {{ annonce.company.address }}
+                        ({{ annonce.company.zipCode }})</p>
+                    <p> De {{ annonce.salaryMin }}€ à {{ annonce.salaryMax }}€ par ans - {{ annonce.workTime }}
+                        , {{ annonce.contractType }}, {{ annonce.studyLevel }} </p>
                 </div>
 
                 <div>
@@ -39,8 +43,8 @@
                 </div>
                 <div class="mt-4">
                     {% if annonce.optionalInfo != null %}
-                    <h2 class="h2-info">Information complémentaire</h2>
-                    {{ annonce.optionalInfo }}
+                        <h2 class="h2-info">Information complémentaire</h2>
+                        {{ annonce.optionalInfo }}
                     {% endif %}
                 </div>
                 <div class="mt-4">
@@ -49,6 +53,35 @@
                 </div>
             </div>
         </div>
+
+        <div class="accordion container mb-5" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button d-inline text-center" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Postuler
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                     data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        {% if is_granted("ROLE_CANDIDAT") %}
+                            {% if recruProcessActuel == null %}
+                                {{ form(form) }}
+                            {% else %}
+                                <p>Vous avez déjà un processus en cours</p>
+                            {% endif %}
+                        {% elseif is_granted("ROLE_CONSULTANT") %}
+                            <p>Encart réservé aux candidats - <a href="{{ path('consultant_board') }}">Retourner à votre
+                                    tableau de bord</a></p>
+                        {% else %}
+                            <a href="{{ path('app_login') }}">Il faut vous connecter pour postuler !</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
     </main>
 {% endblock %}
