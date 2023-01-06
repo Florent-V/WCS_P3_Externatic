@@ -38,16 +38,15 @@ class CompanyController extends AbstractController
     }
 
     #[Route('/favorite', name:'app_company_show_favorite', methods: ['GET'])]
-    public function showFavorites(
-        UserInterface $user,
-        CandidatRepository $candidatRepository
-    ): Response {
-        $candidat = $candidatRepository->findOneBy(
-            ['user' => $user]
-        );
+    public function showFavorites(): Response
+    {
+        /**
+         * @var User $user
+         */
+        $user = $this->getUser();
 
         return $this->render('company/favorites.html.twig', [
-            'fetchedCompanies' => $candidat->getFavoriteCompanies()
+            'fetchedCompanies' => $user->getCandidat()->getFavoriteCompanies()
         ]);
     }
 
