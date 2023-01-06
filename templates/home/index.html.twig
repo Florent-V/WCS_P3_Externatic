@@ -3,7 +3,7 @@
 {% block title %}Externatic{% endblock %}
 
 {% block body %}
-    <main class="landing">
+    <main class="landing" {{ stimulus_controller('favoriteoffer') }}>
         <section class="research container-fluid">
             <div class="container text-center searchBar p-4">
                 <h1 class="text-light text-uppercase font-weight-bold">
@@ -13,7 +13,7 @@
                 {{ form_widget(form) }}
                 <button type="submit">C'est parti !</button>
                 {{ form_end(form) }}
-                <div class="annoncesSample container-fluid-md d-flex flex-column flex-sm-row justify-content-around align-items-center">
+                <div class="cards-result container-fluid-md d-flex flex-column flex-md-row justify-content-around align-items-center">
                     {% for annonce in annoncesLandingPage %}
                         {% include '_include/_card_result.html.twig' %}
                     {% endfor %}

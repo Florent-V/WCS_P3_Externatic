@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une nouvelle formation{% endblock %}
+
+{% block body %}
+
+    <main class="candidatForm container-md">
+        <h1>Ajouter une formation</h1>
+
+        {{ component('experience_form', {
+            pathInfo : app.request.pathInfo,
+            experience : null
+        }) }}
+
+        <a href="{{ path('app_experience_index') }}">Retour à la liste</a>
+        <br>
+        <a href="{{ path('app_candidat_profile') }}">Retour au profil</a>
+    </main>
+
+
+{% endblock %}

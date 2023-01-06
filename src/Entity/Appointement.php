@@ -14,9 +14,6 @@ class Appointement
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $date = null;
-
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
@@ -24,21 +21,15 @@ class Appointement
     #[ORM\JoinColumn(nullable: false)]
     private ?RecruitmentProcess $recruitmentProcess = null;
 
+    #[ORM\ManyToOne(inversedBy: 'appointements')]
+    private ?ExternaticConsultant $consultant = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $date = null;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getDate(): ?\DateTimeInterface
-    {
-        return $this->date;
-    }
-
-    public function setDate(\DateTimeInterface $date): self
-    {
-        $this->date = $date;
-
-        return $this;
     }
 
     public function getDescription(): ?string
@@ -61,6 +52,30 @@ class Appointement
     public function setRecruitmentProcess(?RecruitmentProcess $recruitmentProcess): self
     {
         $this->recruitmentProcess = $recruitmentProcess;
+
+        return $this;
+    }
+
+    public function getConsultant(): ?ExternaticConsultant
+    {
+        return $this->consultant;
+    }
+
+    public function setConsultant(?ExternaticConsultant $consultant): self
+    {
+        $this->consultant = $consultant;
+
+        return $this;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(\DateTimeInterface $date): self
+    {
+        $this->date = $date;
 
         return $this;
     }

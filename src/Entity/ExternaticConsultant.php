@@ -25,10 +25,14 @@ class ExternaticConsultant
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Annonce::class, orphanRemoval: true)]
     private Collection $annonces;
 
+    #[ORM\OneToMany(mappedBy: 'consultant', targetEntity: Appointement::class)]
+    private Collection $appointements;
+
     public function __construct()
     {
         $this->companies = new ArrayCollection();
         $this->annonces = new ArrayCollection();
+        $this->appointements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -102,6 +106,36 @@ class ExternaticConsultant
             // set the owning side to null (unless already changed)
             if ($annonce->getAuthor() === $this) {
                 $annonce->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Appointement>
+     */
+    public function getAppointements(): Collection
+    {
+        return $this->appointements;
+    }
+
+    public function addAppointement(Appointement $appointement): self
+    {
+        if (!$this->appointements->contains($appointement)) {
+            $this->appointements->add($appointement);
+            $appointement->setConsultant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAppointement(Appointement $appointement): self
+    {
+        if ($this->appointements->removeElement($appointement)) {
+            // set the owning side to null (unless already changed)
+            if ($appointement->getConsultant() === $this) {
+                $appointement->setConsultant(null);
             }
         }
 

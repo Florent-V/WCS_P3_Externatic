@@ -1,15 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Externatic{% endblock %}
+
 
 {% block body %}
     <header class="container">
         {{ render(controller('App\\Controller\\SearchBarController::searchBar')) }}
     </header>
-<main class="searchEngine">
-<div class="annoncesSample container-fluid-md d-flex flex-column flex-sm-row justify-content-around align-items-center flex-sm-wrap">
+<main class="search" {{ stimulus_controller('favoriteoffer') }}>
+<div class="row row-cols-xl-3 row-cols-md-2">
     {% for annonce in fetchedAnnonces %}
-        {%  include '_include/_card_result.html.twig' %}
+        <div class="col mt-4 cards-result">
+            {%  include '_include/_card_result.html.twig' %}
+        </div>
     {% endfor %}
     <div>
 </main>

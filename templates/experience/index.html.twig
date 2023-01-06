@@ -44,5 +44,10 @@
         {% endfor %}
         </tbody>
     </table>
+    <a href="{{ path('app_experience_new', {'type': 'experience'}) }}">Ajouter une nouvelle expérience</a>
+    <br>
+    <a href="{{ path('app_experience_new', {'type': 'formation'}) }}">Ajouter une nouvelle formation</a>
+    <br>
+    <a href="{{ path('app_candidat_profile') }}">Retour au profil</a>
 
 {% endblock %}

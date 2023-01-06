@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Appointement;
+use DateInterval;
+use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -37,6 +39,38 @@ class AppointementRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findAppoitmentList(int $consultantId, string $plage): array
+    {
+        $nbOfDaysUntilSunday = [0, 6, 5, 4, 3, 2, 1];
+
+        $today = new DateTimeImmutable();
+
+        $intervalUntilSunday = new DateInterval('P' .
+            $nbOfDaysUntilSunday[$today->format('w')] . "D");
+        $sundayMidnight = $today->add($intervalUntilSunday)->setTime(23, 59);
+
+        $nextMonth = $today->add(new DateInterval('P1M'))->setTime(23, 59);
+
+        $queryBuilder = $this->createQueryBuilder('a')
+            ->andWhere('a.consultant = :consultantId')
+            ->setParameter('consultantId', $consultantId);
+        if ($plage === "thisWeek") {
+            $queryBuilder->andWhere("a.date >= :date1")
+                ->setParameter('date1', $today)
+                ->andWhere("a.date <= :date2")
+                ->setParameter("date2", $sundayMidnight);
+        } elseif ($plage === "thisMonth") {
+            $queryBuilder->andWhere("a.date > :date1")
+                ->setParameter('date1', $sundayMidnight)
+                ->andWhere("a.date <= :date2")
+                ->setParameter("date2", $nextMonth);
+        }
+        $queryBuilder->orderBy('a.date', 'ASC');
+        $query = $queryBuilder->getQuery();
+
+        return $query->getResult();
     }
 
 //    /**
