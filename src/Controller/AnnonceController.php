@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Annonce;
+use App\Entity\Company;
 use App\Entity\User;
 use App\Entity\Message;
 use App\Entity\RecruitmentProcess;
@@ -85,6 +86,22 @@ class AnnonceController extends AbstractController
 
         return $this->render('annonce/favorites.html.twig', [
             'fetchedAnnonces' => $candidat->getFavoriteOffers()
+        ]);
+    }
+
+    #[Route('/company/{id}', name:'show_by_company', methods: ['GET'])]
+    public function showAnnonceByCompany(
+        UserInterface $user,
+        Company $company,
+        AnnonceRepository $annonceRepository
+    ): Response {
+
+        return $this->render('annonce/favorites.html.twig', [
+            'fetchedAnnonces' => $annonceRepository->findBy(
+                [
+                    'company' => $company
+                ]
+            )
         ]);
     }
 

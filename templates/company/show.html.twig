@@ -3,7 +3,7 @@
 {% block title %}Company{% endblock %}
 
 {% block body %}
-    <h1>Company</h1>
+    <h1 {{ stimulus_controller('favoritecompany') }}>Company</h1>
 
     <table class="table">
         <tbody>
@@ -53,6 +53,11 @@
             </tr>
         </tbody>
     </table>
-    <a class="btn btn-primary" href="">Mettre l'entreprise en favoris</a>
+    {% if is_granted("ROLE_CANDIDAT") %}
+        <a href="{{ path('app_company_add_favorite', {id: company.id}) }}" id="fav-company" class="btn btn-primary fav-icon mt-2">
+            <span>{{ app.user.candidat.isCompanyFavorite(company) ? 'Retirer l\'entreprise des favoris' : 'Mettre l\'entreprise en favoris' }}</span>
+            <i class="bi {{ app.user.candidat.isCompanyFavorite(company) ? 'bi-heart-fill' : 'bi-heart' }}"></i>
+        </a>
+    {% endif %}
 
 {% endblock %}
