@@ -33,9 +33,6 @@ class CandidatForm extends AbstractController
     #[LiveAction]
     public function save(EntityManagerInterface $entityManager): void
     {
-        // shortcut to submit the form with form values
-        // if any validation fails, an exception is thrown automatically
-        // and the component will be re-rendered with the form errors
         $this->submitForm();
         $candidat = $this->getFormInstance()->getData();
         $entityManager->persist($candidat);
