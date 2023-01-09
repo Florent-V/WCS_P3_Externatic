@@ -17,6 +17,7 @@ use App\Repository\CandidatRepository;
 use App\Repository\MessageRepository;
 use App\Repository\RecruitmentProcessRepository;
 use DateTime;
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,12 +31,21 @@ use function PHPUnit\Framework\isEmpty;
 class AnnonceController extends AbstractController
 {
     #[Route('/search/results', name: 'search_results')]
-    public function index(Request $request, AnnonceRepository $annonceRepository): Response
-    {
+    public function index(
+        Request $request,
+        AnnonceRepository $annonceRepository,
+        PaginatorInterface $paginator
+    ): Response {
         $fetchedAnnonces = $annonceRepository->annonceFinder($request->get('form'));
 
+        $paginatedAnnonces = $paginator->paginate(
+            $fetchedAnnonces,
+            $request->query->getInt('page', 1),
+            12
+        );
+
         return $this->render('annonce/results.html.twig', [
-            'fetchedAnnonces' => $fetchedAnnonces
+            'paginatedAnnonces' => $paginatedAnnonces
         ]);
     }
 
