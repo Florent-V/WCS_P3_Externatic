@@ -5,6 +5,8 @@ namespace App\Controller\Admin;
 use App\Entity\Company;
 use App\Form\CompanyType;
 use App\Repository\CompanyRepository;
+use Exception;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +18,7 @@ class CompanyController extends AbstractController
     #[Route('/', name: 'app_company_index', methods: ['GET'])]
     public function index(CompanyRepository $companyRepository): Response
     {
-        return $this->render('company/index.html.twig', [
+        return $this->render('admin/company/index.html.twig', [
             'companies' => $companyRepository->findAll(),
         ]);
     }
@@ -31,10 +33,10 @@ class CompanyController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $companyRepository->save($company, true);
 
-            return $this->redirectToRoute('app_company_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_app_company_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('company/new.html.twig', [
+        return $this->renderForm('admin/company/new.html.twig', [
             'company' => $company,
             'form' => $form,
         ]);
@@ -57,10 +59,10 @@ class CompanyController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $companyRepository->save($company, true);
 
-            return $this->redirectToRoute('app_company_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_app_company_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('company/edit.html.twig', [
+        return $this->renderForm('admin/company/edit.html.twig', [
             'company' => $company,
             'form' => $form,
         ]);
@@ -70,9 +72,12 @@ class CompanyController extends AbstractController
     public function delete(Request $request, Company $company, CompanyRepository $companyRepository): Response
     {
         if ($this->isCsrfTokenValid('delete' . $company->getId(), $request->request->get('_token'))) {
-            $companyRepository->remove($company, true);
+            try {
+                $companyRepository->remove($company, true);
+            } catch (Exception $e) {
+                $this->addFlash('danger', $e->getMessage());
+            }
         }
-
-        return $this->redirectToRoute('app_company_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('admin_app_company_index', [], Response::HTTP_SEE_OTHER);
     }
 }
