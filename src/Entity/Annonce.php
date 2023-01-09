@@ -61,7 +61,7 @@ class Annonce
     #[ORM\OneToMany(mappedBy: 'annonce', targetEntity: RecruitmentProcess::class, orphanRemoval: true)]
     private Collection $recrutementProcesses;
 
-    #[ORM\ManyToMany(targetEntity: Techno::class, inversedBy: 'annonces')]
+    #[ORM\ManyToMany(targetEntity: Techno::class, inversedBy: 'annonces', cascade:['persist'])]
     private Collection $techno;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]

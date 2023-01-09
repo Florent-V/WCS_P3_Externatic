@@ -1,0 +1,53 @@
+<div {{ attributes }}>
+    {{ form_start(form) }}
+    {{ form_row(form.title) }}
+    <div>Salaire</div>
+    <div class="d-flex flex-row">
+        {{ form_widget(form.salaryMin) }}
+        {{ form_widget(form.salaryMax) }}
+    </div>
+    {#    {{ form_row(form.contractType) }} #}
+    {{ form_row(form.studyLevel) }}
+    {{ form_row(form.workTime) }}
+    {{ form_row(form.company) }}
+    {{ form_row(form.remote) }}
+    {{ form_row(form.endingAt) }}
+    {{ form_row(form.description) }}
+
+    <fieldset>
+        {{ form_label(form.techno) }}
+        <ul>
+            {% for techno in form.techno %}
+            <li>
+                <div class="input-group mb-3">
+                    {{ form_widget(techno.name) }}
+                    <div class="input-group-append">
+                        <button
+                            class="btn btn-outline-secondary"
+                            type="button"
+                            data-action="live#action"
+                            data-action-name="removeTechno(index={{ loop.index }})"
+                        >Remove
+                        </button>
+
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </fieldset>
+    {% endfor %}
+
+    <button
+        type="button"
+        class="btn btn-primary"
+        data-action="live#action"
+        data-action-name="addTechno()"
+    >Ajouter Techno
+    </button>
+
+    {% if is_granted(['ROLE_ADMIN']) %}
+        {{ form_row(form.author) }}
+    {% endif %}
+
+    {{ form_end(form) }}
+</div>

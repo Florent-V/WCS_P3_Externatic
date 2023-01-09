@@ -94,7 +94,6 @@ class CandidatController extends AbstractController
     #[Route('/complete', name: 'app_candidat_complete', methods: ['GET', 'POST'])]
     public function complete(): Response
     {
-
         return $this->renderForm('candidat/complete.html.twig');
     }
 }

@@ -63,15 +63,23 @@ class AnnonceController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $date = new DateTime();
             $annonce->setCreatedAt($date);
-            //$annonce->setAuthor();
+            /**
+             * @var ?User $user
+             */
+            $user = $this->getUser();
+            $annonce->setAuthor($user->getConsultant());
+
+            //A SUPPRIMER IMPERATIVEMENT
+            $annonce->setContractType("CDD");
+
             $annonceRepository->save($annonce, true);
             $this->addFlash('success', 'Annonce en ligne');
-            foreach ($userRepository->findByRole('ROLE_CANDIDAT') as $user) {
+            foreach ($userRepository->findByRole('ROLE_CANDIDAT') as $candidat) {
                 $notification = new Notif();
                 $notification->setContent($annonce->getTitle());
                 $notification->setType('newAnnonce');
                 $notification->setCreatedAt(new DateTime('now'));
-                $notification->setUser($user);
+                $notification->setUser($candidat);
                 $notification->setParameter($annonce->getId());
                 $notification->setWasRead(false);
                 $notifRepository->save($notification, true);
@@ -84,6 +92,8 @@ class AnnonceController extends AbstractController
             'form' => $form,
             ]);
     }
+
+
 
     #[Route('/{id}/favorite', name:'add_favorite', methods: ['GET'])]
     public function addToFavorite(
@@ -200,6 +210,18 @@ class AnnonceController extends AbstractController
             'annonce' => $annonce,
             'form' => $form,
             'recruProcessActuel' => $recruProcessActuel,
+        ]);
+    }
+
+
+    #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
+    public function edit(Annonce $annonce, Request $request): response
+    {
+        $form = $this->createForm(AnnonceType::class, $annonce);
+        $form->handleRequest($request);
+        return $this->renderForm('annonce/edit.html.twig', [
+            'annonce' => $annonce,
+            'form' => $form,
         ]);
     }
 }
