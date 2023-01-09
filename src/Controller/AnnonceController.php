@@ -221,18 +221,11 @@ class AnnonceController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /**
-             * @var ?User $user
-             */
-            $user = $this->getUser();
-            $annonce->setAuthor($user->getConsultant());
-
             $annonceRepository->save($annonce, true);
             $this->addFlash('success', 'Annonce modifiée');
 
             return $this->redirectToRoute('annonce_show', ['id' => $annonce->getId() ]);
         }
-
 
         return $this->renderForm('annonce/edit.html.twig', [
             'annonce' => $annonce,
