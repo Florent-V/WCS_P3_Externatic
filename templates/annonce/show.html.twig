@@ -9,6 +9,7 @@
                 <h1 class="mt-2"><strong>{{ annonce.title }}</strong></h1>
                 <div class="d-flex justify-content-center">
                     <h2 class="name_company d-inline-block align-items-center m-0">{{ annonce.company.name }}</h2>
+                    <a href="{{ path('annonce_add_favorite', {id: annonce.id}) }}"><button class="fav-button rounded bg-primary"> Mettre en favoris</button></a>
                     <p class="created_at d-flex align-items-center m-0">Posté
                         le {{ annonce.createdAt|date('d-m-Y') }}</p>
                 </div>
