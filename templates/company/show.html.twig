@@ -58,6 +58,23 @@
             <span>{{ app.user.candidat.isCompanyFavorite(company) ? 'Retirer l\'entreprise des favoris' : 'Mettre l\'entreprise en favoris' }}</span>
             <i class="bi {{ app.user.candidat.isCompanyFavorite(company) ? 'bi-heart-fill' : 'bi-heart' }}"></i>
         </a>
+        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+             data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                {% if is_granted("ROLE_CANDIDAT") %}
+                    {% if recruProcessActuel == null %}
+                        {{ form(form) }}
+                    {% else %}
+                        <p>Vous avez déjà un processus en cours</p>
+                    {% endif %}
+                {% elseif is_granted("ROLE_CONSULTANT") %}
+                    <p>Encart réservé aux candidats - <a href="{{ path('consultant_board') }}">Retourner à votre
+                            tableau de bord</a></p>
+                {% else %}
+                    <a href="{{ path('app_login') }}">Il faut vous connecter pour postuler !</a>
+                {% endif %}
+            </div>
+        </div>
     {% endif %}
 
 {% endblock %}
