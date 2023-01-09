@@ -24,6 +24,10 @@ nav.navbar {
     }
 
     .logo {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         height: $navbarHeight - 2rem;
         @include media-breakpoint-up(md){
             height: $navbarHeight - 0.5rem;
