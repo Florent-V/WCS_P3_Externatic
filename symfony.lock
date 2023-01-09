@@ -140,6 +140,9 @@
     "gitonomy/gitlib": {
         "version": "v1.3.4"
     },
+    "knplabs/knp-paginator-bundle": {
+        "version": "v6.0.1"
+    },
     "laminas/laminas-code": {
         "version": "4.5.1"
     },
