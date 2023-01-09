@@ -93,4 +93,15 @@
             font-size: 2rem;
         }
     }
+    .techno-name{
+        overflow-wrap: break-word;
+        width: 65px;
+        margin-bottom: 0;
+        @include media-breakpoint-up(sm) {
+            width: 95px;
+        }
+        @include media-breakpoint-up(md) {
+            width: 110px;
+        }
+    }
 }
