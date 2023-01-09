@@ -215,10 +215,25 @@ class AnnonceController extends AbstractController
 
 
     #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
-    public function edit(Annonce $annonce, Request $request): response
+    public function edit(Annonce $annonce, Request $request, AnnonceRepository $annonceRepository): response
     {
         $form = $this->createForm(AnnonceType::class, $annonce);
         $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /**
+             * @var ?User $user
+             */
+            $user = $this->getUser();
+            $annonce->setAuthor($user->getConsultant());
+
+            $annonceRepository->save($annonce, true);
+            $this->addFlash('success', 'Annonce modifiée');
+
+            return $this->redirectToRoute('annonce_show', ['id' => $annonce->getId() ]);
+        }
+
+
         return $this->renderForm('annonce/edit.html.twig', [
             'annonce' => $annonce,
             'form' => $form,
