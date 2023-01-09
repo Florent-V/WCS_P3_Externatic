@@ -36,6 +36,6 @@ class AnnonceForm extends AbstractController
     #[LiveAction]
     public function removeTechno(#[liveArg] int $index): void
     {
-        unset($this->formValues['actors'][$index]);
+        unset($this->formValues['techno'][$index]);
     }
 }

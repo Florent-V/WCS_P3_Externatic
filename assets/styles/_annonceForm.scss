@@ -39,6 +39,10 @@
         border-radius:$border-radius;
         padding: .3rem 0 .3rem .3rem;
     }
+
+    ul li {
+        list-style: none;
+    }
 }
 
 .annonce-title {
