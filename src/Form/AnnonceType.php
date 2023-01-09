@@ -4,7 +4,6 @@ namespace App\Form;
 
 use App\Entity\Annonce;
 use App\Entity\ExternaticConsultant;
-use App\Entity\Techno;
 use App\Repository\AnnonceRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -57,7 +56,7 @@ class AnnonceType extends AbstractType
                 'row_attr' => ['class' => 'form-floating mb-3'],
             ])
 /*            ->add('contractType', ChoiceType::class, [
-//                'choices' => $this->fetchingContractTypes(),
+                'choices' => $this->fetchingContractTypes(),
                 'choices' => [],
                 'expanded' => true,
                 'multiple' => true,

@@ -223,7 +223,6 @@ class AnnonceController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $annonceRepository->save($annonce, true);
             $this->addFlash('success', 'Annonce modifiée');
-
             return $this->redirectToRoute('annonce_show', ['id' => $annonce->getId() ]);
         }
 

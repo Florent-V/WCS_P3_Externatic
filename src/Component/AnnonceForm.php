@@ -4,6 +4,8 @@ namespace App\Component;
 
 use App\Entity\Annonce;
 use App\Form\AnnonceType;
+use App\Repository\AnnonceRepository;
+use App\Repository\TechnoRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
@@ -19,8 +21,17 @@ class AnnonceForm extends AbstractController
     use DefaultActionTrait;
     use LiveCollectionTrait;
 
+    public function __construct(
+        private readonly TechnoRepository $technoRepository,
+        private readonly AnnonceRepository $annonceRepository
+    ) {
+    }
+
     #[LiveProp(fieldName: 'annonceField')]
     public ?Annonce $annonce = null;
+
+    #[LiveProp(writable: true)]
+    public ?string $search = null;
 
     protected function instantiateForm(): FormInterface
     {
@@ -28,14 +39,26 @@ class AnnonceForm extends AbstractController
     }
 
     #[LiveAction]
-    public function addTechno(): void
+    public function addTechno(#[liveArg] ?string $name): void
     {
-        $this->formValues['techno'][] = '';
+        if ($name) {
+            $techno = $this->technoRepository->findOneBy(['name' => $name]);
+            $this->annonce->addTechno($techno);
+            $this->annonceRepository->save($this->annonce, true);
+            $this->formValues['techno'][] = ['name' => $name];
+        } else {
+            $this->formValues['techno'][] = [''];
+        }
     }
 
     #[LiveAction]
     public function removeTechno(#[liveArg] int $index): void
     {
         unset($this->formValues['techno'][$index]);
+    }
+
+    public function getResults(): array
+    {
+        return $this->search ? $this->technoRepository->search($this->search) : [];
     }
 }

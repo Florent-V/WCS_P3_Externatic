@@ -21,17 +21,32 @@
                 <li>
                     <div class="input-group mb-3">
                         {{ form_widget(techno.name) }}
-                            <button
-                                class="btn btn-outline-secondary"
-                                type="button"
-                                data-action="live#action"
-                                data-action-name="removeTechno(index={{ key }})"
-                            >Remove
-                            </button>
+                        <button
+                            class="btn btn-outline-secondary"
+                            type="button"
+                            data-action="live#action"
+                            data-action-name="removeTechno(index={{ key }})"
+                        >Remove
+                        </button>
                     </div>
                 </li>
             {% endfor %}
         </ul>
+        <div class="mb-3">
+            <input type="search"
+                   class="form-control"
+                   data-model="search"
+            >
+            <div class="list-group">
+                {% for techno in this.results %}
+                    <button type="button"
+                            class="list-group-item list-group-item-action"
+                            data-action="live#action"
+                            data-action-name="addTechno(name={{ techno.name }})"
+                    >{{ techno.name }}</button>
+                {% endfor %}
+            </div>
+        </div>
     </fieldset>
 
 
