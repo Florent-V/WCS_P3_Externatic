@@ -6,13 +6,14 @@
     <header class="container">
         {{ render(controller('App\\Controller\\SearchBarController::searchBar')) }}
     </header>
-<main class="search" {{ stimulus_controller('favoriteoffer') }}>
-<div class="row row-cols-xl-3 row-cols-md-2">
-    {% for annonce in fetchedAnnonces %}
-        <div class="col mt-4 cards-result">
-            {%  include '_include/_card_result.html.twig' %}
+    <main class="search" {{ stimulus_controller('favoriteoffer') }}>
+        <div class="row row-cols-xl-3 row-cols-md-2">
+            {% for annonce in paginatedAnnonces %}
+                <div class="col mt-4 cards-result">
+                    {% include '_include/_card_result.html.twig' %}
+                </div>
+            {% endfor %}
         </div>
-    {% endfor %}
-    <div>
-</main>
+        <div class="conainer d-flex justify-content-center">{{ knp_pagination_render(paginatedAnnonces) }}</div>
+    </main>
 {% endblock %}
