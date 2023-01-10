@@ -42,10 +42,12 @@ class AnnonceForm extends AbstractController
     public function addTechno(#[liveArg] ?string $name): void
     {
         if ($name) {
-            $techno = $this->technoRepository->findOneBy(['name' => $name]);
-            $this->annonce->addTechno($techno);
-            $this->annonceRepository->save($this->annonce, true);
-            $this->formValues['techno'][] = ['name' => $name];
+            if (!is_null($this->annonce)) {
+                $techno = $this->technoRepository->findOneBy(['name' => $name]);
+                $this->annonce->addTechno($techno);
+                $this->annonceRepository->save($this->annonce, true);
+            }
+                $this->formValues['techno'][] = ['name' => $name];
         } else {
             $this->formValues['techno'][] = [''];
         }

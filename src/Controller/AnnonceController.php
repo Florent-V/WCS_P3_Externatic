@@ -63,11 +63,14 @@ class AnnonceController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $date = new DateTime();
             $annonce->setCreatedAt($date);
+
             /**
              * @var ?User $user
              */
             $user = $this->getUser();
-            $annonce->setAuthor($user->getConsultant());
+            if (in_array("ROLE_ADMIN", $user->getRoles())) {
+                $annonce->setAuthor($user->getConsultant());
+            }
 
             //A SUPPRIMER IMPERATIVEMENT
             $annonce->setContractType("CDD");
@@ -85,17 +88,16 @@ class AnnonceController extends AbstractController
                 $notifRepository->save($notification, true);
             }
 
-            return $this->redirectToRoute('annonce_show', ['id' => $annonce->getId() ]);
+            return $this->redirectToRoute('annonce_show', ['id' => $annonce->getId()]);
         }
         return $this->renderForm('annonce/new.html.twig', [
             'annonce' => $annonce,
             'form' => $form,
-            ]);
+        ]);
     }
 
 
-
-    #[Route('/{id}/favorite', name:'add_favorite', methods: ['GET'])]
+    #[Route('/{id}/favorite', name: 'add_favorite', methods: ['GET'])]
     public function addToFavorite(
         Annonce $annonce,
         CandidatRepository $candidatRepository
@@ -119,7 +121,7 @@ class AnnonceController extends AbstractController
         ]);
     }
 
-    #[Route('/favorite', name:'show_favorite', methods: ['GET'])]
+    #[Route('/favorite', name: 'show_favorite', methods: ['GET'])]
     public function showFavorites(
         UserInterface $user,
         CandidatRepository $candidatRepository
@@ -133,7 +135,7 @@ class AnnonceController extends AbstractController
         ]);
     }
 
-    #[Route('/company/{id}', name:'show_by_company', methods: ['GET'])]
+    #[Route('/company/{id}', name: 'show_by_company', methods: ['GET'])]
     public function showAnnonceByCompany(
         UserInterface $user,
         Company $company,
@@ -204,7 +206,7 @@ class AnnonceController extends AbstractController
         $recruProcessActuel = $recruitProcessRepo->findOneBy([
             "annonce" => $annonce,
             "candidat" => $candidat
-            ]);
+        ]);
 
         return $this->renderForm('annonce/show.html.twig', [
             'annonce' => $annonce,
@@ -215,6 +217,7 @@ class AnnonceController extends AbstractController
 
 
     #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_CONSULTANT')]
     public function edit(Annonce $annonce, Request $request, AnnonceRepository $annonceRepository): response
     {
         $form = $this->createForm(AnnonceType::class, $annonce);
@@ -223,7 +226,7 @@ class AnnonceController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $annonceRepository->save($annonce, true);
             $this->addFlash('success', 'Annonce modifiée');
-            return $this->redirectToRoute('annonce_show', ['id' => $annonce->getId() ]);
+            return $this->redirectToRoute('annonce_show', ['id' => $annonce->getId()]);
         }
 
         return $this->renderForm('annonce/edit.html.twig', [

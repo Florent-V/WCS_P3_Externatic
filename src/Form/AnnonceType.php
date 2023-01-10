@@ -55,19 +55,19 @@ class AnnonceType extends AbstractType
                 'attr' => ['placeholder' => 'Salaire Max'],
                 'row_attr' => ['class' => 'form-floating mb-3'],
             ])
-/*            ->add('contractType', ChoiceType::class, [
+            ->add('contractType', ChoiceType::class, [
                 'choices' => $this->fetchingContractTypes(),
                 'expanded' => true,
-                'multiple' => true,
+                'multiple' => false,
                 'attr' => ['class' => 'contracts']
-            ])*/
+            ])
             ->add('studyLevel', null, [
                 'label' => 'Niveau d\'étude',
                 'attr' => ['placeholder' => 'studyLevel'],
-                'row_attr' => ['class' => 'form-floating mb-3'],
+                'row_attr' => ['class' => 'form-floating mb-3 mt-3'],
             ])
             ->add('workTime', null, [
-                'label' => 'Durée',
+                'label' => 'Temps de travail',
                 'attr' => ['placeholder' => 'Durée'],
                 'row_attr' => ['class' => 'form-floating mb-3'],
             ])
@@ -107,8 +107,9 @@ class AnnonceType extends AbstractType
                     return $consultant->getUser()->getFirstname();
                 }
             ])
-            ->add('Save', SubmitType::class, [
+            ->add('save', SubmitType::class, [
                 'label' => 'Publier',
+                'row_attr' => ['class' => 'd-flex justify-content-center']
             ]);
         ;
     }

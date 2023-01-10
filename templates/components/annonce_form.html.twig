@@ -6,7 +6,7 @@
         {{ form_widget(form.salaryMin) }}
         {{ form_widget(form.salaryMax) }}
     </div>
-    {#    {{ form_row(form.contractType) }} #}
+    {{ form_row(form.contractType) }}
     {{ form_row(form.studyLevel) }}
     {{ form_row(form.workTime) }}
     {{ form_row(form.company) }}
@@ -52,15 +52,16 @@
 
     <button
         type="button"
-        class="btn btn-primary"
+        class="btn btn-primary mb-3"
         data-action="live#action"
         data-action-name="addTechno()"
     >Ajouter Techno
     </button>
 
-    {% if is_granted(['ROLE_ADMIN']) %}
+    {% if is_granted("ROLE_ADMIN") %}
         {{ form_row(form.author) }}
     {% endif %}
-
-    {{ form_end(form) }}
+    {{ form_row(form.save) }}
+    {{ form_widget(form._token) }}
+    {{ form_end(form, {'render_rest': false}) }}
 </div>
