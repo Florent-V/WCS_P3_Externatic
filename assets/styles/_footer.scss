@@ -17,6 +17,10 @@ footer {
 
     .link1 {
         text-align:center;
+
+        a{
+            color: white;
+        }
     }
 
     .social-media img {
@@ -25,7 +29,7 @@ footer {
 
         &:hover{
             border: 2px solid white;
-            border-radius: 20px;
+            border-radius: 50%;
         }
     }
 
