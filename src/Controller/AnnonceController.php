@@ -38,14 +38,14 @@ class AnnonceController extends AbstractController
     ): Response {
         $fetchedAnnonces = $annonceRepository->annonceFinder($request->get('form'));
 
-        $paginatedAnnonces = $paginator->paginate(
+        $annonces = $paginator->paginate(
             $fetchedAnnonces,
             $request->query->getInt('page', 1),
             12
         );
 
         return $this->render('annonce/results.html.twig', [
-            'paginatedAnnonces' => $paginatedAnnonces
+            'annonces' => $annonces
         ]);
     }
 
