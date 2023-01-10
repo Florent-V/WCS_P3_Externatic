@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SearchProfile{% endblock %}
+
+{% block body %}
+    <h1>SearchProfile</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ search_profile.id }}</td>
+            </tr>
+            <tr>
+                <th>SalaryMax</th>
+                <td>{{ search_profile.salaryMax }}</td>
+            </tr>
+            <tr>
+                <th>SalaryMin</th>
+                <td>{{ search_profile.salaryMin }}</td>
+            </tr>
+            <tr>
+                <th>WorkTime</th>
+                <td>{{ search_profile.workTime }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ search_profile.title }}</td>
+            </tr>
+            <tr>
+                <th>IsRemote</th>
+                <td>{{ search_profile.isRemote ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_search_profile_index') }}">back to list</a>
+
+    <a href="{{ path('app_search_profile_edit', {'id': search_profile.id}) }}">edit</a>
+
+    {{ include('search_profile/_delete_form.html.twig') }}
+{% endblock %}

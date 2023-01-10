@@ -14,6 +14,11 @@
                 </div>
             {% endfor %}
         </div>
-        <div class="conainer d-flex justify-content-center">{{ knp_pagination_render(paginatedAnnonces) }}</div>
+        <div class="container d-flex justify-content-center">{{ knp_pagination_render(paginatedAnnonces) }}</div>
+        <form action="{{ path('app_search_profile_new') }}" method="post">
+            <input name="research" type="hidden" value="{{ app.request.get('form')|json_encode }}">
+            <button id="" type="submit">Sauvegarder</button>
+        </form>
+        {{ dump(app.request.get('form')) }}
     </main>
 {% endblock %}
