@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
@@ -95,11 +96,12 @@ class AnnonceType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false
-                    ])
-            ->add('description', CKEditorType::class, [
-                'config_name' => 'light',
-                'config' => ['editorplaceholder' => "Décrivez votre annonce..."]
             ])
+            /*            ->add('description', CKEditorType::class, [
+                            'config_name' => 'light',
+                            'config' => ['editorplaceholder' => "Décrivez votre annonce..."]
+                        ])*/
+            ->add('description', TextAreaType::class, [])
             ->add('author', EntityType::class, [
                 'class' => ExternaticConsultant::class,
                 "required" => true,
