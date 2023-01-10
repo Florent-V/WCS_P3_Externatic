@@ -22,7 +22,14 @@ footer {
     .social-media img {
         height:2rem;
         margin:calc($spacer /2);
+
+        &:hover{
+            border: 2px solid white;
+            border-radius: 20px;
+        }
     }
+
+
 }
 
 
