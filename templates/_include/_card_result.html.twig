@@ -19,10 +19,10 @@
         <p class="rounded-1 bg-primary p-1 d-flex align-items-center justify-content-center">
             {% if annonce.remote %} Remote authorisé {% else %} présentiel {% endif %}</p>
         <p class="rounded-1 bg-primary p-1 d-flex align-items-center justify-content-center">{{ annonce.contractType }}</p>
-        <p class="rounded-1 bg-primary p-1 d-flex align-items-center justify-content-center">Heure de
-            travail: {{ annonce.workTime }}h</p>
+        <p class="rounded-1 bg-primary p-1 d-flex align-items-center justify-content-center">Temps de
+            travail : {{ annonce.workTime|date("%h") != 0 ? (annonce.workTime|date("%hh")) : "" }}{{ annonce.workTime|date("%i") != 0 ? (annonce.workTime|date("%i")) : "" }}</p>
         <p class="rounded-1 bg-primary p-1 d-flex align-items-center justify-content-center">Niveau
-            d'étude: {{ annonce.studyLevel }}</p>
+            d'étude : {{ annonce.studyLevel }}</p>
         <p class="rounded-1 bg-primary p-1 d-flex align-items-center justify-content-center third-line">{{ annonce.salaryMin }}
             € à {{ annonce.salaryMax }} €</p>
         <p class="rounded-1 bg-primary p-1 d-flex align-items-center justify-content-center third-line">

@@ -39,9 +39,6 @@ class Annonce
     private ?string $description = null;
 
     #[ORM\Column(nullable: true)]
-    private ?int $workTime = null;
-
-    #[ORM\Column(nullable: true)]
     private ?int $publicationStatus = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
@@ -72,6 +69,12 @@ class Annonce
 
     #[ORM\ManyToMany(targetEntity: Candidat::class, mappedBy: 'favoriteOffers')]
     private Collection $followers;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateInterval $contractDuration = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateInterval $workTime = null;
 
     public function __construct()
     {
@@ -165,18 +168,6 @@ class Annonce
     public function setDescription(string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getWorkTime(): ?int
-    {
-        return $this->workTime;
-    }
-
-    public function setWorkTime(?int $workTime): self
-    {
-        $this->workTime = $workTime;
 
         return $this;
     }
@@ -342,6 +333,30 @@ class Annonce
         if ($this->followers->removeElement($follower)) {
             $follower->removeFromFavoriteOffer($this);
         }
+
+        return $this;
+    }
+
+    public function getContractDuration(): ?\DateInterval
+    {
+        return $this->contractDuration;
+    }
+
+    public function setContractDuration(?\DateInterval $contractDuration): self
+    {
+        $this->contractDuration = $contractDuration;
+
+        return $this;
+    }
+
+    public function getWorkTime(): ?\DateInterval
+    {
+        return $this->workTime;
+    }
+
+    public function setWorkTime(?\DateInterval $workTime): self
+    {
+        $this->workTime = $workTime;
 
         return $this;
     }

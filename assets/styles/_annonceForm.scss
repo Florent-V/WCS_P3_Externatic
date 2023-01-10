@@ -43,6 +43,20 @@
     ul li {
         list-style: none;
     }
+
+    #annonce_contractDuration {
+        display:flex;
+        border:1px solid $light;
+        border-radius:$border-radius;
+        padding: .3rem 0 .3rem .3rem;
+    }
+
+    #annonce_workTime {
+        display:flex;
+        border:1px solid $light;
+        border-radius:$border-radius;
+        padding: .3rem 0 .3rem .3rem;
+    }
 }
 
 .annonce-title {

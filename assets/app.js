@@ -21,19 +21,9 @@ function alertCounter()
 {
     const alerts = document.getElementsByClassName("alert");
     for (let alert of alerts) {
-        if (alertTimeCounter === 5) {
-            alert.textContent += " || suppression dans";
-            const compteur = alert.appendChild(document.createElement('span')).innerHTML = `${alertTimeCounter--} secondes`;
-            setTimeout(alertCounter, 1000);
-        } /*elseif (alertTimeCounter === 0){
-            alert.remove();
-            setTimeout(alertCounter, 1000)
-        } else {
-        alert:last-child.
-        setTimeout(alertCounter, 1000)
-        }
-        */
+        alert.textContent += " || suppression dans 5 secondes";
+        setTimeout(function () {
+            alert.remove(); }, 5000)
     }
 }
-let alertTimeCounter = 5;
 alertCounter();

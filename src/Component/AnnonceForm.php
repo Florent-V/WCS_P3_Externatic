@@ -14,6 +14,7 @@ use Symfony\UX\LiveComponent\Attribute\LiveArg;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 use Symfony\UX\LiveComponent\LiveCollectionTrait;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[AsLiveComponent("annonce_form")]
 class AnnonceForm extends AbstractController
@@ -28,6 +29,7 @@ class AnnonceForm extends AbstractController
     }
 
     #[LiveProp(fieldName: 'annonceField')]
+    #[Assert\Valid]
     public ?Annonce $annonce = null;
 
     #[LiveProp(writable: true)]
@@ -42,12 +44,11 @@ class AnnonceForm extends AbstractController
     public function addTechno(#[liveArg] ?string $name): void
     {
         if ($name) {
-            if (!is_null($this->annonce)) {
-                $techno = $this->technoRepository->findOneBy(['name' => $name]);
-                $this->annonce->addTechno($techno);
-                $this->annonceRepository->save($this->annonce, true);
-            }
-                $this->formValues['techno'][] = ['name' => $name];
+            $this->annonceRepository->save($this->annonce, true);
+            $techno = $this->technoRepository->findOneBy(['name' => $name]);
+            $this->annonce->addTechno($techno);
+            $this->annonceRepository->save($this->annonce, true);
+            $this->formValues['techno'][] = ['name' => $name];
         } else {
             $this->formValues['techno'][] = [''];
         }

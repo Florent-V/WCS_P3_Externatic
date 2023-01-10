@@ -9,6 +9,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\DateIntervalType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -53,6 +54,7 @@ class AnnonceType extends AbstractType
             ])
             ->add('salaryMax', MoneyType::class, [
                 'label' => 'Salaire Max',
+                'required' => false,
                 'attr' => ['placeholder' => 'Salaire Max'],
                 'row_attr' => ['class' => 'form-floating mb-3'],
             ])
@@ -62,15 +64,26 @@ class AnnonceType extends AbstractType
                 'multiple' => false,
                 'attr' => ['class' => 'contracts']
             ])
+            ->add('contractDuration', DateIntervalType::class, [
+                'label' => "Durée du contrat",
+                'with_years' => true,
+                'with_months' => true,
+                'with_days' => true,
+                'with_hours' => false,
+            ])
             ->add('studyLevel', null, [
                 'label' => 'Niveau d\'étude',
                 'attr' => ['placeholder' => 'studyLevel'],
                 'row_attr' => ['class' => 'form-floating mb-3 mt-3'],
             ])
-            ->add('workTime', null, [
-                'label' => 'Temps de travail',
-                'attr' => ['placeholder' => 'Durée'],
-                'row_attr' => ['class' => 'form-floating mb-3'],
+            ->add('workTime', DateIntervalType::class, [
+                'label' => 'Durée hebdomadaire',
+                'with_years' => false,
+                'with_months' => false,
+                'with_days' => false,
+                'with_hours' => true,
+                'with_minutes' => true,
+                'hours' => range(1, 50),
             ])
             ->add('company', null, [
                 'choice_label' => 'name',
@@ -97,11 +110,11 @@ class AnnonceType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false
             ])
-            /*            ->add('description', CKEditorType::class, [
-                            'config_name' => 'light',
-                            'config' => ['editorplaceholder' => "Décrivez votre annonce..."]
-                        ])*/
-            ->add('description', TextAreaType::class, [])
+            ->add('description', CKEditorType::class, [
+                'attr' => ['data-ckeditor' => true],
+                'config_name' => 'light',
+                'config' => ['editorplaceholder' => "Décrivez votre annonce..."]
+            ])
             ->add('author', EntityType::class, [
                 'class' => ExternaticConsultant::class,
                 "required" => true,
