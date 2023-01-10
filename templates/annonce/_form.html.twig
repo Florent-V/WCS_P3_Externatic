@@ -1,4 +1,4 @@
-<div class="form-annonce">
+<div class="form-annonce" {{ stimulus_controller('annonce_form') }}>
 
     {{  component('annonce_form', {
         annonce: annonce.id ? annonce : null
