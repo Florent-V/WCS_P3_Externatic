@@ -28,7 +28,7 @@
                 <td>{{ company.id }}</td>
                 <td>{{ company.siret }}</td>
                 <td>{{ company.name }}</td>
-                <td>{{ company.logo }}</td>
+                <td><img style="height: 100px" src="{{ vich_uploader_asset(company) }}" alt="{{ company.name }}"</td>
                 <td>{{ company.zipCode }}</td>
                 <td>{{ company.address }}</td>
                 <td>{{ company.city }}</td>
@@ -37,8 +37,8 @@
                 <td>{{ company.size }}</td>
                 <td>{{ company.information }}</td>
                 <td>
-                    <a href="{{ path('app_company_show', {'id': company.id}) }}">show</a>
-                    <a href="{{ path('app_company_edit', {'id': company.id}) }}">edit</a>
+                    <a href="{{ path('admin_app_company_show', {'id': company.id}) }}">show</a>
+                    <a href="{{ path('admin_app_company_edit', {'id': company.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -49,5 +49,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_company_new') }}">Create new</a>
+    <a href="{{ path('admin_app_company_new') }}">Create new</a>
 {% endblock %}

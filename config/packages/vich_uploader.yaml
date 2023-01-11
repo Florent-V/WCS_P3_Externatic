@@ -9,3 +9,8 @@ vich_uploader:
             uri_prefix: /uploads/images/logo
             upload_destination: '%upload_directory%images/logo/'
             namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+        logo_picture:
+            # alias qui nous permet d'accéder à nos images depuis le navigateur
+            uri_prefix: /uploads/images/company
+            upload_destination: '%upload_directory%images/company/'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
