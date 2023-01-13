@@ -2,13 +2,18 @@
 
 {% block body %}
     <a href="{{ path("annonce_search_results") }}" class="ms-4">Retours aux offres</a>
-    <main class="show_annonce">
+    <main class="show_annonce" {{ stimulus_controller('favoriteoffer') }}>
         <div class="d-flex">
             <img src="{{ annonce.picture }}" alt="logo de l'entreprise" class="ms-5 logo">
             <div class="w-100 d-flex flex-column justify-content-center">
                 <h1 class="mt-2"><strong>{{ annonce.title }}</strong></h1>
                 <div class="d-flex justify-content-center">
-                    <h2 class="name_company d-inline-block align-items-center m-0">{{ annonce.company.name }}</h2>
+                    <a href="{{ path('app_company_show', {'id': annonce.company.id}) }}"><h2 class="name_company d-inline-block align-items-center m-0 text-dark">{{ annonce.company.name }}</h2></a>
+                    {% if is_granted("ROLE_CANDIDAT") %}
+                        <a href="{{ path('annonce_add_favorite', {id: annonce.id}) }}" class="fav-offer btn btn-primary fav-button">
+                            <i class="bi {{ app.user.candidat.isInFavorite(annonce) ? 'bi-bookmark-fill' : 'bi-bookmark' }}"></i>
+                        </a>
+                    {% endif %}
                     <p class="created_at d-flex align-items-center m-0">Posté
                         le {{ annonce.createdAt|date('d-m-Y') }}</p>
                 </div>
