@@ -54,21 +54,7 @@ class SearchProfileController extends AbstractController
         $user = $this->getUser();
         $searchProfile->setCandidat($user->getCandidat());
         $searchProfileRepo->save($searchProfile, true);
-        //dd(json_decode($request->request->get('research')));
-//        $searchProfile = new SearchProfile();
-//        $form = $this->createForm(SearchProfileType::class, $searchProfile);
-//        $form->handleRequest($request);
-//
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            $searchProfileRepo->save($searchProfile, true);
-//
-//            return $this->redirectToRoute('app_search_profile_index', [], Response::HTTP_SEE_OTHER);
-//        }
-//
-//        return $this->renderForm('search_profile/new.html.twig', [
-//            'search_profile' => $searchProfile,
-//            'form' => $form,
-//        ]);
+
 
         return $this->redirectToRoute('annonce_search_results');
     }
