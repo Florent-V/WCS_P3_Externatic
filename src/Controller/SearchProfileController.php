@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\SearchProfile;
 use App\Entity\User;
 use App\Form\SearchProfileType;
+use App\Repository\AnnonceRepository;
 use App\Repository\SearchProfileRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\InputBag;
 use Symfony\Component\HttpFoundation\Request;
@@ -72,11 +74,33 @@ class SearchProfileController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_search_profile_show', methods: ['GET'])]
-    public function show(SearchProfile $searchProfile): Response
-    {
-        return $this->render('search_profile/show.html.twig', [
-            'search_profile' => $searchProfile,
+    public function show(
+        Request $request,
+        SearchProfile $searchProfile,
+        AnnonceRepository $annonceRepository,
+        PaginatorInterface $paginator
+    ): Response {
+
+        dump(json_decode($searchProfile->getSearchQuery(), true));
+        $request->query->set('form', json_decode($searchProfile->getSearchQuery(), true));
+
+        $fetchedAnnonces = $annonceRepository->annonceFinder($request->get('form'));
+
+        $paginatedAnnonces = $paginator->paginate(
+            $fetchedAnnonces,
+            $request->query->getInt('page', 1),
+            12
+        );
+
+        return $this->render('annonce/results.html.twig', [
+            'paginatedAnnonces' => $paginatedAnnonces
         ]);
+
+
+
+//        return $this->render('search_profile/show.html.twig', [
+//            'search_profile' => $searchProfile,
+//        ]);
     }
 
 
