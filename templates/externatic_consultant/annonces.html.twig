@@ -8,6 +8,12 @@
         {% for annonce in annonces %}
             <article class="m-3 p-2">
                 <div class="accordion container" id="accordionExample-{{ loop.index }}">
+                    {% if date(annonce.endingAt) <= date() %}
+                        <div class="d-flex justify-content-center font-italic bg-warning">
+                            <div class="font-italic text-muted"> - Annonce désativée - </div>
+                            <div> <a href="{{ path('annonce_show', {"id": annonce.id}) }}"> Changer la date de fin</a> ou  <a href="{{ path('annonce_show', {"id": annonce.id}) }}"> Dupliquer l'annonce</a></div>
+                        </div>
+                    {% endif %}
                     <div class="d-flex justify-content-between">
                         <div><img src="{{ annonce.picture }}" alt="logo of an enterprise"/> {{ annonce.company.name }}</div>
                         <div><a href="{{ path('annonce_show', {"id": annonce.id}) }}"><strong>{{ annonce.title }}</strong></a> <small>- jusqu'au {{ annonce.endingAt|format_datetime('full', 'none', locale='fr') }}</small></div>

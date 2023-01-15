@@ -6,13 +6,14 @@ use App\Entity\User;
 use App\Repository\AnnonceRepository;
 use App\Repository\AppointementRepository;
 use App\Repository\MessageRepository;
+use DateTime;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/consultant', name:"consultant_")]
+#[Route('/consultant', name: "consultant_")]
 class ExternaticConsultantController extends AbstractController
 {
     #[Route('/board', name: 'board')]
@@ -26,7 +27,7 @@ class ExternaticConsultantController extends AbstractController
         $weekAppointments = $appointRepository->findAppoitmentList($user->getConsultant()->getId(), "thisWeek");
         $otherAppointments = $appointRepository->findAppoitmentList($user->getConsultant()->getId(), "thisMonth");
 
-        $messages = $messageRepository->findBy(["sendTo" => $user ], ["date" => 'DESC'], 10);
+        $messages = $messageRepository->findBy(["sendTo" => $user], ["date" => 'DESC'], 10);
 
         return $this->render('externatic_consultant/board.html.twig', [
             'controller_name' => 'ExternaticConsultantController',
@@ -46,6 +47,16 @@ class ExternaticConsultantController extends AbstractController
          * @var User $user
          */
         $user = $this->getUser();
+
+/*        $queryBuilder = $annonceRepository->createQueryBuilder('a')
+            ->andWhere('a.publicationStatus = 1')
+            ->andWhere('a.endingAt <= :today')
+            ->setParameter('today', new Datetime())
+            ->join("a.author", "c")
+            ->andWhere("c.id = " . $user->getConsultant()->getId())
+            ->orderBy('a.date', 'ASC');
+        $fetchedAnnonces = $queryBuilder->getQuery()->getResult();*/
+
         $fetchedAnnonces = $annonceRepository->findBy([
             'author' => $user->getConsultant(),
             'publicationStatus' => 1
