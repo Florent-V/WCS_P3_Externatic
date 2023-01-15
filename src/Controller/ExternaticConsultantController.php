@@ -48,15 +48,6 @@ class ExternaticConsultantController extends AbstractController
          */
         $user = $this->getUser();
 
-/*        $queryBuilder = $annonceRepository->createQueryBuilder('a')
-            ->andWhere('a.publicationStatus = 1')
-            ->andWhere('a.endingAt <= :today')
-            ->setParameter('today', new Datetime())
-            ->join("a.author", "c")
-            ->andWhere("c.id = " . $user->getConsultant()->getId())
-            ->orderBy('a.date', 'ASC');
-        $fetchedAnnonces = $queryBuilder->getQuery()->getResult();*/
-
         $fetchedAnnonces = $annonceRepository->findBy([
             'author' => $user->getConsultant(),
             'publicationStatus' => 1

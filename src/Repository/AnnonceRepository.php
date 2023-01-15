@@ -49,12 +49,16 @@ class AnnonceRepository extends ServiceEntityRepository
 
     public function annonceFinder(mixed $searchInformations): array
     {
+        $now = new DateTime();
         $searchInformations['searchQuery'] ??= '';
         $queryBuilder = $this->createQueryBuilder('a')
             ->distinct()
             ->andWhere('a.title LIKE :searchQuery')
             ->setParameter('searchQuery', '%' . $searchInformations['searchQuery'] . '%')
-            ->andWhere('a.publicationStatus = 1');
+            ->andWhere('a.publicationStatus = 1')
+            ->andWhere('a.endingAt <= :now OR a.endingAt = :test')
+            ->setParameter('now', $now->format("Y-m-d 23:59:59"))
+            ->setParameter('test', null);
 
         //Minimum Salary and remote
         $this->getSalaryAndRemoteQuery($queryBuilder, $searchInformations);

@@ -35,7 +35,9 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
                 $annonce->setDescription("descr-ann/ " . $faker->paragraphs(3, true));
                 $annonce->setWorkTime($faker->numberBetween(15, 39));
                 $annonce->setPublicationStatus($faker->numberBetween(0, 1));
-                $annonce->setCreatedAt($faker->dateTimeThisMonth());
+                $creatingDate = $faker->dateTimeThisMonth();
+                $annonce->setCreatedAt($creatingDate);
+                $annonce->setEndingAt($faker->dateTimeInInterval($creatingDate, '+3 months'));
                 $annonce->setCompany($this->getReference('company_' . $i));
                 $annonce->setAuthor($this->getReference('consultant_' .
                     $faker->numberBetween(1, ExternaticConsultantFixtures::$consultantIndex)));
