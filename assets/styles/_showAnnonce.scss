@@ -60,6 +60,12 @@
         }
     }
 
+    .fav-button{
+        position: absolute;
+        right: 1rem;
+        top: 6rem;
+    }
+
     .logo{
         display: none;
         @include media-breakpoint-up(sm) {
