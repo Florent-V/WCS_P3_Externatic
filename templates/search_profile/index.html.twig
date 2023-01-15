@@ -3,10 +3,13 @@
 {% block title %}SearchProfile index{% endblock %}
 
 {% block body %}
-    <h1>SearchProfile index</h1>
 
-    <table class="table">
-        <thead>
+    <main>
+        <h1>Mes recherches</h1>
+
+
+        <table class="table">
+            <thead>
             <tr>
                 <th>Recherche</th>
                 <th>Remote</th>
@@ -18,39 +21,41 @@
                 <th>Techno</th>
                 <th>Action</th>
             </tr>
-        </thead>
-        <tbody>
-        {% for search_profile in searchProfiles %}
-            <tr>
-                <td>{{ results[loop.index].searchQuery }}</td>
-                <td>{{ results[loop.index].remote ? 'Yes' : 'No' }}</td>
-                <td>{{ results[loop.index].workTime }}</td>
-                <td>{{ results[loop.index].period }}</td>
-                <td>{{ results[loop.index].company }}</td>
-                <td>{{ results[loop.index].salaryMin }}</td>
-                <td>
-                    {% for contract in results[loop.index].contractType %}
-                        <span>{{ contract }}</span>
-                    {% endfor %}
-                </td>
-                <td>
-                    {% for name in results[loop.index].techno %}
-                        <span>{{ name }}</span>
-                    {% endfor %}
-                </td>
-                <td>
-                    <a href="{{ path('app_search_profile_show', {'id': search_profile.id}) }}">show</a>
-                    {{ include('search_profile/_delete_form.html.twig') }}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for search_profile in searchProfiles %}
+
+                <tr>
+                    <td>{{ queries[loop.index].searchQuery }}</td>
+                    <td>{{ queries[loop.index].remote ? 'Yes' : 'No' }}</td>
+                    <td>{{ queries[loop.index].workTime }}</td>
+                    <td>{{ queries[loop.index].period }}</td>
+                    <td>{{ queries[loop.index].company }}</td>
+                    <td>{{ queries[loop.index].salaryMin }}</td>
+                    <td>
+                        {% for contract in queries[loop.index].contractType %}
+                            <span>{{ contract }}</span>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for name in queries[loop.index].techno %}
+                            <span>{{ name }}</span>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <a href="{{ path('app_search_profile_show', {'id': search_profile.id}) }}">show</a>
+                        {{ include('search_profile/_delete_form.html.twig') }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
 
-    <a href="{{ path('app_search_profile_new') }}">Create new</a>
+        <a href="{{ path('app_search_profile_new') }}">Create new</a>
+    </main>
 {% endblock %}

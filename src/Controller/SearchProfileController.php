@@ -29,13 +29,13 @@ class SearchProfileController extends AbstractController
             ['candidat' => $candidat]
         );
 
-        $results = [];
+        $queries = [];
         foreach ($searchProfiles as $profile) {
-            $results[] = json_decode($profile->getSearchQuery());
+            $queries[] = json_decode($profile->getSearchQuery());
         }
 
         return $this->render('search_profile/index.html.twig', [
-            'results' => $results,
+            'queries' => $queries,
             'searchProfiles' => $searchProfiles
         ]);
     }
