@@ -1,6 +1,6 @@
 .cards-result{
     .cardResult{
-        background-color: #f3f3f3 !important;
+        background-color: #f3f3f3;
         position: relative;
     }
     img{
@@ -39,5 +39,10 @@
     }
     .fav-offer {
         z-index: 10;
+    }
+    .cases p{
+        background-color: $purple;
+        color: $light;
+        text-transform: capitalize;
     }
 }
