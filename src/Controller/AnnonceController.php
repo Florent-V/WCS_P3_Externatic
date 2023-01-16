@@ -77,12 +77,12 @@ class AnnonceController extends AbstractController
 
             $annonceRepository->save($annonce, true);
             $this->addFlash('success', 'Annonce en ligne');
-            foreach ($userRepository->findByRole('ROLE_CANDIDAT') as $candidat) {
+            foreach ($userRepository->findByRole('ROLE_CANDIDAT') as $userCandidat) {
                 $notification = new Notif();
                 $notification->setContent($annonce->getTitle());
                 $notification->setType('newAnnonce');
                 $notification->setCreatedAt(new DateTime('now'));
-                $notification->setUser($candidat);
+                $notification->setUser($userCandidat);
                 $notification->setParameter($annonce->getId());
                 $notification->setWasRead(false);
                 $notifRepository->save($notification, true);
