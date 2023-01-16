@@ -4,15 +4,25 @@ namespace App\Controller;
 
 use App\Entity\Company;
 use App\Entity\User;
+use App\Form\CompanyType;
 use App\Repository\CandidatRepository;
+use App\Repository\CompanyRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 #[Route('/company')]
 class CompanyController extends AbstractController
 {
+    #[Route('/{id}', name: 'app_company_show', methods: ['GET'])]
+    public function show(Company $company): Response
+    {
+        return $this->render('company/show.html.twig', [
+            'company' => $company,
+        ]);
+    }
     #[Route('/{id}/favorite', name:'app_company_add_favorite', methods: ['GET'])]
     public function addToFavorite(
         Company $company,
@@ -41,13 +51,5 @@ class CompanyController extends AbstractController
     public function showFavorites(): Response
     {
         return $this->render('company/favorites.html.twig');
-    }
-
-    #[Route('/{id}', name: 'app_company_show', methods: ['GET'])]
-    public function show(Company $company): Response
-    {
-        return $this->render('company/show.html.twig', [
-            'company' => $company,
-        ]);
     }
 }

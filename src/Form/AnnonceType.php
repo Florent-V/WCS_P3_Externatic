@@ -4,12 +4,16 @@ namespace App\Form;
 
 use App\Entity\Annonce;
 use App\Entity\ExternaticConsultant;
-use App\Entity\Techno;
 use App\Repository\AnnonceRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\DateIntervalType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
@@ -19,6 +23,7 @@ class AnnonceType extends AbstractType
     public function __construct(private readonly AnnonceRepository $annonceRepository)
     {
     }
+
     public function fetchingContractTypes(): array
     {
         $contractTypeQuery = $this->annonceRepository->createQueryBuilder("a")
@@ -33,6 +38,7 @@ class AnnonceType extends AbstractType
         ksort($contractTypeFromDb);
         return $contractTypeFromDb;
     }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -41,33 +47,43 @@ class AnnonceType extends AbstractType
                 'label' => 'Titre',
                 'attr' => ['placeholder' => 'Titre']
             ])
-            ->add('salaryMin', null, [
+            ->add('salaryMin', MoneyType::class, [
                 'label' => 'Salaire Min',
                 'attr' => ['placeholder' => 'Salaire Min'],
-                'row_attr' => ['class' => 'form-floating mb-3'],
+                'row_attr' => ['class' => 'form-floating'],
             ])
-            ->add('salaryMax', null, [
+            ->add('salaryMax', MoneyType::class, [
                 'label' => 'Salaire Max',
+                'required' => false,
                 'attr' => ['placeholder' => 'Salaire Max'],
                 'row_attr' => ['class' => 'form-floating mb-3'],
             ])
-
             ->add('contractType', ChoiceType::class, [
                 'choices' => $this->fetchingContractTypes(),
                 'expanded' => true,
                 'multiple' => false,
-                'attr' => ['class' => '']
+                'attr' => ['class' => 'contracts']
             ])
-
+            ->add('contractDuration', DateIntervalType::class, [
+                'label' => "Durée du contrat",
+                'with_years' => true,
+                'with_months' => true,
+                'with_days' => true,
+                'with_hours' => false,
+            ])
             ->add('studyLevel', null, [
                 'label' => 'Niveau d\'étude',
                 'attr' => ['placeholder' => 'studyLevel'],
-                'row_attr' => ['class' => 'form-floating mb-3'],
+                'row_attr' => ['class' => 'form-floating mb-3 mt-3'],
             ])
-            ->add('workTime', null, [
-                'label' => 'Durée',
-                'attr' => ['placeholder' => 'Durée'],
-                'row_attr' => ['class' => 'form-floating mb-3'],
+            ->add('workTime', DateIntervalType::class, [
+                'label' => 'Durée hebdomadaire',
+                'with_years' => false,
+                'with_months' => false,
+                'with_days' => false,
+                'with_hours' => true,
+                'with_minutes' => true,
+                'hours' => range(1, 50),
             ])
             ->add('company', null, [
                 'choice_label' => 'name',
@@ -81,27 +97,23 @@ class AnnonceType extends AbstractType
                 'attr' => ['placeholder' => 'Remote'],
                 'row_attr' => ['class' => 'form-floating mb-3'],
             ])
-            ->add('endingAt', DateType::class, array(
+            ->add('endingAt', DateType::class, [
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
                 'label' => 'Date d\'éxpiration',
                 'attr' => ['placeholder' => 'Date d\'éxpiration'],
                 'row_attr' => ['class' => 'form-floating mb-3'],
-            ))
-            ->add('techno', EntityType::class, [
-                'label' => 'Hard Skills',
-                'attr' => ['placeholder' => 'Hard Skills'],
-                'row_attr' => ['class' => 'form-floating mb-3 techno'],
-                'class' => Techno::class,
-                'by_reference' => false,
-                'multiple' => true,
-                'expanded' => true,
-                'choice_label' => 'name',
-
+            ])
+            ->add('techno', CollectionType::class, [
+                'entry_type' => TechnoAnnonceType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false
             ])
             ->add('description', CKEditorType::class, [
+                'attr' => ['data-ckeditor' => true],
                 'config_name' => 'light',
-                'config'      => ['editorplaceholder' => "Décrivez votre annonce..."]
+                'config' => ['editorplaceholder' => "Décrivez votre annonce..."]
             ])
             ->add('author', EntityType::class, [
                 'class' => ExternaticConsultant::class,
@@ -109,7 +121,12 @@ class AnnonceType extends AbstractType
                 'choice_label' => function (ExternaticConsultant $consultant) {
                     return $consultant->getUser()->getFirstname();
                 }
+            ])
+            ->add('save', SubmitType::class, [
+                'label' => 'Publier',
+                'row_attr' => ['class' => 'd-flex justify-content-center']
             ]);
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

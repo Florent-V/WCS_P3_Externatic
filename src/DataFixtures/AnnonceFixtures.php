@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Annonce;
+use DateInterval;
 use Faker\Factory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -33,9 +34,12 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
                 $annonce->setSalaryMax($faker->numberBetween(40000, 60000));
                 $annonce->setRemote($faker->boolean());
                 $annonce->setDescription("descr-ann/ " . $faker->paragraphs(3, true));
-                $annonce->setWorkTime($faker->numberBetween(15, 39));
+                $annonce->setWorkTime(new DateInterval("PT" . $faker->numberBetween(15, 39) . "H"));
                 $annonce->setPublicationStatus($faker->numberBetween(0, 1));
                 $annonce->setCreatedAt($faker->dateTimeThisMonth());
+                $annonce->setContractDuration(new DateInterval("P" . $faker->numberBetween(1, 4) . "Y" .
+                    $faker->numberBetween(1, 12) . "M" .
+                    $faker->numberBetween(1, 7) . "D"));
                 $annonce->setCompany($this->getReference('company_' . $i));
                 $annonce->setAuthor($this->getReference('consultant_' .
                     $faker->numberBetween(1, ExternaticConsultantFixtures::$consultantIndex)));

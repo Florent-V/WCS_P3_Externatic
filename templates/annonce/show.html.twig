@@ -2,15 +2,20 @@
 
 {% block body %}
     <a href="{{ path("annonce_search_results") }}" class="ms-4">Retours aux offres</a>
-    <main class="show_annonce">
+    <main class="show_annonce" {{ stimulus_controller('favoriteoffer') }}>
         <div class="d-flex">
             <img src="{{ annonce.picture }}" alt="logo de l'entreprise" class="ms-5 logo">
             <div class="w-100 d-flex flex-column justify-content-center">
                 <h1 class="mt-2"><strong>{{ annonce.title }}</strong></h1>
                 <div class="d-flex justify-content-center">
-                    <h2 class="name_company d-inline-block align-items-center m-0">{{ annonce.company.name }}</h2>
+                    <a href="{{ path('app_company_show', {'id': annonce.company.id}) }}"><h2 class="name_company d-inline-block align-items-center m-0 text-dark">{{ annonce.company.name }}</h2></a>
+                    {% if is_granted("ROLE_CANDIDAT") %}
+                        <a href="{{ path('annonce_add_favorite', {id: annonce.id}) }}" class="fav-offer btn btn-primary fav-button">
+                            <i class="bi {{ app.user.candidat.isInFavorite(annonce) ? 'bi-bookmark-fill' : 'bi-bookmark' }}"></i>
+                        </a>
+                    {% endif %}
                     <p class="created_at d-flex align-items-center m-0">Posté
-                        le {{ annonce.createdAt|date('d-m-Y') }}</p>
+                        le {{ annonce.createdAt|date('d-m-Y') }} | <a href="{{  path('annonce_edit', { "id": annonce.id }) }}"> Editer</a></p>
                 </div>
             </div>
         </div>
@@ -19,11 +24,11 @@
             <div class="tech d-inline-block mt-3">
                 <ul class="ms-2 ps-0 mt-2 pb-2">
                     {% for tech in annonce.techno %}
-                        <li class="mt-3">
+                        <li class="mt-3 d-flex align-items-center">
                             <img src="{{ asset('/uploads/images/logo/' ~ tech.picture) }}"
                                  alt="image de {{ tech.name }}"
                                  class="image_techno">
-                            <p class="d-inline-block">{{ tech.name }}</p>
+                            <p class="d-inline-block techno-name ms-2">{{ tech.name }}</p>
                         </li>
                     {% endfor %}
                 </ul>
@@ -31,10 +36,14 @@
 
             <div class="d-flex flex-column all_info mt-3">
                 <div class="header_info">
-                    <p class="mb-1"><strong>{{ annonce.company.city|upper }}</strong> - {{ annonce.company.zipCode }}, {{ annonce.company.address }}
-                        </p>
-                    <p> {{ annonce.salaryMin }}€ à {{ annonce.salaryMax }}€ - {{annonce.workTime}}h -
-                        {{ annonce.contractType }}, {{ annonce.studyLevel }} </p>
+                    <p class="mb-1"><strong>{{ annonce.company.city|upper }}</strong> - {{ annonce.company.zipCode }}
+                        , {{ annonce.company.address }}
+                    </p>
+                    <p> {{ annonce.salaryMin }}€ à {{ annonce.salaryMax }}€ </p>
+                    <p>{{ annonce.contractType }}, {{ annonce.studyLevel }} </p>
+                    <p>Durée du contrat
+                        : {{ annonce.contractDuration|date("%Y") != 0 ? (annonce.contractDuration|date("%y an(s)")) : "" }} {{ annonce.contractDuration|date("%M") != 0 ? (annonce.contractDuration|date("%M Mois")) : "" }} {{ annonce.contractDuration|date("%D") != 0 ? (annonce.contractDuration|date("%D jour(s)")) : "" }}</p>
+                    <p>Temps de travail : {{ annonce.workTime|date("%h") != 0 ? (annonce.workTime|date("%hh")) : "" }}{{ annonce.workTime|date("%i") != 0 ? (annonce.workTime|date("%i")) : "" }}</p>
                 </div>
 
                 <div>

@@ -13,19 +13,21 @@
             <a href="{{ path('annonce_add_favorite', {id: annonce.id}) }}" class="fav-offer fav-icon mt-2">
                 <i class="bi {{ app.user.candidat.isInFavorite(annonce) ? 'bi-bookmark-fill' : 'bi-bookmark' }}"></i>
             </a>
+        {% else %}
+            <div class="fav-icon"></div>
         {% endif %}
     </div>
-    <div class="row row-cols-2 m-2">
-        <p class="rounded-1 bg-primary p-1 d-flex align-items-center justify-content-center">
-            {% if annonce.remote %} Remote authorisé {% else %} présentiel {% endif %}</p>
-        <p class="rounded-1 bg-primary p-1 d-flex align-items-center justify-content-center">{{ annonce.contractType }}</p>
-        <p class="rounded-1 bg-primary p-1 d-flex align-items-center justify-content-center">Heure de
-            travail: {{ annonce.workTime }}h</p>
-        <p class="rounded-1 bg-primary p-1 d-flex align-items-center justify-content-center">Niveau
-            d'étude: {{ annonce.studyLevel }}</p>
-        <p class="rounded-1 bg-primary p-1 d-flex align-items-center justify-content-center third-line">{{ annonce.salaryMin }}
+    <div class="row row-cols-2 m-2 cases">
+        <p class="rounded-2 p-1 d-flex align-items-center justify-content-center">
+            {% if annonce.remote %} Remote {% else %} présentiel {% endif %}</p>
+        <p class="rounded-2 p-1 d-flex align-items-center justify-content-center">{{ annonce.contractType }}</p>
+        <p class="rounded-2 p-1 d-flex align-items-center justify-content-center">Temps de
+            travail : {{ annonce.workTime|date("%h") != 0 ? (annonce.workTime|date("%hh")) : "" }}{{ annonce.workTime|date("%i") != 0 ? (annonce.workTime|date("%i")) : "" }}</p>
+        <p class="rounded-2 p-1 d-flex align-items-center justify-content-center">Niveau
+            d'étude : {{ annonce.studyLevel }}</p>
+        <p class="rounded-2 p-1 d-flex align-items-center justify-content-center third-line">{{ annonce.salaryMin }}
             € à {{ annonce.salaryMax }} €</p>
-        <p class="rounded-1 bg-primary p-1 d-flex align-items-center justify-content-center third-line">
+        <p class="rounded-2 p-1 d-flex align-items-center justify-content-center third-line">
             {% if annonce.techno|length >= 6 %}
                 {% for i in 0..5 %}
                     {{ annonce.techno[i].name }},
