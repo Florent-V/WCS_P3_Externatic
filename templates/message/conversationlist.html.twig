@@ -4,8 +4,25 @@
 
 {% block body %}
     <div><h1>Bienvenu sur votre messagerie</h1></div>
+    <main id="swup">
 
-    {% for message in sendMessages %}
-        <p> {{ message.content }}</p>
+    <table>
+        <thead class="thead-light">
+        <tr>
+            <th scope="row">Date</th>
+            <th scope="row">Expediteur</th>
+            <th scope="row">Contenu</th>
+        </tr>
+        </thead>
+
+        <tbody>
+    {% for message in receivedMessages %}
+        <tr>
+        <td> {{ message.content|slice(0, 80)|join(' ')}}... | {{ message.sendBy.firstname }} {{ message.sendBy.lastName }} | {{ message.date|format_datetime("short") }}</td>
+    </tr>
     {% endfor %}
+        <div class="container d-flex justify-content-center">{{ knp_pagination_render(receivedMessages) }}</div>
+    </table>
+        </section>
+    </main>
 {% endblock %}

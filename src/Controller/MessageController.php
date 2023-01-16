@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Repository\MessageRepository;
+use Symfony\Component\HttpFoundation\Request;
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,23 +16,27 @@ class MessageController extends AbstractController
 {
     #[Security("is_granted('ROLE_CANDIDAT') or is_granted('ROLE_CONSULTANT')")]
     #[Route('/', name: 'index')]
-    public function index(MessageRepository $messageRepository): Response
+    public function index(
+        MessageRepository $messageRepository,
+        PaginatorInterface $paginator,
+        Request $request): Response
     {
         /**
          * @var ?User $user
          */
         $user = $this->getUser();
 
+        $receivedMessages = $messageRepository->findBy(['sendTo' => $user], ["date" => "DESC"]);
 
-
-
-        
-
-        $sendMessages = $messageRepository->findBy(['sendBy' => $user], ["date" => "DESC"]);
+        $receivedMessages = $paginator->paginate(
+            $receivedMessages,
+            $request->query->getInt('page', 1),
+            5
+        );
 
         return $this->render('message/conversationlist.html.twig', [
             'controller_name' => 'MessageController',
-            'sendMessages' => $sendMessages,
+            'receivedMessages' => $receivedMessages,
         ]);
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Annonce;
-use App\Entity\Notif;
 use App\Entity\Company;
 use App\Entity\User;
 use App\Entity\Message;
@@ -12,7 +11,6 @@ use App\Form\AnnonceType;
 use App\Form\MessageType;
 use App\Repository\AnnonceRepository;
 use App\Repository\NotifRepository;
-use App\Repository\UserRepository;
 use App\Repository\CandidatRepository;
 use App\Repository\MessageRepository;
 use App\Repository\RecruitmentProcessRepository;
