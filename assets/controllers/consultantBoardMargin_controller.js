@@ -13,8 +13,6 @@ export default class extends Controller {
                     document.querySelector("main").style.marginLeft = "0rem"
                 }, 500);
             });
-
-            document.querySelector("footer").style="display:none;";
         }
     }
 }

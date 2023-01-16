@@ -1,0 +1,68 @@
+<div {{ attributes }}>
+    {{ form_start(form) }}
+    {{ form_row(form.title) }}
+    <div>Salaire</div>
+    <div class="d-flex flex-row">
+        {{ form_widget(form.salaryMin) }}
+        {{ form_widget(form.salaryMax) }}
+    </div>
+    {{ form_row(form.contractType) }}
+    {{ form_row(form.contractDuration) }}
+    {{ form_row(form.studyLevel) }}
+    {{ form_row(form.workTime) }}
+    {{ form_row(form.company) }}
+    {{ form_row(form.remote) }}
+    {{ form_row(form.endingAt) }}
+    {{ form_row(form.description) }}
+
+    <fieldset>
+        {{ form_label(form.techno) }}
+        <ul class="list-group">
+            {% for key, techno in form.techno %}
+                <li>
+                    <div class="input-group mb-3">
+                        {{ form_widget(techno.name) }}
+                        <button
+                            class="btn btn-outline-secondary"
+                            type="button"
+                            data-action="live#action"
+                            data-action-name="removeTechno(index={{ key }})"
+                        >Remove
+                        </button>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="mb-3">
+            <input type="search"
+                   class="form-control"
+                   data-model="search"
+            >
+            <div class="list-group">
+                {% for techno in this.results %}
+                    <button type="button"
+                            class="list-group-item list-group-item-action"
+                            data-action="live#action"
+                            data-action-name="addTechno(name={{ techno.name }})"
+                    >{{ techno.name }}</button>
+                {% endfor %}
+            </div>
+        </div>
+    </fieldset>
+
+
+    <button
+        type="button"
+        class="btn btn-primary mb-3"
+        data-action="live#action"
+        data-action-name="addTechno()"
+    >Ajouter Techno
+    </button>
+
+    {% if is_granted("ROLE_ADMIN") %}
+        {{ form_row(form.author) }}
+    {% endif %}
+    {{ form_row(form.save) }}
+    {{ form_widget(form._token) }}
+    {{ form_end(form, {'render_rest': false}) }}
+</div>
