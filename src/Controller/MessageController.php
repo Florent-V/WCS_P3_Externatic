@@ -19,8 +19,8 @@ class MessageController extends AbstractController
     public function index(
         MessageRepository $messageRepository,
         PaginatorInterface $paginator,
-        Request $request): Response
-    {
+        Request $request
+    ): Response {
         /**
          * @var ?User $user
          */
