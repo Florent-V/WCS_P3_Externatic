@@ -18,7 +18,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 use DateTime;
 
-
 #[Route('/company')]
 class CompanyController extends AbstractController
 {
