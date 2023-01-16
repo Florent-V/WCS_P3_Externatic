@@ -10,13 +10,14 @@
             <tr>
                 <th>Id</th>
                 <th>Age</th>
-                <th>LinkedIn</th>
-                <th>Github</th>
+                <th>Firstname</th>
+                <th>Lastname</th>
                 <th>ZipCode</th>
                 <th>Address</th>
                 <th>City</th>
-                <th>Description</th>
-                <th>CanPostulate</th>
+                <th>GitHub</th>
+                <th>LinkedIn</th>
+                <th>IsActive</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -25,16 +26,19 @@
             <tr>
                 <td>{{ candidat.id }}</td>
                 <td>{{ candidat.age }}</td>
-                <td>{{ candidat.linkedIn }}</td>
-                <td>{{ candidat.github }}</td>
+                <td>{{ candidat.user.firstname }}</td>
+                <td>{{ candidat.user.lastName }}</td>
                 <td>{{ candidat.zipCode }}</td>
                 <td>{{ candidat.address }}</td>
                 <td>{{ candidat.city }}</td>
-                <td>{{ candidat.description }}</td>
-                <td>{{ candidat.canPostulate ? 'Yes' : 'No' }}</td>
+                <td>{{ candidat.github }}</td>
+                <td>{{ candidat.linkedIn }}</td>
+                <td>{{ candidat.user.isActive ? 'Yes' : 'No' }}</td>
                 <td>
-                    <a href="{{ path('app_candidat_show', {'id': candidat.id}) }}">show</a>
-                    <a href="{{ path('app_candidat_edit', {'id': candidat.id}) }}">edit</a>
+                    <a href="{{ path('admin_app_candidat_show', {'id': candidat.id}) }}">Show</a><br>
+                    <a href="{{ path('admin_app_candidat_edit', {'id': candidat.id}) }}">Edit info pro</a><br>
+                    <a href="{{ path('admin_app_user_edit', {'id': candidat.user.id}) }}">Edit info perso</a><br>
+                    {{ include('admin/candidat/_delete_form.html.twig') }}
                 </td>
             </tr>
         {% else %}
