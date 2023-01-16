@@ -20,8 +20,8 @@ class SearchProfile
     #[ORM\JoinColumn(nullable: true)]
     private ?Candidat $candidat = null;
 
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $searchQuery = null;
+    #[ORM\Column]
+    private ?array $searchQuery = null;
 
     public function getId(): ?int
     {
@@ -40,12 +40,12 @@ class SearchProfile
         return $this;
     }
 
-    public function getSearchQuery(): ?string
+    public function getSearchQuery(): ?array
     {
         return $this->searchQuery;
     }
 
-    public function setSearchQuery(string $searchQuery): self
+    public function setSearchQuery(array $searchQuery): self
     {
         $this->searchQuery = $searchQuery;
 

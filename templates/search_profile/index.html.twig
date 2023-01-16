@@ -23,27 +23,29 @@
             </tr>
             </thead>
             <tbody>
-            {% for search_profile in searchProfiles %}
+            {% for search_profile in app.user.candidat.searchProfiles %}
 
                 <tr>
-                    <td>{{ queries[loop.index].searchQuery }}</td>
-                    <td>{{ queries[loop.index].remote ? 'Yes' : 'No' }}</td>
-                    <td>{{ queries[loop.index].workTime }}</td>
-                    <td>{{ queries[loop.index].period }}</td>
-                    <td>{{ queries[loop.index].company }}</td>
-                    <td>{{ queries[loop.index].salaryMin }}</td>
+                    <td>{{ search_profile.searchQuery|json_encode }}</td>
+                    <td>{{ search_profile.searchQuery.remote ? 'Yes' : 'No' }}</td>
+                    <td>{{ search_profile.searchQuery.workTime }}</td>
+                    <td>{{ search_profile.searchQuery.period }}</td>
+                    <td>{{ search_profile.searchQuery.company }}</td>
+                    <td>{{ search_profile.searchQuery.salaryMin }}</td>
                     <td>
-                        {% for contract in queries[loop.index].contractType %}
+                        {% for contract in search_profile.searchQuery.contractType %}
                             <span>{{ contract }}</span>
                         {% endfor %}
                     </td>
                     <td>
-                        {% for name in queries[loop.index].techno %}
-                            <span>{{ name }}</span>
+                        {% for technoId in search_profile.searchQuery.techno %}
+{#                            @todo make custom twig filter ex: {{ technoId|technoName }}#}
+{#                            https://symfony.com/doc/current/templating/twig_extension.html#}
+                            <span>{{ technoId }}</span>
                         {% endfor %}
                     </td>
                     <td>
-                        <a href="{{ path('app_search_profile_show', {'id': search_profile.id}) }}">show</a>
+                        <a href="{{ path('annonce_search_results', {'form': search_profile.searchQuery}) }}">show</a>
                         {{ include('search_profile/_delete_form.html.twig') }}
                     </td>
                 </tr>

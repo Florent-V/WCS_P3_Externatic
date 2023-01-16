@@ -20,24 +20,7 @@ class SearchProfileController extends AbstractController
     #[Route('/', name: 'app_search_profile_index', methods: ['GET'])]
     public function index(SearchProfileRepository $searchProfileRepo): Response
     {
-        /**
-         * @var ?User $user
-         */
-        $user = $this->getUser();
-        $candidat = $user->getCandidat();
-        $searchProfiles = $searchProfileRepo->findBy(
-            ['candidat' => $candidat]
-        );
-
-        $queries = [];
-        foreach ($searchProfiles as $profile) {
-            $queries[] = json_decode($profile->getSearchQuery());
-        }
-
-        return $this->render('search_profile/index.html.twig', [
-            'queries' => $queries,
-            'searchProfiles' => $searchProfiles
-        ]);
+        return $this->render('search_profile/index.html.twig');
     }
 
     #[Route('/new', name: 'app_search_profile_new', methods: ['GET', 'POST'])]
@@ -47,7 +30,7 @@ class SearchProfileController extends AbstractController
     ): Response {
 
         $searchProfile = new SearchProfile();
-        $searchProfile->setSearchQuery($request->request->get('research'));
+        $searchProfile->setSearchQuery(json_decode($request->request->get('research'), true));
         /**
          * @var ?User $user
          */
@@ -55,40 +38,8 @@ class SearchProfileController extends AbstractController
         $searchProfile->setCandidat($user->getCandidat());
         $searchProfileRepo->save($searchProfile, true);
 
-
         return $this->redirectToRoute('annonce_search_results');
     }
-
-    #[Route('/{id}', name: 'app_search_profile_show', methods: ['GET'])]
-    public function show(
-        Request $request,
-        SearchProfile $searchProfile,
-        AnnonceRepository $annonceRepository,
-        PaginatorInterface $paginator
-    ): Response {
-
-        dump(json_decode($searchProfile->getSearchQuery(), true));
-        $request->query->set('form', json_decode($searchProfile->getSearchQuery(), true));
-
-        $fetchedAnnonces = $annonceRepository->annonceFinder($request->get('form'));
-
-        $paginatedAnnonces = $paginator->paginate(
-            $fetchedAnnonces,
-            $request->query->getInt('page', 1),
-            12
-        );
-
-        return $this->render('annonce/results.html.twig', [
-            'paginatedAnnonces' => $paginatedAnnonces
-        ]);
-
-
-
-//        return $this->render('search_profile/show.html.twig', [
-//            'search_profile' => $searchProfile,
-//        ]);
-    }
-
 
     #[Route('/{id}', name: 'app_search_profile_delete', methods: ['POST'])]
     public function delete(
