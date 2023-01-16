@@ -55,7 +55,7 @@ class AnnonceType extends AbstractType
             ->add('contractType', ChoiceType::class, [
                 'choices' => $this->fetchingContractTypes(),
                 'expanded' => true,
-                'multiple' => true,
+                'multiple' => false,
                 'attr' => ['class' => '']
             ])
 
