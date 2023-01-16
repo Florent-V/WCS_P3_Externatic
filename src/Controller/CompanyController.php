@@ -22,13 +22,6 @@ use DateTime;
 #[Route('/company')]
 class CompanyController extends AbstractController
 {
-    #[Route('/{id}', name: 'app_company_show', methods: ['GET'])]
-    public function show(Company $company): Response
-    {
-        return $this->render('company/show.html.twig', [
-            'company' => $company,
-        ]);
-    }
     #[Route('/{id}/favorite', name:'app_company_add_favorite', methods: ['GET'])]
     public function addToFavorite(
         Company $company,
