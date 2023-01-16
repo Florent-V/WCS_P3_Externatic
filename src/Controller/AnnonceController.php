@@ -16,6 +16,7 @@ use App\Repository\UserRepository;
 use App\Repository\CandidatRepository;
 use App\Repository\MessageRepository;
 use App\Repository\RecruitmentProcessRepository;
+use App\Service\NewNotif;
 use DateTime;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -54,8 +55,7 @@ class AnnonceController extends AbstractController
     public function new(
         Request $request,
         AnnonceRepository $annonceRepository,
-        UserRepository $userRepository,
-        NotifRepository $notifRepository
+        NewNotif $newNotif
     ): Response {
         $annonce = new Annonce();
         $form = $this->createForm(AnnonceType::class, $annonce);
@@ -70,6 +70,8 @@ class AnnonceController extends AbstractController
             $user = $this->getUser();
             if (in_array("ROLE_ADMIN", $user->getRoles())) {
                 $annonce->setAuthor($user->getConsultant());
+            } else {
+                $annonce->setAuthor($user->getConsultant());
             }
 
             //A SUPPRIMER IMPERATIVEMENT
@@ -77,16 +79,7 @@ class AnnonceController extends AbstractController
 
             $annonceRepository->save($annonce, true);
             $this->addFlash('success', 'Annonce en ligne');
-            foreach ($userRepository->findByRole('ROLE_CANDIDAT') as $userCandidat) {
-                $notification = new Notif();
-                $notification->setContent($annonce->getTitle());
-                $notification->setType('newAnnonce');
-                $notification->setCreatedAt(new DateTime('now'));
-                $notification->setUser($userCandidat);
-                $notification->setParameter($annonce->getId());
-                $notification->setWasRead(false);
-                $notifRepository->save($notification, true);
-            }
+            $newNotif->newNotifAnnonce($annonce);
 
             return $this->redirectToRoute('annonce_show', ['id' => $annonce->getId()]);
         }
