@@ -190,7 +190,6 @@ class AnnonceController extends AbstractController
 
             $message->setSendBy($user);
             $message->setSendTo($annonce->getAuthor()->getUser());
-            $message->setDate($date);
 
             $messageRepository->save($message, true);
 

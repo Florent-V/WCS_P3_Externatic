@@ -3,10 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\MessageRepository;
+use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Message
 {
     #[ORM\Id]
@@ -30,6 +32,18 @@ class Message
 
     #[ORM\ManyToOne(inversedBy: 'messages')]
     private ?RecruitmentProcess $recruitmentProcess = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $title = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $is_read = null;
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->date = new Datetime();
+    }
 
     public function getId(): ?int
     {
@@ -92,6 +106,30 @@ class Message
     public function setRecruitmentProcess(?RecruitmentProcess $recruitmentProcess): self
     {
         $this->recruitmentProcess = $recruitmentProcess;
+
+        return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(?string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    public function isIsRead(): ?bool
+    {
+        return $this->is_read;
+    }
+
+    public function setIsRead(?bool $is_read): self
+    {
+        $this->is_read = $is_read;
 
         return $this;
     }

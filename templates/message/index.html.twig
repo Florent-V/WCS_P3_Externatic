@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Messagerie{% endblock %}
+
+{% block body %}
+    {% for message in sendMessages %}
+        <p> {{ message.content }}</p>
+    {% endfor %}
+{% endblock %}
