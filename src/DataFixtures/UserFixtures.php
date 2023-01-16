@@ -15,7 +15,7 @@ class UserFixtures extends Fixture
     public static int $userConsultantIndex = 0;
     public static int $userCandidatIndex = 0;
 
-    public const ADMIN_INFOS = [
+    public const CONSULTANT_INFOS = [
         [
             'email' => 'admin@mail.fr',
             'pass' => 'motdepasse',
@@ -23,9 +23,6 @@ class UserFixtures extends Fixture
             'lastname' => 'externatic',
             'role' => 'ROLE_ADMIN'
         ],
-    ];
-
-    public const CONSULTANT_INFOS = [
         [
             'email' => 'consultant1@mail.fr',
             'pass' => 'motdepasse',
@@ -103,30 +100,6 @@ class UserFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr_FR');
-
-        foreach (self::ADMIN_INFOS as $adminInfo) {
-            self::$userAdminIndex++;
-            $user = new User();
-
-            $user->setEmail($adminInfo['email']);
-
-            $hashedPassword = $this->passwordHasher->hashPassword(
-                $user,
-                $adminInfo['pass']
-            );
-            $user->setPassword($hashedPassword);
-
-            $user->setRoles(array($adminInfo['role']));
-
-            $user->setFirstname($adminInfo['firstname']);
-            $user->setLastname($faker->lastName);
-            $user->setPhone($faker->phoneNumber());
-            $user->setIsVerified(true);
-
-
-            $manager->persist($user);
-            $this->addReference('userAdmin_' . self::$userAdminIndex, $user);
-        }
 
         foreach (self::CONSULTANT_INFOS as $consultantInfo) {
             self::$userConsultantIndex++;
