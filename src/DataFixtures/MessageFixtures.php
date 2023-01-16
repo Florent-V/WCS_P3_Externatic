@@ -16,7 +16,7 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create();
 
-        for ($i = 1; $i <= $faker->numberBetween(80, 150); $i++) {
+        for ($i = 1; $i <= $faker->numberBetween(150, 200); $i++) {
             //Attachement à un processus de recrutement
             $recruitmentProcess = null;
             if ($faker->boolean()) {

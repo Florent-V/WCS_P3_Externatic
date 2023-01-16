@@ -26,8 +26,8 @@ class MessageController extends AbstractController
          */
         $user = $this->getUser();
 
-        $receivedMessages = $messageRepository->findBy(['sendTo' => $user], ["date" => "DESC"]);
-
+//        $receivedMessages = $messageRepository->findBy(['sendTo' => $user], ["date" => "DESC"]);
+        $receivedMessages = $messageRepository->getInbox("sendTo", $user->getId());
         $receivedMessages = $paginator->paginate(
             $receivedMessages,
             $request->query->getInt('page', 1),

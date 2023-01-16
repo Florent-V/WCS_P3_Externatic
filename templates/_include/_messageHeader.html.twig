@@ -1,0 +1,7 @@
+<tr>
+    <td>{{ message.date|format_datetime('short', 'short', locale='fr') }}</td>
+    <td class="font-weight-bold">{{ message.sendBy.lastName|upper }} {{ message.sendBy.firstname|capitalize }}</td>
+    <td>{{ message.recruitmentProcess.annonce.title ?: message.recruitmentProcess.company.name ?: "" }}</td>
+    <td>{{ message.title }}</td>
+    <td class="font-italic text-muted">{{ message.content|slice(0, 80)|join(' ') }}...</td>
+</tr>

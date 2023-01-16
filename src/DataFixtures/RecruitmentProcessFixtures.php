@@ -21,7 +21,6 @@ class RecruitmentProcessFixtures extends Fixture implements DependentFixtureInte
                 $recruitmentProcess = new RecruitmentProcess();
                 self::$recruitmentIndex++;
                 $recruitmentProcess->setCreatedAt($faker->dateTimeThisMonth());
-                $spontane = null;
                 if ($faker->boolean()) {
                     $annonceRef = "annonce_" . $i;
                     $recruitmentProcess->setAnnonce($this->getReference($annonceRef));

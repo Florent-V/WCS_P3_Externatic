@@ -39,6 +39,17 @@ class MessageRepository extends ServiceEntityRepository
         }
     }
 
+    public function getInbox(string $sendOrReceived, int $userId): array
+    {
+        return $this->createQueryBuilder('m')
+            ->andWhere('m.' . $sendOrReceived . " = :user")
+            ->setParameter('user', $userId)
+            ->groupBy('m.recruitmentProcess')
+            ->orderBy('m.date', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Message[] Returns an array of Message objects
 //     */
