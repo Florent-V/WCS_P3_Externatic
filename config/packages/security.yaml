@@ -31,7 +31,7 @@ security:
                 # "app_login" is the name of the route in LoginController
                 login_path: app_login
                 check_path: app_login
-                # default_target_path: nom_route
+                default_target_path: redirect_login
             logout:
                 path: app_logout
         secured_area:
