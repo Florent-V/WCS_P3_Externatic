@@ -3,6 +3,8 @@
 {% block title %}Messagerie{% endblock %}
 
 {% block body %}
+    <div><h1>Bienvenu sur votre messagerie</h1></div>
+
     {% for message in sendMessages %}
         <p> {{ message.content }}</p>
     {% endfor %}

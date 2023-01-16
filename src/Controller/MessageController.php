@@ -21,9 +21,14 @@ class MessageController extends AbstractController
          */
         $user = $this->getUser();
 
-        $sendMessages = $messageRepository->findBy(['sendBy' => $user]);
 
-        return $this->render('message/index.html.twig', [
+
+
+        
+
+        $sendMessages = $messageRepository->findBy(['sendBy' => $user], ["date" => "DESC"]);
+
+        return $this->render('message/conversationlist.html.twig', [
             'controller_name' => 'MessageController',
             'sendMessages' => $sendMessages,
         ]);

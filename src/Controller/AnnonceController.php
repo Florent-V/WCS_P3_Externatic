@@ -170,12 +170,9 @@ class AnnonceController extends AbstractController
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $date = new DateTime();
-
             $recruitmentProcess = new RecruitmentProcess();
             $recruitmentProcess->setStatus('Applied');
             $recruitmentProcess->setCandidat($user->getCandidat());
-            $recruitmentProcess->setCreatedAt($date);
             $recruitmentProcess->setAnnonce($annonce);
             $recruitProcessRepo->save($recruitmentProcess, true);
 

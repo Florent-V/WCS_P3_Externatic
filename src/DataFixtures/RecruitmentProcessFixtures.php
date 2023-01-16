@@ -21,7 +21,14 @@ class RecruitmentProcessFixtures extends Fixture implements DependentFixtureInte
                 $recruitmentProcess = new RecruitmentProcess();
                 self::$recruitmentIndex++;
                 $recruitmentProcess->setCreatedAt($faker->dateTimeThisMonth());
-                $recruitmentProcess->setAnnonce($this->getReference("annonce_" . $i));
+                $spontane = null;
+                if ($faker->boolean()) {
+                    $annonceRef = "annonce_" . $i;
+                    $recruitmentProcess->setAnnonce($this->getReference($annonceRef));
+                } else {
+                    $companyRef = "company_" . $faker->numberBetween(1, CompanyFixtures::$companyIndex);
+                    $recruitmentProcess->setCompany($this->getReference($companyRef));
+                }
                 $recruitmentProcess->setCandidat($this->getReference("candidat_" .
                     $faker->numberBetween(1, CandidatFixtures::$candidatIndex)));
                 $recruitmentProcess->setStatus($faker->randomElement(RecruitmentProcess::RECRUIT_STATUS));
@@ -37,7 +44,8 @@ class RecruitmentProcessFixtures extends Fixture implements DependentFixtureInte
         // Tu retournes ici toutes les classes de fixtures dont ProgramFixtures dépend
         return [
             AnnonceFixtures::class,
-            CandidatFixtures::class
+            CandidatFixtures::class,
+            CompanyFixtures::class,
         ];
     }
 }

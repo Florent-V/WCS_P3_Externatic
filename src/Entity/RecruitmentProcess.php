@@ -3,12 +3,14 @@
 namespace App\Entity;
 
 use App\Repository\RecruitmentProcessRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RecruitmentProcessRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class RecruitmentProcess
 {
     public const RECRUIT_STATUS = [
@@ -39,7 +41,7 @@ class RecruitmentProcess
     private ?Candidat $candidat = null;
 
     #[ORM\ManyToOne(inversedBy: 'recrutementProcesses')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Annonce $annonce = null;
 
     #[ORM\OneToMany(mappedBy: 'recruitmentProcess', targetEntity: Appointement::class, orphanRemoval: true)]
@@ -47,6 +49,15 @@ class RecruitmentProcess
 
     #[ORM\OneToMany(mappedBy: 'recruitmentProcess', targetEntity: Message::class)]
     private Collection $messages;
+
+    #[ORM\ManyToOne(inversedBy: 'recruitmentProcesses')]
+    private ?company $company = null;
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt = new Datetime();
+    }
 
     public function __construct()
     {
@@ -187,6 +198,18 @@ class RecruitmentProcess
                 $message->setRecruitmentProcess(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCompany(): ?company
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?company $company): self
+    {
+        $this->company = $company;
 
         return $this;
     }
