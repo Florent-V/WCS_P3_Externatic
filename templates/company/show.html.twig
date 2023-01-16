@@ -53,11 +53,41 @@
             </tr>
         </tbody>
     </table>
+
+
+    <div class="accordion container mb-5" id="accordionExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button d-inline text-center" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Candidature Spontanée
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                 data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    {% if is_granted("ROLE_CANDIDAT") %}
+                        {% if recruProcessActuel == null %}
+                            {{ form(form) }}
+                        {% else %}
+                            <p>Vous avez déjà un processus en cours</p>
+                        {% endif %}
+                    {% elseif is_granted("ROLE_CONSULTANT") %}
+                        <p>Encart réservé aux candidats - <a href="{{ path('consultant_board') }}">Retourner à votre
+                                tableau de bord</a></p>
+                    {% else %}
+                        <a href="{{ path('app_login') }}">Il faut vous connecter pour postuler !</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
     {% if is_granted("ROLE_CANDIDAT") %}
         <a href="{{ path('app_company_add_favorite', {id: company.id}) }}" id="fav-company" class="btn btn-primary fav-icon mt-2">
             <span>{{ app.user.candidat.isCompanyFavorite(company) ? 'Retirer l\'entreprise des favoris' : 'Mettre l\'entreprise en favoris' }}</span>
             <i class="bi {{ app.user.candidat.isCompanyFavorite(company) ? 'bi-heart-fill' : 'bi-heart' }}"></i>
         </a>
+
     {% endif %}
 
 {% endblock %}

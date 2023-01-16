@@ -1,0 +1,67 @@
+.form-annonce {
+    margin: 2rem auto;
+    color: $primary;
+    background-color: rgb(201, 25, 97, 0.2);
+    padding: 1rem;
+    border-radius: 2rem;
+    width: 45em;
+
+    div.btn {
+        display: flex;
+        justify-content: center;
+    }
+
+    .btn {
+        background-color: white;
+        border-radius: 2rem;
+        color: $primary;
+    }
+
+    .techno {
+        display: flex;
+        flex-direction: column-reverse;
+
+        #annonce_techno {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+            //text-overflow: ellipsis;
+            word-break: break-word;;
+            border:1px solid $light;
+            border-radius:$border-radius;
+            padding: .3rem 0 .3rem .3rem;
+        }
+    }
+
+    .contracts {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+        border:1px solid $light;
+        border-radius:$border-radius;
+        padding: .3rem 0 .3rem .3rem;
+    }
+
+    ul li {
+        list-style: none;
+    }
+
+    #annonce_contractDuration {
+        display:flex;
+        border:1px solid $light;
+        border-radius:$border-radius;
+        padding: .3rem 0 .3rem .3rem;
+    }
+
+    #annonce_workTime {
+        display:flex;
+        border:1px solid $light;
+        border-radius:$border-radius;
+        padding: .3rem 0 .3rem .3rem;
+    }
+}
+
+.annonce-title {
+    margin: 5rem auto 0;
+    padding-top: 5rem;
+    color: $primary;
+    text-decoration: underline;
+}

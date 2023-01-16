@@ -39,6 +39,15 @@ class TechnoRepository extends ServiceEntityRepository
         }
     }
 
+    public function search(string $search): array
+    {
+        return $this->createQueryBuilder('t')
+            ->where('t.name LIKE :search')
+            ->setParameter('search', '%' . $search . '%')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Techno[] Returns an array of Techno objects
 //     */

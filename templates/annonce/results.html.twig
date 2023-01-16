@@ -8,13 +8,12 @@
     </header>
     <main class="search" {{ stimulus_controller('favoriteoffer') }}>
         <div class="row row-cols-xl-3 row-cols-md-2">
-            {% for annonce in paginatedAnnonces %}
+            {% for annonce in annonces %}
                 <div class="col mt-4 cards-result">
                     {% include '_include/_card_result.html.twig' %}
                 </div>
             {% endfor %}
         </div>
-        <div class="container d-flex justify-content-center">{{ knp_pagination_render(paginatedAnnonces) }}</div>
 
         {% if is_granted('ROLE_CANDIDAT') and  app.request.get('form') is not null %}
             <form action="{{ path('app_search_profile_new') }}" method="post">
@@ -22,6 +21,8 @@
                 <button id="" type="submit">Sauvegarder</button>
             </form>
         {% endif %}
+
+        <div class="container d-flex justify-content-center">{{ knp_pagination_render(annonces) }}</div>
 
     </main>
 {% endblock %}

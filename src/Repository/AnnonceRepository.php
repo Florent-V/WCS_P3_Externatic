@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Annonce;
+use App\Entity\ExternaticConsultant;
 use DateInterval;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -21,6 +22,7 @@ use Doctrine\Persistence\ManagerRegistry;
 class AnnonceRepository extends ServiceEntityRepository
 {
     private const FULL_TIME = 35;
+    public const NUMBER_OF_ITEMS = 10;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -47,12 +49,16 @@ class AnnonceRepository extends ServiceEntityRepository
 
     public function annonceFinder(mixed $searchInformations): array
     {
+        $now = new DateTime();
         $searchInformations['searchQuery'] ??= '';
-        //Annonce title
         $queryBuilder = $this->createQueryBuilder('a')
             ->distinct()
             ->andWhere('a.title LIKE :searchQuery')
-            ->setParameter('searchQuery', '%' . $searchInformations['searchQuery'] . '%');
+            ->setParameter('searchQuery', '%' . $searchInformations['searchQuery'] . '%')
+            ->andWhere('a.publicationStatus = 1')
+            ->andWhere('a.endingAt <= :now OR a.endingAt = :test')
+            ->setParameter('now', $now->format("Y-m-d 23:59:59"))
+            ->setParameter('test', null);
 
         //Minimum Salary and remote
         $this->getSalaryAndRemoteQuery($queryBuilder, $searchInformations);

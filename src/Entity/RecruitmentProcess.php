@@ -11,6 +11,12 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: RecruitmentProcessRepository::class)]
 class RecruitmentProcess
 {
+    public const RECRUIT_STATUS = [
+        "Applied",
+        "In progress",
+        "Completed",
+    ];
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

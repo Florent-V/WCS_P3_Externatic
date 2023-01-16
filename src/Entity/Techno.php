@@ -25,7 +25,7 @@ class Techno
     #[ORM\Column(length: 45)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $picture = null;
 
     #[Vich\UploadableField(mapping: 'techno_picture', fileNameProperty: 'picture')]
