@@ -4,8 +4,71 @@
 
 {% block body %}
 
-    <main>
+    <main class="searchProfile container-md mb-5">
         <h1>Mes recherches</h1>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Special title treatment</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    </div>
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item">
+                            <p>Email</p>
+                            <p>test</p>
+                        </div>
+                        <div class="list-group-item">
+                            <p>Prénom</p>
+                            <p>test</p>
+                        </div>
+                        <div class="list-group-item">
+                            <p>Nom</p>
+                            <p>test</p>
+                        </div>
+                        <div class="list-group-item">
+                            <p>Téléphone</p>
+                            <p>test</p>
+                        </div>
+                        <div class="list-group-item">
+                            <p>Compte Vérifié ?</p>
+                            <p>test</p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Special title treatment</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Special title treatment</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Special title treatment</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
         <table class="table">
@@ -14,7 +77,6 @@
                 <th>Recherche</th>
                 <th>Remote</th>
                 <th>Temps de travail</th>
-                <th>Ancienneté</th>
                 <th>Entreprise</th>
                 <th>Salaire Minimum</th>
                 <th>Type de Contrat</th>
@@ -27,10 +89,9 @@
 
                 <tr>
                     <td>{{ search_profile.searchQuery|json_encode }}</td>
-                    <td>{{ search_profile.searchQuery.remote ? 'Yes' : 'No' }}</td>
-                    <td>{{ search_profile.searchQuery.workTime }}</td>
-                    <td>{{ search_profile.searchQuery.period }}</td>
-                    <td>{{ search_profile.searchQuery.company }}</td>
+                    <td>{{ search_profile.searchQuery.remote ? 'Oui' : 'Non' }}</td>
+                    <td>{{ search_profile.searchQuery.workTime ? 'Temps plein' : 'Temps partiel' }}</td>
+                    <td>{{ search_profile.searchQuery.company ? search_profile.searchQuery.company|companyName }}</td>
                     <td>{{ search_profile.searchQuery.salaryMin }}</td>
                     <td>
                         {% for contract in search_profile.searchQuery.contractType %}
@@ -41,11 +102,12 @@
                         {% for technoId in search_profile.searchQuery.techno %}
 {#                            @todo make custom twig filter ex: {{ technoId|technoName }}#}
 {#                            https://symfony.com/doc/current/templating/twig_extension.html#}
-                            <span>{{ technoId }}</span>
+                            <span>{{ technoId|technoName }}</span>
                         {% endfor %}
                     </td>
                     <td>
                         <a href="{{ path('annonce_search_results', {'form': search_profile.searchQuery}) }}">show</a>
+
                         {{ include('search_profile/_delete_form.html.twig') }}
                     </td>
                 </tr>
@@ -56,8 +118,5 @@
             {% endfor %}
             </tbody>
         </table>
-
-
-        <a href="{{ path('app_search_profile_new') }}">Create new</a>
     </main>
 {% endblock %}
