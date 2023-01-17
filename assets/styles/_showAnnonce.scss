@@ -66,6 +66,10 @@
         top: 6rem;
     }
 
+    #fav-company {
+        font-size: 1.7rem;
+    }
+
     .logo{
         display: none;
         @include media-breakpoint-up(sm) {
