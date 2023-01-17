@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SearchProfile index{% endblock %}
+
+{% block body %}
+
+    <main class="searchProfile container-md mb-5">
+        <h1>Mes recherches</h1>
+
+        <div class="row">
+            {% for search_profile in app.user.candidat.searchProfiles %}
+                <div class="col-sm-4">
+                    <div class="card mb-5">
+                        <div class="card-body">
+                            <h4 class="card-title">Recherche</h4>
+                            <p class="card-text">{{ search_profile.searchQuery.searchQuery ?? 'Non renseigné' }}</p>
+                            {{ include('search_profile/_delete_form.html.twig') }}
+                        </div>
+                        <div class="list-group list-group-flush">
+                            <div class="list-group-item">
+                                <p>Remote</p>
+                                <p>{{ search_profile.searchQuery.remote ? 'Oui' : 'Non' }}</p>
+                            </div>
+                            <div class="list-group-item">
+                                <p>Temps de travail</p>
+                                <p>{{ search_profile.searchQuery.workTime ? 'Temps plein' : 'Temps partiel' }}</p>
+                            </div>
+                            <div class="list-group-item">
+                                <p>Entreprise</p>
+                                <p>{{ search_profile.searchQuery.company ? search_profile.searchQuery.company|companyName : '' }}</p>
+                            </div>
+                            <div class="list-group-item">
+                                <p>Salaire Minimum</p>
+                                <p>{{ search_profile.searchQuery.salaryMin ~ ' €'}}</p>
+                            </div>
+                            <div class="list-group-item">
+                                <p>Type de contrat</p>
+                                <p>
+                                    {% for contract in search_profile.searchQuery.contractType %}
+                                        <span>{{ contract }}</span>
+                                    {% endfor %}
+                                </p>
+                            </div>
+                            <div class="list-group-item">
+                                <p>Techno visée</p>
+                                <p>
+                                    {% for technoId in search_profile.searchQuery.techno %}
+                                        {#                            @todo make custom twig filter ex: {{ technoId|technoName }}#}
+                                        {#                            https://symfony.com/doc/current/templating/twig_extension.html#}
+                                        <span>{{ technoId|technoName }}</span>
+                                    {% endfor %}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="card-body link">
+                            <a href="{{ path('annonce_search_results', {'form': search_profile.searchQuery}) }}" class="btn btn-primary">Voir les résultats</a>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+
+                <div class="oups">
+
+                    <img src="{{ asset('build/images/oups.jpg') }}" alt="illustration page vide"/>
+                    <p>
+                        Oh ! Il semblerait qu'il n'y ait encore rien ici !
+                        <br>
+                        Sauvegarde tes recherches et elles apparaîtront ici.
+                    </p>
+                </div>
+
+            {% endfor %}
+        </div>
+
+    </main>
+{% endblock %}
