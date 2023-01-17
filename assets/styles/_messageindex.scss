@@ -1,29 +1,28 @@
-.table {
-    //border: solid 1px $primary;
-    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
-    border-radius: 15px !important;
-    overflow: hidden;
+.messagerieIndex {
+    .table {
+        //border: solid 1px $primary;
+        box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+        border-radius: 15px !important;
+        overflow: hidden;
 
-    thead {
-        & > tr {
-            background-color: rgba(201, 25, 97, 0.2);
-            height: 3rem;
-        }
-    }
-
-    tbody {
-        tr{
-            height:2.5rem;
-            td {
-                max-width: 100px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
+        thead {
+            & > tr {
+                background-color: rgba(201, 25, 97, 0.2);
+                height: 3rem;
             }
-            &:last-child{
-/*                white-space: nowrap;
-                text-overflow: ellipsis;*/
+        }
+
+        tbody {
+            tr {
+                height: 2.5rem;
+                td {
+                    max-width: 100px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
             }
         }
     }
+
 }

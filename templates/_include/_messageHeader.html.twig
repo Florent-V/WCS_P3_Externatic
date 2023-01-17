@@ -2,6 +2,5 @@
     <td class="col-2 {{ message.isRead ? '' : 'text-primary fw-bolder' }}">{{ message.date|format_datetime('short', 'short', locale='fr') }}</td>
     <td class="col-2 {{ message.isRead ? '' : 'text-primary fw-bolder' }}">{{ message.sendBy.lastName|upper }} {{ message.sendBy.firstname|capitalize }}</td>
     <td class="col-2 {{ message.isRead ? '' : 'text-primary fw-bolder' }}">{{ message.recruitmentProcess.annonce.title ?: message.recruitmentProcess.company.name ?: "" }}</td>
-    <td class="col-2 {{ message.isRead ? '' : 'text-primary fw-bolder' }}">{{ message.title }}</td>
-    <td class="col-5 font-italic text-muted {{ message.isRead ? "" : 'text-primary' }}">{{ message.content}}</td>
+    <td class="col-5 contentMessage font-italic text-muted {{ message.isRead ? "" : 'text-primary' }}">{{ message.content|striptags|raw }}</td>
 </tr>
