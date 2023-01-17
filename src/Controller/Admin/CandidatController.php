@@ -46,7 +46,7 @@ class CandidatController extends AbstractController
             return $this->redirectToRoute('admin_app_candidat_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('admin/candidat/edit.html.twig', [
+        return $this->renderForm('candidat/update.html.twig', [
             'candidat' => $candidat,
             'candidatForm' => $form,
         ]);

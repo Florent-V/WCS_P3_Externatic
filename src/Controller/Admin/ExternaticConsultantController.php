@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Candidat;
+use App\Entity\ExternaticConsultant;
 use App\Entity\User;
 use App\Form\CandidatType;
 use App\Form\UserUpdateType;
@@ -27,31 +28,6 @@ class ExternaticConsultantController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_candidat_show', methods: ['GET'])]
-    public function show(Candidat $candidat): Response
-    {
-        return $this->render('admin/candidat/show.html.twig', [
-            'candidat' => $candidat,
-        ]);
-    }
-
-    #[Route('/{id}/edit', name: 'app_candidat_edit', methods: ['GET', 'POST'])]
-    public function editPro(Request $request, Candidat $candidat, CandidatRepository $candidatRepository): Response
-    {
-        $form = $this->createForm(CandidatType::class, $candidat);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $candidatRepository->save($candidat, true);
-
-            return $this->redirectToRoute('admin_app_candidat_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('admin/candidat/edit.html.twig', [
-            'candidat' => $candidat,
-            'candidatForm' => $form,
-        ]);
-    }
 
     #[Route('/{id}', name: 'app_consultant_delete', methods: ['POST'])]
     public function delete(Request $request, User $user, UserRepository $userRepository): Response
@@ -64,6 +40,6 @@ class ExternaticConsultantController extends AbstractController
             $userRepository->save($user, true);
         }
 
-        return $this->redirectToRoute('admin_app_candidat_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('admin_app_consultant_index', [], Response::HTTP_SEE_OTHER);
     }
 }

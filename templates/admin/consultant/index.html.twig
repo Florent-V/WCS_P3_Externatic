@@ -24,14 +24,19 @@
                 <td>{{ consultant.id }}</td>
                 <td>{{ consultant.user.firstname }}</td>
                 <td>{{ consultant.user.lastName }}</td>
-                <td>{{ consultant.user.roles }}</td>
+                <td>
+                    {% if 'ROLE_ADMIN' in consultant.user.roles %}
+                        <span>ADMIN</span>
+                    {% else %}
+                        <span>CONSULTANT</span>
+                    {% endif %}
+                </td>
                 <td>{{ consultant.user.email }}</td>
                 <td>{{ consultant.user.phone }}</td>
-                <td>{{ candidat.user.isActive ? 'Yes' : 'No' }}</td>
+                <td>{{ consultant.user.isActive ? 'Yes' : 'No' }}</td>
                 <td>
-                    <a href="{{ path('admin_app_candidat_edit', {'id': candidat.id}) }}">Edit info pro</a><br>
-                    <a href="{{ path('admin_app_user_edit', {'id': candidat.user.id}) }}">Edit info perso</a><br>
-                    {{ include('admin/candidat/_delete_form.html.twig') }}
+                <a href="{{ path('admin_app_user_edit', {'id': consultant.user.id}) }}">Modifier</a><br>
+                    {{ include('admin/consultant/_delete_form.html.twig') }}
                 </td>
             </tr>
         {% else %}

@@ -36,8 +36,8 @@
                 <td>{{ candidat.user.isActive ? 'Yes' : 'No' }}</td>
                 <td>
                     <a href="{{ path('admin_app_candidat_show', {'id': candidat.id}) }}">Show</a><br>
-                    <a href="{{ path('admin_app_candidat_edit', {'id': candidat.id}) }}">Edit info pro</a><br>
-                    <a href="{{ path('admin_app_user_edit', {'id': candidat.user.id}) }}">Edit info perso</a><br>
+                    <a href="{{ path('admin_app_candidat_edit', {'id': candidat.id}) }}">Edit info Candidat</a><br>
+                    <a href="{{ path('admin_app_user_edit', {'id': candidat.user.id}) }}">Edit info Utilisateur</a><br>
                     {{ include('admin/candidat/_delete_form.html.twig') }}
                 </td>
             </tr>
