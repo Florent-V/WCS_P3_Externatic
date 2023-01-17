@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Profils Consultant{% endblock %}
+
+{% block body %}
+    <h1>Liste des Profils Consultant</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Role</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>IsActive</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for consultant in consultants %}
+            <tr>
+                <td>{{ consultant.id }}</td>
+                <td>{{ consultant.user.firstname }}</td>
+                <td>{{ consultant.user.lastName }}</td>
+                <td>{{ consultant.user.roles }}</td>
+                <td>{{ consultant.user.email }}</td>
+                <td>{{ consultant.user.phone }}</td>
+                <td>{{ candidat.user.isActive ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('admin_app_candidat_edit', {'id': candidat.id}) }}">Edit info pro</a><br>
+                    <a href="{{ path('admin_app_user_edit', {'id': candidat.user.id}) }}">Edit info perso</a><br>
+                    {{ include('admin/candidat/_delete_form.html.twig') }}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

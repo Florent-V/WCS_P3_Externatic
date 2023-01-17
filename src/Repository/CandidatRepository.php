@@ -42,7 +42,7 @@ class CandidatRepository extends ServiceEntityRepository
     public function findActiveCandidat(): array
     {
         return $this->createQueryBuilder('c')
-            ->innerJoin('user', 'u', 'WITH', 'u.is_active IS true')
+            ->innerJoin('c.user', 'u', 'WITH', 'u.isActive = true')
             ->getQuery()
             ->getResult();
     }
