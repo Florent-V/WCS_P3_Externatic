@@ -2,7 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\Annonce;
 use App\Entity\Candidat;
+use App\Entity\Company;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -37,6 +39,17 @@ class CandidatRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findByFavCompany(Company $company): array
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT c FROM App\Entity\Candidat c WHERE :company MEMBER OF c.favoriteCompanies'
+        )
+            ->setParameter('company', $company);
+
+        return $query->execute();
     }
 
 //    /**
