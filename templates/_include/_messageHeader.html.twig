@@ -1,7 +1,7 @@
-<tr>
-    <td>{{ message.date|format_datetime('short', 'short', locale='fr') }}</td>
-    <td class="font-weight-bold">{{ message.sendBy.lastName|upper }} {{ message.sendBy.firstname|capitalize }}</td>
-    <td>{{ message.recruitmentProcess.annonce.title ?: message.recruitmentProcess.company.name ?: "" }}</td>
-    <td>{{ message.title }}</td>
-    <td class="font-italic text-muted">{{ message.content|slice(0, 80)|join(' ') }}...</td>
+<tr class="table-hover {{ message.isRead ? 'bg-white' : 'bg-light' }}">
+    <td class="col-2 {{ message.isRead ? '' : 'text-primary fw-bolder' }}">{{ message.date|format_datetime('short', 'short', locale='fr') }}</td>
+    <td class="col-2 {{ message.isRead ? '' : 'text-primary fw-bolder' }}">{{ message.sendBy.lastName|upper }} {{ message.sendBy.firstname|capitalize }}</td>
+    <td class="col-2 {{ message.isRead ? '' : 'text-primary fw-bolder' }}">{{ message.recruitmentProcess.annonce.title ?: message.recruitmentProcess.company.name ?: "" }}</td>
+    <td class="col-2 {{ message.isRead ? '' : 'text-primary fw-bolder' }}">{{ message.title }}</td>
+    <td class="col-5 font-italic text-muted {{ message.isRead ? "" : 'text-primary' }}">{{ message.content}}</td>
 </tr>

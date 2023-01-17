@@ -3,15 +3,16 @@
 {% block title %}Messagerie{% endblock %}
 
 {% block body %}
-    <div><h1>Bienvenue sur votre messagerie</h1></div>
-    <main>
 
-        <table class="table table-striped table-sm">
-            <thead class="thead-light">
+    <main class="container">
+        <div class="text-center m-4"><h1>Bienvenue sur votre messagerie</h1></div>
+        <div class="table-responsive-sm">
+        <table class="table table-hover">
+            <thead>
             <tr>
                 <th scope="row">Date</th>
                 <th scope="row">Expediteur</th>
-                <th scope="row">Processus de recrutement</th>
+                <th scope="row">Processus</th>
                 <th scope="row">Title</th>
                 <th scope="row">Contenu</th>
             </tr>
@@ -21,8 +22,8 @@
             {% for message in receivedMessages %}
                 {% include('_include/_messageHeader.html.twig') %}
             {% endfor %}
-
         </table>
+        </div>
         <div id="pageSelector" class="container d-flex justify-content-center">{{ knp_pagination_render(receivedMessages) }}</div>
     </main>
 {% endblock %}

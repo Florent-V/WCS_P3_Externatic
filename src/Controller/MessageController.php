@@ -31,7 +31,7 @@ class MessageController extends AbstractController
         $receivedMessages = $paginator->paginate(
             $receivedMessages,
             $request->query->getInt('page', 1),
-            5
+            10
         );
 
         return $this->render('message/conversationlist.html.twig', [
