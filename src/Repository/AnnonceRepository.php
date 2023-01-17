@@ -56,7 +56,7 @@ class AnnonceRepository extends ServiceEntityRepository
             ->andWhere('a.title LIKE :searchQuery')
             ->setParameter('searchQuery', '%' . $searchInformations['searchQuery'] . '%')
             ->andWhere('a.publicationStatus = 1')
-            ->andWhere('a.endingAt <= :now OR a.endingAt = :test')
+            ->andWhere('a.endingAt >= :now OR a.endingAt = :test')
             ->setParameter('now', $now->format("Y-m-d 23:59:59"))
             ->setParameter('test', null);
 
@@ -129,7 +129,7 @@ class AnnonceRepository extends ServiceEntityRepository
     private function getSalaryAndRemoteQuery(QueryBuilder $queryBuilder, mixed $searchInformations): void
     {
         if (!empty($searchInformations['salaryMin'])) {
-            $queryBuilder->andWhere('a.salaryMin > :salaryMin')
+            $queryBuilder->andWhere('a.salaryMax > :salaryMin or a.salaryMax IS null')
                 ->setParameter('salaryMin', $searchInformations['salaryMin']);
         }
         if (isset($searchInformations['remote']) && $searchInformations['remote'] != "") {
