@@ -1,8 +1,7 @@
-<div class="form-annonce">
+<div class="form-annonce" {{ stimulus_controller('annonce_form') }}>
 
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
+    {{  component('annonce_form', {
+        annonce: annonce.id ? annonce : null
+    }) }}
 
-    <button class="btn">{{ button_label|default('Mettre l\'annonce en ligne') }}</button>
-    {{ form_end(form) }}
 </div>

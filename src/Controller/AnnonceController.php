@@ -16,6 +16,7 @@ use App\Repository\UserRepository;
 use App\Repository\CandidatRepository;
 use App\Repository\MessageRepository;
 use App\Repository\RecruitmentProcessRepository;
+use App\Service\NewNotif;
 use DateTime;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -38,14 +39,14 @@ class AnnonceController extends AbstractController
     ): Response {
         $fetchedAnnonces = $annonceRepository->annonceFinder($request->get('form'));
 
-        $paginatedAnnonces = $paginator->paginate(
+        $annonces = $paginator->paginate(
             $fetchedAnnonces,
             $request->query->getInt('page', 1),
             12
         );
 
         return $this->render('annonce/results.html.twig', [
-            'paginatedAnnonces' => $paginatedAnnonces
+            'annonces' => $annonces
         ]);
     }
 
@@ -54,8 +55,7 @@ class AnnonceController extends AbstractController
     public function new(
         Request $request,
         AnnonceRepository $annonceRepository,
-        UserRepository $userRepository,
-        NotifRepository $notifRepository
+        NewNotif $newNotif
     ): Response {
         $annonce = new Annonce();
         $form = $this->createForm(AnnonceType::class, $annonce);
@@ -63,29 +63,34 @@ class AnnonceController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $date = new DateTime();
             $annonce->setCreatedAt($date);
-            //$annonce->setAuthor();
-            $annonceRepository->save($annonce, true);
-            $this->addFlash('success', 'Annonce en ligne');
-            foreach ($userRepository->findByRole('ROLE_CANDIDAT') as $user) {
-                $notification = new Notif();
-                $notification->setContent($annonce->getTitle());
-                $notification->setType('newAnnonce');
-                $notification->setCreatedAt(new DateTime('now'));
-                $notification->setUser($user);
-                $notification->setParameter($annonce->getId());
-                $notification->setWasRead(false);
-                $notifRepository->save($notification, true);
+
+            /**
+             * @var ?User $user
+             */
+            $user = $this->getUser();
+            if (in_array("ROLE_ADMIN", $user->getRoles())) {
+                $annonce->setAuthor($user->getConsultant());
+            } else {
+                $annonce->setAuthor($user->getConsultant());
             }
 
-            return $this->redirectToRoute('annonce_show', ['id' => $annonce->getId() ]);
+            //A SUPPRIMER IMPERATIVEMENT
+            $annonce->setContractType("CDD");
+
+            $annonceRepository->save($annonce, true);
+            $this->addFlash('success', 'Annonce en ligne');
+            $newNotif->newNotifAnnonce($annonce);
+
+            return $this->redirectToRoute('annonce_show', ['id' => $annonce->getId()]);
         }
         return $this->renderForm('annonce/new.html.twig', [
             'annonce' => $annonce,
             'form' => $form,
-            ]);
+        ]);
     }
 
-    #[Route('/{id}/favorite', name:'add_favorite', methods: ['GET'])]
+
+    #[Route('/{id}/favorite', name: 'add_favorite', methods: ['GET'])]
     public function addToFavorite(
         Annonce $annonce,
         CandidatRepository $candidatRepository
@@ -109,7 +114,7 @@ class AnnonceController extends AbstractController
         ]);
     }
 
-    #[Route('/favorite', name:'show_favorite', methods: ['GET'])]
+    #[Route('/favorite', name: 'show_favorite', methods: ['GET'])]
     public function showFavorites(
         UserInterface $user,
         CandidatRepository $candidatRepository
@@ -123,7 +128,7 @@ class AnnonceController extends AbstractController
         ]);
     }
 
-    #[Route('/company/{id}', name:'show_by_company', methods: ['GET'])]
+    #[Route('/company/{id}', name: 'show_by_company', methods: ['GET'])]
     public function showAnnonceByCompany(
         UserInterface $user,
         Company $company,
@@ -194,12 +199,32 @@ class AnnonceController extends AbstractController
         $recruProcessActuel = $recruitProcessRepo->findOneBy([
             "annonce" => $annonce,
             "candidat" => $candidat
-            ]);
+        ]);
 
         return $this->renderForm('annonce/show.html.twig', [
             'annonce' => $annonce,
             'form' => $form,
             'recruProcessActuel' => $recruProcessActuel,
+        ]);
+    }
+
+
+    #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_CONSULTANT')]
+    public function edit(Annonce $annonce, Request $request, AnnonceRepository $annonceRepository): response
+    {
+        $form = $this->createForm(AnnonceType::class, $annonce);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $annonceRepository->save($annonce, true);
+            $this->addFlash('success', 'Annonce modifiée');
+            return $this->redirectToRoute('annonce_show', ['id' => $annonce->getId()]);
+        }
+
+        return $this->renderForm('annonce/edit.html.twig', [
+            'annonce' => $annonce,
+            'form' => $form,
         ]);
     }
 }

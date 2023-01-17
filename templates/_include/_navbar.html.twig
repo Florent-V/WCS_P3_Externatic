@@ -66,7 +66,7 @@
                             <a class="nav-link" href="">Messagerie</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">Mes Annonces</a>
+                            <a class="nav-link" href="{{  path('consultant_annonces') }}">Mes Annonces</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="">Mes Processus de recrutement</a>
@@ -80,10 +80,13 @@
                             <a class="nav-link" href="{{ path('admin_app_company_new') }}">Ajouter une entreprise</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">PLACEHOLDER 1</a>
+                            <a class="nav-link" href="#">Base Candidats</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">PLACEHOLDER 2</a>
+                            <a class="nav-link" href="#">Base Entreprises</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Base Annonces</a>
                         </li>
                     {% else %}
                         <li class="nav-item">
