@@ -51,7 +51,7 @@ class RecruitmentProcess
     private Collection $messages;
 
     #[ORM\ManyToOne(inversedBy: 'recruitmentProcesses')]
-    private ?company $company = null;
+    private ?Company $company = null;
 
     #[ORM\PrePersist]
     public function setCreatedAtValue(): void
@@ -202,12 +202,12 @@ class RecruitmentProcess
         return $this;
     }
 
-    public function getCompany(): ?company
+    public function getCompany(): ?Company
     {
         return $this->company;
     }
 
-    public function setCompany(?company $company): self
+    public function setCompany(?Company $company): self
     {
         $this->company = $company;
 

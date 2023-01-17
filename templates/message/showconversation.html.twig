@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block title %}Vous discutez avec{% endblock %}
+{% block body %}
+    <main class="messageConversation container">
+        <h1>Echange relatifs à <span class="text-primary">{{ recruitmentProcess.annonce.title ?: recruitmentProcess.company.name}} </span></h1>
+{% for message in messages %}
+<article class="rounded rounded-3  border border-1 border-primary w-25">{{ message.content|raw }}</article>
+{% endfor %}
+<article class="rounded rounded-3  border border-1 border-primary w-25" id="newMessage"></article>
+
+<div>
+    {{ form(form) }}
+</div>
+
+    </main>
+{%  endblock %}
