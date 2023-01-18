@@ -6,14 +6,21 @@
 {% block body %}
     <main class="messageConversation container">
         <h1>Echange relatifs à <span class="text-primary">{{ recruitmentProcess.annonce.title ?: recruitmentProcess.company.name}} </span></h1>
-{% for message in messages %}
-<article class="rounded rounded-3  border border-1 border-primary w-25">{{ message.content|raw }}</article>
-{% endfor %}
-<article class="rounded rounded-3  border border-1 border-primary w-25" id="newMessage"></article>
 
-<div>
-    {{ form_start(form) }}
-</div>
+        <div  class="allconv d-flex justify-content-around ">
+            <div class="col-5 response" data-controller="messageScroll" id="newMessage">
+                {% for message in messages %}
+                    <article class="col-6 rounded rounded-3  border border-1 border-primary w-25">{{ message.content|raw }}</article>
+                {% endfor %}
+            </div>
+
+            <div class="formconvo col-5">
+                {{ form_start(form) }}
+                {{ form_widget(form.content) }}
+                <button class="btn btn-danger" type="submit"><i class="bi bi-chat-text-fill"> Envoyer </i></button>
+                {{ form_end(form) }}
+            </div>
+        </div>
 
     </main>
 {%  endblock %}

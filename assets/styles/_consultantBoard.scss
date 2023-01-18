@@ -15,15 +15,17 @@
         &.messages {
             tr {
                 height: 2rem;
-                .messageContent {
-                    max-width: 1rem;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-
-                    a {
-                        text-decoration: none;
-                        color: inherit;
+                &.messageHeader {
+                    cursor: pointer;
+                    .messageContent {
+                        max-width: 1rem;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        a {
+                            text-decoration: none;
+                            color: inherit;
+                        }
                     }
                 }
             }
@@ -44,19 +46,16 @@
             }
         }
 
-        //Barre de défilement
+        //personnalisation scroll bar
         scrollbar-color: $primary $light;
         scrollbar-width: thin;
-
         &::-webkit-scrollbar {
             width: .5rem;
         }
-
         &::-webkit-scrollbar-thumb {
             background: $primary;
             border-radius: $border-radius;
         }
-
     }
 }
 
