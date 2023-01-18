@@ -5,15 +5,32 @@
 {% block title %}Vous discutez avec{% endblock %}
 {% block body %}
     <main class="messageConversation container">
-        <h1>Echange relatifs à <span class="text-primary">{{ recruitmentProcess.annonce.title ?: recruitmentProcess.company.name}} </span></h1>
-        <div class="Conversation d-flex">
-            <section class="conversationList d-none d-md-block col-md-5">
-                tralala
+        <h1 class="text-center">Echange relatifs à <span class="text-primary">{{ recruitmentProcess.annonce.title ?: recruitmentProcess.company.name}} </span></h1>
+        <div class="Conversation d-flex justify-content-around">
+            <section class="conversationList d-none d-lg-block col-md-5">
+                <div class="table-responsive-md">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="row">Date</th>
+                            <th scope="row">Expediteur</th>
+                            <th scope="row">Intitulé de l'annonce</th>
+                            <th scope="row">Contenu</th>
+                        </tr>
+                        </thead>
+
+                        <tbody id="swup" data-controller="inbox">
+                        {% for message in receivedMessages %}
+                            {% include('_include/_messageHeader.html.twig') %}
+                        {% endfor %}
+                    </table>
+                </div>
+                <div id="pageSelector" class="container d-flex justify-content-center">{{ knp_pagination_render(receivedMessages) }}</div>
             </section>
 
-            <section  class="allconv col-md-5 d-flex justify-content-around flex-column">
+            <section  class="allconv col-lg-5 d-flex justify-content-around flex-column">
                 <div class="d-flex flex-column response" data-controller="messageScroll" id="newMessage">
-                    {% for message in messages %}
+                    {% for message in convMessages %}
                         <article class="w-75 m-2 p-2
                         col-6
                         rounded rounded-3
@@ -23,7 +40,7 @@
                             <small class=fst-italic {{ (message.sendBy.id == app.user.id) ? "text-light" : "text-primary" }}>{{ message.sendBy.firstname|capitalize }}<br> </small>{{ message.content|raw }}</article>
                     {% endfor %}
                 </div>
-                <div class="formconvo col-md-5">
+                <div class="formconvo col-12">
                     {{ form_start(form) }}
                     {{ form_widget(form.content) }}
                     <button class="btn" type="submit"><i class="bi bi-chat-text-fill"> Envoyer </i></button>

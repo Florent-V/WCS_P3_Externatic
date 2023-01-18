@@ -50,7 +50,8 @@ class MessageController extends AbstractController
     public function conversation(
         RecruitmentProcess $recruitmentProcess,
         MessageRepository $messageRepository,
-        Request $request
+        Request $request,
+        PaginatorInterface $paginator
     ): Response {
         $messages = $messageRepository->findBy(['recruitmentProcess' => $recruitmentProcess], ['date' => 'ASC']);
         $message = new Message();
@@ -92,10 +93,18 @@ class MessageController extends AbstractController
             return $this->redirectToRoute('message_conversation', [], Response::HTTP_SEE_OTHER);
         }
 
+        $otherConvQuery = $messageRepository->getInbox("sendTo", $user->getId());
+        $otherConversations = $paginator->paginate(
+            $otherConvQuery,
+            $request->query->getInt('page', 1),
+            10
+        );
+
         return $this->renderForm('message/showconversation.html.twig', [
             'recruitmentProcess' => $recruitmentProcess,
-            'messages' => $messages,
-            'form' => $form
+            'convMessages' => $messages,
+            'form' => $form,
+            'receivedMessages' => $otherConversations
             ]);
     }
 }
