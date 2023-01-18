@@ -3,11 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Annonce;
-use App\Entity\ExternaticConsultant;
 use DateInterval;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -47,7 +47,7 @@ class AnnonceRepository extends ServiceEntityRepository
         }
     }
 
-    public function annonceFinder(mixed $searchInformations): array
+    public function annonceFinder(mixed $searchInformations): Query
     {
         $now = new DateTime();
         $searchInformations['searchQuery'] ??= '';
@@ -56,7 +56,7 @@ class AnnonceRepository extends ServiceEntityRepository
             ->andWhere('a.title LIKE :searchQuery')
             ->setParameter('searchQuery', '%' . $searchInformations['searchQuery'] . '%')
             ->andWhere('a.publicationStatus = 1')
-            ->andWhere('a.endingAt <= :now OR a.endingAt = :test')
+            ->andWhere('a.endingAt >= :now OR a.endingAt = :test')
             ->setParameter('now', $now->format("Y-m-d 23:59:59"))
             ->setParameter('test', null);
 
@@ -95,9 +95,7 @@ class AnnonceRepository extends ServiceEntityRepository
         }
 
         $queryBuilder->orderBy('a.createdAt', 'ASC');
-        $query = $queryBuilder->getQuery();
-
-        return $query->getResult();
+        return $queryBuilder->getQuery();
     }
 
     public static function getContractQuery(array $contractTypes): Criteria
@@ -129,7 +127,7 @@ class AnnonceRepository extends ServiceEntityRepository
     private function getSalaryAndRemoteQuery(QueryBuilder $queryBuilder, mixed $searchInformations): void
     {
         if (!empty($searchInformations['salaryMin'])) {
-            $queryBuilder->andWhere('a.salaryMin > :salaryMin')
+            $queryBuilder->andWhere('a.salaryMax > :salaryMin or a.salaryMax IS null')
                 ->setParameter('salaryMin', $searchInformations['salaryMin']);
         }
         if (isset($searchInformations['remote']) && $searchInformations['remote'] != "") {

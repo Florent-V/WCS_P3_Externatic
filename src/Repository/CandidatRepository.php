@@ -2,7 +2,6 @@
 
 namespace App\Repository;
 
-use App\Entity\Annonce;
 use App\Entity\Candidat;
 use App\Entity\Company;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -39,6 +38,14 @@ class CandidatRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findActiveCandidat(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->innerJoin('c.user', 'u', 'WITH', 'u.isActive = true')
+            ->getQuery()
+            ->getResult();
     }
 
     public function findByFavCompany(Company $company): array
