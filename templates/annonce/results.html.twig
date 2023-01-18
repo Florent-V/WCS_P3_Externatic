@@ -14,6 +14,15 @@
                 </div>
             {% endfor %}
         </div>
+
+        {% if is_granted('ROLE_CANDIDAT') and  app.request.get('form') is not null %}
+            <form action="{{ path('app_search_profile_new') }}" method="post">
+                <input name="research" type="hidden" value="{{ app.request.get('form')|json_encode }}">
+                <button id="" type="submit">Sauvegarder</button>
+            </form>
+        {% endif %}
+
         <div class="container d-flex justify-content-center">{{ knp_pagination_render(annonces) }}</div>
+
     </main>
 {% endblock %}

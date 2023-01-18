@@ -129,7 +129,7 @@ class AnnonceRepository extends ServiceEntityRepository
     private function getSalaryAndRemoteQuery(QueryBuilder $queryBuilder, mixed $searchInformations): void
     {
         if (!empty($searchInformations['salaryMin'])) {
-            $queryBuilder->andWhere('a.salaryMax > :salaryMin')
+            $queryBuilder->andWhere('a.salaryMax > :salaryMin or a.salaryMax IS null')
                 ->setParameter('salaryMin', $searchInformations['salaryMin']);
         }
         if (isset($searchInformations['remote']) && $searchInformations['remote'] != "") {

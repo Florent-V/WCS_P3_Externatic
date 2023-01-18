@@ -41,9 +41,6 @@ class Techno
     #[ORM\ManyToMany(targetEntity: Annonce::class, mappedBy: 'techno')]
     private Collection $annonces;
 
-    #[ORM\ManyToOne(inversedBy: 'technos')]
-    private ?SearchProfile $searchProfile = null;
-
     #[ORM\OneToMany(mappedBy: 'techno', targetEntity: CurriculumHasTechno::class)]
     private Collection $curriculumHasTechnos;
 
@@ -105,18 +102,6 @@ class Techno
         if ($this->annonces->removeElement($annonce)) {
             $annonce->removeTechno($this);
         }
-
-        return $this;
-    }
-
-    public function getSearchProfile(): ?SearchProfile
-    {
-        return $this->searchProfile;
-    }
-
-    public function setSearchProfile(?SearchProfile $searchProfile): self
-    {
-        $this->searchProfile = $searchProfile;
 
         return $this;
     }

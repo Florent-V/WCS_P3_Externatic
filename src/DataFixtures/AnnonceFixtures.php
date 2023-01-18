@@ -22,7 +22,7 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
         $faker = Factory::create();
 
         for ($i = 1; $i <= CompanyFixtures::$companyIndex; $i++) {
-            $nbAnnonce = 8;
+            $nbAnnonce = 10;
             for ($j = 1; $j <= $nbAnnonce; $j++) {
                 $annonce = new Annonce();
                 self::$annonceIndex++;
@@ -35,16 +35,15 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
                 $annonce->setRemote($faker->boolean());
                 $annonce->setDescription("descr-ann/ " . $faker->paragraphs(3, true));
                 $annonce->setWorkTime(new DateInterval('PT' . $faker->numberBetween(1, 50) . 'H'));
-                $annonce->setPublicationStatus($faker->numberBetween(0, 1));
+                $annonce->setPublicationStatus($faker->randomElement([0,1,1,1]));
                 $creatingDate = $faker->dateTimeThisMonth();
                 $annonce->setCreatedAt($creatingDate);
-                $annonce->setEndingAt($faker->dateTimeInInterval($creatingDate, '+3 months'));
+                $annonce->setEndingAt($faker->dateTimeInInterval($creatingDate, '+4 months'));
                 $annonce->setContractDuration(new DateInterval("P" . $faker->numberBetween(1, 4) . "Y" .
                     $faker->numberBetween(1, 12) . "M" .
                     $faker->numberBetween(1, 7) . "D"));
                 $annonce->setCompany($this->getReference('company_' . $i));
-                $annonce->setAuthor($this->getReference('consultant_' .
-                    $faker->numberBetween(1, ExternaticConsultantFixtures::$consultantIndex)));
+                $annonce->setAuthor($annonce->getCompany()->getExternaticConsultant());
                 for ($k = 1; $k <= $faker->numberBetween(1, 5); $k++) {
                     $annonce->addTechno($this->getReference('techno_' .
                         $faker->unique()->numberBetween(1, TechnoFixtures::$technoIndex)));
