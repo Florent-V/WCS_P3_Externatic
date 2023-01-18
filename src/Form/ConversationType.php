@@ -21,7 +21,7 @@ class ConversationType extends AbstractType
                 'required' => true,
                 'attr' => array(
           'placeholder' => 'Vous pouvez discuter avec votre intercoluteur'
-      )
+            )
             ]);
     }
 

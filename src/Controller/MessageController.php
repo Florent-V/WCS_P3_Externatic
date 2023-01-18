@@ -61,14 +61,14 @@ class MessageController extends AbstractController
          * @var ?User $user
          */
         $user = $this->getUser();
-
         if (!is_null($recruitmentProcess->getAnnonce())) {
             $consultant = $recruitmentProcess->getAnnonce()->getAuthor()->getUser();
         } else {
             $consultant = $recruitmentProcess->getCompany()->getExternaticConsultant()->getUser();
         }
 
-        if (($user != $consultant) && ($user != $recruitmentProcess->getCandidat()->getUser())) {
+        if (($user !== $consultant) && ($user !== $recruitmentProcess->getCandidat()->getUser())) {
+            $this->addFlash('danger', 'Vous ne pouvez pas accéder à cette conversation');
             return $this->redirectToRoute('message_index');
         }
 
@@ -76,8 +76,7 @@ class MessageController extends AbstractController
             $message->setRecruitmentProcess($recruitmentProcess);
             $message->setSendBy($user);
             if ($this->isGranted('ROLE_CANDIDAT')) {
-                $message->setSendTo($recruitmentProcess->getCompany()->getExternaticConsultant()->getUser());
-                //Call to a member function getExternaticConsultant() on null
+                $message->setSendTo($consultant);
             } else {
                 $message->setSendTo($recruitmentProcess->getCandidat()->getUser());
             }
