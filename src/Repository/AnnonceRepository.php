@@ -3,11 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Annonce;
-use App\Entity\ExternaticConsultant;
 use DateInterval;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -47,7 +47,7 @@ class AnnonceRepository extends ServiceEntityRepository
         }
     }
 
-    public function annonceFinder(mixed $searchInformations): array
+    public function annonceFinder(mixed $searchInformations): Query
     {
         $now = new DateTime();
         $searchInformations['searchQuery'] ??= '';
@@ -95,9 +95,7 @@ class AnnonceRepository extends ServiceEntityRepository
         }
 
         $queryBuilder->orderBy('a.createdAt', 'ASC');
-        $query = $queryBuilder->getQuery();
-
-        return $query->getResult();
+        return $queryBuilder->getQuery();
     }
 
     public static function getContractQuery(array $contractTypes): Criteria

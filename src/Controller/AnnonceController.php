@@ -30,15 +30,16 @@ use function PHPUnit\Framework\isEmpty;
 class AnnonceController extends AbstractController
 {
     #[Route('/search/results', name: 'search_results')]
+    #[Route('/', name: 'index')]
     public function index(
         Request $request,
         AnnonceRepository $annonceRepository,
         PaginatorInterface $paginator
     ): Response {
-        $fetchedAnnonces = $annonceRepository->annonceFinder($request->get('form'));
+        $queryAnnonces = $annonceRepository->annonceFinder($request->get('form'));
 
         $annonces = $paginator->paginate(
-            $fetchedAnnonces,
+            $queryAnnonces,
             $request->query->getInt('page', 1),
             12
         );
