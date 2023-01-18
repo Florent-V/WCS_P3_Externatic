@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Message;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -39,7 +40,7 @@ class MessageRepository extends ServiceEntityRepository
         }
     }
 
-    public function getInbox(string $sendOrReceived, int $userId): array
+    public function getInbox(string $sendOrReceived, int $userId): Query
     {
         return $this->createQueryBuilder('m')
             ->andWhere('m.' . $sendOrReceived . " = :user")
@@ -47,8 +48,7 @@ class MessageRepository extends ServiceEntityRepository
             ->andWhere('m.recruitmentProcess IS NOT null')
             ->groupBy('m.recruitmentProcess')
             ->orderBy('m.date', 'DESC')
-            ->getQuery()
-            ->getResult();
+            ->getQuery();
     }
 
 //    /**
