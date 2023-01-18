@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Message;
 use App\Entity\RecruitmentProcess;
 use App\Entity\User;
+use App\Form\ConversationType;
 use App\Form\MessageType;
 use App\Repository\MessageRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
@@ -55,7 +56,7 @@ class MessageController extends AbstractController
     ): Response {
         $messages = $messageRepository->findBy(['recruitmentProcess' => $recruitmentProcess], ['date' => 'ASC']);
         $message = new Message();
-        $form = $this->createForm(MessageType::class, $message);
+        $form = $this->createForm(ConversationType::class, $message);
         $form->handleRequest($request);
 
         /**
