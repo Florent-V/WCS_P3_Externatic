@@ -16,7 +16,13 @@ class ConversationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('content', TextareaType::class);
+            ->add('content', TextareaType::class, [
+                'label' => 'Label for field 1',
+                'required' => true,
+                'attr' => array(
+          'placeholder' => 'Vous pouvez discuter avec votre intercoluteur'
+      )
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

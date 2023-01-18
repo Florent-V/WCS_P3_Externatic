@@ -15,13 +15,13 @@
         {% if app.user %}
             <div>
                 {% if is_granted("ROLE_CANDIDAT") %}
-                    <a class="userName" href="">{{ app.user.firstname }}</a>
+                    <a class="d-none d-md-inline userName" href="">{{ app.user.firstname }}</a>
                     <a class="connexion navbar-brand" href="{{ path('app_logout') }}">Déconnexion</a>
                 {% elseif is_granted("ROLE_CONSULTANT") %}
-                    <a class="userName" href={{ path('consultant_board') }}>{{ app.user.firstname }}</a>
+                    <a class="d-none d-md-inline userName" href={{ path('consultant_board') }}>{{ app.user.firstname }}</a>
                     <a class="connexion navbar-brand" href="{{ path('app_logout') }}">Déconnexion</a>
                 {% elseif is_granted("ROLE_ADMIN") %}
-                    <a class="userName" href="">{{ app.user.firstname }}</a>
+                    <a class="d-none d-md-inline userName" href="">{{ app.user.firstname }}</a>
                     <a class="connexion navbar-brand" href="{{ path('app_logout') }}">Déconnexion</a>
                 {% else %}
                     <a class="connexion navbar-brand" href="{{ path('app_login') }}">Connexion</a>

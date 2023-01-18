@@ -6,7 +6,6 @@ use App\Entity\Message;
 use App\Entity\RecruitmentProcess;
 use App\Entity\User;
 use App\Form\ConversationType;
-use App\Form\MessageType;
 use App\Repository\MessageRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,7 +47,6 @@ class MessageController extends AbstractController
 
     #[Route('/recruitmentProcess/{recruitmentProcess<\d+>}', name: 'conversation')]
     #[Entity('recruitmentProcess', options: ['mapping' => ['recruitmentProcess' => 'id']])]
-    //#[Entity('Message', options: ['mapping' => ['message' => 'id']])]
     public function conversation(
         RecruitmentProcess $recruitmentProcess,
         MessageRepository $messageRepository,
@@ -79,6 +77,7 @@ class MessageController extends AbstractController
             $message->setSendBy($user);
             if ($this->isGranted('ROLE_CANDIDAT')) {
                 $message->setSendTo($recruitmentProcess->getCompany()->getExternaticConsultant()->getUser());
+                //Call to a member function getExternaticConsultant() on null
             } else {
                 $message->setSendTo($recruitmentProcess->getCandidat()->getUser());
             }

@@ -6,21 +6,30 @@
 {% block body %}
     <main class="messageConversation container">
         <h1>Echange relatifs à <span class="text-primary">{{ recruitmentProcess.annonce.title ?: recruitmentProcess.company.name}} </span></h1>
+        <div class="Conversation d-flex">
+            <section class="conversationList d-none d-md-block col-md-5">
+                tralala
+            </section>
 
-        <div  class="allconv d-flex justify-content-around ">
-            <div class="col-5 response" data-controller="messageScroll" id="newMessage">
-                {% for message in messages %}
-                    <article class="col-6 rounded rounded-3  border border-1 border-primary w-25">{{ message.content|raw }}</article>
-                {% endfor %}
-            </div>
-
-            <div class="formconvo col-5">
-                {{ form_start(form) }}
-                {{ form_widget(form.content) }}
-                <button class="btn" type="submit"><i class="bi bi-chat-text-fill"> Envoyer </i></button>
-                {{ form_end(form) }}
-            </div>
-        </div>
-
+            <section  class="allconv col-md-5 d-flex justify-content-around flex-column">
+                <div class="d-flex flex-column response" data-controller="messageScroll" id="newMessage">
+                    {% for message in messages %}
+                        <article class="w-75 m-2 p-2
+                        col-6
+                        rounded rounded-3
+                        border border-1 border-primary
+                        w-25
+                        {{ (message.sendBy.id == app.user.id) ? "bg-primary text-white align-self-end messageRecu" : "bg-white text-primary align-self-start" }}">
+                            <small class=fst-italic {{ (message.sendBy.id == app.user.id) ? "text-light" : "text-primary" }}>{{ message.sendBy.firstname|capitalize }}<br> </small>{{ message.content|raw }}</article>
+                    {% endfor %}
+                </div>
+                <div class="formconvo col-md-5">
+                    {{ form_start(form) }}
+                    {{ form_widget(form.content) }}
+                    <button class="btn" type="submit"><i class="bi bi-chat-text-fill"> Envoyer </i></button>
+                    {{ form_end(form) }}
+                </div>
+            </section>
+</div>
     </main>
 {%  endblock %}

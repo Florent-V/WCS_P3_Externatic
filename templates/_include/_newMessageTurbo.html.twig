@@ -1,5 +1,12 @@
 <turbo-stream action="append" target="newMessage">
     <template>
-        <article class="col-6 rounded rounded-3  border border-1 border-primary w-25">{{ message.content|raw }}</article>
+        <article class="w-75 m-2 p-2
+                    col-6
+                    rounded rounded-3
+                    border border-1 border-primary
+                    w-25
+                    {{ (message.sendBy.id == app.user.id) ? "bg-primary text-white align-self-end" : "bg-white text-primary align-self-start" }}">
+            <small class=fst-italic
+            {{ (message.sendBy.id == app.user.id) ? "text-light" : "text-primary" }}"">{{ message.sendBy.firstname|capitalize }} : <br> </small>{{ message.content|raw }}</article>
     </template>
 </turbo-stream>
