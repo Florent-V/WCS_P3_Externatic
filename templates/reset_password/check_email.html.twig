@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Confirmation d'envoie d'Email{% endblock %}
+
+{% block body %}
+    <main class="container-md confirmation">
+        <h1>Mot de passe oublié ?</h1>
+
+        <p class="confirmIcon"><i class="bi bi-hand-thumbs-up-fill"></i></p>
+
+
+        <p>
+            Si un compte correspond à votre adresse email existe, alors un email vient juste d'être envoyé avec un lien permettant de
+            réinitialisé votre mot de passe. <br>
+
+            Ce lien expire dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+        </p>
+        <p>Si vous ne recevez pas d'e-mail dans les 15 prochaines minutes, veuillez également vérifier votre dossier spam ou <a href="{{ path('app_forgot_password_request') }}">essayez à nouveau</a>.</p>
+
+    </main>
+
+{% endblock %}
