@@ -39,6 +39,14 @@ class CandidatRepository extends ServiceEntityRepository
         }
     }
 
+    public function findActiveCandidat(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->innerJoin('c.user', 'u', 'WITH', 'u.isActive = true')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Candidat[] Returns an array of Candidat objects
 //     */

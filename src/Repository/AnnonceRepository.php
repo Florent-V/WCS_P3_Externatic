@@ -7,6 +7,7 @@ use DateInterval;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -21,6 +22,7 @@ use Doctrine\Persistence\ManagerRegistry;
 class AnnonceRepository extends ServiceEntityRepository
 {
     private const FULL_TIME = 35;
+    public const NUMBER_OF_ITEMS = 10;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -45,14 +47,18 @@ class AnnonceRepository extends ServiceEntityRepository
         }
     }
 
-    public function annonceFinder(mixed $searchInformations): array
+    public function annonceFinder(mixed $searchInformations): Query
     {
+        $now = new DateTime();
         $searchInformations['searchQuery'] ??= '';
-        //Annonce title
         $queryBuilder = $this->createQueryBuilder('a')
             ->distinct()
             ->andWhere('a.title LIKE :searchQuery')
-            ->setParameter('searchQuery', '%' . $searchInformations['searchQuery'] . '%');
+            ->setParameter('searchQuery', '%' . $searchInformations['searchQuery'] . '%')
+            ->andWhere('a.publicationStatus = 1')
+            ->andWhere('a.endingAt >= :now OR a.endingAt = :test')
+            ->setParameter('now', $now->format("Y-m-d 23:59:59"))
+            ->setParameter('test', null);
 
         //Minimum Salary and remote
         $this->getSalaryAndRemoteQuery($queryBuilder, $searchInformations);
@@ -89,9 +95,7 @@ class AnnonceRepository extends ServiceEntityRepository
         }
 
         $queryBuilder->orderBy('a.createdAt', 'ASC');
-        $query = $queryBuilder->getQuery();
-
-        return $query->getResult();
+        return $queryBuilder->getQuery();
     }
 
     public static function getContractQuery(array $contractTypes): Criteria
@@ -123,7 +127,7 @@ class AnnonceRepository extends ServiceEntityRepository
     private function getSalaryAndRemoteQuery(QueryBuilder $queryBuilder, mixed $searchInformations): void
     {
         if (!empty($searchInformations['salaryMin'])) {
-            $queryBuilder->andWhere('a.salaryMin > :salaryMin')
+            $queryBuilder->andWhere('a.salaryMax > :salaryMin or a.salaryMax IS null')
                 ->setParameter('salaryMin', $searchInformations['salaryMin']);
         }
         if (isset($searchInformations['remote']) && $searchInformations['remote'] != "") {

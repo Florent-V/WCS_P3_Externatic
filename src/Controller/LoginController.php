@@ -26,6 +26,15 @@ class LoginController extends AbstractController
         ]);
     }
 
+    #[Route('/redirectAfterLogin', name: 'redirect_login', methods: ['GET'])]
+    public function redirectAfterLogin(): Response
+    {
+        if ($this->isGranted('ROLE_CONSULTANT')) {
+            return $this->redirectToRoute('consultant_board');
+        }
+        return $this->redirectToRoute('home');
+    }
+
     /**
      * @throws \Exception
      */

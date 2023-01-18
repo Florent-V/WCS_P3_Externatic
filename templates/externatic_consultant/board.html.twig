@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ExternaticConsultantController!{% endblock %}
+{% block title %}Board - {{ app.user.firstname }}{% endblock %}
 
 {% block body %}
 
@@ -74,7 +74,7 @@
             </section>
 
             <section class="recruitProssList col-10">
-                <h2>Vos annonces en cours ({{ app.user.consultant.annonces.count }})</h2>
+                <h2><a href="{{ path('consultant_annonces') }}">Vos annonces en cours ({{ app.user.consultant.annonces.count }})</a></h2>
                 <table class="table table-striped table-sm">
                     <thead>
                     <tr>

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Annonce;
 use App\Entity\ExternaticConsultant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -38,6 +39,28 @@ class ExternaticConsultantRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+/*    public function getRecruitProcessByAnnonce(Annonce $annonce): array
+    {
+        $queryBuilder = $this->createQueryBuilder('a')
+            ->andWhere('a.consultant = :consultantId')
+            ->setParameter('consultantId', $consultant);
+        if ($plage === "thisWeek") {
+            $queryBuilder->andWhere("a.date >= :date1")
+                ->setParameter('date1', $today)
+                ->andWhere("a.date <= :date2")
+                ->setParameter("date2", $sundayMidnight);
+        } elseif ($plage === "thisMonth") {
+            $queryBuilder->andWhere("a.date > :date1")
+                ->setParameter('date1', $sundayMidnight)
+                ->andWhere("a.date <= :date2")
+                ->setParameter("date2", $nextMonth);
+        }
+        $queryBuilder->orderBy('a.date', 'ASC');
+        $query = $queryBuilder->getQuery();
+
+        return $query->getResult();
+    }*/
 
 //    /**
 //     * @return ExternaticConsultant[] Returns an array of ExternaticConsultant objects

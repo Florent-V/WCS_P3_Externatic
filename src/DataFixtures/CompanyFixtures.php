@@ -19,7 +19,7 @@ class CompanyFixtures extends Fixture implements DependentFixtureInterface
         $faker = Factory::create('fr_FR');
 
         for ($i = 1; $i <= ExternaticConsultantFixtures::$consultantIndex; $i++) {
-            $nbCompanies = 5;
+            $nbCompanies = 10;
             for ($j = 1; $j <= $nbCompanies; $j++) {
                 $company = new Company();
                 self::$companyIndex++;

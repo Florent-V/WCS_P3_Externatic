@@ -1,0 +1,10 @@
+.consultantAnnonces {
+    margin-left: $navBarWidth;
+    article {
+        border:1px solid $primary;
+        border-radius: $border-radius;
+        img {
+            height:2rem;
+        }
+    }
+}

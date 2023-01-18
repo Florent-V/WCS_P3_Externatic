@@ -5,9 +5,7 @@ namespace App\Component;
 use App\Entity\Annonce;
 use App\Entity\Techno;
 use App\Form\AnnonceType;
-use App\Repository\AnnonceRepository;
 use App\Repository\TechnoRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
@@ -38,9 +36,6 @@ class AnnonceForm extends AbstractController
 
     #[LiveProp(writable: true)]
     public ?string $newTechnoName = null;
-
-    #[LiveProp(writable: true)]
-    public ?string $search = null;
 
     protected function instantiateForm(): FormInterface
     {

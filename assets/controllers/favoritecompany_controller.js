@@ -19,8 +19,8 @@ export default class extends Controller {
                 .then(res => res.json())
                 // Then update the icon
                 .then(function (res) {
-                    let bookmarkIcon = favoriteCompanyLink.lastElementChild;
                     let linktext = favoriteCompanyLink.firstElementChild;
+                    let bookmarkIcon = favoriteCompanyLink.lastElementChild;
                     if (res.isInFavorite) {
                         linktext.innerHTML = 'Retirer l\'entreprise des favoris';
                         bookmarkIcon.classList.remove('bi-heart'); // Remove the .bi-heart (empty heart) from classes in <i> element

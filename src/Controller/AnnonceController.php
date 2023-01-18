@@ -16,6 +16,7 @@ use App\Repository\UserRepository;
 use App\Repository\CandidatRepository;
 use App\Repository\MessageRepository;
 use App\Repository\RecruitmentProcessRepository;
+use App\Service\NewNotif;
 use DateTime;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -31,21 +32,22 @@ use function PHPUnit\Framework\isEmpty;
 class AnnonceController extends AbstractController
 {
     #[Route('/search/results', name: 'search_results')]
+    #[Route('/', name: 'index')]
     public function index(
         Request $request,
         AnnonceRepository $annonceRepository,
         PaginatorInterface $paginator
     ): Response {
-        $fetchedAnnonces = $annonceRepository->annonceFinder($request->get('form'));
+        $queryAnnonces = $annonceRepository->annonceFinder($request->get('form'));
 
-        $paginatedAnnonces = $paginator->paginate(
-            $fetchedAnnonces,
+        $annonces = $paginator->paginate(
+            $queryAnnonces,
             $request->query->getInt('page', 1),
             12
         );
 
         return $this->render('annonce/results.html.twig', [
-            'paginatedAnnonces' => $paginatedAnnonces
+            'annonces' => $annonces
         ]);
     }
 
@@ -54,8 +56,7 @@ class AnnonceController extends AbstractController
     public function new(
         Request $request,
         AnnonceRepository $annonceRepository,
-        UserRepository $userRepository,
-        NotifRepository $notifRepository
+        NewNotif $newNotif
     ): Response {
         $annonce = new Annonce();
         $form = $this->createForm(AnnonceType::class, $annonce);
@@ -70,6 +71,8 @@ class AnnonceController extends AbstractController
             $user = $this->getUser();
             if (in_array("ROLE_ADMIN", $user->getRoles())) {
                 $annonce->setAuthor($user->getConsultant());
+            } else {
+                $annonce->setAuthor($user->getConsultant());
             }
 
             //A SUPPRIMER IMPERATIVEMENT
@@ -77,16 +80,7 @@ class AnnonceController extends AbstractController
 
             $annonceRepository->save($annonce, true);
             $this->addFlash('success', 'Annonce en ligne');
-            foreach ($userRepository->findByRole('ROLE_CANDIDAT') as $candidat) {
-                $notification = new Notif();
-                $notification->setContent($annonce->getTitle());
-                $notification->setType('newAnnonce');
-                $notification->setCreatedAt(new DateTime('now'));
-                $notification->setUser($candidat);
-                $notification->setParameter($annonce->getId());
-                $notification->setWasRead(false);
-                $notifRepository->save($notification, true);
-            }
+            $newNotif->newNotifAnnonce($annonce);
 
             return $this->redirectToRoute('annonce_show', ['id' => $annonce->getId()]);
         }
