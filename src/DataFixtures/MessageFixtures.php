@@ -39,16 +39,37 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
                 $message->setTitle("mesTitle/" . $faker->sentence(3));
                 $message->setIsRead($faker->boolean);
                 $message->setContent("Contenu : " . $faker->paragraph);
-                if (!is_null($recruitmentProcess)) {
-                    $message->setRecruitmentProcess($this->getReference($recruitmentProcess));
-                }
+
                 if ($isSendByCandidat) {
                     $message->setSendBy($this->getReference($candidat));
-                    $message->setSendTo($this->getReference($externaticConsultant));
+                    if (!is_null($recruitmentProcess)) {
+                        $message->setRecruitmentProcess($this->getReference($recruitmentProcess));
+                        if (!is_null($message->getRecruitmentProcess()->getAnnonce())) {
+                            $message->setSendTo($message->getRecruitmentProcess()->getAnnonce()
+                                ->getAuthor()->getUser());
+                        } else {
+                            $message->setSendTo($message->getRecruitmentProcess()->getCompany()
+                                ->getExternaticConsultant()->getUser());
+                        }
+                    } else {
+                        $message->setSendTo($this->getReference($externaticConsultant));
+                    }
                 } else {
-                    $message->setSendBy($this->getReference($externaticConsultant));
                     $message->setSendTo($this->getReference($candidat));
+                    if (!is_null($recruitmentProcess)) {
+                        $message->setRecruitmentProcess($this->getReference($recruitmentProcess));
+                        if (!is_null($message->getRecruitmentProcess()->getAnnonce())) {
+                            $message->setSendBy($message->getRecruitmentProcess()->getAnnonce()
+                                ->getAuthor()->getUser());
+                        } else {
+                            $message->setSendBy($message->getRecruitmentProcess()->getCompany()
+                                ->getExternaticConsultant()->getUser());
+                        }
+                    } else {
+                        $message->setSendBy($this->getReference($externaticConsultant));
+                    }
                 }
+
                 $isSendByCandidat = !$isSendByCandidat;
                 $manager->persist($message);
             }

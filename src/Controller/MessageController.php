@@ -63,10 +63,13 @@ class MessageController extends AbstractController
          */
         $user = $this->getUser();
 
-        $consultant = $recruitmentProcess->getCompany() ?
-            $recruitmentProcess->getCompany()->getExternaticConsultant()->getUser() : null;
+        if (!is_null($recruitmentProcess->getAnnonce())) {
+            $consultant = $recruitmentProcess->getAnnonce()->getAuthor()->getUser();
+        } else {
+            $consultant = $recruitmentProcess->getCompany()->getExternaticConsultant()->getUser();
+        }
 
-        if ($user != $consultant && ($user != $recruitmentProcess->getCandidat()->getUser())) {
+        if (($user != $consultant) && ($user != $recruitmentProcess->getCandidat()->getUser())) {
             return $this->redirectToRoute('message_index');
         }
 

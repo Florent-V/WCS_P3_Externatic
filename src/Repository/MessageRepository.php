@@ -44,6 +44,7 @@ class MessageRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('m')
             ->andWhere('m.' . $sendOrReceived . " = :user")
             ->setParameter('user', $userId)
+            ->andWhere('m.recruitmentProcess IS NOT null')
             ->groupBy('m.recruitmentProcess')
             ->orderBy('m.date', 'DESC')
             ->getQuery()
