@@ -27,10 +27,23 @@
         }
     }
     .formconvo{
+        //rondeur du text area + bouton
         border-radius: 10px;
 
+        button{
+            width: 50%;
+            margin-top: 1rem;
+            background-color: $primary;
+            color: white;
+            //boxshadow
+            box-shadow: 2px 2px 10px 2px #9b9b9b;
+
+        }
         textarea{
             height: 60vh;
+            //boxshadow
+            box-shadow: 2px 2px 10px 2px #9b9b9b;
+            border: 5px solid rgba(201,25,97, 0.2);
         }
     }
 }
