@@ -19,14 +19,11 @@ export default class extends Controller {
                 .then(res => res.json())
                 // Then update the icon
                 .then(function (res) {
-                    let linktext = favoriteCompanyLink.firstElementChild;
-                    let bookmarkIcon = favoriteCompanyLink.lastElementChild;
+                    let bookmarkIcon = favoriteCompanyLink.firstElementChild;
                     if (res.isInFavorite) {
-                        linktext.innerHTML = 'Retirer l\'entreprise des favoris';
                         bookmarkIcon.classList.remove('bi-heart'); // Remove the .bi-heart (empty heart) from classes in <i> element
                         bookmarkIcon.classList.add('bi-heart-fill'); // Add the .bi-heart-fill (full heart) from classes in <i> element
                     } else {
-                        linktext.innerHTML = 'Mettre l\'entreprise en favori';
                         bookmarkIcon.classList.remove('bi-heart-fill'); // Remove the .bi-heart-fill (full heart) from classes in <i> element
                         bookmarkIcon.classList.add('bi-heart'); // Add the .bi-heart (empty heart) from classes in <i> element
                     }
