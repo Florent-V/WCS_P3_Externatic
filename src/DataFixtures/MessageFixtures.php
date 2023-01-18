@@ -41,9 +41,9 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
                 $message->setContent("Contenu : " . $faker->paragraph);
 
                 if ($isSendByCandidat) {
-                    $message->setSendBy($this->getReference($candidat));
                     if (!is_null($recruitmentProcess)) {
                         $message->setRecruitmentProcess($this->getReference($recruitmentProcess));
+                        $message->setSendBy($message->getRecruitmentProcess()->getCandidat()->getUser());
                         if (!is_null($message->getRecruitmentProcess()->getAnnonce())) {
                             $message->setSendTo($message->getRecruitmentProcess()->getAnnonce()
                                 ->getAuthor()->getUser());
@@ -52,12 +52,13 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
                                 ->getExternaticConsultant()->getUser());
                         }
                     } else {
+                        $message->setSendBy($this->getReference($candidat));
                         $message->setSendTo($this->getReference($externaticConsultant));
                     }
                 } else {
-                    $message->setSendTo($this->getReference($candidat));
                     if (!is_null($recruitmentProcess)) {
                         $message->setRecruitmentProcess($this->getReference($recruitmentProcess));
+                        $message->setSendTo($message->getRecruitmentProcess()->getCandidat()->getUser());
                         if (!is_null($message->getRecruitmentProcess()->getAnnonce())) {
                             $message->setSendBy($message->getRecruitmentProcess()->getAnnonce()
                                 ->getAuthor()->getUser());
@@ -66,6 +67,7 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
                                 ->getExternaticConsultant()->getUser());
                         }
                     } else {
+                        $message->setSendTo($this->getReference($candidat));
                         $message->setSendBy($this->getReference($externaticConsultant));
                     }
                 }
