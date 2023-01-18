@@ -48,13 +48,13 @@ class CompanyController extends AbstractController
         return $this->render('company/favorites.html.twig');
     }
 
-
     #[Route('/{id}', name: 'app_company_show', methods: ['GET', 'POST'])]
-    public function show(Company $company,
-                         Request $request,
-                         MessageRepository $messageRepository,
-                         RecruitmentProcessRepository $recruitProcessRepo): Response
-    {
+    public function show(
+        Company $company,
+        Request $request,
+        MessageRepository $messageRepository,
+        RecruitmentProcessRepository $recruitProcessRepo
+    ): Response {
         $message = new Message();
         $form = $this->createForm(SpontaneType::class, $message);
         $form->handleRequest($request);
