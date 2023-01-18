@@ -38,7 +38,11 @@ class SearchProfileController extends AbstractController
         $searchProfile->setCandidat($user->getCandidat());
         $searchProfileRepo->save($searchProfile, true);
 
-        return $this->redirectToRoute('annonce_search_results');
+        return $this->json([
+            'result' => 'Recherche enregistrée !'
+        ]);
+
+//        return $this->redirectToRoute('annonce_search_results');
     }
 
     #[Route('/{id}', name: 'app_search_profile_delete', methods: ['POST'])]
