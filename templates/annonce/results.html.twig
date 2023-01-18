@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
 
-
 {% block body %}
     <header class="container">
         {{ render(controller('App\\Controller\\SearchBarController::searchBar')) }}
     </header>
     <main class="search" {{ stimulus_controller('favoriteoffer') }}>
+        <div {{ stimulus_controller('favoritesearch') }}></div>
         <div class="row row-cols-xl-3 row-cols-md-2">
             {% for annonce in annonces %}
                 <div class="col mt-4 cards-result">
@@ -16,13 +16,16 @@
         </div>
 
         {% if is_granted('ROLE_CANDIDAT') and  app.request.get('form') is not null %}
-            <form action="{{ path('app_search_profile_new') }}" method="post">
+            <form action="{{ path('app_search_profile_new') }}" method="post" id="saveSearch">
                 <input name="research" type="hidden" value="{{ app.request.get('form')|json_encode }}">
-                <button id="" type="submit">Sauvegarder</button>
+                <button class="btn btn-primary" id="saveBtn" type="submit">Sauvegarder ma recherche</button>
             </form>
+            <div id="results">
+            </div>
         {% endif %}
 
         <div class="container d-flex justify-content-center">{{ knp_pagination_render(annonces) }}</div>
+
 
     </main>
 {% endblock %}
