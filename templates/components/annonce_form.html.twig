@@ -14,55 +14,31 @@
     {{ form_row(form.remote) }}
     {{ form_row(form.endingAt) }}
     {{ form_row(form.description) }}
+    {{ form_row(form.techno) }}
 
-    <fieldset>
-        {{ form_label(form.techno) }}
-        <ul class="list-group">
-            {% for key, techno in form.techno %}
-                <li>
-                    <div class="input-group mb-3">
-                        {{ form_widget(techno.name) }}
-                        <button
-                            class="btn btn-outline-secondary"
-                            type="button"
-                            data-action="live#action"
-                            data-action-name="removeTechno(index={{ key }})"
-                        >Remove
-                        </button>
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
-        <div class="mb-3">
-            <input type="search"
-                   class="form-control"
-                   data-model="search"
-            >
-            <div class="list-group">
-                {% for techno in this.results %}
-                    <button type="button"
-                            class="list-group-item list-group-item-action"
-                            data-action="live#action"
-                            data-action-name="addTechno(name={{ techno.name }})"
-                    >{{ techno.name }}</button>
-                {% endfor %}
-            </div>
+    <div class="mb-3">
+        <label for="newTechno">Ajouter un language</label>
+        <div class="input-group">
+            <input
+                class="form-control"
+                type="text"
+                data-model="newTechnoName" id="newTechno">
+            <button
+                class="btn btn-primary"
+                type="button"
+                data-action="live#action"
+                data-action-name="addTechno">ajouter
+            </button>
         </div>
-    </fieldset>
+    </div>
 
-
-    <button
-        type="button"
-        class="btn btn-primary mb-3"
-        data-action="live#action"
-        data-action-name="addTechno()"
-    >Ajouter Techno
-    </button>
 
     {% if is_granted("ROLE_ADMIN") %}
         {{ form_row(form.author) }}
     {% endif %}
     {{ form_row(form.save) }}
-    {{ form_widget(form._token) }}
-    {{ form_end(form, {'render_rest': false}) }}
+
+    {{ form_end(form) }}
+
+
 </div>
