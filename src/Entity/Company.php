@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Repository\CompanyRepository;
 use DateTime;
-use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -29,7 +28,7 @@ class Company
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $logo = null;
+    private ?string $logo = 'companyLogoIpsum.svg';
 
     #[Vich\UploadableField(mapping: 'logo_picture', fileNameProperty: 'logo')]
     #[Assert\File(
