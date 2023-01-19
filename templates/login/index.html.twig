@@ -8,7 +8,11 @@
 
         <h1 class="">Bienvenue chez Externatic ! ✅</h1>
 
-        {% if error %}
+        {% if error and error.message == "The presented password is invalid." %}
+            <div class="alert alert-warning" role="alert">
+                &#9785;&#65039; Les données saisies sont incorrectes. Veuillez les vérifier et réessayer.
+            </div>
+        {% elseif error %}
             <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
 
@@ -34,8 +38,8 @@
         </form>
 
         <div class="newUser">
-            <p>Pas encore enregistré ?</p>
-            <p>Créer un compte <a href="{{ path('app_register') }}">ici</a></p>
+            <p>Pas encore enregistré ? Créer un compte <a href="{{ path('app_register') }}">ici</a></p>
+            <p><a href="{{ path('app_forgot_password_request') }}">Mot de passe oublié ?</a></p>
         </div>
 
     </main>

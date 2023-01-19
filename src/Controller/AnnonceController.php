@@ -24,8 +24,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-use function PHPUnit\Framework\isEmpty;
-
 #[route('/annonce', name: "annonce_")]
 class AnnonceController extends AbstractController
 {
@@ -54,7 +52,8 @@ class AnnonceController extends AbstractController
     public function new(
         Request $request,
         AnnonceRepository $annonceRepository,
-        NewNotif $newNotif
+        NewNotif $newNotif,
+        CandidatRepository $candidatRepository
     ): Response {
         $annonce = new Annonce();
         $form = $this->createForm(AnnonceType::class, $annonce);
@@ -78,7 +77,7 @@ class AnnonceController extends AbstractController
 
             $annonceRepository->save($annonce, true);
             $this->addFlash('success', 'Annonce en ligne');
-            $newNotif->newNotifAnnonce($annonce);
+            $newNotif->notifNewAnnonce($annonce);
 
             return $this->redirectToRoute('annonce_show', ['id' => $annonce->getId()]);
         }
