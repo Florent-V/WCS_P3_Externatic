@@ -6,7 +6,10 @@
                     border border-1 border-primary
                     w-25
                     {{ (message.sendBy.id == app.user.id) ? "bg-primary text-white align-self-end" : "bg-white text-primary align-self-start" }}">
-            <small class=fst-italic
-            {{ (message.sendBy.id == app.user.id) ? "text-light" : "text-primary" }}"">{{ message.sendBy.firstname|capitalize }} : <br> </small>{{ message.content|raw }}</article>
+            <small class="d-block fst-italic
+            {{ (message.sendBy.id == app.user.id) ? "text-light" : "text-primary" }}">
+            {{ message.sendBy.firstname|capitalize }}<br>
+            </small>{{ message.content|raw }}
+        </article>
     </template>
 </turbo-stream>
