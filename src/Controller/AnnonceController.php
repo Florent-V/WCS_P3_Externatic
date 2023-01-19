@@ -229,7 +229,7 @@ class AnnonceController extends AbstractController
     }
 
     #[IsGranted('ROLE_CONSULTANT')]
-    #[Route('/{id}/', name: 'change_status', methods: ["GET", "POST"])]
+    #[Route('/change-status/{id}/', name: 'change_status', methods: ["GET", "POST"])]
     public function changeAnnonceStatus(Annonce $annonce, AnnonceRepository $annonceRepository): response
     {
         if ($annonce->getPublicationStatus() == 0) {
@@ -241,7 +241,7 @@ class AnnonceController extends AbstractController
         $annonceRepository->save($annonce, true);
 
         return $this->json([
-            'isInWatchlist' => $annonce->getPublicationStatus()
+            'isActivated' => $annonce->getPublicationStatus()
         ]);
     }
 }
