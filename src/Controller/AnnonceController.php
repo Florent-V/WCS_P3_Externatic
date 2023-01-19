@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Annonce;
-use App\Entity\Notif;
 use App\Entity\Company;
 use App\Entity\User;
 use App\Entity\Message;
@@ -26,7 +25,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-use function PHPUnit\Framework\isEmpty;
+use function PHPUnit\Framework\isTrue;
 
 #[route('/annonce', name: "annonce_")]
 class AnnonceController extends AbstractController
@@ -152,7 +151,8 @@ class AnnonceController extends AbstractController
         Annonce $annonce,
         MessageRepository $messageRepository,
         RecruitmentProcessRepository $recruitProcessRepo,
-        NotifRepository $notifRepository
+        NotifRepository $notifRepository,
+        UserRepository $userRepository
     ): Response {
         $message = new Message();
         $form = $this->createForm(MessageType::class, $message);
@@ -162,11 +162,15 @@ class AnnonceController extends AbstractController
          */
         $user = $this->getUser();
         if (!is_null($user)) {
-            foreach ($user->getNotifications() as $notif) {
+            foreach ($notifRepository->findBy(['wasRead' => false, 'user' => $user]) as $notif) {
                 if ($notif->getParameter() == $annonce->getId()) {
                     $notif->setWasRead(true);
                     $notifRepository->save($notif, true);
                 }
+            }
+            if (!$notifRepository->findBy(['wasRead' => false, 'user' => $user])) {
+                $user->setHasNotifUnread(false);
+                $userRepository->save($user, true);
             }
         }
 

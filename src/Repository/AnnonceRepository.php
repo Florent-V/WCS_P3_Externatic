@@ -136,6 +136,15 @@ class AnnonceRepository extends ServiceEntityRepository
         }
     }
 
+    public function countAnnonce(): array
+    {
+        $queryBuilder = $this->createQueryBuilder('a')
+            ->select('count(a.id)')
+            ->getQuery();
+
+        return $queryBuilder->getResult();
+    }
+
 //    /**
 //     * @return Annonce[] Returns an array of Annonce objects
 //     */
