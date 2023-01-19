@@ -38,9 +38,9 @@
                     }) }}
                 </div>
                 <div class="formconvo col-12">
-                    {{ form_start(form) }}
+                    {{ form_start(form, { 'attr': {'data-controller': 'areaDelete'}}) }}
                     {{ form_widget(form.content) }}
-                    <button class="btn" type="submit"><i class="bi bi-chat-text-fill"> Envoyer </i></button>
+                    <button class="btn btn-primary" type="submit"><i class="bi bi-chat-text-fill"></i> Envoyer </button>
                     {{ form_end(form) }}
                 </div>
             </section>
