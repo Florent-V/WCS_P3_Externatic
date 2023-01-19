@@ -5,11 +5,8 @@ namespace App\Controller;
 use App\Entity\SearchProfile;
 use App\Entity\User;
 use App\Form\SearchProfileType;
-use App\Repository\AnnonceRepository;
 use App\Repository\SearchProfileRepository;
-use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\InputBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -38,7 +35,11 @@ class SearchProfileController extends AbstractController
         $searchProfile->setCandidat($user->getCandidat());
         $searchProfileRepo->save($searchProfile, true);
 
-        return $this->redirectToRoute('annonce_search_results');
+        return $this->json([
+            'result' => 'Recherche enregistrée !'
+        ]);
+
+//        return $this->redirectToRoute('annonce_search_results');
     }
 
     #[Route('/{id}', name: 'app_search_profile_delete', methods: ['POST'])]
