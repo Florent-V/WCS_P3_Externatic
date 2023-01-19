@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Annonce;
 use App\Entity\ExternaticConsultant;
+use App\Entity\Techno;
 use App\Repository\AnnonceRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -104,11 +105,14 @@ class AnnonceType extends AbstractType
                 'attr' => ['placeholder' => 'Date d\'éxpiration'],
                 'row_attr' => ['class' => 'form-floating mb-3'],
             ])
-            ->add('techno', CollectionType::class, [
-                'entry_type' => TechnoAnnonceType::class,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false
+            ->add('techno', EntityType::class, [
+                'label' => 'Languages',
+                'class' => Techno::class,
+                'choice_label' => 'name',
+                'allow_extra_fields' => true,
+                'expanded' => true,
+                'multiple' => true,
+                'label_attr' => ['class' => 'checkbox-inline']
             ])
             ->add('description', CKEditorType::class, [
                 'attr' => ['data-ckeditor' => true],

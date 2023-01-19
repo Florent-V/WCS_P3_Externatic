@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mot de passe oublié ?{% endblock %}
+
+{% block body %}
+    <main class="container-md request">
+        {% for flash_error in app.flashes('reset_password_error') %}
+            <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+        {% endfor %}
+        <h1>Mot de passe oublié ?</h1>
+
+        <p>
+            Pas de panique ! Entrez simplement l'adresse e-mail de votre compte Externatic
+            et nous vous enverrons un lien de réinitialisation.
+        </p>
+
+        {{ form_start(requestForm) }}
+        {{ form_row(requestForm.email) }}
+
+        <div class="formButtons">
+            <button class="btn btn-primary">Réinitialiser mon mot de passe</button>
+            <a class="btn back" href="{{ path('home') }}">Annuler</a>
+        </div>
+
+        {{ form_end(requestForm) }}
+
+    </main>
+{% endblock %}
