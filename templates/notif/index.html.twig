@@ -16,7 +16,8 @@
                     {% for notification in notifications %}
                         {% set difference = notification.createdAt.diff(date("now")) %}
                         <tr>
-                            <td class="table-notif">{% if notification.wasRead == false %}
+                            <td class="table-notif">
+                                {% if notification.wasRead == false %}
                                     <span class="dot"></span>
                                 {% endif %}
                                 {% if notification.type == 'newAnnonce' %}

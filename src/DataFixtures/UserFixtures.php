@@ -117,6 +117,7 @@ class UserFixtures extends Fixture
             $user->setLastname($faker->lastName);
             $user->setPhone($faker->phoneNumber());
             $user->setIsVerified(true);
+            $user->setHasNotifUnread(false);
             $manager->persist($user);
             $this->addReference('userConsultant_' . self::$userConsultantIndex, $user);
         }
@@ -137,6 +138,7 @@ class UserFixtures extends Fixture
             $user->setLastname($faker->lastName);
             $user->setPhone($faker->phoneNumber());
             $user->setIsVerified(true);
+            $user->setHasNotifUnread(true);
 
             $manager->persist($user);
 
