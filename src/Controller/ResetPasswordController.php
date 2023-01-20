@@ -35,8 +35,11 @@ class ResetPasswordController extends AbstractController
      * Display & process form to request a password reset.
      */
     #[Route('', name: 'app_forgot_password_request')]
-    public function request(Request $request, MailerInterface $mailer, TranslatorInterface $translator): Response
-    {
+    public function request(
+        Request $request,
+        MailerInterface $mailer,
+        TranslatorInterface $translator
+    ): Response {
         $form = $this->createForm(ResetPasswordRequestFormType::class);
         $form->handleRequest($request);
 
@@ -125,6 +128,7 @@ class ResetPasswordController extends AbstractController
             );
 
             $user->setPassword($encodedPassword);
+
             $this->entityManager->flush();
 
             // The session is cleaned up after the password has been changed.
