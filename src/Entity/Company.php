@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Repository\CompanyRepository;
 use DateTime;
-use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -29,7 +28,7 @@ class Company
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $logo = null;
+    private ?string $logo = 'companyLogoIpsum.svg';
 
     #[Vich\UploadableField(mapping: 'logo_picture', fileNameProperty: 'logo')]
     #[Assert\File(
@@ -93,10 +92,14 @@ class Company
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?DateTime $updatedAt = null;
 
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: RecruitmentProcess::class)]
+    private Collection $recruitmentProcesses;
+
     public function __construct()
     {
         $this->annonces = new ArrayCollection();
         $this->followers = new ArrayCollection();
+        $this->recruitmentProcesses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -301,6 +304,36 @@ class Company
     public function setUpdatedAt(?DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RecruitmentProcess>
+     */
+    public function getRecruitmentProcesses(): Collection
+    {
+        return $this->recruitmentProcesses;
+    }
+
+    public function addRecruitmentProcess(RecruitmentProcess $recruitmentProcess): self
+    {
+        if (!$this->recruitmentProcesses->contains($recruitmentProcess)) {
+            $this->recruitmentProcesses->add($recruitmentProcess);
+            $recruitmentProcess->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecruitmentProcess(RecruitmentProcess $recruitmentProcess): self
+    {
+        if ($this->recruitmentProcesses->removeElement($recruitmentProcess)) {
+            // set the owning side to null (unless already changed)
+            if ($recruitmentProcess->getCompany() === $this) {
+                $recruitmentProcess->setCompany(null);
+            }
+        }
 
         return $this;
     }

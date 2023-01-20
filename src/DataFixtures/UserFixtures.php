@@ -11,7 +11,6 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserFixtures extends Fixture
 {
-    public static int $userAdminIndex = 0;
     public static int $userConsultantIndex = 0;
     public static int $userCandidatIndex = 0;
 
@@ -118,30 +117,28 @@ class UserFixtures extends Fixture
             $user->setLastname($faker->lastName);
             $user->setPhone($faker->phoneNumber());
             $user->setIsVerified(true);
+            $user->setHasNotifUnread(false);
             $manager->persist($user);
             $this->addReference('userConsultant_' . self::$userConsultantIndex, $user);
         }
 
-        foreach (self::CANDIDAT_INFOS as $candidatInfo) {
+        for ($i = 0; $i <= 100; $i++) {
             self::$userCandidatIndex++;
             $user = new User();
-
-            $user->setEmail($candidatInfo['email']);
+            $user->setEmail('candidat' . self::$userCandidatIndex . '@mail.fr');
 
             $hashedPassword = $this->passwordHasher->hashPassword(
                 $user,
-                $candidatInfo['pass']
+                'motdepasse'
             );
             $user->setPassword($hashedPassword);
 
-            $user->setRoles(array($candidatInfo['role']));
-
-            $user->setFirstname($candidatInfo['firstname']);
+            $user->setRoles((array)'ROLE_CANDIDAT');
+            $user->setFirstname($faker->firstName);
             $user->setLastname($faker->lastName);
             $user->setPhone($faker->phoneNumber());
             $user->setIsVerified(true);
-
-
+            $user->setHasNotifUnread(true);
 
             $manager->persist($user);
 

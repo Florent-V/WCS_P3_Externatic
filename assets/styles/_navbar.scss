@@ -37,6 +37,23 @@ nav.navbar {
     .navPannel {
         width:$navBarWidth;
     }
+
+    .bi-bell{
+        font-size: 1.3rem;
+    }
+    .dot{
+        height: 8px;
+        width: 8px;
+        background-color: $primary;
+        border-radius: 50%;
+        display: inline-block;
+        position: relative;
+        right: 12px;
+        top: 3px;
+    }
+    .bell-href{
+        text-decoration: none;
+    }
 }
 
 .blank {

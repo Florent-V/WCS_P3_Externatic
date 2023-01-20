@@ -59,6 +59,15 @@ class CandidatRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
+    public function countCandidat(): array
+    {
+        $queryBuilder = $this->createQueryBuilder('c')
+            ->select('count(c.id)')
+            ->getQuery();
+
+        return $queryBuilder->getResult();
+    }
+
 //    /**
 //     * @return Candidat[] Returns an array of Candidat objects
 //     */

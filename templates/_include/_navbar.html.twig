@@ -14,14 +14,20 @@
 
         {% if app.user %}
             <div>
+                <a class="d-inline-block me-3 text-dark bell-href" href="{{ path('notif_show') }}">
+                    <i class="bi bi-bell"></i>
+                    {% if app.user.hasNotifUnread == true %}
+                        <span class="dot"></span>
+                    {% endif %}
+                </a>
                 {% if is_granted("ROLE_CANDIDAT") %}
-                    <a class="userName" href="">{{ app.user.firstname }}</a>
+                    <a class="d-none d-md-inline userName" href="">{{ app.user.firstname }}</a>
                     <a class="connexion navbar-brand" href="{{ path('app_logout') }}">Déconnexion</a>
                 {% elseif is_granted("ROLE_CONSULTANT") %}
-                    <a class="userName" href={{ path('consultant_board') }}>{{ app.user.firstname }}</a>
+                    <a class="d-none d-md-inline userName" href={{ path('consultant_board') }}>{{ app.user.firstname }}</a>
                     <a class="connexion navbar-brand" href="{{ path('app_logout') }}">Déconnexion</a>
                 {% elseif is_granted("ROLE_ADMIN") %}
-                    <a class="userName" href="">{{ app.user.firstname }}</a>
+                    <a class="d-none d-md-inline userName" href="">{{ app.user.firstname }}</a>
                     <a class="connexion navbar-brand" href="{{ path('app_logout') }}">Déconnexion</a>
                 {% else %}
                     <a class="connexion navbar-brand" href="{{ path('app_login') }}">Connexion</a>
@@ -46,6 +52,9 @@
                             <a class="nav-link" href="{{ path('app_candidat_profile') }}">Mon Compte</a>
                         </li>
                         <li class="nav-item">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('message_index') }}">Messagerie</a>
+                        </li>
                             <a class="nav-link" href="{{ path('annonce_search_results') }}">Rechercher une offre</a>
                         </li>
                         <li class="nav-item">
@@ -66,7 +75,7 @@
                             <a class="nav-link" href="{{ path('consultant_board') }}">Tableau de bord</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">Messagerie</a>
+                            <a class="nav-link" href="{{ path('message_index') }}">Messagerie</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{  path('consultant_annonces') }}">Mes Annonces</a>

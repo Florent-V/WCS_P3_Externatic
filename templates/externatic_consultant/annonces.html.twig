@@ -3,7 +3,7 @@
 {% block title %}Vos annonces{% endblock %}
 
 {% block body %}
-    <main class="consultantAnnonces" {{ stimulus_controller('activatingAnnonce') }}>
+    <main class="consultantAnnonces" }}>
         <div class="d-flex flex-column align-items-center" data-controller="publiStatus"><h1>Annnonces en cours</h1> <small><a href="{{ path('consultant_annonces_archives') }}">accès aux archives</small></div>
         {% for annonce in annonces %}
             <article class="m-3 p-2">
@@ -17,7 +17,7 @@
                     <div class="d-flex justify-content-between">
                         <div><img src="{{ annonce.picture }}" alt="logo of an enterprise"/> {{ annonce.company.name }}</div>
                         <div><a href="{{ path('annonce_show', {"id": annonce.id}) }}"><strong>{{ annonce.title }}</strong></a> <small>- jusqu'au {{ annonce.endingAt|format_datetime('full', 'none', locale='fr') }}</small></div>
-                        <div>créée {{ annonce.createdAt|date("d-m-y") }} - <a href="{{ path('annonce_show', {"id": annonce.id}) }}">CHANGER LIEN edit</a>
+                        <div>créée {{ annonce.createdAt|date("d-m-y") }} - <a href="{{ path('annonce_edit', {"id": annonce.id}) }}">edit</a></div>
                             <span class="form-check form-switch">
                                 <input data-annonce="{{ annonce.id }}" class="annonceSwiper form-check-input" type="checkbox" role="switch" id={{ annonce.publicationStatus==1 ? "flexSwitchCheckChecked" ~ annonce.id  : "flexSwitchCheckDefault" ~ annonce.id }} checked={{ annonce.publicationStatus==1 ? "true" : "false" }}>
                                 <label class="form-check-label" for={{ annonce.publicationStatus==0 ? "flexSwitchCheckChecked" ~ annonce.id  : "flexSwitchCheckDefault" ~ annonce.id  }}></label>

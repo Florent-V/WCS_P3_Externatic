@@ -3,12 +3,14 @@
 namespace App\Entity;
 
 use App\Repository\RecruitmentProcessRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RecruitmentProcessRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class RecruitmentProcess
 {
     public const RECRUIT_STATUS = [
@@ -39,7 +41,7 @@ class RecruitmentProcess
     private ?Candidat $candidat = null;
 
     #[ORM\ManyToOne(inversedBy: 'recrutementProcesses')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Annonce $annonce = null;
 
     #[ORM\OneToMany(mappedBy: 'recruitmentProcess', targetEntity: Appointement::class, orphanRemoval: true)]
@@ -47,6 +49,21 @@ class RecruitmentProcess
 
     #[ORM\OneToMany(mappedBy: 'recruitmentProcess', targetEntity: Message::class)]
     private Collection $messages;
+
+    #[ORM\ManyToOne(inversedBy: 'recruitmentProcesses')]
+    private ?Company $company = null;
+
+    #[ORM\Column]
+    private ?bool $readByConsultant = null;
+
+    #[ORM\Column]
+    private ?bool $readByCandidat = null;
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt = new Datetime();
+    }
 
     public function __construct()
     {
@@ -187,6 +204,42 @@ class RecruitmentProcess
                 $message->setRecruitmentProcess(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCompany(): ?Company
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?Company $company): self
+    {
+        $this->company = $company;
+
+        return $this;
+    }
+
+    public function isReadByConsultant(): ?bool
+    {
+        return $this->readByConsultant;
+    }
+
+    public function setReadByConsultant(bool $readByConsultant): self
+    {
+        $this->readByConsultant = $readByConsultant;
+
+        return $this;
+    }
+
+    public function isReadByCandidat(): ?bool
+    {
+        return $this->readByCandidat;
+    }
+
+    public function setReadByCandidat(bool $readByCandidat): self
+    {
+        $this->readByCandidat = $readByCandidat;
 
         return $this;
     }
