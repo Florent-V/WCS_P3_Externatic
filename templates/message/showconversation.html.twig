@@ -5,7 +5,9 @@
 {% block title %}Vous discutez avec{% endblock %}
 {% block body %}
     <main class="messageConversation container">
-        <h1 class="text-center">Echange relatifs à <span class="text-primary">{{ recruitmentProcess.annonce.title ?: recruitmentProcess.company.name}} </span></h1>
+        <h1 class="text-center">Echange relatifs à <span
+                class="text-primary">{{ recruitmentProcess.annonce.title ?: recruitmentProcess.company.name }} </span>
+        </h1>
         <div class="Conversation d-flex justify-content-around">
             <section class="conversationList d-none d-lg-block col-md-5">
                 <div class="table-responsive-md">
@@ -25,28 +27,23 @@
                         {% endfor %}
                     </table>
                 </div>
-                <div id="pageSelector" class="container d-flex justify-content-center">{{ knp_pagination_render(receivedMessages) }}</div>
+                <div id="pageSelector"
+                     class="container d-flex justify-content-center">{{ knp_pagination_render(receivedMessages) }}</div>
             </section>
 
-            <section  class="allconv col-lg-5 d-flex justify-content-around flex-column">
-                <div class="d-flex flex-column response" data-controller="messageScroll" id="newMessage">
-                    {% for message in convMessages %}
-                        <article class="w-75 m-2 p-2
-                        col-6
-                        rounded rounded-3
-                        border border-1 border-primary
-                        w-25
-                        {{ (message.sendBy.id == app.user.id) ? "bg-primary text-white align-self-end messageRecu" : "bg-white text-primary align-self-start" }}">
-                            <small class=fst-italic {{ (message.sendBy.id == app.user.id) ? "text-light" : "text-primary" }}>{{ message.sendBy.firstname|capitalize }}<br> </small>{{ message.content|raw }}</article>
-                    {% endfor %}
+            <section class="allconv col-lg-5 d-flex justify-content-around flex-column">
+                <div {{ stimulus_controller('message_scroll') }}>
+                    {{ component('conversation', {
+                        recruitmentProcess: recruitmentProcess
+                    }) }}
                 </div>
                 <div class="formconvo col-12">
-                    {{ form_start(form) }}
+                    {{ form_start(form, { 'attr': {'data-controller': 'areaDelete'}}) }}
                     {{ form_widget(form.content) }}
-                    <button class="btn" type="submit"><i class="bi bi-chat-text-fill"> Envoyer </i></button>
+                    <button class="btn btn-primary" type="submit"><i class="bi bi-chat-text-fill"></i> Envoyer </button>
                     {{ form_end(form) }}
                 </div>
             </section>
-</div>
+        </div>
     </main>
-{%  endblock %}
+{% endblock %}
