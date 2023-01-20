@@ -72,7 +72,7 @@ class MessageController extends AbstractController
 
         $this->isGranted('ROLE_CANDIDAT') ? $recruitmentProcess->setReadByCandidat(true) :
             $recruitmentProcess->setReadByConsultant(true);
-            $processRepo->save($recruitmentProcess, true);
+        $processRepo->save($recruitmentProcess, true);
 
         if (($user !== $consultant) && ($user !== $recruitmentProcess->getCandidat()->getUser())) {
             $this->addFlash('danger', 'Vous ne pouvez pas accéder à cette conversation');
@@ -112,6 +112,18 @@ class MessageController extends AbstractController
             'convMessages' => $messages,
             'form' => $form,
             'receivedMessages' => $otherConversations
-            ]);
+        ]);
     }
+    /* #[Route('/{id}', name: 'archive', methods: ['POST'])]
+     public function delete(
+    Request $request,
+    RecruitmentProcess $recruitmentProcess,
+    RecruitmentProcessRepository $processRepository): Response
+     {
+         if($recruitmentProcess->isArchivedByCandidat()){
+         if ($this->isCsrfTokenValid('delete' . $recruitmentProcess->getId(), $request->request->get('_token'))) {
+             $processRepository->remove($recruitmentProcess, true);
+         }
+         }
+         return $this->redirectToRoute('message_index', [], Response::HTTP_SEE_OTHER); */
 }

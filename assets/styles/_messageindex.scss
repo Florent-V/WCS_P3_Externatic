@@ -16,15 +16,37 @@
             tr {
                 cursor: pointer;
                 height: 2.5rem;
+                &:hover button {
+                    visibility:visible;
+                }
                 td {
                     max-width: 6rem;
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: nowrap;
+
+                    button{
+                        z-index:1000;
+                        visibility:hidden;
+                        color:grey;
+                        font-size:1rem;
+                        padding:0;
+                        margin: 0;
+                        &:hover {
+                            &.btn-read{
+                            color:$success;
+                            }
+                            &.btn-del{
+                                color:$danger;
+                            }
+                    }
+                    }
+
                     a{
                         text-decoration: none;
                         color:inherit;
                     }
+
                 }
             }
         }
