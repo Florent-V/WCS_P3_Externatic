@@ -1,4 +1,4 @@
-<article class="cardResult bg-light border-1 m-1">
+<article class="cardResult bg-light border-1 mt-1 ms-1 me-1">
     <div class="cardHeader d-flex justify-content-between p-2">
         <img class="p-1 align-self-center rounded-1" src="{{ annonce.picture }}"
              alt="logo of {{ annonce.company.name }}"/>
@@ -19,17 +19,18 @@
     </div>
     <div class="row row-cols-2 m-2 cases">
         <p class="rounded-2 p-1 d-flex align-items-center justify-content-center">
-            {% if annonce.remote %} Remote {% else %} présentiel {% endif %}</p>
+            {% if annonce.remote %} Remote {% else %} Présentiel {% endif %}</p>
         <p class="rounded-2 p-1 d-flex align-items-center justify-content-center">{{ annonce.contractType }}</p>
-        <p class="rounded-2 p-1 d-flex align-items-center justify-content-center">Temps de
-            travail : {{ annonce.workTime|date("%h") != 0 ? (annonce.workTime|date("%hh")) : "" }}{{ annonce.workTime|date("%i") != 0 ? (annonce.workTime|date("%i")) : "" }}</p>
-        <p class="rounded-2 p-1 d-flex align-items-center justify-content-center">Niveau
-            d'étude : {{ annonce.studyLevel }}</p>
+        <p class="rounded-2 p-1 d-flex align-items-center justify-content-center">
+            {{ annonce.workTime|date("%h") != 0 ? (annonce.workTime|date("%hh")) : "" }}/hebdo</p>
+        <p class="rounded-2 p-1 d-flex align-items-center justify-content-center"> {{ annonce.studyLevel }}</p>
         <p class="rounded-2 p-1 d-flex align-items-center justify-content-center third-line">{{ annonce.salaryMin }}
-            € à {{ annonce.salaryMax }} €</p>
+            € {% if annonce.salarymax is defined %}
+                à {{ annonce.salaryMax }} €
+            {% endif %}</p>
         <p class="rounded-2 p-1 d-flex align-items-center justify-content-center third-line">
-            {% if annonce.techno|length >= 6 %}
-                {% for i in 0..5 %}
+            {% if annonce.techno|length >= 4 %}
+                {% for i in 0..3 %}
                     {{ annonce.techno[i].name }},
                 {% endfor %}
                 ...

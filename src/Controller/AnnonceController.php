@@ -11,6 +11,7 @@ use App\Form\AnnonceType;
 use App\Form\MessageType;
 use App\Repository\AnnonceRepository;
 use App\Repository\NotifRepository;
+use App\Repository\UserRepository;
 use App\Repository\CandidatRepository;
 use App\Repository\MessageRepository;
 use App\Repository\RecruitmentProcessRepository;
@@ -149,7 +150,8 @@ class AnnonceController extends AbstractController
         Annonce $annonce,
         MessageRepository $messageRepository,
         RecruitmentProcessRepository $recruitProcessRepo,
-        NotifRepository $notifRepository
+        NotifRepository $notifRepository,
+        UserRepository $userRepository
     ): Response {
         $message = new Message();
         $form = $this->createForm(MessageType::class, $message);
@@ -159,11 +161,15 @@ class AnnonceController extends AbstractController
          */
         $user = $this->getUser();
         if (!is_null($user)) {
-            foreach ($user->getNotifications() as $notif) {
+            foreach ($notifRepository->findBy(['wasRead' => false, 'user' => $user]) as $notif) {
                 if ($notif->getParameter() == $annonce->getId()) {
                     $notif->setWasRead(true);
                     $notifRepository->save($notif, true);
                 }
+            }
+            if (!$notifRepository->findBy(['wasRead' => false, 'user' => $user])) {
+                $user->setHasNotifUnread(false);
+                $userRepository->save($user, true);
             }
         }
 
