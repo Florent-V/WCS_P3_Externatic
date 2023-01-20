@@ -18,15 +18,13 @@ use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
-use Symfony\Component\Security\Http\Authenticator\FormLoginAuthenticator;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
 {
     public function __construct(
-        private readonly EmailVerifier $emailVerifier,
-        private readonly FormLoginAuthenticator $authenticator
+        private readonly EmailVerifier $emailVerifier
     ) {
     }
 
@@ -79,8 +77,8 @@ class RegistrationController extends AbstractController
             );
             // do anything else you need here, like send an email
 
-
-            //$authenticator->authenticateUser($user, $this->authenticator, $request);
+            $this->addFlash('success', 'Votre compte a bien été créé ! Un mail vous a été envoyé
+            pour valider votre compte et confirmer l\'adresse mail');
 
             return $this->redirectToRoute('home');
         }
@@ -121,8 +119,8 @@ class RegistrationController extends AbstractController
         }
 
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
-        $this->addFlash('success', 'Your email address has been verified.');
+        $this->addFlash('success', 'Votre adresse mail a bien été vérifiée, vous pouvez désormais vous connecter !');
 
-        return $this->redirectToRoute('app_register');
+        return $this->redirectToRoute('home');
     }
 }
