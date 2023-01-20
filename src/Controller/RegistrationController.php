@@ -19,11 +19,14 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
+use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
 {
     public function __construct(
+        private ResetPasswordHelperInterface $resetPasswordHelper,
         private readonly EmailVerifier $emailVerifier
     ) {
     }
@@ -122,5 +125,23 @@ class RegistrationController extends AbstractController
         $this->addFlash('success', 'Votre adresse mail a bien été vérifiée, vous pouvez désormais vous connecter !');
 
         return $this->redirectToRoute('home');
+    }
+
+    /**
+     * @throws ResetPasswordExceptionInterface
+     */
+    #[Route('/verify-consultant/{token}', name: 'app_consultant_verify')]
+    public function verifyAccount(
+        string $token,
+        EntityManagerInterface $entityManager
+    ): Response {
+        /**
+         * @var ?User $user
+         */
+        $user = $this->resetPasswordHelper->validateTokenAndFetchUser($token);
+        $user->setIsVerified(true);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_reset_password', [ 'token' => $token], Response::HTTP_SEE_OTHER);
     }
 }
