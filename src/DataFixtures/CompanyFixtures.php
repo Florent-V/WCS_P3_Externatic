@@ -25,7 +25,6 @@ class CompanyFixtures extends Fixture implements DependentFixtureInterface
                 self::$companyIndex++;
                 $company->setSiret($faker->siret());
                 $company->setName("Entreprise-" . self::$companyIndex);
-                $company->setLogo('https://fakeimg.pl/200x200/?text=logo');
                 $company->setZipCode($faker->departmentNumber() . $faker->numberBetween(100, 900));
                 $company->setAddress($faker->streetAddress);
                 $company->setCity($faker->city());

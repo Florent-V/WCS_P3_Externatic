@@ -8,6 +8,7 @@ use App\Entity\Skills;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Faker\Factory;
 
 class CandidatFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -79,6 +80,7 @@ class CandidatFixtures extends Fixture implements DependentFixtureInterface
     public static int $candidatIndex = 0;
     public function load(ObjectManager $manager): void
     {
+        $faker = Factory::create('fr_FR');
 
         foreach (self::CANDIDATS as $candidatinf) {
             self::$candidatIndex++;
@@ -96,13 +98,37 @@ class CandidatFixtures extends Fixture implements DependentFixtureInterface
             $candidat->setUser($this->getReference('userCandidat_' . self::$candidatIndex));
             $skills = new Skills();
             $skills->setCurriculum($curriculum);
-            $manager->persist($curriculum);
+            $this->addReference('curriculum_' . self::$candidatIndex, $curriculum);
             $this->addReference('candidat_' . self::$candidatIndex, $candidat);
+            $this->addReference('skills_' . self::$candidatIndex, $skills);
+            $manager->persist($candidat);
+            $manager->persist($skills);
+            $manager->persist($curriculum);
+        }
+
+        for ($i = 7; $i <= UserFixtures::$userCandidatIndex; $i++) {
+            self::$candidatIndex++;
+            $candidat = new Candidat();
+            $curriculum = new Curriculum();
+            $candidat->setAge($faker->numberBetween(18, 50));
+            $candidat->setLinkedIn('https://www.linkedin.com/' . $faker->word());
+            $candidat->setGithub('https://www.github.com/' . $faker->word());
+            $candidat->setZipCode($faker->postcode());
+            $candidat->setAddress($faker->address());
+            $candidat->setCity($faker->city());
+            $candidat->setDescription('Description : ' . $faker->paragraph());
+            $candidat->setCanPostulate(true);
+            $candidat->setCurriculum($curriculum);
+            $candidat->setUser($this->getReference('userCandidat_' . self::$candidatIndex));
+            $skills = new Skills();
+            $skills->setCurriculum($curriculum);
+            $this->addReference('curriculum_' . self::$candidatIndex, $curriculum);
+            $this->addReference('candidat_' . self::$candidatIndex, $candidat);
+            $this->addReference('skills_' . self::$candidatIndex, $skills);
+            $manager->persist($curriculum);
             $manager->persist($candidat);
             $manager->persist($skills);
         }
-
-
         $manager->flush();
     }
 
