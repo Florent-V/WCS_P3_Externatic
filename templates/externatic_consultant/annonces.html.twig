@@ -17,7 +17,7 @@
                     <div class="d-flex justify-content-between">
                         <div><img src="{{ annonce.picture }}" alt="logo of an enterprise"/> {{ annonce.company.name }}</div>
                         <div><a href="{{ path('annonce_show', {"id": annonce.id}) }}"><strong>{{ annonce.title }}</strong></a> <small>- jusqu'au {{ annonce.endingAt|format_datetime('full', 'none', locale='fr') }}</small></div>
-                        <div>créée {{ annonce.createdAt|date("d-m-y") }} - <a href="{{ path('annonce_show', {"id": annonce.id}) }}">CHANGER LIEN edit</a></div>
+                        <div>créée {{ annonce.createdAt|date("d-m-y") }} - <a href="{{ path('annonce_edit', {"id": annonce.id}) }}">edit</a></div>
                     </div>
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="heading-{{ loop.index }}">

@@ -17,7 +17,7 @@ class AppointmentFixtures extends Fixture implements DependentFixtureInterface
         $faker = Factory::create();
 
         for ($i = 1; $i <= RecruitmentProcessFixtures::$recruitmentIndex; $i++) {
-            for ($j = 0; $j < $faker->numberBetween(0, 2); $j++) {
+            for ($j = 0; $j < $faker->numberBetween(0, 5); $j++) {
                 $appointment = new Appointement();
                 self::$appointmentIndex++;
                 $appointment->setDescription($faker->sentence);
