@@ -18,9 +18,7 @@
     {% endblock %}
 </head>
 
-<body {{ stimulus_controller('symfony/ux-swup/swup', {
-    containers: ['#swup', '#pageSelector']
-}) }}>
+<body>
 {% include '_include/_navbar.html.twig' %}
 
 {% for category, messages in app.flashes %}
@@ -31,7 +29,7 @@
     {% endfor %}
 {% endfor %}
 
-{% block body %}{% endblock %}
+    {% block body %}{% endblock %}
 
 <div class="mb-5"></div>
 {% if not is_granted('ROLE_CONSULTANT') %}

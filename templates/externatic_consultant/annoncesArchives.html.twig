@@ -3,7 +3,7 @@
 {% block title %}Vos annonces{% endblock %}
 
 {% block body %}
-    <main class="consultantAnnonces" id="swup">
+    <main class="consultantAnnonces">
         <div class="d-flex flex-column align-items-center" {{ stimulus_controller('publiStatus') }}><h1>Annonces
                 archivées</h1> <small><a href="{{ path('consultant_annonces') }}">retour aux annonces</small></div>
         {% for annonce in annonces %}

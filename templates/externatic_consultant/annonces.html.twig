@@ -3,7 +3,7 @@
 {% block title %}Vos annonces{% endblock %}
 
 {% block body %}
-    <main class="consultantAnnonces" id="swup">
+    <main class="consultantAnnonces" >
         <div class="d-flex flex-column align-items-center" data-controller="publiStatus"><h1>Annnonces en cours</h1>
             <small><a href="{{ path('consultant_annonces_archives') }}">accès aux archives</small></div>
         {% for annonce in annonces %}

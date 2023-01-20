@@ -11,7 +11,9 @@
 {% endblock %}
 
 {% block body %}
-    <main class="messageConversation container">
+    <main class="messageConversation container" {{ stimulus_controller('symfony/ux-swup/swup', {
+        containers: ['#swup', '#pageSelector']
+    }) }}>
         <h1 class="text-center">Echange relatifs à <span
                 class="text-primary">{{ recruitmentProcess.annonce.title ?: recruitmentProcess.company.name }} </span>
         </h1>
