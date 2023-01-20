@@ -208,7 +208,6 @@ class AnnonceController extends AbstractController
         ]);
     }
 
-
     #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_CONSULTANT')]
     public function edit(Annonce $annonce, Request $request, AnnonceRepository $annonceRepository): response
@@ -225,6 +224,23 @@ class AnnonceController extends AbstractController
         return $this->renderForm('annonce/edit.html.twig', [
             'annonce' => $annonce,
             'form' => $form,
+        ]);
+    }
+
+    #[IsGranted('ROLE_CONSULTANT')]
+    #[Route('/change-status/{id}/', name: 'change_status', methods: ["GET", "POST"])]
+    public function changeAnnonceStatus(Annonce $annonce, AnnonceRepository $annonceRepository): response
+    {
+        if ($annonce->getPublicationStatus() == 0) {
+            $annonce->setPublicationStatus(1);
+        } else {
+            $annonce->setPublicationStatus(0);
+        }
+
+        $annonceRepository->save($annonce, true);
+
+        return $this->json([
+            'isActivated' => $annonce->getPublicationStatus()
         ]);
     }
 }
