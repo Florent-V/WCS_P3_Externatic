@@ -37,7 +37,6 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
                 $date->setTime(intval($faker->time('H')), intval($faker->time('i')), intval($faker->time('s')));
                 $message->setDate($date);
                 $message->setTitle("mesTitle/" . $faker->sentence(3));
-                $message->setIsRead($faker->boolean);
                 $message->setContent("Contenu : " . $faker->paragraph);
 
                 if ($isSendByCandidat) {

@@ -30,6 +30,8 @@ class RecruitmentProcessFixtures extends Fixture implements DependentFixtureInte
                 }
                 $recruitmentProcess->setCandidat($this->getReference("candidat_" .
                     $faker->numberBetween(1, CandidatFixtures::$candidatIndex)));
+                $recruitmentProcess->setReadByCandidat($faker->boolean);
+                $recruitmentProcess->SetReadByConsultant($faker->boolean);
                 $recruitmentProcess->setStatus($faker->randomElement(RecruitmentProcess::RECRUIT_STATUS));
                 $this->addReference('recruitmentProcess_' . self::$recruitmentIndex, $recruitmentProcess);
                 $manager->persist($recruitmentProcess);

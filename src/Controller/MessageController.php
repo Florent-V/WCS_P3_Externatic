@@ -7,6 +7,7 @@ use App\Entity\RecruitmentProcess;
 use App\Entity\User;
 use App\Form\ConversationType;
 use App\Repository\MessageRepository;
+use App\Repository\RecruitmentProcessRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Component\HttpFoundation\Request;
 use Knp\Component\Pager\PaginatorInterface;
@@ -51,7 +52,8 @@ class MessageController extends AbstractController
         RecruitmentProcess $recruitmentProcess,
         MessageRepository $messageRepository,
         Request $request,
-        PaginatorInterface $paginator
+        PaginatorInterface $paginator,
+        RecruitmentProcessRepository $processRepo
     ): Response {
         $messages = $messageRepository->findBy(['recruitmentProcess' => $recruitmentProcess], ['date' => 'ASC']);
         $message = new Message();
@@ -68,6 +70,10 @@ class MessageController extends AbstractController
             $consultant = $recruitmentProcess->getCompany()->getExternaticConsultant()->getUser();
         }
 
+        $this->isGranted('ROLE_CANDIDAT') ? $recruitmentProcess->setReadByCandidat(true) :
+            $recruitmentProcess->setReadByConsultant(true);
+            $processRepo->save($recruitmentProcess, true);
+
         if (($user !== $consultant) && ($user !== $recruitmentProcess->getCandidat()->getUser())) {
             $this->addFlash('danger', 'Vous ne pouvez pas accéder à cette conversation');
             return $this->redirectToRoute('message_index');
@@ -82,6 +88,7 @@ class MessageController extends AbstractController
                 $message->setSendTo($recruitmentProcess->getCandidat()->getUser());
             }
             $messageRepository->save($message, true);
+
 
             if (TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
                 $request->setRequestFormat(TurboBundle::STREAM_FORMAT);

@@ -23,8 +23,8 @@ section {
         tbody {
             tr {
                 cursor: pointer;
-                height: 4rem;
-                td {
+                max-height: 4rem;
+                td.messageContent {
                     max-width: 6rem;
                     overflow: hidden;
                     text-overflow: ellipsis;

@@ -36,8 +36,6 @@ class Message
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $title = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?bool $isRead = null;
 
     #[ORM\PrePersist]
     public function setCreatedAtValue(): void
@@ -118,18 +116,6 @@ class Message
     public function setTitle(?string $title): self
     {
         $this->title = $title;
-
-        return $this;
-    }
-
-    public function isIsRead(): ?bool
-    {
-        return $this->isRead;
-    }
-
-    public function setIsRead(?bool $isRead): self
-    {
-        $this->isRead = $isRead;
 
         return $this;
     }

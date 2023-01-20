@@ -53,6 +53,12 @@ class RecruitmentProcess
     #[ORM\ManyToOne(inversedBy: 'recruitmentProcesses')]
     private ?Company $company = null;
 
+    #[ORM\Column]
+    private ?bool $readByConsultant = null;
+
+    #[ORM\Column]
+    private ?bool $readByCandidat = null;
+
     #[ORM\PrePersist]
     public function setCreatedAtValue(): void
     {
@@ -210,6 +216,30 @@ class RecruitmentProcess
     public function setCompany(?Company $company): self
     {
         $this->company = $company;
+
+        return $this;
+    }
+
+    public function isReadByConsultant(): ?bool
+    {
+        return $this->readByConsultant;
+    }
+
+    public function setReadByConsultant(bool $readByConsultant): self
+    {
+        $this->readByConsultant = $readByConsultant;
+
+        return $this;
+    }
+
+    public function isReadByCandidat(): ?bool
+    {
+        return $this->readByCandidat;
+    }
+
+    public function setReadByCandidat(bool $readByCandidat): self
+    {
+        $this->readByCandidat = $readByCandidat;
 
         return $this;
     }
