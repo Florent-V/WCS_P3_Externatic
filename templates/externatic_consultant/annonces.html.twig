@@ -19,8 +19,8 @@
                         <div><a href="{{ path('annonce_show', {"id": annonce.id}) }}"><strong>{{ annonce.title }}</strong></a> <small>- jusqu'au {{ annonce.endingAt|format_datetime('full', 'none', locale='fr') }}</small></div>
                         <div>créée {{ annonce.createdAt|date("d-m-y") }} - <a href="{{ path('annonce_show', {"id": annonce.id}) }}">CHANGER LIEN edit</a>
                             <span class="form-check form-switch">
-                                <input data-annonce="{{ annonce.id }}" class="annonceSwiper form-check-input" type="checkbox" role="switch" id={{ annonce.publicationStatus==1 ? "flexSwitchCheckChecked" : "flexSwitchCheckDefault" }} checked={{ annonce.publicationStatus==1 ? "true" : "false" }}>
-                                <label class="form-check-label" for={{ annonce.publicationStatus==0 ? "flexSwitchCheckChecked" : "flexSwitchCheckDefault" }}></label>
+                                <input data-annonce="{{ annonce.id }}" class="annonceSwiper form-check-input" type="checkbox" role="switch" id={{ annonce.publicationStatus==1 ? "flexSwitchCheckChecked" ~ annonce.id  : "flexSwitchCheckDefault" ~ annonce.id }} checked={{ annonce.publicationStatus==1 ? "true" : "false" }}>
+                                <label class="form-check-label" for={{ annonce.publicationStatus==0 ? "flexSwitchCheckChecked" ~ annonce.id  : "flexSwitchCheckDefault" ~ annonce.id  }}></label>
                             </span>
 
                         </div>

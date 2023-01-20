@@ -13,8 +13,8 @@
                         <div><a href="{{ path('annonce_show', {"id": annonce.id}) }}"><strong>{{ annonce.title }}</strong></a><small>- terminée depuis le {{ annonce.endingAt|format_datetime('full', 'none', locale='fr') }}</small></div>
                         <div>créée {{ annonce.createdAt|date("d-m-y") }}</div>
                         <span class="form-check form-switch annonceSwiper">
-                                <input class="form-check-input" type="checkbox" role="switch" id={{ annonce.publicationStatus==1 ? "flexSwitchCheckChecked" : "flexSwitchCheckDefault" }}>
-                                <label class="form-check-label" for={{ annonce.publicationStatus ? "flexSwitchCheckChecked" : "flexSwitchCheckDefault" }}></label>
+                                <input class="form-check-input" type="checkbox" role="switch" id={{ annonce.publicationStatus==1 ? "flexSwitchCheckChecked" ~ annonce.id : "flexSwitchCheckDefault" ~ annonce.id  }}>
+                                <label class="form-check-label" for={{ annonce.publicationStatus ? "flexSwitchCheckChecked" ~ annonce.id  : "flexSwitchCheckDefault" ~ annonce.id  }}></label>
                             </span>
                     </div>
                     <div class="accordion-item">
