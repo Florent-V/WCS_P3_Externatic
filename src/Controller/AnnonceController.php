@@ -178,6 +178,8 @@ class AnnonceController extends AbstractController
             $recruitmentProcess->setStatus('Applied');
             $recruitmentProcess->setCandidat($user->getCandidat());
             $recruitmentProcess->setAnnonce($annonce);
+            $recruitmentProcess->setReadByCandidat(true);
+            $recruitmentProcess->setReadByConsultant(false);
             $recruitProcessRepo->save($recruitmentProcess, true);
 
             $message->setRecruitmentProcess($recruitmentProcess);
