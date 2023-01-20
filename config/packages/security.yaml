@@ -34,6 +34,8 @@ security:
                 default_target_path: redirect_login
             logout:
                 path: app_logout
+            pattern: ^/
+            user_checker: App\Security\UserChecker
         secured_area:
             form_login:
                 enable_csrf: true

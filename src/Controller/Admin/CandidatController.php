@@ -34,7 +34,7 @@ class CandidatController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/editpro', name: 'app_candidat_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'app_candidat_edit', methods: ['GET', 'POST'])]
     public function editPro(Request $request, Candidat $candidat, CandidatRepository $candidatRepository): Response
     {
         $form = $this->createForm(CandidatType::class, $candidat);
@@ -50,37 +50,5 @@ class CandidatController extends AbstractController
             'candidat' => $candidat,
             'candidatForm' => $form,
         ]);
-    }
-
-    #[Route('/{id}/editperso', name: 'app_user_edit', methods: ['GET', 'POST'])]
-    public function editPerso(Request $request, User $user, UserRepository $userRepository): Response
-    {
-        $form = $this->createForm(UserUpdateType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $userRepository->save($user, true);
-
-            return $this->redirectToRoute('admin_app_candidat_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('user/update.html.twig', [
-            'user' => $user,
-            'userForm' => $form,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'app_user_delete', methods: ['POST'])]
-    public function delete(Request $request, User $user, UserRepository $userRepository): Response
-    {
-        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
-            $user->setEmail('user' . $user->getId() . '@deleted.fr');
-            $user->setFirstname('firstname' . $user->getId());
-            $user->setLastName('lastname' . $user->getId());
-            $user->setIsActive(false);
-            $userRepository->save($user, true);
-        }
-
-        return $this->redirectToRoute('admin_app_candidat_index', [], Response::HTTP_SEE_OTHER);
     }
 }
