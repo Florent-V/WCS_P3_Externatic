@@ -25,7 +25,8 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 class RegistrationController extends AbstractController
 {
     public function __construct(
-        private readonly EmailVerifier $emailVerifier
+        private readonly EmailVerifier $emailVerifier,
+        private readonly FormLoginAuthenticator $authenticator
     ) {
     }
 
@@ -77,6 +78,9 @@ class RegistrationController extends AbstractController
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
             // do anything else you need here, like send an email
+
+
+            //$authenticator->authenticateUser($user, $this->authenticator, $request);
 
             return $this->redirectToRoute('home');
         }
