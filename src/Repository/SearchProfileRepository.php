@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Annonce;
 use App\Entity\SearchProfile;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -37,6 +38,21 @@ class SearchProfileRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findBySearchProfile(Annonce $annonce, int $workTime)
+    {
+        $queryBuilder = $this->createQueryBuilder('s')
+            ->andWhere('s.salaryMin IS NULL OR s.salaryMin < :annonceSalaryMin')
+            ->andWhere('s.remote IS NULL OR s.remote = :annonceIsRemote')
+            ->andWhere('s.companyId IS NULL OR s.companyId = :annonceCompanyId')
+            ->andWhere('s.workTime IS NULL OR s.workTime = ' . $workTime)
+            ->setParameter('annonceSalaryMin', $annonce->getSalaryMin())
+            ->setParameter('annonceIsRemote', $annonce->isRemote())
+            ->setParameter('annonceCompanyId', $annonce->getCompany()->getId())
+            ->getQuery();
+
+        return $queryBuilder->getResult();
     }
 
 //    /**
