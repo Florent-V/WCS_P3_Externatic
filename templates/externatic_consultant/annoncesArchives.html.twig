@@ -3,57 +3,30 @@
 {% block title %}Vos annonces{% endblock %}
 
 {% block body %}
-    <main class="consultantAnnonces" }} >
-        <div class="d-flex flex-column align-items-center" {{ stimulus_controller('publiStatus') }}><h1 >Annonces archivées</h1> <small><a href="{{ path('consultant_annonces') }}">retour aux annonces</small></div>
+    <main class="consultantAnnonces" id="swup">
+        <div class="d-flex flex-column align-items-center" {{ stimulus_controller('publiStatus') }}><h1>Annonces
+                archivées</h1> <small><a href="{{ path('consultant_annonces') }}">retour aux annonces</small></div>
         {% for annonce in annonces %}
             <article class="m-3 p-2">
                 <div class="accordion container" id="accordionExample-{{ loop.index }}">
                     <div class="d-flex justify-content-between">
-                        <div><img src="{{ annonce.picture }}" alt="logo of an enterprise"/> {{ annonce.company.name }}</div>
-                        <div><a href="{{ path('annonce_show', {"id": annonce.id}) }}"><strong>{{ annonce.title }}</strong></a><small>- terminée depuis le {{ annonce.endingAt|format_datetime('full', 'none', locale='fr') }}</small></div>
+                        <div><img src="{{ annonce.picture }}" alt="logo of an enterprise"/> {{ annonce.company.name }}
+                        </div>
+                        <div>
+                            <a href="{{ path('annonce_show', {"id": annonce.id}) }}"><strong>{{ annonce.title }}</strong></a><small>-
+                                terminée depuis
+                                le {{ annonce.endingAt|format_datetime('full', 'none', locale='fr') }}</small></div>
                         <div>créée {{ annonce.createdAt|date("d-m-y") }}</div>
                         <span class="form-check form-switch annonceSwiper">
-                                <input data-annonce="{{ annonce.id }}" class="annonceSwiper form-check-input" type="checkbox" role="switch" id={{ annonce.publicationStatus==1 ? "flexSwitchCheckChecked" ~ annonce.id : "flexSwitchCheckDefault" ~ annonce.id  }}>
-                                <label class="form-check-label" for={{ annonce.publicationStatus ? "flexSwitchCheckChecked" ~ annonce.id  : "flexSwitchCheckDefault" ~ annonce.id  }}></label>
-                            </span>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="heading-{{ loop.index }}">
-                            <button class="accordion-button d-inline text-center" type="button"
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#collapse-{{ loop.index }}" aria-expanded="true"
-                                    aria-controls="collapse-{{ loop.index }}">
-                                {{ annonce.recrutementProcesses|length }} processus de recrutement
-                            </button>
-                        </h2>
-                        <div id="collapse-{{ loop.index }}" class="accordion-collapse collapse"
-                             aria-labelledby="heading-{{ loop.index }}"
-                             data-bs-parent="#accordionExample-{{ loop.index }}">
-                            <div class="accordion-body">
-                                <table class="table table-striped table-sm">
-                                    <thead class="thead-light">
-                                    <tr>
-                                        <th scope="row">Candidat</th>
-                                        <th scope="row">Status du processus
-                                        <th scope="row">note</th>
-                                        <th scope="row">Dernier échange</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for recruitmentProcess in annonce.recrutementProcesses|sort((a, b) => a.status <=> b.status) %}
-                                        <tr>
-                                            <td>{{ recruitmentProcess.candidat.user.firstname|upper }} {{ recruitmentProcess.candidat.user.lastName|capitalize }}</td>
-                                            <td>{{ recruitmentProcess.status }}</td>
-                                            <td>{{ recruitmentProcess.rate }}</td>
-                                            <td>Récupérer dernier échange</td>
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                                <input data-annonce="{{ annonce.id }}" class="annonceSwiper form-check-input"
+                                       type="checkbox" role="switch"
+                                       id={{ annonce.publicationStatus==1 ? "flexSwitchCheckChecked" ~ annonce.id : "flexSwitchCheckDefault" ~ annonce.id }}>
+                                <label class="form-check-label"
+                                       for={{ annonce.publicationStatus ? "flexSwitchCheckChecked" ~ annonce.id  : "flexSwitchCheckDefault" ~ annonce.id }}></label>
+                        </span>
                     </div>
                 </div>
+                {% include('_include/_annonceExternaticItem.html.twig') %}
             </article>
         {% endfor %}
         <div class="container d-flex justify-content-center">{{ knp_pagination_render(annonces) }}</div>
