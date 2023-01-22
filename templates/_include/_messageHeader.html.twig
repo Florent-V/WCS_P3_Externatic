@@ -4,20 +4,19 @@
     {% set isRead = message.recruitmentProcess.readByConsultant %}
 {% endif %}
 
-<tr data-messageId="{{ message.recruitmentProcess.id }}" class="messageHeader table-hover {{ isRead ? 'bg-white' : 'bg-light' }}">
-    <td class="messageCell col-2 {{ isRead ? '' : 'text-primary fw-bolder' }}">{{ message.date|format_datetime('short', 'short', locale='fr') }}</td>
-    <td class="messageCell col-2 {{ isRead ? '' : 'text-primary fw-bolder' }}">{{ message.sendBy.lastName|upper }} {{ message.sendBy.firstname|capitalize }}</td>
-    <td class="messageCell col-2 {{ isRead ? '' : 'text-primary fw-bolder' }}">{{ message.recruitmentProcess.annonce.title ?: message.recruitmentProcess.company.name ?: "" }}</td>
-    <td class="messageCell col-5 contentMessage font-italic text-muted {{ isRead ? "" : 'text-primary' }}">{{ message.content|striptags|raw }}</td>
+<tr data-messageId="{{ message.recruitmentProcess.id }}" class="messageHeader {{ isRead ? 'isRead' : "isUnread" }}">
+    <td class="messageCell col-2">{{ message.date|format_datetime('short', 'short', locale='fr') }}</td>
+    <td class="messageCell col-2">{{ message.sendBy.lastName|upper }} {{ message.sendBy.firstname|capitalize }}</td>
+    <td class="messageCell col-2">{{ message.recruitmentProcess.annonce.title ?: message.recruitmentProcess.company.name ?: "" }}</td>
+    <td class="messageCell col-5 contentMessage text-muted">{{ message.content|striptags|raw }}</td>
     <td>
-        <button data-messageId="{{ message.recruitmentProcess.id }}" {# action="{{ path('message_archive')}}" #} type="submit" class="btn btn-read">
-            <i {{ isRead ? "class='bi bi-check-circle-fill' title='Marquer comme non lu'" : "class='bi bi-check-circle' title='Marquer lu'" }}>
+        <button data-action="inbox#archive" data-messageId="{{ message.recruitmentProcess.id }}" type="submit" class="btn btn-read">
+            <i {{ isRead ? "class='bi bi-envelope' title='Marquer non-lu'" : "class='bi bi-envelope-open' title='Marquer lu'" }}>
             </i>
         </button>
     </td>
-
     <td>
-        <button data-messageId="{{ message.recruitmentProcess.id }}" type="submit" class="btn btn-del"><i class="bi bi-trash3-fill" title="supprimer/archiver" ></i></button>
+        <button data-action="inbox#delete" data-messageId="{{ message.recruitmentProcess.id }}" type="submit" class="btn btn-del"><i class="bi bi-trash3-fill" title="supprimer/archiver" ></i></button>
     </td>
 </tr>
 
