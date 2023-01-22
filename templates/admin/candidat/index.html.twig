@@ -61,7 +61,7 @@
                     <td>{{ candidat.github }}</td>
                     <td>{{ candidat.linkedIn }}</td>
                     <td>
-                        <a href="{{ path('admin_app_candidat_show', {'id': candidat.id}) }}">Voir  {{ include('admin/candidat/_delete_form.html.twig') }}</a><br>
+                        <a href="{{ path('admin_app_candidat_show', {'id': candidat.id}) }}">Voir</a> {{ include('admin/candidat/_delete_form.html.twig') }}<br>
                         <a href="{{ path('admin_app_candidat_edit', {'id': candidat.id}) }}">Edit info Candidat</a><br>
                         <a href="{{ path('admin_app_user_edit', {'id': candidat.user.id}) }}">Edit info
                             Utilisateur</a><br>
