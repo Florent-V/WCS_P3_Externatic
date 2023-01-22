@@ -3,11 +3,10 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Candidat;
-use App\Entity\User;
+use App\Form\AdminSearchType;
 use App\Form\CandidatType;
-use App\Form\UserUpdateType;
 use App\Repository\CandidatRepository;
-use App\Repository\UserRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,13 +15,32 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/candidat')]
 class CandidatController extends AbstractController
 {
-    #[Route('/index', name: 'app_candidat_index', methods: ['GET'])]
+    #[Route('/', name: 'app_candidat_index', methods: ['GET'])]
     public function index(
-        CandidatRepository $candidatRepository
+        Request $request,
+        CandidatRepository $candidatRepository,
+        PaginatorInterface $paginator
     ): Response {
 
-        return $this->render('admin/candidat/index.html.twig', [
-            'candidats' => $candidatRepository->findActiveCandidat(),
+        $form = $this->createForm(AdminSearchType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $queryCandidats = $candidatRepository->findActiveCandidat($data['search']);
+        } else {
+            $queryCandidats = $candidatRepository->findActiveCandidat();
+        }
+
+        $candidats = $paginator->paginate(
+            $queryCandidats,
+            $request->query->getInt('page', 1),
+            10
+        );
+
+        return $this->renderForm('admin/candidat/index.html.twig', [
+            'candidats' => $candidats,
+            'form' => $form,
         ]);
     }
 

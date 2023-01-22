@@ -3,47 +3,69 @@
 {% block title %}Liste des Profils Consultant{% endblock %}
 
 {% block body %}
-    <h1>Liste des Profils Consultant</h1>
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Firstname</th>
-            <th>Lastname</th>
-            <th>Role</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>IsActive</th>
-            <th>actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for consultant in consultants %}
+    <main class="adminIndex">
+
+        <div class="head">
+            <h1>Liste des Consultants. Total : {{ consultants.getTotalItemCount }}</h1>
+
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button class="btn btn-primary" type="submit">Go !</button>
+            {{ form_end(form) }}
+
+        </div>
+
+
+        <table class="table">
+            <thead>
             <tr>
-                <td>{{ consultant.id }}</td>
-                <td>{{ consultant.user.firstname }}</td>
-                <td>{{ consultant.user.lastName }}</td>
-                <td>
-                    {% if 'ROLE_ADMIN' in consultant.user.roles %}
-                        <span>ADMIN</span>
-                    {% else %}
-                        <span>CONSULTANT</span>
-                    {% endif %}
-                </td>
-                <td>{{ consultant.user.email }}</td>
-                <td>{{ consultant.user.phone }}</td>
-                <td>{{ consultant.user.isActive ? 'Yes' : 'No' }}</td>
-                <td>
-                <a href="{{ path('admin_app_user_edit', {'id': consultant.user.id}) }}">Modifier</a><br>
-                    {{ include('admin/consultant/_delete_form.html.twig') }}
-                </td>
+                {# sorting of properties based on query components #}
+                <th>{{ knp_pagination_sortable(consultants, 'Id', 'c.id') }}</th>
+                <th{% if consultants.isSorted('u.firstname') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(consultants, 'Prénom', 'u.firstname') }}
+                </th>
+                <th{% if consultants.isSorted('u.lastName') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(consultants, 'Nom', 'u.lastName') }}
+                </th>
+                <th{% if consultants.isSorted('u.roles') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(consultants, 'Role', 'u.roles') }}
+                </th>
+                <th{% if consultants.isSorted('u.email') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(consultants, 'Email', 'u.email') }}
+                </th>
+                <th{% if consultants.isSorted('u.phone') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(consultants, 'Phone', 'u.phone') }}
+                </th>
+                <th>actions</th>
             </tr>
-        {% else %}
-            <tr>
-                <td colspan="10">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for consultant in consultants %}
+                <tr>
+                    <td>{{ consultant.id }}</td>
+                    <td>{{ consultant.user.firstname }}</td>
+                    <td>{{ consultant.user.lastName }}</td>
+                    <td>
+                        {% if 'ROLE_ADMIN' in consultant.user.roles %}
+                            <span>ADMIN</span>
+                        {% else %}
+                            <span>CONSULTANT</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ consultant.user.email }}</td>
+                    <td>{{ consultant.user.phone }}</td>
+                    <td>
+                        <a href="{{ path('admin_app_user_edit', {'id': consultant.user.id}) }}">Modifier</a><br>
+                        {{ include('admin/consultant/_delete_form.html.twig') }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="10">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </main>
 {% endblock %}

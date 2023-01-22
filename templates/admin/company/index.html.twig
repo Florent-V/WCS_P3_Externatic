@@ -3,51 +3,85 @@
 {% block title %}Company index{% endblock %}
 
 {% block body %}
-    <h1>Company index</h1>
 
-    <table class="table">
-        <thead>
+    <main class="adminIndex">
+        <div class="head">
+            <h1>Liste des Entreprises. Total : {{ companies.getTotalItemCount }}</h1>
+
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button class="btn btn-primary" type="submit">Go !</button>
+            {{ form_end(form) }}
+
+        </div>
+
+        <table class="table">
+            <thead>
             <tr>
-                <th>Id</th>
-                <th>Siret</th>
-                <th>Name</th>
-                <th>Logo</th>
-                <th>ZipCode</th>
-                <th>Address</th>
-                <th>City</th>
-                <th>PhoneNumber</th>
-                <th>ContactName</th>
-                <th>Size</th>
-                <th>Information</th>
+                {# sorting of properties based on query components #}
+                <th>{{ knp_pagination_sortable(companies, 'Id', 'c.id') }}</th>
+                <th{% if companies.isSorted('c.logo') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(companies, 'Logo', 'c.logo') }}
+                </th>
+                <th{% if companies.isSorted('c.name') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(companies, 'Name', 'c.name') }}
+                </th>
+                <th{% if companies.isSorted('c.siret') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(companies, 'Siret', 'c.siret') }}
+                </th>
+                <th{% if companies.isSorted('c.address') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(companies, 'Adresse', 'c.address') }}
+                </th>
+                <th{% if companies.isSorted('c.zipCode') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(companies, 'Code Postal', 'c.zipCode') }}
+                </th>
+                <th{% if companies.isSorted('c.city') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(companies, 'Ville', 'c.city') }}
+                </th>
+                <th{% if companies.isSorted('c.phoneNumber') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(companies, 'Téléphone', 'c.phoneNumber') }}
+                </th>
+                <th{% if companies.isSorted('c.contactName') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(companies, 'Contact', 'c.contactName') }}
+                </th>
+                <th{% if companies.isSorted('c.size') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(companies, 'Size', 'c.size') }}
+                </th>
                 <th>actions</th>
             </tr>
-        </thead>
-        <tbody>
-        {% for company in companies %}
-            <tr>
-                <td>{{ company.id }}</td>
-                <td>{{ company.siret }}</td>
-                <td>{{ company.name }}</td>
-                <td><img style="height: 100px" src="{{ vich_uploader_asset(company) }}" alt="{{ company.name }}"></td>
-                <td>{{ company.zipCode }}</td>
-                <td>{{ company.address }}</td>
-                <td>{{ company.city }}</td>
-                <td>{{ company.phoneNumber }}</td>
-                <td>{{ company.contactName }}</td>
-                <td>{{ company.size }}</td>
-                <td>{{ company.information }}</td>
-                <td>
-                    <a href="{{ path('admin_app_company_show', {'id': company.id}) }}">show</a>
-                    <a href="{{ path('admin_app_company_edit', {'id': company.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="12">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for company in companies %}
+                <tr>
+                    <td>{{ company.id }}</td>
+                    <td><img style="height: 100px" src="{{ vich_uploader_asset(company) }}" alt="{{ company.name }}">
+                    </td>
+                    <td>{{ company.name }}</td>
+                    <td>{{ company.siret }}</td>
+                    <td>{{ company.address }}</td>
+                    <td>{{ company.zipCode }}</td>
+                    <td>{{ company.city }}</td>
+                    <td>{{ company.phoneNumber }}</td>
+                    <td>{{ company.contactName }}</td>
+                    <td>{{ company.size }}</td>
+                    <td>
+                        <a href="{{ path('admin_app_company_show', {'id': company.id}) }}">Voir {{ include('admin/company/_delete_form.html.twig') }}</a><br>
+                        <a href="{{ path('admin_app_company_edit', {'id': company.id}) }}">Modifier</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="12">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
-    <a href="{{ path('admin_app_company_new') }}">Create new</a>
+        <div class="container d-flex justify-content-center">{{ knp_pagination_render(companies) }}</div>
+
+        <div class="addBtn">
+            <a class="btn btn-primary" href="{{ path('admin_app_company_new') }}">Ajouter une Entreprise</a>
+        </div>
+
+    </main>
 {% endblock %}

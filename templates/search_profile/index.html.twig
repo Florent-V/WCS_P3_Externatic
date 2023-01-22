@@ -5,9 +5,9 @@
 {% block body %}
 
     <main class="searchProfile container-md mb-5">
-        <h1>Mes recherches</h1>
+        <h1 class="text-center mt-3">Mes recherches</h1>
 
-        <div class="row">
+        <div class="row showCard">
             {% for search_profile in app.user.candidat.searchProfiles %}
                 <div class="col-sm-4">
                     <div class="card mb-5">
