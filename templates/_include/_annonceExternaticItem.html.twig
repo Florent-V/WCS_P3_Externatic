@@ -10,27 +10,33 @@
     <div id="collapse-{{ loop.index }}" class="accordion-collapse collapse m-4"
          aria-labelledby="heading-{{ loop.index }}"
          data-bs-parent="#accordionExample-{{ loop.index }}">
-        <div class="accordion-body">
-            <table class="table table-striped table-sm">
+        <td class="accordion-body">
+            <table class="table table-striped table-sm {{ stimulus_controller('rating') }}">
                 <thead class="thead-light">
                 <tr>
                     <th scope="row">Candidat</th>
                     <th scope="row">Status du processus
                     <th scope="row">note</th>
-                    <th scope="row">Dernier échange</th>
+                    <th scope="row">Date de création</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for recruitmentProcess in annonce.recrutementProcesses|sort((a, b) => a.status <=> b.status) %}
-                    <tr>
+                    <tr {{ stimulus_target('rating', '') }}>
                         <td>{{ recruitmentProcess.candidat.user.firstname|upper }} {{ recruitmentProcess.candidat.user.lastName|capitalize }}</td>
                         <td>{{ recruitmentProcess.status }}</td>
-                        <td>{{ recruitmentProcess.rate }}</td>
-                        <td>Récupérer dernier échange</td>
+                        <td class="rating">
+                            <button {{ stimulus_action('rating', 'updateRate') }}><i class="bi bi-star"></i></button>
+                            <button><i class="bi bi-star"></i></button>
+                            <button><i class="bi bi-star"></i></button>
+                            <button><i class="bi bi-star"></i></button>
+                            <button><i class="bi bi-star"></i></button>
+                        </td>
+                        <td>{{ recuitmentProcess.createdAt|format_datetime('short', 'none', locale='fr') }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
-        </div>
     </div>
+</div>
 </div>
