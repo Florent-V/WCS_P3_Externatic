@@ -3,10 +3,17 @@
 {% block title %}Messagerie{% endblock %}
 
 {% block body %}
-    <main class="container messagerieIndex" {{ stimulus_controller('symfony/ux-swup/swup', {
+    <main class="container messagerieIndex" {{ stimulus_controller({
+        "inbox":{},
+        'symfony/ux-swup/swup': {
         containers: ['#inbox', '#pageSelectorInbox']
+    }
     }) }}>
         <div class="text-center m-4"><h1>Bienvenue sur votre messagerie</h1></div>
+        <dialog {{ stimulus_target('inbox','error') }}>
+            <p>Erreur, veuillez essayer à nouveau et vérifier que vous avez bien les droits nécessaires</p>
+            <button class="btn btn-primary" data-action="inbox#closeModal" >Fermer</button>
+        </dialog>
         <div class="table-responsive-sm">
         <table class="table">
             <thead>
@@ -20,7 +27,7 @@
             </tr>
             </thead>
 
-            <tbody id="inbox" data-controller="inbox">
+            <tbody id="inbox">
             {% for message in receivedMessages %}
                 {% include('_include/_messageHeader.html.twig') %}
             {% endfor %}

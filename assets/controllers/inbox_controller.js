@@ -1,8 +1,29 @@
 import {Controller} from '@hotwired/stimulus';
 
 export default class extends Controller {
-    archive(event)
-    {
+    static targets = ["error"]
+
+    closeModal(event) {
+        console.log("cocou")
+        this.errorTarget.close();
+    }
+
+    delete(event) {
+        fetch(`/recruitment_process/${event.currentTarget.dataset.messageid}/change-archive`)
+            .then(response => response.json())
+            .then((response) => {
+                if (response.isArchived === true) {
+                    event.target.closest("tr").remove()
+                } else {
+                    event.target.className = "bi bi-exclamation-diamond-fill";
+                    event.target.title = "erreur";
+                    this.errorTarget.show();
+                    //this.errorTarget.display = "block"
+                }
+            })
+    }
+
+    archive(event) {
         fetch(`/recruitment_process/${event.currentTarget.dataset.messageid}/change-read`)
             .then(response => response.json())
             .then((response) => {
@@ -19,20 +40,6 @@ export default class extends Controller {
                 }
             })
     }
-
-    delete(event) {
-        fetch(`/recruitment_process/${event.currentTarget.dataset.messageid}/change-archive`)
-            .then(response => response.json())
-            .then((response) => {
-                if (response.isArchived === true) {
-                    event.target.closest("tr").remove()
-                } else {
-                    event.target.className = "bi bi-exclamation-diamond-fill";
-                    event.target.title = "erreur";
-                }
-            })
-    }
-
 
     connect() {
         const messageCells = document.querySelectorAll("td:not(:has(> button))");
