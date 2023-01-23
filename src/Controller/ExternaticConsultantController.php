@@ -49,8 +49,7 @@ class ExternaticConsultantController extends AbstractController
          */
         $user = $this->getUser();
 
-
-        $fetchedAnnonces = $annonceRepository->getConsultantAnnonces($user->getConsultant());
+        $fetchedAnnonces = $annonceRepository->getConsultantAnnonces($user->getConsultant(), 1);
 
         $annonces = $paginator->paginate(
             $fetchedAnnonces,
@@ -73,10 +72,7 @@ class ExternaticConsultantController extends AbstractController
          * @var User $user
          */
         $user = $this->getUser();
-        $fetchedAnnonces = $annonceRepository->findBy([
-            'author' => $user->getConsultant(),
-            'publicationStatus' => 0
-        ], ["createdAt" => "DESC"]);
+        $fetchedAnnonces = $annonceRepository->getConsultantAnnonces($user->getConsultant(), 0);
 
         $annonces = $paginator->paginate(
             $fetchedAnnonces,

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Company;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -48,6 +49,20 @@ class CompanyRepository extends ServiceEntityRepository
         return $queryBuilder->getResult();
     }
 
+    public function findCompany(string $search = ''): Query
+    {
+        $qb = $this->createQueryBuilder('c');
+
+        if ($search) {
+            $qb->where($qb->expr()->orX(
+                $qb->expr()->like('c.name', ':search'),
+                $qb->expr()->like('c.information', ':search'),
+                $qb->expr()->like('c.city', ':search')
+            ))
+                ->setParameter('search', '%' . $search . '%');
+        }
+        return $qb->getQuery();
+    }
 //    /**
 //     * @return Company[] Returns an array of Company objects
 //     */

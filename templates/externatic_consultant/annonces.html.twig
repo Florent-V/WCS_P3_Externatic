@@ -3,17 +3,28 @@
 {% block title %}Vos annonces{% endblock %}
 
 {% block body %}
-    <main class="consultantAnnonces" >
+    <main class="consultantAnnonces">
         <div class="d-flex flex-column align-items-center" data-controller="publiStatus"><h1>Annnonces en cours</h1>
             <small><a href="{{ path('consultant_annonces_archives') }}">accès aux archives</small></div>
+        <div class="sorting">
+            <p>{{ knp_pagination_sortable(annonces, 'date de creation', 'a.createdAt') }}</p>
+            <p{% if annonces.isSorted('a.endingAt') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(annonces, 'Date de fin', 'a.endingAt') }}
+            </p>
+            <p{% if annonces.isSorted('c.name') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(annonces, 'Entreprise', 'c.name') }}
+            </p>
+        </div>
+
+
         {% for annonce in annonces %}
             <article class="m-3 p-2">
                 <div class="accordion container" id="accordionExample-{{ loop.index }}">
                     {% if date(annonce.endingAt) <= date() %}
                         <div class="d-flex justify-content-center font-italic bg-warning">
                             <div class="font-italic text-muted"> - Annonce trop ancienne -</div>
-                            <div><a href="{{ path('annonce_show', {"id": annonce.id}) }}"> Changer la date de fin</a> ou
-                                <a href="{{ path('annonce_show', {"id": annonce.id}) }}"> Dupliquer l'annonce</a></div>
+                            <div><a href="{{ path('annonce_edit', {"id": annonce.id}) }}"> Changer la date de fin</a>
+                            </div>
                         </div>
                     {% endif %}
                     <div class="d-flex justify-content-between">

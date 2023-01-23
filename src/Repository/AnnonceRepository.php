@@ -147,12 +147,14 @@ class AnnonceRepository extends ServiceEntityRepository
         return $queryBuilder->getResult();
     }
 
-    public function getConsultantAnnonces(ExternaticConsultant $externaticConsultant): Query
+    public function getConsultantAnnonces(ExternaticConsultant $externaticConsultant, string $isArchived): Query
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.author = :externaticConsultant')
             ->setParameter('externaticConsultant', $externaticConsultant)
-            ->andWhere('a.publicationStatus = 1')
+            ->andWhere('a.publicationStatus = :isArchived')
+            ->setParameter('isArchived', $isArchived)
+            ->join('a.company', 'c')
             ->getQuery();
     }
 }

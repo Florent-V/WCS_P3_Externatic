@@ -1,5 +1,11 @@
 .consultantAnnonces {
     margin-left: $navBarWidth;
+    div.sorting {
+        margin-left: $spacer;
+        p{
+            display:inline-block;
+            margin-right: .5rem;}
+    }
     article {
         border:1px solid $primary;
         border-radius: $border-radius;

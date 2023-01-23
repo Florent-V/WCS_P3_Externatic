@@ -12,7 +12,7 @@
 
 {% block body %}
     <main class="messageConversation container" {{ stimulus_controller('symfony/ux-swup/swup', {
-        containers: ['#swup', '#pageSelector']
+        containers: ['#swupConv', '#pageSelector']
     }) }}>
         <h1 class="text-center">Echange relatifs à <span
                 class="text-primary">{{ recruitmentProcess.annonce.title ?: recruitmentProcess.company.name }} </span>
@@ -29,7 +29,7 @@
                         </tr>
                         </thead>
 
-                        <tbody id="swup" data-controller="inbox">
+                        <tbody id="swupConv" data-controller="inbox">
                         {% for message in receivedMessages %}
                             {% include('_include/_messageHeaderConv.html.twig') %}
                         {% endfor %}
