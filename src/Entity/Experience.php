@@ -18,10 +18,10 @@ class Experience
     private ?string $title = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $beginning = null;
+    private ?\DateTime $beginning = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $end = null;
+    private ?\DateTime $end = null;
 
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $organism = null;
@@ -58,24 +58,24 @@ class Experience
         return $this;
     }
 
-    public function getBeginning(): ?\DateTimeInterface
+    public function getBeginning(): ?\DateTime
     {
         return $this->beginning;
     }
 
-    public function setBeginning(?\DateTimeInterface $beginning): self
+    public function setBeginning(?\DateTime $beginning): self
     {
         $this->beginning = $beginning;
 
         return $this;
     }
 
-    public function getEnd(): ?\DateTimeInterface
+    public function getEnd(): ?\DateTime
     {
         return $this->end;
     }
 
-    public function setEnd(?\DateTimeInterface $end): self
+    public function setEnd(?\DateTime $end): self
     {
         $this->end = $end;
 

@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block title %}Vous discutez avec
+    {% if app.user != recruitmentProcess.candidat.user %}
+        {{ recruitmentProcess.candidat.user.lastName }}
+    {% else %}
+        {{ recruitmentProcess.company.externaticConsultant.user.lastName ?: recruitmentProcess.annonce.author.user.lastName }}
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    <main class="messageConversation container" {{ stimulus_controller('symfony/ux-swup/swup', {
+        containers: ['#swup', '#pageSelector']
+    }) }}>
+        <h1 class="text-center">Echange relatifs à <span
+                class="text-primary">{{ recruitmentProcess.annonce.title ?: recruitmentProcess.company.name }} </span>
+        </h1>
+        <div class="Conversation d-flex justify-content-around">
+            <section class="conversationList d-none d-lg-block col-md-5">
+                <div class="table-responsive-md">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="row">Expediteur</th>
+                            <th scope="row">Intitulé de l'annonce</th>
+                            <th scope="row">Contenu</th>
+                        </tr>
+                        </thead>
+
+                        <tbody id="swup" data-controller="inbox">
+                        {% for message in receivedMessages %}
+                            {% include('_include/_messageHeaderConv.html.twig') %}
+                        {% endfor %}
+                    </table>
+                </div>
+                <div id="pageSelector"
+                     class="container d-flex justify-content-center">{{ knp_pagination_render(receivedMessages) }}</div>
+            </section>
+
+            <section class="allconv col-lg-5 d-flex justify-content-start flex-column">
+                <div {{ stimulus_controller('message_scroll') }}>
+                    {{ component('conversation', {
+                        recruitmentProcess: recruitmentProcess
+                    }) }}
+                </div>
+                <div class="formconvo col-12">
+                    {{ form_start(form, { 'attr': {'data-controller': 'areaDelete'}}) }}
+                    {{ form_widget(form.content) }}
+                    <button class="btn btn-primary" type="submit"><i class="bi bi-chat-text-fill"></i> Envoyer</button>
+                    {{ form_end(form) }}
+                </div>
+            </section>
+
+        </div>
+    </main>
+{% endblock %}

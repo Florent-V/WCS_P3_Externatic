@@ -18,7 +18,7 @@ class Certification
     private ?string $title = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $year = null;
+    private ?\DateTime $year = null;
 
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $link = null;
@@ -46,12 +46,12 @@ class Certification
         return $this;
     }
 
-    public function getYear(): ?\DateTimeInterface
+    public function getYear(): ?\DateTime
     {
         return $this->year;
     }
 
-    public function setYear(?\DateTimeInterface $year): self
+    public function setYear(?\DateTime $year): self
     {
         $this->year = $year;
 

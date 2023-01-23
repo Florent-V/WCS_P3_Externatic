@@ -1,0 +1,33 @@
+.messagerieIndex {
+    .table {
+        //border: solid 1px $primary;
+        box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+        border-radius: 15px !important;
+        overflow: hidden;
+
+        thead {
+            & > tr {
+                background-color: rgba(201, 25, 97, 0.2);
+                height: 3rem;
+            }
+        }
+
+        tbody {
+            tr {
+                cursor: pointer;
+                height: 2.5rem;
+                td {
+                    max-width: 6rem;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    a{
+                        text-decoration: none;
+                        color:inherit;
+                    }
+                }
+            }
+        }
+    }
+
+}

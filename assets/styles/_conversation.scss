@@ -1,0 +1,94 @@
+section {
+    min-width:60vh;
+}
+
+///////////////////////////////
+//PARTIE GAUCHE RECAP MESSAGE//
+//////////////////////////////
+.messageConversation {
+
+    .table {
+        //border: solid 1px $primary;
+        box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+        border-radius: 15px !important;
+        overflow: hidden;
+
+        thead {
+            & > tr {
+                background-color: rgba(201, 25, 97, 0.2);
+                height: 3rem;
+            }
+        }
+
+        tbody {
+            tr {
+                cursor: pointer;
+                max-height: 4rem;
+                td.messageContent {
+                    max-width: 6rem;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    a{
+                        text-decoration: none;
+                        color:inherit;
+                    }
+                }
+            }
+        }
+    }
+
+    /////////////////////////
+    //PARTIE DROITE CHATBOX//
+    /////////////////////////
+    .allconv {
+        article{
+            box-shadow: 7px 7px 2px 0px rgba(0,0,0,0.64); //Possible goût de chiotte, a vérifier avec l'équipe//
+        }
+        .response {
+            //border et border radius
+            border: 3px solid #d2d2d2;
+            border-radius: 5px;
+            margin-bottom: 10px;
+
+            //hauteur max et scroll si il y'a trop de message
+            height: 60vh;
+            overflow-y: scroll;
+            padding: 1rem;
+
+            //styleboxshadow
+            box-shadow: inset 2px 2px 10px 2px #9b9b9b;
+
+            //personnalisation scroll bar
+            scrollbar-color: $primary $light;
+            scrollbar-width: thin;
+
+            &::-webkit-scrollbar {
+                width: .5rem;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background: $primary;
+                border-radius: $border-radius;
+            }
+        }
+
+        .formconvo {
+            //rondeur du text area + bouton
+            border-radius: $border-radius;
+
+            button {
+                width: 100%;
+                margin-top: .5rem;
+                color: white;
+            }
+            textarea {
+                height: 13vh;
+                //boxshadow
+                box-shadow: 2px 2px 10px 2px #9b9b9b;
+                border: 5px solid rgba(201, 25, 97, 0.2);
+            }
+        }
+    }
+}
+

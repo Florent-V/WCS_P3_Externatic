@@ -59,6 +59,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private ?bool $isActive = true;
+    #[ORM\Column]
+    private ?bool $hasNotifUnread = null;
 
     public function __construct()
     {
@@ -323,6 +325,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->isActive = $isActive;
 
+        return $this;
+    }
+
+    public function isHasNotifUnread(): ?bool
+    {
+        return $this->hasNotifUnread;
+    }
+
+    public function setHasNotifUnread(bool $hasNotifUnread): self
+    {
+        $this->hasNotifUnread = $hasNotifUnread;
         return $this;
     }
 }

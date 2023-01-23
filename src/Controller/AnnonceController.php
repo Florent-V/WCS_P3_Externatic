@@ -11,6 +11,7 @@ use App\Form\AnnonceType;
 use App\Form\MessageType;
 use App\Repository\AnnonceRepository;
 use App\Repository\NotifRepository;
+use App\Repository\UserRepository;
 use App\Repository\CandidatRepository;
 use App\Repository\MessageRepository;
 use App\Repository\RecruitmentProcessRepository;
@@ -149,7 +150,8 @@ class AnnonceController extends AbstractController
         Annonce $annonce,
         MessageRepository $messageRepository,
         RecruitmentProcessRepository $recruitProcessRepo,
-        NotifRepository $notifRepository
+        NotifRepository $notifRepository,
+        UserRepository $userRepository
     ): Response {
         $message = new Message();
         $form = $this->createForm(MessageType::class, $message);
@@ -159,29 +161,31 @@ class AnnonceController extends AbstractController
          */
         $user = $this->getUser();
         if (!is_null($user)) {
-            foreach ($user->getNotifications() as $notif) {
+            foreach ($notifRepository->findBy(['wasRead' => false, 'user' => $user]) as $notif) {
                 if ($notif->getParameter() == $annonce->getId()) {
                     $notif->setWasRead(true);
                     $notifRepository->save($notif, true);
                 }
             }
+            if (!$notifRepository->findBy(['wasRead' => false, 'user' => $user])) {
+                $user->setHasNotifUnread(false);
+                $userRepository->save($user, true);
+            }
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $date = new DateTime();
-
             $recruitmentProcess = new RecruitmentProcess();
             $recruitmentProcess->setStatus('Applied');
             $recruitmentProcess->setCandidat($user->getCandidat());
-            $recruitmentProcess->setCreatedAt($date);
             $recruitmentProcess->setAnnonce($annonce);
+            $recruitmentProcess->setReadByCandidat(true);
+            $recruitmentProcess->setReadByConsultant(false);
             $recruitProcessRepo->save($recruitmentProcess, true);
 
             $message->setRecruitmentProcess($recruitmentProcess);
 
             $message->setSendBy($user);
             $message->setSendTo($annonce->getAuthor()->getUser());
-            $message->setDate($date);
 
             $messageRepository->save($message, true);
 
@@ -206,7 +210,6 @@ class AnnonceController extends AbstractController
         ]);
     }
 
-
     #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_CONSULTANT')]
     public function edit(Annonce $annonce, Request $request, AnnonceRepository $annonceRepository): response
@@ -223,6 +226,23 @@ class AnnonceController extends AbstractController
         return $this->renderForm('annonce/edit.html.twig', [
             'annonce' => $annonce,
             'form' => $form,
+        ]);
+    }
+
+    #[IsGranted('ROLE_CONSULTANT')]
+    #[Route('/change-status/{id}/', name: 'change_status', methods: ["GET", "POST"])]
+    public function changeAnnonceStatus(Annonce $annonce, AnnonceRepository $annonceRepository): response
+    {
+        if ($annonce->getPublicationStatus() == 0) {
+            $annonce->setPublicationStatus(1);
+        } else {
+            $annonce->setPublicationStatus(0);
+        }
+
+        $annonceRepository->save($annonce, true);
+
+        return $this->json([
+            'isActivated' => $annonce->getPublicationStatus()
         ]);
     }
 }
