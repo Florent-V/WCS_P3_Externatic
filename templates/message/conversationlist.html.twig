@@ -3,27 +3,36 @@
 {% block title %}Messagerie{% endblock %}
 
 {% block body %}
-    <main class="container messagerieIndex" {{ stimulus_controller('symfony/ux-swup/swup', {
-        containers: ['#swup', '#pageSelector']
+    <main class="container messagerieIndex" {{ stimulus_controller({
+        "inbox":{},
+        'symfony/ux-swup/swup': {
+        containers: ['#inbox', '#pageSelectorInbox']
+    }
     }) }}>
         <div class="text-center m-4"><h1>Bienvenue sur votre messagerie</h1></div>
+        <dialog {{ stimulus_target('inbox','error') }}>
+            <p>Erreur, veuillez essayer à nouveau et vérifier que vous avez bien les droits nécessaires</p>
+            <button class="btn btn-primary" data-action="inbox#closeModal" >Fermer</button>
+        </dialog>
         <div class="table-responsive-sm">
-        <table class="table table-hover">
+        <table class="table">
             <thead>
             <tr>
                 <th scope="row">Date</th>
                 <th scope="row">Expediteur</th>
                 <th scope="row">Intitulé de l'annonce</th>
                 <th scope="row">Contenu</th>
+                <th scope="row"></th>
+                <th scope="row"></th>
             </tr>
             </thead>
 
-            <tbody id="swup" data-controller="inbox">
+            <tbody id="inbox">
             {% for message in receivedMessages %}
                 {% include('_include/_messageHeader.html.twig') %}
             {% endfor %}
         </table>
         </div>
-        <div id="pageSelector" class="container d-flex justify-content-center">{{ knp_pagination_render(receivedMessages) }}</div>
+        <div id="pageSelectorInbox" class="container d-flex justify-content-center">{{ knp_pagination_render(receivedMessages) }}</div>
     </main>
 {% endblock %}

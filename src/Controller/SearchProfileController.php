@@ -6,6 +6,8 @@ use App\Entity\SearchProfile;
 use App\Entity\User;
 use App\Form\SearchProfileType;
 use App\Repository\SearchProfileRepository;
+use App\Repository\TechnoRepository;
+use App\Service\SearchProfileAdd;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,16 +26,15 @@ class SearchProfileController extends AbstractController
     public function new(
         Request $request,
         SearchProfileRepository $searchProfileRepo,
+        TechnoRepository $technoRepository,
+        SearchProfileAdd $searchProfileAdd,
     ): Response {
 
-        $searchProfile = new SearchProfile();
-        $searchProfile->setSearchQuery(json_decode($request->request->get('research'), true));
-        /**
-         * @var ?User $user
-         */
-        $user = $this->getUser();
-        $searchProfile->setCandidat($user->getCandidat());
-        $searchProfileRepo->save($searchProfile, true);
+
+        $data = json_decode($request->request->get('research'), true);
+
+
+        $searchProfileAdd->addToEntity($data);
 
         return $this->json([
             'result' => 'Recherche enregistrée !'

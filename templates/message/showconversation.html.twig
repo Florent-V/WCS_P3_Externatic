@@ -12,7 +12,7 @@
 
 {% block body %}
     <main class="messageConversation container" {{ stimulus_controller('symfony/ux-swup/swup', {
-        containers: ['#swup', '#pageSelector']
+        containers: ['#showMessage', "#pageSelectorConv"]
     }) }}>
         <h1 class="text-center">Echange relatifs à <span
                 class="text-primary">{{ recruitmentProcess.annonce.title ?: recruitmentProcess.company.name }} </span>
@@ -29,13 +29,13 @@
                         </tr>
                         </thead>
 
-                        <tbody id="swup" data-controller="inbox">
+                        <tbody id='showMessage' data-controller="inbox">
                         {% for message in receivedMessages %}
                             {% include('_include/_messageHeaderConv.html.twig') %}
                         {% endfor %}
                     </table>
                 </div>
-                <div id="pageSelector"
+                <div id="pageSelectorConv"
                      class="container d-flex justify-content-center">{{ knp_pagination_render(receivedMessages) }}</div>
             </section>
 
@@ -46,7 +46,7 @@
                     }) }}
                 </div>
                 <div class="formconvo col-12">
-                    {{ form_start(form, { 'attr': {'data-controller': 'areaDelete'}}) }}
+                    {{ form_start(form) }}
                     {{ form_widget(form.content) }}
                     <button class="btn btn-primary" type="submit"><i class="bi bi-chat-text-fill"></i> Envoyer</button>
                     {{ form_end(form) }}
