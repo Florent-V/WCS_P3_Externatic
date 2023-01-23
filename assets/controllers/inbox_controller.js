@@ -41,7 +41,7 @@ export default class extends Controller {
     }
 
     connect() {
-        const messageCells = document.querySelectorAll("td:not(:has(> button))");
+        const messageCells = document.querySelectorAll(".messageCell");
         for (let messageCell of messageCells) {
             messageCell.addEventListener("click", () => {
                 window.location.assign(` /message/recruitmentProcess/${messageCell.parentNode.dataset.messageid}`);

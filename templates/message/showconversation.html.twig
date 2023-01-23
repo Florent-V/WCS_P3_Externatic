@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block body %}
-    <main class="messageConversation container" {{ stimulus_controller('symfony/ux-swup/swup', {
+    <main class="messageConversation messagerie container" {{ stimulus_controller('symfony/ux-swup/swup', {
         containers: ['#showMessage', "#pageSelectorConv"]
     }) }}>
         <h1 class="text-center">Echange relatifs à <span
@@ -22,11 +22,11 @@
                 <div class="table-responsive-md">
                     <table class="table table-hover">
                         <thead>
-                        <tr>
-                            <th scope="row">Expediteur</th>
-                            <th scope="row">Intitulé de l'annonce</th>
-                            <th scope="row">Contenu</th>
-                        </tr>
+                            <tr>
+                                <th scope="row">Expediteur</th>
+                                <th scope="row">Intitulé de l'annonce</th>
+                                <th scope="row">Contenu</th>
+                            </tr>
                         </thead>
 
                         <tbody id='showMessage' data-controller="inbox">

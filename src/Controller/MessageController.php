@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Message;
 use App\Entity\RecruitmentProcess;
 use App\Entity\User;
+use App\Form\AdminSearchType;
 use App\Form\ConversationType;
 use App\Repository\MessageRepository;
 use App\Repository\RecruitmentProcessRepository;
@@ -33,17 +34,21 @@ class MessageController extends AbstractController
         $user = $this->getUser();
         $userRole = $this->isGranted('ROLE_CANDIDAT') ? "Candidat" : "Consultant";
 
+        $form = $this->createForm(AdminSearchType::class);
+        $form->handleRequest($request);
+
 //        $receivedMessages = $messageRepository->findBy(['sendTo' => $user], ["date" => "DESC"]);
-        $messageQuery = $messageRepository->getInbox("sendTo", $user->getId(), $userRole);
+        $messageQuery = $messageRepository->getInbox("sendTo", $user, $userRole);
         $receivedMessages = $paginator->paginate(
             $messageQuery,
             $request->query->getInt('page', 1),
             10
         );
 
-        return $this->render('message/conversationlist.html.twig', [
+        return $this->renderForm('message/conversationlist.html.twig', [
             'controller_name' => 'MessageController',
             'receivedMessages' => $receivedMessages,
+            'form' => $form,
         ]);
     }
 
@@ -109,7 +114,7 @@ class MessageController extends AbstractController
         }
 
 
-        $otherConvQuery = $messageRepository->getInbox("sendTo", $user->getId(), $userRole);
+        $otherConvQuery = $messageRepository->getInbox("sendTo", $user, $userRole);
         $otherConversations = $paginator->paginate(
             $otherConvQuery,
             $request->query->getInt('page', 1),
