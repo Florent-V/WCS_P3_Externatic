@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Candidat;
 use App\Entity\Certification;
 use App\Entity\Experience;
+use App\Entity\User;
 use App\Form\CandidatType;
 use App\Form\CertificationType;
 use App\Form\ExperienceType;
@@ -28,13 +29,13 @@ class CandidatController extends AbstractController
     #[Route('/', name: 'app_candidat_profile', methods: ['GET'])]
     public function profile(CandidatRepository $candidatRepository): Response
     {
+
+        /**
+         * @var ?User $user
+         */
         $user = $this->getUser();
-        $candidat = $candidatRepository->findOneBy(
-            ['user' => $user]
-        );
 
         return $this->render('candidat/profile.html.twig', [
-            'candidat' => $candidat,
             'user' => $user,
         ]);
     }

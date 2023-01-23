@@ -39,6 +39,28 @@ class ExperienceRepository extends ServiceEntityRepository
         }
     }
 
+    public function findNextExperience(int $id): ?Experience
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.id > :id')
+            ->setParameter('id', $id)
+            ->orderBy('e.id', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function findPreviousExperience(int $id): ?Experience
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.id < :id')
+            ->setParameter('id', $id)
+            ->orderBy('e.id', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
 //    /**
 //     * @return Experience[] Returns an array of Experience objects
 //     */

@@ -3,48 +3,60 @@
 {% block title %}Experience{% endblock %}
 
 {% block body %}
-    <h1>Experience</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ experience.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ experience.title }}</td>
-            </tr>
-            <tr>
-                <th>Beginning</th>
-                <td>{{ experience.beginning ? experience.beginning|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>End</th>
-                <td>{{ experience.end ? experience.end|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Organism</th>
-                <td>{{ experience.organism }}</td>
-            </tr>
-            <tr>
-                <th>Location</th>
-                <td>{{ experience.location }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ experience.description }}</td>
-            </tr>
-            <tr>
-                <th>Diploma</th>
-                <td>{{ experience.diploma }}</td>
-            </tr>
-            <tr>
-                <th>IsFormation</th>
-                <td>{{ experience.isFormation ? 'Yes' : 'No' }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <main class="container-md">
+
+        <h1 class="text-center mt-3">Mes Expériences</h1>
+
+        <div class="carousel">
+            <div class="card carousel-item active">
+                <div class="card-body">
+                    <h2 class="card-title">{{ experience.title }}</h2>
+                    <p class="card-text">{{ experience.description }}</p>
+                </div>
+                <div class="list-group list-group-flush">
+                    <div class="list-group-item">
+                        <p>Début</p>
+                        <p>{{ experience.beginning ? experience.beginning|date('Y-m-d') : '' }}</p>
+                    </div>
+                    <div class="list-group-item">
+                        <p>Fin</p>
+                        <p>{{ experience.beginning ? experience.end|date('Y-m-d') : '' }}</p>
+                    </div>
+                    <div class="list-group-item">
+                        <p>Entreprise</p>
+                        <p>{{ experience.organism }}</p>
+                    </div>
+                    <div class="list-group-item">
+                        <p>Lieu</p>
+                        <p>{{ experience.location }}</p>
+                    </div>
+                    {% if experience.isFormation %}
+                        <div class="list-group-item">
+                            <p>Diplôme</p>
+                            <p>{{ experience.diploma }}</p>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <a href="{{ path('app_candidat_account') }}" class="card-link">Editer</a>
+                </div>
+            </div>
+        </div>
+
+        <a href="{{ path('app_experience_next', {id: experience.id}) }}" class="carousel-control-next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+        <a href="{{ path('app_experience_previous', {id: experience.id}) }}" class="carousel-control-prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+
+    </main>
+
+
+
 
     <a href="{{ path('app_experience_index') }}">back to list</a>
 

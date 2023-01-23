@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Experience;
+use App\Entity\User;
 use App\Form\ExperienceType;
 use App\Form\FormationType;
 use App\Repository\CandidatRepository;
@@ -68,6 +69,32 @@ class ExperienceController extends AbstractController
         return $this->render('experience/show.html.twig', [
             'experience' => $experience,
         ]);
+    }
+
+    #[Route('/{id}/next', name: 'app_experience_next', methods: ['GET'])]
+    public function next(ExperienceRepository $repository, int $id): Response
+    {
+        //$user = $this->getUser();
+        //$curriculum = $user->getCandidat()->getCurriculum();
+        $nextExperience = $repository->findNextExperience($id);
+
+        if (!$nextExperience) {
+            throw $this->createNotFoundException('Il n\'y a pas d\'expérience suivante');
+        }
+
+        return $this->redirectToRoute('app_experience_show', ['id' => $nextExperience->getId()]);
+    }
+
+    #[Route('/{id}/prev', name: 'app_experience_previous', methods: ['GET'])]
+    public function previous(ExperienceRepository $repository, int $id): Response
+    {
+        $previousExperience = $repository->findPreviousExperience($id);
+
+        if (!$previousExperience) {
+            throw $this->createNotFoundException('Il n\'y a pas d\'expérience précédente');
+        }
+
+        return $this->redirectToRoute('app_experience_show', ['id' => $previousExperience->getId()]);
     }
 
     #[Route('/{id}/edit', name: 'app_experience_edit', methods: ['GET', 'POST'])]
