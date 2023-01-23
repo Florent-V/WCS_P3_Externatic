@@ -105,12 +105,12 @@ class SearchProfile
         return $this;
     }
 
-    public function isPeriod(): ?bool
+    public function isPeriod(): ?int
     {
         return $this->period;
     }
 
-    public function setPeriod(?bool $period): self
+    public function setPeriod(?int $period): self
     {
         $this->period = $period;
 

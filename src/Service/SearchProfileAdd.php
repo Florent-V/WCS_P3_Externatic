@@ -20,7 +20,20 @@ class SearchProfileAdd extends AbstractController
         $this->technoRepository = $technoRepository;
         $this->searchProfileRepo = $searchProfileRepo;
     }
-    public function addToEntity(array $data, SearchProfile $searchProfile): void
+
+    public function addToEntity(array $data): void
+    {
+        $searchProfile = new SearchProfile();
+        $searchProfile->setSearchQuery($data);
+        if ($data['searchQuery']) {
+            $searchProfile->setTitle($data['searchQuery']);
+        }
+        if ($data['workTime'] == 1 || $data['workTime'] === '0') {
+            $searchProfile->setworkTime($data['workTime']);
+        }
+        $this->addToEntity2($data, $searchProfile);
+    }
+    private function addToEntity2(array $data, SearchProfile $searchProfile): void
     {
 
         if ($data['period']) {

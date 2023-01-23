@@ -30,17 +30,11 @@ class SearchProfileController extends AbstractController
         SearchProfileAdd $searchProfileAdd,
     ): Response {
 
-        $searchProfile = new SearchProfile();
+
         $data = json_decode($request->request->get('research'), true);
 
-        $searchProfile->setSearchQuery($data);
-        if ($data['searchQuery']) {
-            $searchProfile->setTitle($data['searchQuery']);
-        }
-        if ($data['workTime'] == 1 || $data['workTime'] === '0') {
-            $searchProfile->setworkTime($data['workTime']);
-        }
-        $searchProfileAdd->addToEntity($data, $searchProfile);
+
+        $searchProfileAdd->addToEntity($data);
 
         return $this->json([
             'result' => 'Recherche enregistrée !'
