@@ -3,9 +3,11 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Company;
+use App\Form\AdminSearchType;
 use App\Form\CompanyType;
 use App\Repository\CompanyRepository;
 use Exception;
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,10 +18,32 @@ use Symfony\Component\Routing\Annotation\Route;
 class CompanyController extends AbstractController
 {
     #[Route('/', name: 'app_company_index', methods: ['GET'])]
-    public function index(CompanyRepository $companyRepository): Response
-    {
-        return $this->render('admin/company/index.html.twig', [
-            'companies' => $companyRepository->findAll(),
+    public function index(
+        Request $request,
+        CompanyRepository $companyRepository,
+        PaginatorInterface $paginator
+    ): Response {
+
+        $form = $this->createForm(AdminSearchType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $queryCompanies = $companyRepository->findCompany($data['search']);
+        } else {
+            $queryCompanies = $companyRepository->findCompany();
+        }
+
+        $companies = $paginator->paginate(
+            $queryCompanies,
+            $request->query->getInt('page', 1),
+            10
+        );
+
+
+        return $this->renderForm('admin/company/index.html.twig', [
+            'companies' => $companies,
+            'form' => $form,
         ]);
     }
 
