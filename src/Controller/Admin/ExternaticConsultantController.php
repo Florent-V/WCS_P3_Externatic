@@ -23,7 +23,7 @@ use SymfonyCasts\Bundle\ResetPassword\Controller\ResetPasswordControllerTrait;
 use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
 use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 
-#[Route('/externatic-consultant')]
+#[Route('/externatic')]
 class ExternaticConsultantController extends AbstractController
 {
     use ResetPasswordControllerTrait;
@@ -57,7 +57,7 @@ class ExternaticConsultantController extends AbstractController
             10
         );
 
-        return $this->renderForm('admin/consultant/index.html.twig', [
+        return $this->renderForm('admin/recruteur/index.html.twig', [
             'consultants' => $consultants,
             'form' => $form,
         ]);
@@ -103,7 +103,7 @@ class ExternaticConsultantController extends AbstractController
             );
         }
 
-        return $this->render('admin/consultant/new.html.twig', [
+        return $this->render('admin/recruteur/new.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
     }
@@ -118,7 +118,7 @@ class ExternaticConsultantController extends AbstractController
             $resetToken = $this->resetPasswordHelper->generateFakeResetToken();
         }
 
-        return $this->render('admin/consultant/confirmCreation.html.twig', [
+        return $this->render('admin/recruteur/confirmCreation.html.twig', [
             'resetToken' => $resetToken,
         ]);
     }

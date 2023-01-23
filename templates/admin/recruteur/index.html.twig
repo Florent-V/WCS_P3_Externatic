@@ -57,7 +57,7 @@
                     <td>{{ consultant.user.phone }}</td>
                     <td>
                         <a href="{{ path('admin_app_user_edit', {'id': consultant.user.id}) }}">Modifier</a>
-                        {{ include('admin/consultant/_delete_form.html.twig') }}
+                        {{ include('admin/recruteur/_delete_form.html.twig') }}
                     </td>
                 </tr>
             {% else %}
