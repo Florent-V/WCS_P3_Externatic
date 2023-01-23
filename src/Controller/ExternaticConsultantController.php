@@ -2,10 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\RecruitmentProcess;
 use App\Entity\User;
 use App\Repository\AnnonceRepository;
 use App\Repository\AppointementRepository;
+use App\Repository\CandidatRepository;
 use App\Repository\MessageRepository;
+use App\Repository\RecruitmentProcessRepository;
+use App\Repository\UserRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -82,6 +86,16 @@ class ExternaticConsultantController extends AbstractController
 
         return $this->render('externatic_consultant/annoncesArchives.html.twig', [
             'annonces' => $annonces
+        ]);
+    }
+
+    #[Route('/synthese', name:'synthesis', methods: ['GET'])]
+    public function processSynthesis(
+        RecruitmentProcessRepository $recruitmentProcess,
+    ): Response {
+        $synthesis = $recruitmentProcess->findAll();
+        return $this->render('externatic_consultant/process-synthesis.html.twig', [
+           'synthesis' => $synthesis,
         ]);
     }
 }

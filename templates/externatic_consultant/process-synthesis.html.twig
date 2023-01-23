@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% block body  %}
+    {% for synthese in synthesis %}
+        <div class="card container-md mb-3">
+            {{ synthese.candidat.user.firstname }}
+            {{ synthese.candidat.user.lastName }},
+            Nombre de rendez-vous : {{ synthese.appointements.count }}
+            {{ synthese.company.name }}
+            {{ synthese.status }}
+        </div>
+
+    {% endfor %}
+{% endblock %}
