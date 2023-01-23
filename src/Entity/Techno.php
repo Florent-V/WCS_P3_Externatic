@@ -44,10 +44,14 @@ class Techno
     #[ORM\OneToMany(mappedBy: 'techno', targetEntity: CurriculumHasTechno::class)]
     private Collection $curriculumHasTechnos;
 
+    #[ORM\ManyToMany(targetEntity: SearchProfile::class, mappedBy: 'techno')]
+    private Collection $searchProfiles;
+
     public function __construct()
     {
         $this->annonces = new ArrayCollection();
         $this->curriculumHasTechnos = new ArrayCollection();
+        $this->searchProfiles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -166,6 +170,33 @@ class Techno
     public function setUpdatedAt(?DatetimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SearchProfile>
+     */
+    public function getSearchProfiles(): Collection
+    {
+        return $this->searchProfiles;
+    }
+
+    public function addSearchProfile(SearchProfile $searchProfile): self
+    {
+        if (!$this->searchProfiles->contains($searchProfile)) {
+            $this->searchProfiles->add($searchProfile);
+            $searchProfile->addTechno($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSearchProfile(SearchProfile $searchProfile): self
+    {
+        if ($this->searchProfiles->removeElement($searchProfile)) {
+            $searchProfile->removeTechno($this);
+        }
+
         return $this;
     }
 }

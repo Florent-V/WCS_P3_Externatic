@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\Entity\Annonce;
 use App\Entity\Notif;
-use App\Entity\SearchProfile;
 use App\Repository\CandidatRepository;
 use App\Repository\NotifRepository;
 use App\Repository\SearchProfileRepository;
@@ -70,15 +69,15 @@ class NewNotif extends AbstractController
 
     private function annonceByCriteria(Annonce $annonce, array &$sentNotif): void
     {
-        foreach ($this->profileRepository->findAll() as $searchProfile) {
+        if ($annonce->getWorkTime()->h > 35) {
+            $worktime = 1;
+        } else {
+            $worktime = 0;
+        }
+        foreach ($this->profileRepository->findBySearchProfile($annonce, $worktime) as $searchProfile) {
             if (
-                ($searchProfile->getSearchQuery()['salaryMin'] == "" ||
-                    $searchProfile->getSearchQuery()['salaryMin'] >= $annonce->getSalaryMin()) &&
-                ($searchProfile->getSearchQuery()['remote'] == "" ||
-                    $searchProfile->getSearchQuery()['remote'] == $annonce->isRemote()) &&
-                ($searchProfile->getSearchQuery()['company'] == "" ||
-                    $searchProfile->getSearchQuery()['company'] == $annonce->getCompany()->getId()) &&
-                ($this->annonceByCriteriaIf($searchProfile, $annonce))
+                $searchProfile->getSearchQuery()['searchQuery'] == "" ||
+                strpos($annonce->getTitle(), $searchProfile->getSearchQuery()['searchQuery'])
             ) {
                 array_push($sentNotif, $searchProfile->getCandidat()->getUser()->getId());
                 $notification = new Notif();
@@ -100,20 +99,6 @@ class NewNotif extends AbstractController
                 // sleep pour ne pas dépasser la limite de mailtrap, a enlever en prod
                 sleep(3);
             }
-        }
-    }
-    private function annonceByCriteriaIf(SearchProfile $searchProfile, Annonce $annonce): bool
-    {
-        if (
-            ($searchProfile->getSearchQuery()['searchQuery'] == "" ||
-                strpos($annonce->getTitle(), $searchProfile->getSearchQuery()['searchQuery'])) &&
-            ($searchProfile->getSearchQuery()['workTime'] == "" ||
-                $searchProfile->getSearchQuery()['workTime'] == 1 && $annonce->getWorkTime()->h > 35 ||
-                $searchProfile->getSearchQuery()['workTime'] == 0 && $annonce->getWorkTime()->h < 35)
-        ) {
-            return true;
-        } else {
-            return false;
         }
     }
 }
