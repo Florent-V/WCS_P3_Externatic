@@ -4,9 +4,11 @@ namespace App\Controller\Admin;
 
 use App\Entity\ExternaticConsultant;
 use App\Entity\User;
+use App\Form\AdminSearchType;
 use App\Form\ConsultantType;
 use App\Repository\ExternaticConsultantRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -21,24 +23,43 @@ use SymfonyCasts\Bundle\ResetPassword\Controller\ResetPasswordControllerTrait;
 use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
 use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 
-#[Route('/consultant')]
+#[Route('/externatic')]
 class ExternaticConsultantController extends AbstractController
 {
     use ResetPasswordControllerTrait;
 
     public function __construct(
-        private ResetPasswordHelperInterface $resetPasswordHelper,
-        private EntityManagerInterface $entityManager
+        private readonly ResetPasswordHelperInterface $resetPasswordHelper,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
-    #[Route('/index', name: 'app_consultant_index', methods: ['GET'])]
+    #[Route('/', name: 'app_consultant_index', methods: ['GET'])]
     public function index(
-        ExternaticConsultantRepository $consultantRepository
+        Request $request,
+        ExternaticConsultantRepository $consultantRepository,
+        PaginatorInterface $paginator
     ): Response {
 
-        return $this->render('admin/consultant/index.html.twig', [
-            'consultants' => $consultantRepository->findAll(),
+        $form = $this->createForm(AdminSearchType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $queryConsultants = $consultantRepository->findConsultant($data['search']);
+        } else {
+            $queryConsultants = $consultantRepository->findConsultant();
+        }
+
+        $consultants = $paginator->paginate(
+            $queryConsultants,
+            $request->query->getInt('page', 1),
+            10
+        );
+
+        return $this->renderForm('admin/recruteur/index.html.twig', [
+            'consultants' => $consultants,
+            'form' => $form,
         ]);
     }
 
@@ -82,7 +103,7 @@ class ExternaticConsultantController extends AbstractController
             );
         }
 
-        return $this->render('admin/consultant/new.html.twig', [
+        return $this->render('admin/recruteur/new.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
     }
@@ -97,7 +118,7 @@ class ExternaticConsultantController extends AbstractController
             $resetToken = $this->resetPasswordHelper->generateFakeResetToken();
         }
 
-        return $this->render('admin/consultant/confirmCreation.html.twig', [
+        return $this->render('admin/recruteur/confirmCreation.html.twig', [
             'resetToken' => $resetToken,
         ]);
     }
