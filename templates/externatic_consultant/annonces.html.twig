@@ -21,10 +21,10 @@
 
         {% for annonce in annonces %}
             <article class="m-3 p-2">
-                <div class="accordion container" id="accordionExample-{{ loop.index }}">
+                <div class="accordion container rounded-1" id="accordionExample-{{ loop.index }}">
                     {% if date(annonce.endingAt) <= date() %}
                         <div class="d-flex justify-content-center font-italic bg-warning">
-                            <div class="font-italic text-muted"> - Annonce trop ancienne -</div>
+                            <div class="font-italic text-muted">Annonce trop ancienne -</div>
                             <div><a href="{{ path('annonce_edit', {"id": annonce.id}) }}"> Changer la date de fin</a>
                             </div>
                         </div>
