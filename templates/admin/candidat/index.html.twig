@@ -3,49 +3,81 @@
 {% block title %}Liste des Profils Candidats{% endblock %}
 
 {% block body %}
-    <h1>Liste des Profils Candidats</h1>
 
-    <table class="table">
-        <thead>
+    <main class="adminIndex">
+        <div class="head">
+            <h1>Liste des Profils Candidats. Total : {{ candidats.getTotalItemCount }}</h1>
+
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button class="btn btn-primary" type="submit">Go !</button>
+            {{ form_end(form) }}
+
+        </div>
+
+        <table class="table">
+            <thead>
             <tr>
-                <th>Id</th>
-                <th>Age</th>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>ZipCode</th>
-                <th>Address</th>
-                <th>City</th>
-                <th>GitHub</th>
-                <th>LinkedIn</th>
-                <th>IsActive</th>
+                {# sorting of properties based on query components #}
+                <th>{{ knp_pagination_sortable(candidats, 'Id', 'c.id') }}</th>
+                <th{% if candidats.isSorted('u.firstname') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(candidats, 'Prénom', 'u.firstname') }}
+                </th>
+                <th{% if candidats.isSorted('u.lastName') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(candidats, 'Nom', 'u.lastName') }}
+                </th>
+                <th{% if candidats.isSorted('c.age') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(candidats, 'Age', 'c.age') }}
+                </th>
+                <th{% if candidats.isSorted('c.address') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(candidats, 'Adresse', 'c.address') }}
+                </th>
+                <th{% if candidats.isSorted('c.zipCode') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(candidats, 'Code Postal', 'c.zipCode') }}
+                </th>
+                <th{% if candidats.isSorted('c.city') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(candidats, 'Ville', 'c.city') }}
+                </th>
+                <th{% if candidats.isSorted('c.github') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(candidats, 'GitHub', 'c.github') }}
+                </th>
+                <th{% if candidats.isSorted('c.linkedIn') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(candidats, 'LinkedIn', 'c.linkedIn') }}
+                </th>
                 <th>actions</th>
             </tr>
-        </thead>
-        <tbody>
-        {% for candidat in candidats %}
-            <tr>
-                <td>{{ candidat.id }}</td>
-                <td>{{ candidat.age }}</td>
-                <td>{{ candidat.user.firstname }}</td>
-                <td>{{ candidat.user.lastName }}</td>
-                <td>{{ candidat.zipCode }}</td>
-                <td>{{ candidat.address }}</td>
-                <td>{{ candidat.city }}</td>
-                <td>{{ candidat.github }}</td>
-                <td>{{ candidat.linkedIn }}</td>
-                <td>{{ candidat.user.isActive ? 'Yes' : 'No' }}</td>
-                <td>
-                    <a href="{{ path('admin_app_candidat_show', {'id': candidat.id}) }}">Show</a><br>
-                    <a href="{{ path('admin_app_candidat_edit', {'id': candidat.id}) }}">Edit info Candidat</a><br>
-                    <a href="{{ path('admin_app_user_edit', {'id': candidat.user.id}) }}">Edit info Utilisateur</a><br>
-                    {{ include('admin/candidat/_delete_form.html.twig') }}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="10">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {# table body #}
+            {% for candidat in candidats %}
+                <tr {% if loop.index is odd %}class="color"{% endif %}>
+                    <td>{{ candidat.id }}</td>
+                    <td>{{ candidat.user.firstname }}</td>
+                    <td>{{ candidat.user.lastName }}</td>
+                    <td>{{ candidat.age }}</td>
+                    <td>{{ candidat.address }}</td>
+                    <td>{{ candidat.zipCode }}</td>
+                    <td>{{ candidat.city }}</td>
+                    <td>{{ candidat.github }}</td>
+                    <td>{{ candidat.linkedIn }}</td>
+                    <td>
+                        <a href="{{ path('admin_app_candidat_show', {'id': candidat.id}) }}">Voir</a> {{ include('admin/candidat/_delete_form.html.twig') }}<br>
+                        <a href="{{ path('admin_app_candidat_edit', {'id': candidat.id}) }}">Edit info Candidat</a><br>
+                        <a href="{{ path('admin_app_user_edit', {'id': candidat.user.id}) }}">Edit info
+                            Utilisateur</a><br>
+
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="10">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="container d-flex justify-content-center">{{ knp_pagination_render(candidats) }}</div>
+
+    </main>
+
 {% endblock %}
