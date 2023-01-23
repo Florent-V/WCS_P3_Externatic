@@ -74,9 +74,12 @@ class ExperienceController extends AbstractController
     #[Route('/{id}/next', name: 'app_experience_next', methods: ['GET'])]
     public function next(ExperienceRepository $repository, int $id): Response
     {
-        //$user = $this->getUser();
-        //$curriculum = $user->getCandidat()->getCurriculum();
-        $nextExperience = $repository->findNextExperience($id);
+        /**
+         * @var ?User $user
+         */
+        $user = $this->getUser();
+        $curriculum = $user->getCandidat()->getCurriculum();
+        $nextExperience = $repository->findNextExperience($id, $curriculum);
 
         if (!$nextExperience) {
             throw $this->createNotFoundException('Il n\'y a pas d\'expérience suivante');
@@ -88,7 +91,12 @@ class ExperienceController extends AbstractController
     #[Route('/{id}/prev', name: 'app_experience_previous', methods: ['GET'])]
     public function previous(ExperienceRepository $repository, int $id): Response
     {
-        $previousExperience = $repository->findPreviousExperience($id);
+        /**
+         * @var ?User $user
+         */
+        $user = $this->getUser();
+        $curriculum = $user->getCandidat()->getCurriculum();
+        $previousExperience = $repository->findPreviousExperience($id, $curriculum);
 
         if (!$previousExperience) {
             throw $this->createNotFoundException('Il n\'y a pas d\'expérience précédente');

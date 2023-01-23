@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Curriculum;
 use App\Entity\Experience;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -39,22 +40,26 @@ class ExperienceRepository extends ServiceEntityRepository
         }
     }
 
-    public function findNextExperience(int $id): ?Experience
+    public function findNextExperience(int $id, Curriculum $curriculum): ?Experience
     {
         return $this->createQueryBuilder('e')
             ->andWhere('e.id > :id')
+            ->andWhere('e.curriculum = :curriculum')
             ->setParameter('id', $id)
+            ->setParameter('curriculum', $curriculum)
             ->orderBy('e.id', 'ASC')
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
     }
 
-    public function findPreviousExperience(int $id): ?Experience
+    public function findPreviousExperience(int $id, Curriculum $curriculum): ?Experience
     {
         return $this->createQueryBuilder('e')
             ->andWhere('e.id < :id')
+            ->andWhere('e.curriculum = :curriculum')
             ->setParameter('id', $id)
+            ->setParameter('curriculum', $curriculum)
             ->orderBy('e.id', 'DESC')
             ->setMaxResults(1)
             ->getQuery()
