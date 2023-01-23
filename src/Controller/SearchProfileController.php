@@ -39,8 +39,6 @@ class SearchProfileController extends AbstractController
         return $this->json([
             'result' => 'Recherche enregistrée !'
         ]);
-
-//        return $this->redirectToRoute('annonce_search_results');
     }
 
     #[Route('/{id}', name: 'app_search_profile_delete', methods: ['POST'])]
