@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Form\SearchProfileType;
 use App\Repository\SearchProfileRepository;
 use App\Repository\TechnoRepository;
+use App\Service\SearchProfileAdd;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,45 +27,20 @@ class SearchProfileController extends AbstractController
         Request $request,
         SearchProfileRepository $searchProfileRepo,
         TechnoRepository $technoRepository,
+        SearchProfileAdd $searchProfileAdd,
     ): Response {
 
         $searchProfile = new SearchProfile();
         $data = json_decode($request->request->get('research'), true);
+
         $searchProfile->setSearchQuery($data);
-        if ($data['searchQuery']){
+        if ($data['searchQuery']) {
             $searchProfile->setTitle($data['searchQuery']);
         }
-        if ($data['workTime']){
+        if ($data['workTime'] == 1 || $data['workTime'] === '0') {
             $searchProfile->setworkTime($data['workTime']);
         }
-        if ($data['period']){
-            $searchProfile->setperiod($data['period']);
-        }
-        if ($data['company']){
-            $searchProfile->setcompanyId($data['company']);
-        }
-        if ($data['salaryMin']){
-            $searchProfile->setSalaryMin($data['salaryMin']);
-        }
-        if ($data['remote']){
-            $searchProfile->setRemote($data['remote']);
-        }
-//        if ($data['techno']){
-//            foreach ($data['techno'] as $techno){
-//                $searchProfile->addTechno($technoRepository->findOneBy(['id' => $techno]));
-//            }
-//        }
-        if ($data['contractType']){
-            foreach ($data['contractType'] as $contractType){
-
-            }
-        }
-        /**
-         * @var ?User $user
-         */
-        $user = $this->getUser();
-        $searchProfile->setCandidat($user->getCandidat());
-        $searchProfileRepo->save($searchProfile, true);
+        $searchProfileAdd->addToEntity($data, $searchProfile);
 
         return $this->json([
             'result' => 'Recherche enregistrée !'

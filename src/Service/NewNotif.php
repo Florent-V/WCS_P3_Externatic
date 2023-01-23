@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\Entity\Annonce;
 use App\Entity\Notif;
-use App\Entity\SearchProfile;
 use App\Repository\CandidatRepository;
 use App\Repository\NotifRepository;
 use App\Repository\SearchProfileRepository;
@@ -34,7 +33,6 @@ class NewNotif extends AbstractController
     public function notifNewAnnonce(Annonce $annonce): void
     {
         $sentNotif = [];
-        dd($this->profileRepository->findBySearchProfile($annonce, 0));
         $this->annonceByCriteria($annonce, $sentNotif);
         $this->annonceFavCompany($annonce, $sentNotif);
     }
@@ -71,10 +69,16 @@ class NewNotif extends AbstractController
 
     private function annonceByCriteria(Annonce $annonce, array &$sentNotif): void
     {
-        foreach ($this->profileRepository->findAll() as $searchProfile) {
-            if ($searchProfile->getSearchQuery()['searchQuery'] == "" ||
-                strpos($annonce->getTitle(), $searchProfile->getSearchQuery()['searchQuery'])) {
-                dd($searchProfile);
+        if ($annonce->getWorkTime()->h > 35) {
+            $worktime = 1;
+        } else {
+            $worktime = 0;
+        }
+        foreach ($this->profileRepository->findBySearchProfile($annonce, $worktime) as $searchProfile) {
+            if (
+                $searchProfile->getSearchQuery()['searchQuery'] == "" ||
+                strpos($annonce->getTitle(), $searchProfile->getSearchQuery()['searchQuery'])
+            ) {
                 array_push($sentNotif, $searchProfile->getCandidat()->getUser()->getId());
                 $notification = new Notif();
                 $notification->setContent($annonce->getTitle());

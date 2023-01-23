@@ -40,16 +40,19 @@ class SearchProfileRepository extends ServiceEntityRepository
         }
     }
 
-    public function findBySearchProfile(Annonce $annonce, int $workTime)
+    public function findBySearchProfile(Annonce $annonce, int $workTime): array
     {
         $queryBuilder = $this->createQueryBuilder('s')
             ->andWhere('s.salaryMin IS NULL OR s.salaryMin < :annonceSalaryMin')
             ->andWhere('s.remote IS NULL OR s.remote = :annonceIsRemote')
             ->andWhere('s.companyId IS NULL OR s.companyId = :annonceCompanyId')
-            ->andWhere('s.workTime IS NULL OR s.workTime = ' . $workTime)
+            ->andWhere('s.workTime IS NULL OR s.workTime = :workTime')
+            ->andWhere(':annonceTechno MEMBER OF s.techno')
             ->setParameter('annonceSalaryMin', $annonce->getSalaryMin())
             ->setParameter('annonceIsRemote', $annonce->isRemote())
             ->setParameter('annonceCompanyId', $annonce->getCompany()->getId())
+            ->setParameter('workTime', $workTime)
+            ->setParameter('annonceTechno', $annonce->getTechno())
             ->getQuery();
 
         return $queryBuilder->getResult();
