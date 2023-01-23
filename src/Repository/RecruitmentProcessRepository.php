@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\RecruitmentProcess;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @extends ServiceEntityRepository<RecruitmentProcess>
@@ -16,7 +18,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class RecruitmentProcessRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, private readonly Security $security)
     {
         parent::__construct($registry, RecruitmentProcess::class);
     }
@@ -37,6 +39,57 @@ class RecruitmentProcessRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function changeStatus(RecruitmentProcess $recruitmentProcess): ?bool
+    {
+        if ($this->getRelationToRecruitmentProcess($recruitmentProcess) == "Candidat") {
+            $recruitmentProcess->setReadByCandidat(!($recruitmentProcess->isReadByCandidat()));
+            $this->save($recruitmentProcess, true);
+            return $recruitmentProcess->isReadByCandidat();
+        } elseif ($this->getRelationToRecruitmentProcess($recruitmentProcess) == "Consultant") {
+            $recruitmentProcess->setReadByConsultant(!($recruitmentProcess->isReadByconsultant()));
+            $this->save($recruitmentProcess, true);
+            return $recruitmentProcess->isReadByConsultant();
+        }
+        return null;
+    }
+
+    public function changeArchived(RecruitmentProcess $recruitmentProcess): ?bool
+    {
+        if ($this->getRelationToRecruitmentProcess($recruitmentProcess) == "Candidat") {
+            $recruitmentProcess->setArchivedByCandidat(!($recruitmentProcess->isArchivedByCandidat()));
+            $this->save($recruitmentProcess, true);
+            return $recruitmentProcess->isReadByCandidat();
+        } elseif ($this->getRelationToRecruitmentProcess($recruitmentProcess) == "Consultant") {
+            $recruitmentProcess->setArchivedByConsultant(!($recruitmentProcess->isArchivedByconsultant()));
+            $this->save($recruitmentProcess, true);
+            return $recruitmentProcess->isArchivedByConsultant();
+        }
+        return null;
+    }
+
+    public function getRelationToRecruitmentProcess(RecruitmentProcess $recruitmentProcess): ?string
+    {
+        /** @var ?User $user */
+        $user = $this->security->getUser();
+
+        if ($user == $recruitmentProcess->getCandidat()->getUser()) {
+            return "Candidat";
+        } elseif (
+            !is_null(
+                $recruitmentProcess->getAnnonce()
+            ) &&
+            ($user == $recruitmentProcess->getAnnonce()->getAuthor()->getUser())
+        ) {
+            return "Consultant";
+        } elseif (
+            !is_null($recruitmentProcess->getCompany()) &&
+            ($user == $recruitmentProcess->getCompany()->getExternaticConsultant()->getUser())
+        ) {
+            return "Consultant";
+        }
+        return null;
     }
 
 //    /**
