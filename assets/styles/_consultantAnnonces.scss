@@ -16,5 +16,13 @@
             background-color: rgba(201, 25, 97, 0.48);
         }
         padding-bottom:0;
+
+        .rating > i {
+            color : $primary;
+            cursor:pointer;
+            &:hover {
+                text-shadow: 0 0 .5rem black
+            }
+        }
     }
 }

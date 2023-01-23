@@ -69,6 +69,16 @@ class RecruitmentProcessRepository extends ServiceEntityRepository
         return null;
     }
 
+    public function changeRate(RecruitmentProcess $recruitmentProcess, int $rate): ?int
+    {
+        if ($this->getRelationToRecruitmentProcess($recruitmentProcess) == "Consultant") {
+            $recruitmentProcess->setRate($rate);
+            $this->save($recruitmentProcess, true);
+            return $recruitmentProcess->getRate();
+        }
+        return null;
+    }
+
     public function getRelationToRecruitmentProcess(RecruitmentProcess $recruitmentProcess): ?string
     {
         /** @var ?User $user */
