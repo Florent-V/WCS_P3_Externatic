@@ -4,10 +4,12 @@
 
 {% block body %}
     <main class="consultantAnnonces">
-        <div class="d-flex flex-column align-items-center" data-controller="publiStatus"><h1>Annnonces en cours</h1>
-            <small><a href="{{ path('consultant_annonces_archives') }}">accès aux archives</small></div>
+        <div class="d-flex flex-column align-items-center" data-controller="publiStatus">
+            <h1>Annonces en cours</h1>
+            <small><a href="{{ path('consultant_annonces_archives') }}">Accès aux archives</a></small>
+        </div>
         <div class="sorting">
-            <p>{{ knp_pagination_sortable(annonces, 'date de creation', 'a.createdAt') }}</p>
+            <p>{{ knp_pagination_sortable(annonces, 'Date de creation', 'a.createdAt') }}</p>
             <p{% if annonces.isSorted('a.endingAt') %} class="sorted"{% endif %}>
                 {{ knp_pagination_sortable(annonces, 'Date de fin', 'a.endingAt') }}
             </p>

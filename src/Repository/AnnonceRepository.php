@@ -147,7 +147,7 @@ class AnnonceRepository extends ServiceEntityRepository
         return $queryBuilder->getResult();
     }
 
-    public function getConsultantAnnonces(ExternaticConsultant $externaticConsultant, string $isArchived): Query
+    public function getConsultantAnnonces(ExternaticConsultant $externaticConsultant, bool $isArchived): Query
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.author = :externaticConsultant')
