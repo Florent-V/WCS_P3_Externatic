@@ -7,109 +7,49 @@
 
         <h1 class="text-center" {{ stimulus_controller('favoritecompany') }}>Fiche Entreprise</h1>
 
-        <div class="showCard">
-            <div class="card mb-5">
-                <div class="card-body">
-                    <h3 class="card-title">{{ company.name }}</h3>
-                    <p class="card-text">{{ company.information }}</p>
-                    {% if is_granted("ROLE_ADMIN") %}
-                        {{ include('admin/company/_delete_form.html.twig') }}
-                    {% endif %}
-                </div>
-                <div class="list-group list-group-flush">
-                    <div class="list-group-item">
-                        <p>Logo</p>
-                        <p>
-                            <img style="height: 100px" src="{{ vich_uploader_asset(company) }}"
-                                alt="Logo de {{ company.name }}">
-                        </p>
-                    </div>
-                    {% if is_granted("ROLE_ADMIN") %}
-                        <div class="list-group-item">
-                            <p>Nom du contact</p>
-                            <p>{{ company.contactName }}</p>
-                        </div>
-                        <div class="list-group-item">
-                            <p>Téléphone</p>
-                            <p>{{ company.phoneNumber }}</p>
-                        </div>
-                        <div class="list-group-item">
-                            <p>Nom du contact</p>
-                            <p>{{ company.contactName }}</p>
-                        </div>
+        <div class="d-xl-flex align-items-xl-center">
 
-                    {% endif %}
+            <div class="showCard unique">
 
-                    <div class="list-group-item">
-                        <p>Siret</p>
-                        <p>{{ company.siret }}</p>
-                    </div>
-                    <div class="list-group-item">
-                        <p>Adresse</p>
-                        <p>{{ company.address }}</p>
-                    </div>
-                    <div class="list-group-item">
-                        <p>Code Postal</p>
-                        <p>{{ company.zipCode }}</p>
-                    </div>
-                    <div class="list-group-item">
-                        <p>Ville</p>
-                        <p>{{ company.city }}</p>
-                    </div>
-                    <div class="list-group-item">
-                        <p>Taille</p>
-                        <p>{{ company.size }} salariés</p>
-                    </div>
+                {% include 'company/_companyCard.html.twig' %}
 
-                </div>
-                <div class="card-body link">
-                    {% if is_granted("ROLE_ADMIN") %}
-                        <a href="{{ path('admin_app_company_index') }}"
-                           class="btn btn-primary">Retour à la liste</a>
-                    {% else %}
-                        <a href="{{ path('home') }}"
-                           class="btn btn-primary">Home</a>
-
-                        <a href="{{ path('app_company_add_favorite', {id: company.id}) }}" id="fav-company"
-                           class="btn btn-primary fav-icon mt-2">
-                            <span>{{ app.user.candidat.isCompanyFavorite(company) ? 'Retirer l\'entreprise des favoris' : 'Mettre l\'entreprise en favoris' }}</span>
-                            <i class="bi {{ app.user.candidat.isCompanyFavorite(company) ? 'bi-heart-fill' : 'bi-heart' }}"></i>
-                        </a>
-                    {% endif %}
-                </div>
             </div>
+
+            {% if is_granted("ROLE_CANDIDAT") %}
+                <div class="accordion container mb-5" id="accordionExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button d-inline text-center" type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Candidature Spontanée
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                             data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                {% if is_granted("ROLE_CANDIDAT") %}
+                                    {% if recruProcessActuel == null %}
+                                        {{ form(form) }}
+                                    {% else %}
+                                        <p>Vous avez déjà un processus en cours</p>
+                                    {% endif %}
+                                {% elseif is_granted("ROLE_CONSULTANT") %}
+                                    <p>Encart réservé aux candidats - <a href="{{ path('consultant_board') }}">Retourner
+                                            à
+                                            votre
+                                            tableau de bord</a></p>
+                                {% else %}
+                                    <a href="{{ path('app_login') }}">Il faut vous connecter pour postuler !</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
         </div>
 
-        {% if is_granted("ROLE_CANDIDAT") %}
-            <div class="accordion container mb-5" id="accordionExample">
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingOne">
-                        <button class="accordion-button d-inline text-center" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            Candidature Spontanée
-                        </button>
-                    </h2>
-                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
-                         data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                            {% if is_granted("ROLE_CANDIDAT") %}
-                                {% if recruProcessActuel == null %}
-                                    {{ form(form) }}
-                                {% else %}
-                                    <p>Vous avez déjà un processus en cours</p>
-                                {% endif %}
-                            {% elseif is_granted("ROLE_CONSULTANT") %}
-                                <p>Encart réservé aux candidats - <a href="{{ path('consultant_board') }}">Retourner à
-                                        votre
-                                        tableau de bord</a></p>
-                            {% else %}
-                                <a href="{{ path('app_login') }}">Il faut vous connecter pour postuler !</a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        {% endif %}
 
     </main>
 

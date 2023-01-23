@@ -3,7 +3,7 @@
 {% block title %}Mes annonces{% endblock %}
 
 {% block body %}
-    <main class="search" {{ stimulus_controller('favoriteoffer') }}>
+    <main class="container-md search" {{ stimulus_controller('favoriteoffer') }}>
         <div class="row row-cols-xl-3 row-cols-md-2">
             {% for annonce in fetchedAnnonces %}
                 <div class="col mt-4 cards-result">
