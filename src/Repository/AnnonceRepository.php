@@ -147,14 +147,34 @@ class AnnonceRepository extends ServiceEntityRepository
         return $queryBuilder->getResult();
     }
 
-    public function getConsultantAnnonces(ExternaticConsultant $externaticConsultant, bool $isArchived): Query
+    public function getConsultantAnnonces(ExternaticConsultant $externaticConsultant, int $publicationStatus): Query
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.author = :externaticConsultant')
             ->setParameter('externaticConsultant', $externaticConsultant)
-            ->andWhere('a.publicationStatus = :isArchived')
-            ->setParameter('isArchived', $isArchived)
+            ->andWhere('a.publicationStatus = :publicationStatus')
+            ->setParameter('publicationStatus', $publicationStatus)
             ->join('a.company', 'c')
             ->getQuery();
+    }
+
+    public function searchAnnonces(
+        ExternaticConsultant $externaticConsultant,
+        int $publicationStatus,
+        ?string $search = ''
+    ): Query {
+        $qb = $this->createQueryBuilder('a')
+            ->andWhere('a.author = :externaticConsultant')
+            ->setParameter('externaticConsultant', $externaticConsultant)
+            ->andWhere("a.publicationStatus = :publicationStatus")
+            ->setParameter('publicationStatus', $publicationStatus);
+        if (!is_null($search)) {
+            $qb->andWhere('a.title LIKE :search')
+                ->setParameter('search', '%' . $search . '%');
+        }
+        $qb->join('a.company', 'c');
+
+
+        return $qb->getQuery();
     }
 }

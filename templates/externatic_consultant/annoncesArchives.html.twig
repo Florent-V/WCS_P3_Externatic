@@ -4,7 +4,7 @@
 
 {% block body %}
     <main class="consultantAnnonces" {{ stimulus_controller('symfony/ux-swup/swup', {
-        containers: ['#ConsultAnnonceArchives', '#pageAnnoncesArchives']
+        containers: ['#ConsultAnnonceArchives', '#pageAnnoncesArchives', '#sortingArchived']
     }) }}>
         <div class="d-flex flex-column align-items-center" {{ stimulus_controller('publiStatus') }}>
             <h1>Annonces archivées</h1>
@@ -12,40 +12,53 @@
                 <a href="{{ path('consultant_annonces') }}">retour aux annonces</a>
             </small>
         </div>
-        <div class="sorting"><p>Trier par :</p>
-            <p>{{ knp_pagination_sortable(annonces, 'date de creation', 'a.createdAt') }}</p>
-            <p{% if annonces.isSorted('a.endingAt') %} class="sorted"{% endif %}>
-                {{ knp_pagination_sortable(annonces, 'Date de fin', 'a.endingAt') }}
-            </p>
-            <p{% if annonces.isSorted('c.name') %} class="sorted"{% endif %}>
-                {{ knp_pagination_sortable(annonces, 'Entreprise', 'c.name') }}
-            </p>
+        <div class="sorting d-flex justify-content-between">
+            <div id="sortingArchived">                <p>Trier par :</p>
+                <p>{{ knp_pagination_sortable(annonces, 'date de creation', 'a.createdAt') }}</p>
+                <p{% if annonces.isSorted('a.endingAt') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(annonces, 'Date de fin', 'a.endingAt') }}
+                </p>
+                <p{% if annonces.isSorted('c.name') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(annonces, 'Entreprise', 'c.name') }}
+                </p>
+                <p{% if annonces.isSorted('a.title') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(annonces, "titre de l'annonce", 'a.title') }}
+                </p>
+            </div>
+            <div class="pe-4">
+                {{ form_start(form,{'attr': {'class': 'd-flex'}}) }}
+                {{ form_row(form.search, {'required': false}) }}
+                <button class="btn btn-primary" type="submit">Go</button>
+                {{ form_end(form) }}
+            </div>
         </div>
         <div id="ConsultAnnonceArchives" class="container" {{ stimulus_controller('rating') }}>
-        {% for annonce in annonces %}
-            <article class="m-3 p-2">
-                <div class="accordion container" id="accordionExample-{{ loop.index }}">
-                    <div class="d-flex justify-content-between">
-                        <div><img src="{{ annonce.picture }}" alt="logo of an enterprise"/> {{ annonce.company.name }}
-                        </div>
-                        <div>
-                            <a href="{{ path('annonce_show', {"id": annonce.id}) }}"><strong>{{ annonce.title }}</strong></a><small>-
-                                terminée depuis
-                                le {{ annonce.endingAt|format_datetime('full', 'none', locale='fr') }}</small></div>
-                        <div>créée {{ annonce.createdAt|date("d-m-y") }}</div>
-                        <span class="form-check form-switch annonceSwiper">
+            {% for annonce in annonces %}
+                <article class="m-3 p-2">
+                    <div class="accordion container" id="accordionExample-{{ loop.index }}">
+                        <div class="d-flex justify-content-between">
+                            <div><img src="{{ annonce.picture }}"
+                                      alt="logo of an enterprise"/> {{ annonce.company.name }}
+                            </div>
+                            <div>
+                                <a href="{{ path('annonce_show', {"id": annonce.id}) }}"><strong>{{ annonce.title }}</strong></a><small>-
+                                    terminée depuis
+                                    le {{ annonce.endingAt|format_datetime('full', 'none', locale='fr') }}</small></div>
+                            <div>créée {{ annonce.createdAt|date("d-m-y") }}</div>
+                            <span class="form-check form-switch annonceSwiper">
                                 <input data-annonce="{{ annonce.id }}" class="annonceSwiper form-check-input"
                                        type="checkbox" role="switch"
                                        id={{ annonce.publicationStatus==1 ? "flexSwitchCheckChecked" ~ annonce.id : "flexSwitchCheckDefault" ~ annonce.id }}>
                                 <label class="form-check-label"
                                        for={{ annonce.publicationStatus ? "flexSwitchCheckChecked" ~ annonce.id  : "flexSwitchCheckDefault" ~ annonce.id }}></label>
                         </span>
+                        </div>
                     </div>
-                </div>
-                {% include('_include/_annonceExternaticItem.html.twig') %}
-            </article>
-        {% endfor %}
+                    {% include('_include/_annonceExternaticItem.html.twig') %}
+                </article>
+            {% endfor %}
         </div>
-        <div id="pageAnnoncesArchives" class="container d-flex justify-content-center">{{ knp_pagination_render(annonces) }}</div>
+        <div id="pageAnnoncesArchives"
+             class="container d-flex justify-content-center">{{ knp_pagination_render(annonces) }}</div>
     </main>
 {% endblock %}
