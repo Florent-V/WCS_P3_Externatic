@@ -54,10 +54,16 @@ class RecruitmentProcess
     private ?Company $company = null;
 
     #[ORM\Column]
-    private ?bool $readByConsultant = null;
+    private ?bool $readByConsultant = false;
 
     #[ORM\Column]
-    private ?bool $readByCandidat = null;
+    private ?bool $readByCandidat = false;
+
+    #[ORM\Column]
+    private ?bool $archivedByCandidat = false;
+
+    #[ORM\Column]
+    private ?bool $archivedByConsultant = false;
 
     #[ORM\PrePersist]
     public function setCreatedAtValue(): void
@@ -240,6 +246,30 @@ class RecruitmentProcess
     public function setReadByCandidat(bool $readByCandidat): self
     {
         $this->readByCandidat = $readByCandidat;
+
+        return $this;
+    }
+
+    public function isArchivedByCandidat(): ?bool
+    {
+        return $this->archivedByCandidat;
+    }
+
+    public function setArchivedByCandidat(bool $archivedByCandidat): self
+    {
+        $this->archivedByCandidat = $archivedByCandidat;
+
+        return $this;
+    }
+
+    public function isArchivedByConsultant(): ?bool
+    {
+        return $this->archivedByConsultant;
+    }
+
+    public function setArchivedByConsultant(bool $archivedByConsultant): self
+    {
+        $this->archivedByConsultant = $archivedByConsultant;
 
         return $this;
     }

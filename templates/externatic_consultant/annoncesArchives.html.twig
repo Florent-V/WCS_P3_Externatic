@@ -3,7 +3,9 @@
 {% block title %}Vos annonces{% endblock %}
 
 {% block body %}
-    <main class="consultantAnnonces">
+    <main class="consultantAnnonces" {{ stimulus_controller('symfony/ux-swup/swup', {
+        containers: ['#ConsultAnnonceArchives', '#pageAnnoncesArchives']
+    }) }}>
         <div class="d-flex flex-column align-items-center" {{ stimulus_controller('publiStatus') }}><h1>Annonces
                 archivées</h1> <small><a href="{{ path('consultant_annonces') }}">retour aux annonces</a></small></div>
         <div class="sorting"><p>Trier par :</p>
@@ -15,6 +17,8 @@
                 {{ knp_pagination_sortable(annonces, 'Entreprise', 'c.name') }}
             </p>
         </div>
+                archivées</h1> <small><a href="{{ path('consultant_annonces') }}">retour aux annonces</small></div>
+        <div id="ConsultAnnonceArchives" class="container">
         {% for annonce in annonces %}
             <article class="m-3 p-2">
                 <div class="accordion container" id="accordionExample-{{ loop.index }}">
@@ -38,6 +42,7 @@
                 {% include('_include/_annonceExternaticItem.html.twig') %}
             </article>
         {% endfor %}
-        <div class="container d-flex justify-content-center">{{ knp_pagination_render(annonces) }}</div>
+        </div>
+        <div id="pageAnnoncesArchives"class="container d-flex justify-content-center">{{ knp_pagination_render(annonces) }}</div>
     </main>
 {% endblock %}

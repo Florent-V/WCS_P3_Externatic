@@ -4,8 +4,8 @@
     {% set isRead = message.recruitmentProcess.readByConsultant %}
 {% endif %}
 
-<tr data-messageId="{{ message.recruitmentProcess.id }}" class="messageHeader table-hover {{ isRead ? 'bg-white' : 'bg-light' }}">
-    <td class="col-3 {{ isRead ? '' : 'text-primary fw-bolder' }}">{{ message.sendBy.lastName|upper }} {{ message.sendBy.firstname|capitalize }}</td>
-    <td class="col-3 {{ isRead ? '' : 'text-primary fw-bolder' }}">{{ message.recruitmentProcess.annonce.title ?: message.recruitmentProcess.company.name ?: "" }}</td>
-    <td class="messageContent col-6 contentMessage font-italic text-muted {{ isRead ? "" : 'text-primary' }}">{{ message.content|striptags|raw }}</td>
+<tr data-messageId="{{ message.recruitmentProcess.id }}" class="messageHeader {{ isRead ? 'isRead' : "isUnread" }}">
+    <td class="col-3">{{ message.sendBy.lastName|upper }} {{ message.sendBy.firstname|capitalize }}</td>
+    <td class="col-3">{{ message.recruitmentProcess.annonce.title ?: message.recruitmentProcess.company.name ?: "" }}</td>
+    <td class="messageContent col-6 contentMessage text-muted">{{ message.content|striptags|raw }}</td>
 </tr>

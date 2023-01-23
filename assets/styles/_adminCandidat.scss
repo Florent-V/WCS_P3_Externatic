@@ -1,0 +1,19 @@
+.adminIndex {
+    .head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    form {
+        display: flex;
+        align-items: center;
+    }
+    .addBtn {
+        display: flex;
+        justify-content: center;
+    }
+
+    .deleteForm {
+        display: inline;
+    }
+}

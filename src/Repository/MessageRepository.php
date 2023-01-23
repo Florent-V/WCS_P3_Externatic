@@ -40,12 +40,13 @@ class MessageRepository extends ServiceEntityRepository
         }
     }
 
-    public function getInbox(string $sendOrReceived, int $userId): Query
+    public function getInbox(string $sendOrReceived, int $userId, string $userRole): Query
     {
         return $this->createQueryBuilder('m')
             ->andWhere('m.' . $sendOrReceived . " = :user")
             ->setParameter('user', $userId)
             ->andWhere('m.recruitmentProcess IS NOT null')
+            ->join('m.recruitmentProcess', "r", 'WITH', 'r.archivedBy' . $userRole . ' = false')
             ->groupBy('m.recruitmentProcess')
             ->orderBy('m.date', 'DESC')
             ->getQuery();

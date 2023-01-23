@@ -1,7 +1,6 @@
-.searchProfile {
-    h1 {
-        text-align: center;
-    }
+.showCard {
+    max-width: 500px;
+    margin: auto;
     p {
         margin: 0;
     }
@@ -18,6 +17,7 @@
 
     .link {
         display: flex;
+        flex-direction: column;
     }
 
     .link a {
@@ -29,12 +29,13 @@
         top: 5px;
         right: 5px;
     }
-    .oups {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        p {
-            font-size: 2rem;
-        }
+}
+
+.oups {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    p {
+        font-size: 2rem;
     }
 }
