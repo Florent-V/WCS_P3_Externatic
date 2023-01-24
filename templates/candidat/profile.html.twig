@@ -4,115 +4,26 @@
 
 {% block body %}
 
-    <main class="candidatProfile container-md mb-3">
+    <main class="candidatProfile container-md mb-3 px-sm-5">
 
         <h1 class="text-center mt-3">Profil de {{ user.firstname }}  {{ user.lastname }}</h1>
 
         <div class="candidatInfos mb-3">
 
-            <div class="card">
-                <div class="card-body">
-                    <h2 class="card-title">Informations du compte</h2>
-                    <p class="card-text">Identifiants et autres informations de contact</p>
-                </div>
-                <div class="list-group list-group-flush">
-                    <div class="list-group-item">
-                        <p>Email</p>
-                        <p>{{ user.email }}</p>
-                    </div>
-                    <div class="list-group-item">
-                        <p>Prénom</p>
-                        <p>{{ user.firstname }}</p>
-                    </div>
-                    <div class="list-group-item">
-                        <p>Nom</p>
-                        <p>{{ user.lastname }}</p>
-                    </div>
-                    <div class="list-group-item">
-                        <p>Téléphone</p>
-                        <p>{{ user.phone }}</p>
-                    </div>
-                    <div class="list-group-item">
-                        <p>Compte Vérifié ?</p>
-                        <p>{{ user.verified ? 'Yes' : 'No' }}</p>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <a href="{{ path('app_candidat_account') }}" class="card-link">Editer</a>
-                </div>
-            </div>
+            {% include 'candidat/_accountCard.html.twig' %}
 
-            <div class="card">
-                <div class="card-body">
-                    <h2 class="card-title">Informations personnelles</h2>
-                    <p class="card-text">Informations personnelles de votre CV</p>
-                </div>
-                <div class="list-group list-group-flush">
-                    <div class="list-group-item">
-                        <p>Age</p>
-                        <p>{{ user.candidat.age }}</p>
-                    </div>
-                    <div class="list-group-item">
-                        <p>Profil LinkedIn</p>
-                        <p>{{ user.candidat.linkedIn }}</p>
-                    </div>
-                    <div class="list-group-item">
-                        <p>Page GitHub</p>
-                        <p>{{ user.candidat.github }}</p>
-                    </div>
-                    <div class="list-group-item">
-                        <p>Adresse</p>
-                        <p>{{ user.candidat.address }}</p>
-                    </div>
-                    <div class="list-group-item">
-                        <p>Code Postal</p>
-                        <p>{{ user.candidat.zipCode }}</p>
-                    </div>
-                    <div class="list-group-item">
-                        <p>Ville</p>
-                        <p>{{ user.candidat.city }}</p>
-                    </div>
-                    <div class="list-group-item">
-                        <p>Description</p>
-                        <p>{{ user.candidat.description }}</p>
-                    </div>
-                    <div class="list-group-item">
-                        <p>Peut postuler ?</p>
-                        <p>{{ user.candidat.canPostulate ? 'Yes' : 'No' }}</p>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <a href="{{ path('app_candidat_data') }}" class="card-link">Editer</a>
-                </div>
-            </div>
+            {% include 'candidat/_professionalCard.html.twig' %}
+
         </div>
 
         <div class="candidatCurriculum mb-3">
 
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Mes Expériences</h5>
-                    <p class="card-text">Consulter et ajouter vos expériences ici.</p>
-                    {% for exp in user.candidat.curriculum.experience %}
-                        {{ dump(exp) }}
-                    {% endfor %}
-                    <div class="buttons">
-                        <a href="{{ path('app_experience_index') }}" class="btn btn-primary">Consulter</a>
-                        <a href="{{ path('app_experience_new', {type: 'experience'}) }}" class="btn btn-primary">Ajouter une expérience</a>
-                    </div>
-                </div>
-            </div>
 
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Mes formations</h5>
-                    <p class="card-text">Consulter et ajouter vos formations ici.</p>
-                    <div class="buttons">
-                        <a href="{{ path('app_experience_index') }}" class="btn btn-primary">Consulter</a>
-                        <a href="{{ path('app_experience_new', {type: 'formation'}) }}" class="btn btn-primary">Ajouter une formation</a>
-                    </div>
-                </div>
-            </div>
+            {% include 'candidat/_experiencesCard.html.twig' %}
+
+
+            {% include 'candidat/_formationsCard.html.twig' %}
+
 
 
             <div class="card">

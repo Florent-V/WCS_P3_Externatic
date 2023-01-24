@@ -27,16 +27,25 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class CandidatController extends AbstractController
 {
     #[Route('/', name: 'app_candidat_profile', methods: ['GET'])]
-    public function profile(CandidatRepository $candidatRepository): Response
-    {
-
+    public function profile(
+        ExperienceRepository $experienceRepository
+    ): Response {
         /**
          * @var ?User $user
          */
         $user = $this->getUser();
+        $curriculum = $user->getCandidat()->getCurriculum();
+
+        $experiences = $experienceRepository->findBy(
+            ['curriculum' => $curriculum],
+            ['beginning' => 'ASC'],
+        );
+
+
 
         return $this->render('candidat/profile.html.twig', [
             'user' => $user,
+            'experiences' => $experiences,
         ]);
     }
 

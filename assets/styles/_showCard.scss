@@ -1,34 +1,33 @@
 .showCard {
-    max-width: 600px;
-    margin: auto;
     p {
         margin: 0;
     }
     .card {
         box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
     }
-
     .list-group-item p:first-of-type {
         font-weight: bold;
     }
     .list-group-item p:last-of-type {
         text-align: right;
     }
-
     .link {
         display: flex;
         flex-direction: column;
     }
-
     .link a {
         margin: auto;
     }
-
     .deleteForm {
         position: absolute;
         top: 5px;
         right: 5px;
     }
+}
+
+.showCard.unique {
+    max-width: 600px;
+    margin: auto;
 }
 
 .oups {
