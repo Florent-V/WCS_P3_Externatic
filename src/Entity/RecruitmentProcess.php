@@ -65,6 +65,10 @@ class RecruitmentProcess
     #[ORM\Column]
     private ?bool $archivedByConsultant = false;
 
+    #[ORM\ManyToOne(inversedBy: 'recruitmentProcesses')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?ExternaticConsultant $externaticConsultant = null;
+
     #[ORM\PrePersist]
     public function setCreatedAtValue(): void
     {
@@ -270,6 +274,18 @@ class RecruitmentProcess
     public function setArchivedByConsultant(bool $archivedByConsultant): self
     {
         $this->archivedByConsultant = $archivedByConsultant;
+
+        return $this;
+    }
+
+    public function getExternaticConsultant(): ?ExternaticConsultant
+    {
+        return $this->externaticConsultant;
+    }
+
+    public function setExternaticConsultant(?ExternaticConsultant $externaticConsultant): self
+    {
+        $this->externaticConsultant = $externaticConsultant;
 
         return $this;
     }

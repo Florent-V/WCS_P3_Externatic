@@ -28,11 +28,15 @@ class ExternaticConsultant
     #[ORM\OneToMany(mappedBy: 'consultant', targetEntity: Appointement::class)]
     private Collection $appointements;
 
+    #[ORM\OneToMany(mappedBy: 'externaticConsultant', targetEntity: RecruitmentProcess::class)]
+    private Collection $recruitmentProcesses;
+
     public function __construct()
     {
         $this->companies = new ArrayCollection();
         $this->annonces = new ArrayCollection();
         $this->appointements = new ArrayCollection();
+        $this->recruitmentProcesses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -136,6 +140,36 @@ class ExternaticConsultant
             // set the owning side to null (unless already changed)
             if ($appointement->getConsultant() === $this) {
                 $appointement->setConsultant(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RecruitmentProcess>
+     */
+    public function getRecruitmentProcesses(): Collection
+    {
+        return $this->recruitmentProcesses;
+    }
+
+    public function addRecruitmentProcess(RecruitmentProcess $recruitmentProcess): self
+    {
+        if (!$this->recruitmentProcesses->contains($recruitmentProcess)) {
+            $this->recruitmentProcesses->add($recruitmentProcess);
+            $recruitmentProcess->setExternaticConsultant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecruitmentProcess(RecruitmentProcess $recruitmentProcess): self
+    {
+        if ($this->recruitmentProcesses->removeElement($recruitmentProcess)) {
+            // set the owning side to null (unless already changed)
+            if ($recruitmentProcess->getExternaticConsultant() === $this) {
+                $recruitmentProcess->setExternaticConsultant(null);
             }
         }
 
