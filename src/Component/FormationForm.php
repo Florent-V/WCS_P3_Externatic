@@ -58,7 +58,7 @@ class FormationForm extends AbstractController
         $this->isSubmitted = true;
         $this->formValues = null;
         if ($this->pathInfo !== $urlGenerator->generate('app_candidat_complete')) {
-            $this->addFlash('success', 'Nouvelle expérience professionnelle ajoutée!');
+            $this->addFlash('success', 'Nouvelle formation ajoutée!');
             return $this->redirectToRoute('app_experience_index');
         }
         return null;

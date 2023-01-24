@@ -2,9 +2,11 @@
 
 namespace App\Repository;
 
+use App\Entity\Curriculum;
 use App\Entity\Experience;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use phpDocumentor\Reflection\Types\Boolean;
 
 /**
  * @extends ServiceEntityRepository<Experience>
@@ -38,6 +40,73 @@ class ExperienceRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function findNextExperience(int $id, Curriculum $curriculum, bool $isFormation): ?Experience
+    {
+        $experience = $this->findOneBy(
+            ['id' => $id]
+        );
+        $beginning = $experience->getBeginning();
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.beginning > :beginning')
+            ->andWhere('e.curriculum = :curriculum')
+            ->andWhere('e.isFormation = :isFormation')
+            ->setParameter('beginning', $beginning)
+            ->setParameter('curriculum', $curriculum)
+            ->setParameter('isFormation', $isFormation)
+            ->orderBy('e.beginning', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function findPreviousExperience(int $id, Curriculum $curriculum, bool $isFormation): ?Experience
+    {
+        $experience = $this->findOneBy(
+            ['id' => $id]
+        );
+        $beginning = $experience->getBeginning();
+
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.beginning < :beginning')
+            ->andWhere('e.curriculum = :curriculum')
+            ->andWhere('e.isFormation = :isFormation')
+            ->setParameter('beginning', $beginning)
+            ->setParameter('curriculum', $curriculum)
+            ->setParameter('isFormation', $isFormation)
+            ->orderBy('e.beginning', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function findFirstExperience(Curriculum $curriculum, bool $isFormation): ?Experience
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.curriculum = :curriculum')
+            ->andWhere('e.isFormation = :isFormation')
+            ->setParameter('curriculum', $curriculum)
+            ->setParameter('isFormation', $isFormation)
+            ->orderBy('e.beginning', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function findLastExperience(Curriculum $curriculum, bool $isFormation): ?Experience
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.curriculum = :curriculum')
+            ->andWhere('e.isFormation = :isFormation')
+            ->setParameter('curriculum', $curriculum)
+            ->setParameter('isFormation', $isFormation)
+            ->orderBy('e.beginning', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+
 
 //    /**
 //     * @return Experience[] Returns an array of Experience objects
