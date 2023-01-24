@@ -3,48 +3,61 @@
 {% block title %}Experience{% endblock %}
 
 {% block body %}
-    <h1>Experience</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ experience.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ experience.title }}</td>
-            </tr>
-            <tr>
-                <th>Beginning</th>
-                <td>{{ experience.beginning ? experience.beginning|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>End</th>
-                <td>{{ experience.end ? experience.end|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Organism</th>
-                <td>{{ experience.organism }}</td>
-            </tr>
-            <tr>
-                <th>Location</th>
-                <td>{{ experience.location }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ experience.description }}</td>
-            </tr>
-            <tr>
-                <th>Diploma</th>
-                <td>{{ experience.diploma }}</td>
-            </tr>
-            <tr>
-                <th>IsFormation</th>
-                <td>{{ experience.isFormation ? 'Yes' : 'No' }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <main class="container-md mb-5">
+
+        <h1 class="text-center mt-3">Mes Expériences</h1>
+
+        <div class="carou showCard">
+
+            <a href="{{ path('app_experience_previous', {id: experience.id}) }}">
+                <span class="arrow" aria-hidden="true"><i class="bi bi-chevron-left"></i></span>
+            </a>
+
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">{{ experience.title }}</h2>
+                    <p class="card-text">{{ experience.description }}</p>
+                </div>
+                <div class="list-group list-group-flush">
+                    <div class="list-group-item">
+                        <p>Début</p>
+                        <p>{{ experience.beginning ? experience.beginning|date('Y-m-d') : '' }}</p>
+                    </div>
+                    <div class="list-group-item">
+                        <p>Fin</p>
+                        <p>{{ experience.beginning ? experience.end|date('Y-m-d') : '' }}</p>
+                    </div>
+                    <div class="list-group-item">
+                        <p>Entreprise</p>
+                        <p>{{ experience.organism }}</p>
+                    </div>
+                    <div class="list-group-item">
+                        <p>Lieu</p>
+                        <p>{{ experience.location }}</p>
+                    </div>
+                    {% if experience.isFormation %}
+                        <div class="list-group-item">
+                            <p>Diplôme</p>
+                            <p>{{ experience.diploma }}</p>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="card-body link">
+                    <a class="btn btn-primary" href="{{ path('app_candidat_account') }}">Editer</a>
+                </div>
+            </div>
+
+            <a href="{{ path('app_experience_next', {id: experience.id}) }}">
+                <span class="arrow" aria-hidden="true"><i class="bi bi-chevron-right"></i></span>
+            </a>
+
+        </div>
+
+    </main>
+
+
+
 
     <a href="{{ path('app_experience_index') }}">back to list</a>
 

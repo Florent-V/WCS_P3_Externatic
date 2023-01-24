@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Annonce;
+use App\Entity\ExternaticConsultant;
+use App\Entity\User;
 use DateInterval;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -145,28 +147,34 @@ class AnnonceRepository extends ServiceEntityRepository
         return $queryBuilder->getResult();
     }
 
-//    /**
-//     * @return Annonce[] Returns an array of Annonce objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('a.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function getConsultantAnnonces(ExternaticConsultant $externaticConsultant, int $publicationStatus): Query
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.author = :externaticConsultant')
+            ->setParameter('externaticConsultant', $externaticConsultant)
+            ->andWhere('a.publicationStatus = :publicationStatus')
+            ->setParameter('publicationStatus', $publicationStatus)
+            ->join('a.company', 'c')
+            ->getQuery();
+    }
 
-//    public function findOneBySomeField($value): ?Annonce
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function searchAnnonces(
+        ExternaticConsultant $externaticConsultant,
+        int $publicationStatus,
+        ?string $search = ''
+    ): Query {
+        $qb = $this->createQueryBuilder('a')
+            ->andWhere('a.author = :externaticConsultant')
+            ->setParameter('externaticConsultant', $externaticConsultant)
+            ->andWhere("a.publicationStatus = :publicationStatus")
+            ->setParameter('publicationStatus', $publicationStatus);
+        if (!is_null($search)) {
+            $qb->andWhere('a.title LIKE :search')
+                ->setParameter('search', '%' . $search . '%');
+        }
+        $qb->join('a.company', 'c');
+
+
+        return $qb->getQuery();
+    }
 }

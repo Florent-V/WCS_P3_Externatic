@@ -21,13 +21,13 @@
                     {% endif %}
                 </a>
                 {% if is_granted("ROLE_CANDIDAT") %}
-                    <a class="d-none d-md-inline userName" href="">{{ app.user.firstname }}</a>
+                    <a class="d-none d-md-inline userName" href="{{ path('app_candidat_profile') }}">{{ app.user.firstname }}</a>
                     <a class="connexion navbar-brand" href="{{ path('app_logout') }}">Déconnexion</a>
                 {% elseif is_granted("ROLE_CONSULTANT") %}
                     <a class="d-none d-md-inline userName" href={{ path('consultant_board') }}>{{ app.user.firstname }}</a>
                     <a class="connexion navbar-brand" href="{{ path('app_logout') }}">Déconnexion</a>
                 {% elseif is_granted("ROLE_ADMIN") %}
-                    <a class="d-none d-md-inline userName" href="">{{ app.user.firstname }}</a>
+                    <a class="d-none d-md-inline userName" href="{{ path('consultant_board') }}">{{ app.user.firstname }}</a>
                     <a class="connexion navbar-brand" href="{{ path('app_logout') }}">Déconnexion</a>
                 {% else %}
                     <a class="connexion navbar-brand" href="{{ path('app_login') }}">Connexion</a>
@@ -52,10 +52,10 @@
                             <a class="nav-link" href="{{ path('app_candidat_profile') }}">Mon Compte</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ path('annonce_search_results') }}">Rechercher une offre</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('message_index') }}">Messagerie</a>
-                        </li>
-                            <a class="nav-link" href="{{ path('annonce_search_results') }}">Rechercher une offre</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{  path('annonce_show_favorite') }}">Mes Annonces</a>
@@ -81,9 +81,6 @@
                             <a class="nav-link" href="{{  path('consultant_annonces') }}">Mes Annonces</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">Mes Processus de recrutement</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="{{ path('annonce_new') }}">Ajouter une offre</a>
                         </li>
 
@@ -98,7 +95,7 @@
                             <a class="nav-link" href="{{ path('admin_app_candidat_index') }}">Base Candidats</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('admin_app_consultant_index') }}">Base Consultants</a>
+                            <a class="nav-link" href="{{ path('admin_app_consultant_index') }}">Base Recruteurs</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('admin_app_company_index') }}">Base Entreprises</a>
@@ -111,7 +108,6 @@
                             <a class="nav-link" href="{{ path('app_register') }}">S'inscrire</a>
                         </li>
                     {% endif %}
-
                 </ul>
             </div>
         </div>

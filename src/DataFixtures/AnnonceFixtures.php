@@ -22,7 +22,7 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
         $faker = Factory::create();
 
         for ($i = 1; $i <= CompanyFixtures::$companyIndex; $i++) {
-            $nbAnnonce = 10;
+            $nbAnnonce = 20;
             for ($j = 1; $j <= $nbAnnonce; $j++) {
                 $annonce = new Annonce();
                 self::$annonceIndex++;
