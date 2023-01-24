@@ -67,6 +67,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->receivedMessages = new ArrayCollection();
         $this->sentMessages = new ArrayCollection();
         $this->notifications = new ArrayCollection();
+        $this->hasNotifUnread = false;
     }
 
     public function getId(): ?int

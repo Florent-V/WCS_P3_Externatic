@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Form\ConversationType;
 use App\Repository\MessageRepository;
 use App\Repository\RecruitmentProcessRepository;
+use App\Service\NewNotif;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Component\HttpFoundation\Request;
 use Knp\Component\Pager\PaginatorInterface;
@@ -53,7 +54,8 @@ class MessageController extends AbstractController
         MessageRepository $messageRepository,
         Request $request,
         PaginatorInterface $paginator,
-        RecruitmentProcessRepository $processRepo
+        RecruitmentProcessRepository $processRepo,
+        NewNotif $newNotif
     ): Response {
         $messages = $messageRepository->findBy(['recruitmentProcess' => $recruitmentProcess], ['date' => 'ASC']);
         $message = new Message();
@@ -88,6 +90,7 @@ class MessageController extends AbstractController
                 $message->setSendTo($recruitmentProcess->getCandidat()->getUser());
             }
             $messageRepository->save($message, true);
+            $newNotif->NewMessageNotif($message, $recruitmentProcess);
 
 
             if (TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
