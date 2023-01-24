@@ -60,14 +60,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $isActive = true;
     #[ORM\Column]
-    private ?bool $hasNotifUnread = null;
+    private ?bool $hasNotifUnread = false;
 
     public function __construct()
     {
         $this->receivedMessages = new ArrayCollection();
         $this->sentMessages = new ArrayCollection();
         $this->notifications = new ArrayCollection();
-        $this->hasNotifUnread = false;
     }
 
     public function getId(): ?int
