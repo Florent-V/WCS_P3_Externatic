@@ -1,10 +1,28 @@
 .consultantAnnonces {
     margin-left: $navBarWidth;
+    background-color: #ededed;
+    div.sorting {
+        margin-left: $spacer;
+        p{
+            display:inline-block;
+            margin-right: .5rem;}
+    }
     article {
         border:1px solid $primary;
-        border-radius: $border-radius;
         img {
             height:2rem;
+        }
+        .accordion-header{
+            background-color: rgba(201, 25, 97, 0.48);
+        }
+        padding-bottom:0;
+
+        .rating > i {
+            color : $primary;
+            cursor:pointer;
+            &:hover {
+                text-shadow: 0 0 .5rem black
+            }
         }
     }
 }

@@ -1,13 +1,13 @@
 <div class="accordion-item">
-    <h2 class="accordion-header" id="heading-{{ loop.index }}">
+    <h2 class="accordion-header ms-4 me-4" id="heading-{{ loop.index }}">
         <button class="accordion-button d-inline text-center" type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#collapse-{{ loop.index }}" aria-expanded="true"
                 aria-controls="collapse-{{ loop.index }}">
-            {{ annonce.recrutementProcesses|length }} processus de recrutement
+            {{ annonce.recrutementProcesses|length }} processus de recrutement <i class="bi bi-arrows-expand"></i>
         </button>
     </h2>
-    <div id="collapse-{{ loop.index }}" class="accordion-collapse collapse"
+    <div id="collapse-{{ loop.index }}" class="accordion-collapse collapse m-4"
          aria-labelledby="heading-{{ loop.index }}"
          data-bs-parent="#accordionExample-{{ loop.index }}">
         <div class="accordion-body">
@@ -16,21 +16,28 @@
                 <tr>
                     <th scope="row">Candidat</th>
                     <th scope="row">Status du processus
-                    <th scope="row">note</th>
-                    <th scope="row">Dernier échange</th>
+                    <th scope="row">Note</th>
+                    <th scope="row">Date de création</th>
+                    <th scope="row"></th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for recruitmentProcess in annonce.recrutementProcesses|sort((a, b) => a.status <=> b.status) %}
-                    <tr>
+                    <tr {{ stimulus_target('rating', 'recruitmentProcessLine') }}
+                        data-recruitmentProcessId= {{ recruitmentProcess.id }}>
                         <td>{{ recruitmentProcess.candidat.user.firstname|upper }} {{ recruitmentProcess.candidat.user.lastName|capitalize }}</td>
                         <td>{{ recruitmentProcess.status }}</td>
-                        <td>{{ recruitmentProcess.rate }}</td>
-                        <td>Récupérer dernier échange</td>
+                        <td class="rating">
+                            {% for i in 1..5 %}
+                                <i data-action="click->rating#updateRate" data-rate="{{ i }}"
+                                   class="{{ i <= recruitmentProcess.rate ? 'bi bi-star-fill' : 'bi bi-star' }}"></i>
+                            {% endfor %}
+                        </td>
+                        <td>{{ recuitmentProcess.createdAt|format_datetime('short', 'none', locale='fr') }}</td>
+                        <td><a href="">Voir le processus</a></td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
-</div>

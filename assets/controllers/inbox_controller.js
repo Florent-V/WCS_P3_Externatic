@@ -18,7 +18,6 @@ export default class extends Controller {
                     event.target.className = "bi bi-exclamation-diamond-fill";
                     event.target.title = "erreur";
                     this.errorTarget.show();
-                    //this.errorTarget.display = "block"
                 }
             })
     }

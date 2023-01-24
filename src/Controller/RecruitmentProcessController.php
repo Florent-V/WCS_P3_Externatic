@@ -92,6 +92,18 @@ class RecruitmentProcessController extends AbstractController
         ]);
     }
 
+    #[Route('/{id<\d+>}/change-rate/{rate<[1-5]>}', name: 'changeRate', methods: ['GET'])]
+    public function changeRate(
+        RecruitmentProcess $recruitmentProcess,
+        RecruitmentProcessRepository $recruitmentProcRepo,
+        int $rate
+    ): Response {
+        $newRate = $recruitmentProcRepo->changeRate($recruitmentProcess, $rate);
+        return $this->json([
+            'rate' => $newRate
+        ]);
+    }
+
     #[Route('/{id}', name: 'delete', methods: ['POST'])]
     public function delete(
         Request $request,

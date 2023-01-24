@@ -28,6 +28,7 @@ class RecruitmentProcessFixtures extends Fixture implements DependentFixtureInte
                     $companyRef = "company_" . $faker->numberBetween(1, CompanyFixtures::$companyIndex);
                     $recruitmentProcess->setCompany($this->getReference($companyRef));
                 }
+                $recruitmentProcess->setRate($faker->numberBetween(1, 5));
                 $recruitmentProcess->setCandidat($this->getReference("candidat_" .
                     $faker->numberBetween(1, CandidatFixtures::$candidatIndex)));
                 $recruitmentProcess->setReadByCandidat($faker->boolean);

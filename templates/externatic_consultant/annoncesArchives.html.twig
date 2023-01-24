@@ -6,9 +6,22 @@
     <main class="consultantAnnonces" {{ stimulus_controller('symfony/ux-swup/swup', {
         containers: ['#ConsultAnnonceArchives', '#pageAnnoncesArchives']
     }) }}>
-        <div class="d-flex flex-column align-items-center" {{ stimulus_controller('publiStatus') }}><h1>Annonces
-                archivées</h1> <small><a href="{{ path('consultant_annonces') }}">retour aux annonces</small></div>
-        <div id="ConsultAnnonceArchives" class="container">
+        <div class="d-flex flex-column align-items-center" {{ stimulus_controller('publiStatus') }}>
+            <h1>Annonces archivées</h1>
+            <small>
+                <a href="{{ path('consultant_annonces') }}">retour aux annonces</a>
+            </small>
+        </div>
+        <div class="sorting"><p>Trier par :</p>
+            <p>{{ knp_pagination_sortable(annonces, 'date de creation', 'a.createdAt') }}</p>
+            <p{% if annonces.isSorted('a.endingAt') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(annonces, 'Date de fin', 'a.endingAt') }}
+            </p>
+            <p{% if annonces.isSorted('c.name') %} class="sorted"{% endif %}>
+                {{ knp_pagination_sortable(annonces, 'Entreprise', 'c.name') }}
+            </p>
+        </div>
+        <div id="ConsultAnnonceArchives" class="container" {{ stimulus_controller('rating') }}>
         {% for annonce in annonces %}
             <article class="m-3 p-2">
                 <div class="accordion container" id="accordionExample-{{ loop.index }}">
@@ -33,6 +46,6 @@
             </article>
         {% endfor %}
         </div>
-        <div id="pageAnnoncesArchives"class="container d-flex justify-content-center">{{ knp_pagination_render(annonces) }}</div>
+        <div id="pageAnnoncesArchives" class="container d-flex justify-content-center">{{ knp_pagination_render(annonces) }}</div>
     </main>
 {% endblock %}
