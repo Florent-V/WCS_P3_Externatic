@@ -25,8 +25,7 @@
         <div class="table-responsive-sm">
             <table class="table">
                 <thead>
-                <tr id="messageSorting">
-                    <th{% if receivedMessages.isSorted('m.date') %} class="sorted"{% endif %}>
+                <tr id="messageSorting"><th{% if receivedMessages.isSorted('m.date') %} class="sorted"{% endif %}>
                         {{ knp_pagination_sortable(receivedMessages, 'Date', 'm.date') }}
                     </th>
                     <th> Expéditeur
