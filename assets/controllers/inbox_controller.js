@@ -40,12 +40,11 @@ export default class extends Controller {
             })
     }
 
+    openMessage(event)
+    {
+        window.location.assign(`/message/recruitmentProcess/${event.target.parentNode.dataset.messageid}`);
+    }
+
     connect() {
-        const messageCells = document.querySelectorAll(".messageCell");
-        for (let messageCell of messageCells) {
-            messageCell.addEventListener("click", () => {
-                window.location.assign(` /message/recruitmentProcess/${messageCell.parentNode.dataset.messageid}`);
-            })
-        }
     }
 }

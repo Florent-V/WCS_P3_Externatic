@@ -49,7 +49,6 @@ class MessageRepository extends ServiceEntityRepository
             ->andWhere('m.recruitmentProcess IS NOT null')
             ->join('m.recruitmentProcess', "r", 'WITH', 'r.archivedBy' . $userRole . ' = false')
             ->orderBy('m.date', 'DESC')
-            ->groupBy('m.recruitmentProcess')
             ->getQuery();
     }
 

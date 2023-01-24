@@ -28,8 +28,7 @@
                 <tr id="messageSorting"><th{% if receivedMessages.isSorted('m.date') %} class="sorted"{% endif %}>
                         {{ knp_pagination_sortable(receivedMessages, 'Date', 'm.date') }}
                     </th>
-                    <th> Expéditeur
-                    </th>
+                    <th scope="row"> Expéditeur </th>
                     <th scope="row">Intitulé de l'annonce</th>
                     <th scope="row">Contenu</th>
                     <th scope="row"></th>
