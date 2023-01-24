@@ -16,8 +16,9 @@
                 <tr>
                     <th scope="row">Candidat</th>
                     <th scope="row">Status du processus
-                    <th scope="row">note</th>
+                    <th scope="row">Note</th>
                     <th scope="row">Date de création</th>
+                    <th scope="row"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -33,6 +34,7 @@
                             {% endfor %}
                         </td>
                         <td>{{ recuitmentProcess.createdAt|format_datetime('short', 'none', locale='fr') }}</td>
+                        <td><a href="">Voir le processus</a></td>
                     </tr>
                 {% endfor %}
                 </tbody>

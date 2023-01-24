@@ -1,0 +1,45 @@
+<div class="showCard">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">Informations personnelles</h2>
+            <p class="card-text">Informations personnelles de votre CV</p>
+        </div>
+        <div class="list-group list-group-flush">
+            <div class="list-group-item">
+                <p>Age</p>
+                <p>{{ user.candidat.age }}</p>
+            </div>
+            <div class="list-group-item">
+                <p>Profil LinkedIn</p>
+                <p>{{ user.candidat.linkedIn }}</p>
+            </div>
+            <div class="list-group-item">
+                <p>Page GitHub</p>
+                <p>{{ user.candidat.github }}</p>
+            </div>
+            <div class="list-group-item">
+                <p>Adresse</p>
+                <p>{{ user.candidat.address }}</p>
+            </div>
+            <div class="list-group-item">
+                <p>Code Postal</p>
+                <p>{{ user.candidat.zipCode }}</p>
+            </div>
+            <div class="list-group-item">
+                <p>Ville</p>
+                <p>{{ user.candidat.city }}</p>
+            </div>
+            <div class="list-group-item">
+                <p>Description</p>
+                <p>{{ user.candidat.description }}</p>
+            </div>
+            <div class="list-group-item">
+                <p>Peut postuler ?</p>
+                <p>{{ user.candidat.canPostulate ? 'Yes' : 'No' }}</p>
+            </div>
+        </div>
+        <div class="card-body">
+            <a href="{{ path('app_candidat_data') }}" class="card-link">Editer</a>
+        </div>
+    </div>
+</div>

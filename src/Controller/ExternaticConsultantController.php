@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\RecruitmentProcess;
 use App\Entity\User;
+use App\Form\AdminSearchType;
 use App\Repository\AnnonceRepository;
 use App\Repository\AppointementRepository;
 use App\Repository\CandidatRepository;
@@ -53,7 +54,15 @@ class ExternaticConsultantController extends AbstractController
          */
         $user = $this->getUser();
 
-        $fetchedAnnonces = $annonceRepository->getConsultantAnnonces($user->getConsultant(), false);
+        $form = $this->createForm(AdminSearchType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $fetchedAnnonces = $annonceRepository->searchAnnonces($user->getConsultant(), 1, $data['search']);
+        } else {
+            $fetchedAnnonces = $annonceRepository->getConsultantAnnonces($user->getConsultant(), 1);
+        }
 
         $annonces = $paginator->paginate(
             $fetchedAnnonces,
@@ -61,8 +70,9 @@ class ExternaticConsultantController extends AbstractController
             8
         );
 
-        return $this->render('externatic_consultant/annonces.html.twig', [
-            'annonces' => $annonces
+        return $this->renderForm('externatic_consultant/annonces.html.twig', [
+            'annonces' => $annonces,
+            'form' => $form
         ]);
     }
 
@@ -76,7 +86,16 @@ class ExternaticConsultantController extends AbstractController
          * @var User $user
          */
         $user = $this->getUser();
-        $fetchedAnnonces = $annonceRepository->getConsultantAnnonces($user->getConsultant(), true);
+
+        $form = $this->createForm(AdminSearchType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $fetchedAnnonces = $annonceRepository->searchAnnonces($user->getConsultant(), 0, $data['search']);
+        } else {
+            $fetchedAnnonces = $annonceRepository->getConsultantAnnonces($user->getConsultant(), 0);
+        }
 
         $annonces = $paginator->paginate(
             $fetchedAnnonces,
@@ -84,8 +103,9 @@ class ExternaticConsultantController extends AbstractController
             8
         );
 
-        return $this->render('externatic_consultant/annoncesArchives.html.twig', [
-            'annonces' => $annonces
+        return $this->renderForm('externatic_consultant/annoncesArchives.html.twig', [
+            'annonces' => $annonces,
+            'form' => $form
         ]);
     }
 

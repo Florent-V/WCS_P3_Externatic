@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Candidat;
 use App\Entity\Certification;
 use App\Entity\Experience;
+use App\Entity\User;
 use App\Form\CandidatType;
 use App\Form\CertificationType;
 use App\Form\ExperienceType;
@@ -26,16 +27,25 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class CandidatController extends AbstractController
 {
     #[Route('/', name: 'app_candidat_profile', methods: ['GET'])]
-    public function profile(CandidatRepository $candidatRepository): Response
-    {
+    public function profile(
+        ExperienceRepository $experienceRepository
+    ): Response {
+        /**
+         * @var ?User $user
+         */
         $user = $this->getUser();
-        $candidat = $candidatRepository->findOneBy(
-            ['user' => $user]
+        $curriculum = $user->getCandidat()->getCurriculum();
+
+        $experiences = $experienceRepository->findBy(
+            ['curriculum' => $curriculum],
+            ['beginning' => 'ASC'],
         );
 
+
+
         return $this->render('candidat/profile.html.twig', [
-            'candidat' => $candidat,
             'user' => $user,
+            'experiences' => $experiences,
         ]);
     }
 

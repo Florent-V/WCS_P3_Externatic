@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Experience;
+use App\Entity\User;
 use App\Form\ExperienceType;
 use App\Form\FormationType;
 use App\Repository\CandidatRepository;
@@ -18,29 +19,17 @@ class ExperienceController extends AbstractController
 {
     #[Route('/', name: 'app_experience_index', methods: ['GET'])]
     public function index(
-        CandidatRepository $candidatRepository,
-        CurriculumRepository $curriculumRepository,
-        ExperienceRepository $experienceRepository
+        ExperienceRepository $repository
     ): Response {
+
+        /**
+         * @var ?User $user
+         */
         $user = $this->getUser();
-        $candidat = $candidatRepository->findOneBy(
-            ['user' => $user]
-        );
+        $curriculum = $user->getCandidat()->getCurriculum();
+        $experience = $repository->findFirstExperience($curriculum, false);
 
-        $curriculum = $curriculumRepository->findOneBy(
-            ['candidat' => $candidat]
-        );
-
-        $experiences = $experienceRepository->findBy(
-            ['curriculum' => $curriculum]
-        );
-
-        return $this->render('experience/index.html.twig', [
-            'user' => $user,
-            'curriculum' => $curriculum,
-            'candidat' => $candidat,
-            'experiences' => $experiences,
-        ]);
+        return $this->redirectToRoute('app_experience_show', ['id' => $experience->getId()]);
     }
 
     #[Route('/new/{type}', name: 'app_experience_new', methods: ['GET', 'POST'])]
@@ -48,7 +37,6 @@ class ExperienceController extends AbstractController
         string $type,
     ): Response {
 
-//
         if ('experience' === $type) {
             return $this->renderForm('experience/newExperience.html.twig');
         } elseif ('formation' === $type) {
@@ -59,15 +47,58 @@ class ExperienceController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_experience_show', methods: ['GET'])]
-    public function show(Experience $experience): Response
-    {
+    public function show(
+        Experience $experience,
+        ExperienceRepository $repository
+    ): Response {
+
         if ($experience->getCurriculum()->getCandidat()->getUser() !== $this->getUser()) {
-            // If not the owner, throws a 403 Access Denied exception
-            throw $this->createAccessDeniedException('Only the owner can consult !');
+            /**
+             * @var ?User $user
+             */
+            $user = $this->getUser();
+            $curriculum = $user->getCandidat()->getCurriculum();
+            $experience = $repository->findFirstExperience($curriculum, false);
+
+            return $this->redirectToRoute('app_experience_show', ['id' => $experience->getId()]);
         }
         return $this->render('experience/show.html.twig', [
             'experience' => $experience,
         ]);
+    }
+
+    #[Route('/{id}/next', name: 'app_experience_next', methods: ['GET'])]
+    public function next(ExperienceRepository $repository, int $id): Response
+    {
+        /**
+         * @var ?User $user
+         */
+        $user = $this->getUser();
+        $curriculum = $user->getCandidat()->getCurriculum();
+        $nextExperience = $repository->findNextExperience($id, $curriculum, false);
+
+        if (!$nextExperience) {
+            $nextExperience = $repository->findFirstExperience($curriculum, false);
+        }
+
+        return $this->redirectToRoute('app_experience_show', ['id' => $nextExperience->getId()]);
+    }
+
+    #[Route('/{id}/prev', name: 'app_experience_previous', methods: ['GET'])]
+    public function previous(ExperienceRepository $repository, int $id): Response
+    {
+        /**
+         * @var ?User $user
+         */
+        $user = $this->getUser();
+        $curriculum = $user->getCandidat()->getCurriculum();
+        $previousExperience = $repository->findPreviousExperience($id, $curriculum, false);
+
+        if (!$previousExperience) {
+            $previousExperience = $repository->findLastExperience($curriculum, false);
+        }
+
+        return $this->redirectToRoute('app_experience_show', ['id' => $previousExperience->getId()]);
     }
 
     #[Route('/{id}/edit', name: 'app_experience_edit', methods: ['GET', 'POST'])]
