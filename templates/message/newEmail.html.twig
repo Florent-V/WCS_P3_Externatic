@@ -1,6 +1,6 @@
-<h1>{{message.SendBy.firstName message.SendBy.lastName}} vous a envoyé un nouveau message</h1>
+<h1>{{message.SendBy.firstName }} {{ message.SendBy.lastName}} vous a envoyé un nouveau message</h1>
 
 <p>
-    message.SendBy.firstName message.SendBy.lastName vous a envoyé : <br>
+    {{ message.SendBy.firstName }} {{ message.SendBy.lastName }} vous a envoyé : <br>
     {{ message.content }}
 </p>

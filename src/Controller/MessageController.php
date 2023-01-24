@@ -99,7 +99,7 @@ class MessageController extends AbstractController
                 $message->setSendTo($recruitmentProcess->getCandidat()->getUser());
             }
             $messageRepository->save($message, true);
-            $newNotif->NewMessageNotif($message, $recruitmentProcess);
+            $newNotif->newMessageNotif($message, $recruitmentProcess);
 
             if (TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
                 $request->setRequestFormat(TurboBundle::STREAM_FORMAT);

@@ -51,7 +51,7 @@ class NewNotif extends AbstractController
         foreach ($users as $user) {
             array_push($sentNotif, $user->getId());
             $notification = new Notif();
-//            $notification->setContent($annonce->getTitle());
+            $notification->setContent(['title' => $annonce->getTitle()]);
             $notification->setType('newAnnonce');
             $notification->setCreatedAt(new DateTime('now'));
             $notification->setUser($user);
@@ -85,7 +85,7 @@ class NewNotif extends AbstractController
             ) {
                 array_push($sentNotif, $searchProfile->getCandidat()->getUser()->getId());
                 $notification = new Notif();
-//                $notification->setContent($annonce->getTitle());
+                $notification->setContent(['title' => $annonce->getTitle()]);
                 $notification->setType('newAnnonce');
                 $notification->setCreatedAt(new DateTime('now'));
                 $notification->setUser($searchProfile->getCandidat()->getUser());
@@ -132,10 +132,10 @@ class NewNotif extends AbstractController
         $email = (new Email())
             ->to($message->getSendTo()->getEmail())
             ->from($this->getParameter('mailer_from'))
-            ->subject($message->getSendBy()->getFirstname() . $message->getSendBy()->getLastName() .
+            ->subject($message->getSendBy()->getFirstname() . ' ' . $message->getSendBy()->getLastName() .
                 'vous a envoyé un nouveau message')
             ->html($this->renderView(
-                'annonce/newEmail.html.twig',
+                'message/newEmail.html.twig',
                 [
                     'recruitementProcess' => $recruitmentProcess,
                     'message' => $message,
@@ -143,7 +143,5 @@ class NewNotif extends AbstractController
             ));
 
         $this->mailer->send($email);
-        // sleep pour ne pas dépasser la limite de mailtrap, a enlever en prod
-        sleep(3);
     }
 }

@@ -21,9 +21,10 @@
                                     <span class="dot"></span>
                                 {% endif %}
                                 {% if notification.type == 'newAnnonce' %}
-                                    Une nouvelle annonce <a href="{{ path('annonce_show', {'id': notification.parameter}) }}">"{{ notification.content }}"</a> vient d'étre créée
+                                    Une nouvelle annonce <a href="{{ path('annonce_show', {'id': notification.parameter}) }}">"{{ notification.content.title }}"</a> vient d'étre créée
                                 {% elseif notification.type == 'newMessage' %}
-                                    {{ notification.firstName }} {{ notification.lastName }} vous a envoyé un message au sujet de <a href="{{ path('message_conversation', {'recruitmentProcess': notification.parameter}) }}">"{{ notification.content }}"</a>
+                                    {{ notification.content.firstName }} {{ notification.content.lastName }} vous a envoyé un message au sujet de
+                                    <a href="{{ path('message_conversation', {'recruitmentProcess': notification.parameter}) }}">"{{ notification.content.title }}"</a>
                                 {% endif %}
                             </td>
                             <td class="table-time">{% if difference.d >= 1 %}
