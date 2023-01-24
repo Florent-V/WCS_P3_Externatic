@@ -4,7 +4,7 @@
 
 {% block body %}
     <main class="consultantAnnonces" {{ stimulus_controller('symfony/ux-swup/swup', {
-        containers: ['#ConsultAnnonce', '#pageAnnonces']
+        containers: ['#ConsultAnnonce', '#pageAnnonces', '#sorting']
     }) }}>
         <div class="d-flex flex-column align-items-center" data-controller="publiStatus">
             <h1>Annonces en cours</h1>
@@ -12,7 +12,8 @@
                 <a href="{{ path('consultant_annonces_archives') }}">Accès aux archives</a>
             </small>
         </div>
-        <div class="sorting">
+        <div class="sorting d-flex justify-content-between">
+            <div id="sorting">
             <p>{{ knp_pagination_sortable(annonces, 'Date de creation', 'a.createdAt') }}</p>
             <p{% if annonces.isSorted('a.endingAt') %} class="sorted"{% endif %}>
                 {{ knp_pagination_sortable(annonces, 'Date de fin', 'a.endingAt') }}
@@ -20,6 +21,16 @@
             <p{% if annonces.isSorted('c.name') %} class="sorted"{% endif %}>
                 {{ knp_pagination_sortable(annonces, 'Entreprise', 'c.name') }}
             </p>
+                <p{% if annonces.isSorted('a.title') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(annonces, "titre de l'annonce", 'a.title') }}
+                </p>
+            </div>
+            <div class="pe-4">
+                {{ form_start(form,{'attr': {'class': 'd-flex'}}) }}
+                {{ form_row(form.search, {'required': false}) }}
+                <button class="btn btn-primary" type="submit">Go</button>
+                {{ form_end(form) }}
+            </div>
         </div>
         <div id="ConsultAnnonce" class="container" {{ stimulus_controller('rating') }}>
             {% for annonce in annonces %}

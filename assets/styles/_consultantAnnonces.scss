@@ -1,4 +1,9 @@
 .consultantAnnonces {
+    form {
+        .input-group {
+            height:2.5rem;
+        }
+    }
     margin-left: $navBarWidth;
     background-color: #ededed;
     div.sorting {
