@@ -111,11 +111,21 @@ class ExternaticConsultantController extends AbstractController
 
     #[Route('/synthese', name:'synthesis', methods: ['GET'])]
     public function processSynthesis(
-        RecruitmentProcessRepository $recruitmentProcess,
+        Request $request,
+        RecruitmentProcessRepository $recruitmentProcessRepo,
+        PaginatorInterface $paginator
     ): Response {
-        $synthesis = $recruitmentProcess->findAll();
+
+        $synthesis = $recruitmentProcessRepo->findAll();
+
+       // $paginate = $paginator->paginate(
+         //   $synthesis,
+           // $request->query->getInt('page', 1),
+            //12
+
         return $this->render('externatic_consultant/process-synthesis.html.twig', [
            'synthesis' => $synthesis,
+
         ]);
     }
 }

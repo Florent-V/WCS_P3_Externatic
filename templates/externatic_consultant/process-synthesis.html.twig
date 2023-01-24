@@ -1,13 +1,47 @@
 {% extends 'base.html.twig' %}
-{% block body  %}
-    {% for synthese in synthesis %}
-        <div class="card container-md mb-3">
-            {{ synthese.candidat.user.firstname }}
-            {{ synthese.candidat.user.lastName }},
-            Nombre de rendez-vous : {{ synthese.appointements.count }}
-            {{ synthese.company.name }}
-            {{ synthese.status }}
-        </div>
+{% block title %}Synthèse des annonces {% endblock %}
+{% block body %}
+   <main class="consultantProcesses" {{ stimulus_controller('symfony/ux-swup/swup', {
+    containers: ['#ConsultProcesses', '#pageProcesses', '#sortingProcesses']
+}) }}>
+       <div class="container d-flex justify-content-center">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
 
-    {% endfor %}
+            {% for synthese in synthesis %}
+                <div class="col">
+                    <div class="card h-100">
+                    <div class="card-header col-md">
+                        <a href="">{# NE PAS OUBLIER DE METTRE LE LIEN VERS LES CANDIATS #}
+                        {{ synthese.candidat.user.firstname }}
+                        {{ synthese.candidat.user.lastName }}
+                        </a>
+                    </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Nombre de RDV : {{ synthese.appointements.count }}</li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                {% if synthese.annonce == null %}
+                                    <p>Candidature spontanée à {{ synthese.company.name }}</p>
+                                    <img src="{{ vich_uploader_asset(synthese.company) }}" alt="{{ synthese.company.name }}">
+                                {% else %}
+                                        <p>
+                                            <a class="lienAnnonce stretched-link" style="transform: rotate(0);" href="{{ path('annonce_show', {"id": synthese.annonce.id}) }}">Annonce : {{ synthese.annonce.title }}</a>
+                                        </p>
+                                    {#<img src="{{ vich_uploader_asset(synthese.annonce.company) }}" alt="{{ synthese.annonce.company }}">#}
+
+                                {% endif %}
+                            </li>
+                            <li class="list-group-item">{{ synthese.status }}</li>
+                                {{ app.user.firstname }}
+                            <li class="list-group-item">
+                                <a href="#" class="btn btn-primary"> Suivre le processus</a>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+             {% endfor %}
+
+        </div></div>
+    </main>
 {% endblock %}
+

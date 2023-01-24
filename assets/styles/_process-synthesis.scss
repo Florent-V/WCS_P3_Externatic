@@ -1,0 +1,13 @@
+
+.consultantProcesses {
+    .card {
+        transition: all .2s ease-in-out;
+        li > img {
+            height:1rem;
+        }
+    }
+    .card:hover{
+        transform: scale(1.05);
+        box-shadow: 0 10px 20px rgba(201, 25, 97,.4), 0 4px 8px rgba(0,0,0,.06);
+    }
+}

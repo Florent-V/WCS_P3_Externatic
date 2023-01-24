@@ -4,7 +4,9 @@ namespace App\Repository;
 
 use App\Entity\RecruitmentProcess;
 use App\Entity\User;
+use ContainerJU0Z8sU\getExternaticConsultantController2Service;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Security;
 
@@ -22,6 +24,19 @@ class RecruitmentProcessRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, RecruitmentProcess::class);
     }
+
+    public function getRecruitmentProcessConsultant(): Query
+    {
+        /**
+         * @var ?User $user
+         */
+        //$consultant = $this->security->getUser()->getConsultant();
+
+        return $this->createQueryBuilder('r')->getQuery();
+    }
+
+
+
 
     public function save(RecruitmentProcess $entity, bool $flush = false): void
     {
@@ -81,6 +96,7 @@ class RecruitmentProcessRepository extends ServiceEntityRepository
 
     public function getRelationToRecruitmentProcess(RecruitmentProcess $recruitmentProcess): ?string
     {
+
         /** @var ?User $user */
         $user = $this->security->getUser();
 
@@ -101,6 +117,8 @@ class RecruitmentProcessRepository extends ServiceEntityRepository
         }
         return null;
     }
+
+
 
 //    /**
 //     * @return RecruitmentProcess[] Returns an array of RecruitmentProcess objects
