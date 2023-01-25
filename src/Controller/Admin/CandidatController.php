@@ -6,6 +6,8 @@ use App\Entity\Candidat;
 use App\Form\AdminSearchType;
 use App\Form\CandidatType;
 use App\Repository\CandidatRepository;
+use App\Repository\CertificationRepository;
+use App\Repository\ExperienceRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,13 +46,6 @@ class CandidatController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_candidat_show', methods: ['GET'])]
-    public function show(Candidat $candidat): Response
-    {
-        return $this->render('admin/candidat/show.html.twig', [
-            'candidat' => $candidat,
-        ]);
-    }
 
     #[Route('/{id}/edit', name: 'app_candidat_edit', methods: ['GET', 'POST'])]
     public function editPro(Request $request, Candidat $candidat, CandidatRepository $candidatRepository): Response

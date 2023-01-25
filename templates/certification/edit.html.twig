@@ -8,8 +8,11 @@
 
         {{ include('certification/_form.html.twig', {'button_label': 'Update'}) }}
 
-        <a href="{{ path('app_certification_index') }}">Retour à la liste des certifications</a>
+        <div class="d-flex justify-content-center mt-3">
+            <a class="btn btn-primary" href="{{ path('app_certification_index') }}">Retour à la liste des certifications</a>
+        </div>
 
-        {{ include('certification/_delete_form.html.twig') }}
+
+
     </main>
 {% endblock %}

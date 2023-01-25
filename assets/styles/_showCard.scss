@@ -23,6 +23,9 @@
         top: 5px;
         right: 5px;
     }
+    .badge.text-bg-light {
+        border: 1px solid $primary;
+    }
 }
 
 .showCard.unique {

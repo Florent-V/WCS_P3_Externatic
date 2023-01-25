@@ -1,16 +1,13 @@
-{% extends 'base.html.twig' %}
+<div id="certificationPanel" class="showCard">
+    <div class="card">
+        <div class="cardIcons">
+            <a href="{{ path('app_certification_new') }}"><i class="bi bi-plus-lg"></i></a>
+        </div>
+        <div class="card-body">
+            <h3 class="card-title text-center">Mes Certifications</h3>
 
-{% block title %}Mes certifications{% endblock %}
-
-{% block body %}
-
-    <main class="searchProfile container-md mb-5">
-        <h1 class="text-center mt-3">Mes Certifications</h1>
-
-        <div class="row showCard certification">
             {% for certification in certifications %}
-                <div class="col-sm-4">
-                    <div class="card mb-5">
+                    <div class="card mb-2">
                         <div class="cardIcons">
                             <a href="{{ path('app_certification_edit', {id: certification.id}) }}"><i
                                     class="bi bi-pencil-square"></i></a>
@@ -27,25 +24,10 @@
                             <li class="list-group-item">Description : {{ certification.description }}</li>
                         </ul>
                     </div>
-                </div>
-            {% else %}
-
-                <div class="oups">
-                    <img src="{{ asset('build/images/oups.jpg') }}" alt="illustration page vide"/>
-                    <p>
-                        Oh ! Il semblerait qu'il n'y ait encore rien ici !
-                        <br>
-                        Sauvegarde tes recherches et elles apparaîtront ici.
-                    </p>
-                </div>
             {% endfor %}
+            <div class="link buttons">
+                <a href="{{ path('app_certification_index') }}" class="btn btn-primary">Consulter</a>
+            </div>
         </div>
-
-        <div class="d-flex justify-content-center">
-            <a class="btn btn-primary" href="{{ path('app_candidat_profile') }}#certificationPanel">Retour au profil</a>
-        </div>
-
-
-
-    </main>
-{% endblock %}
+    </div>
+</div>
