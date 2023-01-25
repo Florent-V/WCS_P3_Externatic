@@ -68,6 +68,7 @@ class CompanyController extends AbstractController
             $recruitmentProcess->setStatus('Applied');
             $recruitmentProcess->setCandidat($user->getCandidat());
             $recruitmentProcess->setCompany($company);
+            $recruitmentProcess->setExternaticConsultant($company->getExternaticConsultant());
             $recruitmentProcess->setReadByCandidat(true);
             $recruitmentProcess->setReadByConsultant(false);
             $recruitProcessRepo->save($recruitmentProcess, true);

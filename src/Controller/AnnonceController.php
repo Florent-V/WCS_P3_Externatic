@@ -73,9 +73,6 @@ class AnnonceController extends AbstractController
                 $annonce->setAuthor($user->getConsultant());
             }
 
-            //A SUPPRIMER IMPERATIVEMENT
-            $annonce->setContractType("CDD");
-
             $annonceRepository->save($annonce, true);
             $this->addFlash('success', 'Annonce en ligne');
             $newNotif->notifNewAnnonce($annonce);
@@ -129,7 +126,6 @@ class AnnonceController extends AbstractController
 
     #[Route('/company/{id}', name: 'show_by_company', methods: ['GET'])]
     public function showAnnonceByCompany(
-        UserInterface $user,
         Company $company,
         AnnonceRepository $annonceRepository
     ): Response {
@@ -178,6 +174,7 @@ class AnnonceController extends AbstractController
             $recruitmentProcess->setStatus('Applied');
             $recruitmentProcess->setCandidat($user->getCandidat());
             $recruitmentProcess->setAnnonce($annonce);
+            $recruitmentProcess->setExternaticConsultant($annonce->getAuthor());
             $recruitmentProcess->setReadByCandidat(true);
             $recruitmentProcess->setReadByConsultant(false);
             $recruitProcessRepo->save($recruitmentProcess, true);

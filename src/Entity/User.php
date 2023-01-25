@@ -60,7 +60,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $isActive = true;
     #[ORM\Column]
-    private ?bool $hasNotifUnread = null;
+    private ?bool $hasNotifUnread = false;
 
     public function __construct()
     {

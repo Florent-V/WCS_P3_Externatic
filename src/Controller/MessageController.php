@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Form\ConversationType;
 use App\Repository\MessageRepository;
 use App\Repository\RecruitmentProcessRepository;
+use App\Service\NewNotif;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Component\HttpFoundation\Request;
 use Knp\Component\Pager\PaginatorInterface;
@@ -54,7 +55,8 @@ class MessageController extends AbstractController
         MessageRepository $messageRepository,
         Request $request,
         PaginatorInterface $paginator,
-        RecruitmentProcessRepository $processRepo
+        RecruitmentProcessRepository $processRepo,
+        NewNotif $newNotif
     ): Response {
 
         $messages = $messageRepository->findBy(['recruitmentProcess' => $recruitmentProcess], ['date' => 'ASC']);
@@ -66,15 +68,10 @@ class MessageController extends AbstractController
          * @var ?User $user
          */
         $user = $this->getUser();
-//        $userRole = $this->isGranted('ROLE_CANDIDAT') ? "Candidat" : "Consultant";
 
-        if (!is_null($recruitmentProcess->getAnnonce())) {
-            $consultant = $recruitmentProcess->getAnnonce()->getAuthor()->getUser();
-        } else {
-            $consultant = $recruitmentProcess->getCompany()->getExternaticConsultant()->getUser();
-        }
+            $userConsultant = $recruitmentProcess->getExternaticConsultant()->getUser();
 
-        if (($user !== $consultant) && ($user !== $recruitmentProcess->getCandidat()->getUser())) {
+        if (($user !== $userConsultant) && ($user !== $recruitmentProcess->getCandidat()->getUser())) {
             $this->addFlash('danger', 'Vous ne pouvez pas accéder à cette conversation');
             return $this->redirectToRoute('message_index');
         }
@@ -92,11 +89,12 @@ class MessageController extends AbstractController
             $message->setRecruitmentProcess($recruitmentProcess);
             $message->setSendBy($user);
             if ($this->isGranted('ROLE_CANDIDAT')) {
-                $message->setSendTo($consultant);
+                $message->setSendTo($userConsultant);
             } else {
                 $message->setSendTo($recruitmentProcess->getCandidat()->getUser());
             }
             $messageRepository->save($message, true);
+            $newNotif->newMessageNotif($message, $recruitmentProcess);
 
             if (TurboBundle::STREAM_FORMAT === $request->getPreferredFormat()) {
                 $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
