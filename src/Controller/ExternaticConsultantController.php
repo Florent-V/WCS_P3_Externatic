@@ -126,7 +126,6 @@ class ExternaticConsultantController extends AbstractController
             $data = $form->getData();
             $synthesisQuery = $recruitProcessRepo->searchInProcess($user->getConsultant(), 0, $data['search']);
         } else {
-
             $synthesisQuery = $recruitProcessRepo->getRecruitmentProcessConsultant();
         }
 
