@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[Route('/profile')]
 class CandidatController extends AbstractController
 {
-    #[Route('/', name: 'app_candidat_profile', methods: ['GET'])]
+    #[Route('', name: 'app_candidat_profile', methods: ['GET'])]
     public function profile(
         ExperienceRepository $experienceRepository,
         CertificationRepository $certificationRepo

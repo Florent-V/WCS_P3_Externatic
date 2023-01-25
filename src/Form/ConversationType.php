@@ -20,7 +20,7 @@ class ConversationType extends AbstractType
                 'label' => 'Label for field 1',
                 'required' => true,
                 'attr' => array(
-          'placeholder' => 'Vous pouvez discuter avec votre intercoluteur'
+          'placeholder' => 'Vous pouvez discuter avec votre interlocuteur'
             )
             ]);
     }

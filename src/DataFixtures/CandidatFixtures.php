@@ -106,7 +106,7 @@ class CandidatFixtures extends Fixture implements DependentFixtureInterface
             $manager->persist($curriculum);
         }
 
-        for ($i = 7; $i <= UserFixtures::$userCandidatIndex; $i++) {
+        for ($i = count(self::CANDIDATS) + 1; $i <= UserFixtures::$userCandidatIndex; $i++) {
             self::$candidatIndex++;
             $candidat = new Candidat();
             $curriculum = new Curriculum();

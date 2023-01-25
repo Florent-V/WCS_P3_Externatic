@@ -51,7 +51,11 @@ class CertificationController extends AbstractController
             $certification->setCurriculum($curriculum);
             $certificationRepo->save($certification, true);
 
-            return $this->redirectToRoute('app_candidat_profile', [], Response::HTTP_SEE_OTHER);
+
+            return $this->redirectToRoute(
+                'app_candidat_profile',
+                ['_fragment' => 'certificationPanel']
+            );
         }
 
         return $this->renderForm('certification/new.html.twig', [
