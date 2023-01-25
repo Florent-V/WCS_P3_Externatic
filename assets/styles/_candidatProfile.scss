@@ -12,13 +12,21 @@
             gap: 0.5rem;
         }
     }
+
+}
+
+.candidatProfile, .carou.showCard, .certification.showCard {
     .cardIcons {
-        font-size: 1.5rem;
         position: absolute;
         top: 5px;
         right: 5px;
         display: flex;
+        align-items: center;
         gap: 1rem;
+        i {
+            font-size: 1.4rem;
+            color: $primary;
+        }
     }
 }
 
@@ -32,9 +40,48 @@
 
 .carou.showCard {
     display: flex;
-    justify-content: center;
-    max-width: 800px;
-    margin: auto;
+    flex-direction: column;
+    width: 100%;
+    .cardIcons {
+        gap: 0;
+    }
+    .arrowLink {
+        align-self: center
+    }
+    @media screen and (min-width: 576px) {
+        flex-direction: row;
+        justify-content: center;
+        .card {
+            min-width: 500px;
+            max-width:700px;
+        }
+    }
 }
+
+.showCard.skills, .showCard.languages, .showCard.hobbies {
+    form {
+        display: inline;
+        button {
+            padding:0;
+        }
+    }
+    span {
+        font-size: 0.9rem;
+    }
+}
+
+.showCard.languages {
+    .list-group-item {
+        display: flex;
+        justify-content: flex-end;
+        span {
+            font-size: 1rem;
+            flex: 1;
+        }
+    }
+}
+
+
+
 
 

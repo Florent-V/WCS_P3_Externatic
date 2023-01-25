@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Candidat;
 use App\Entity\User;
 use App\Form\AdminSearchType;
 use App\Repository\AnnonceRepository;
 use App\Repository\AppointementRepository;
+use App\Repository\CertificationRepository;
+use App\Repository\ExperienceRepository;
 use App\Repository\MessageRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -102,6 +105,44 @@ class ExternaticConsultantController extends AbstractController
         return $this->renderForm('externatic_consultant/annoncesArchives.html.twig', [
             'annonces' => $annonces,
             'form' => $form
+        ]);
+    }
+
+    #[Route('/candidat/{id}', name: 'app_candidat_show', methods: ['GET'])]
+    public function show(
+        Candidat $candidat,
+        ExperienceRepository $experienceRepository,
+        CertificationRepository $certificationRepo
+    ): Response {
+
+        $user = $candidat->getUser();
+        $curriculum = $candidat->getCurriculum();
+
+        $hardSkills = $curriculum->getSkills()->getHardSkill();
+        $softSkills = $curriculum->getSkills()->getSoftSkill();
+        $languages = $curriculum->getSkills()->getLanguages();
+        $hobbies = $curriculum->getHobbie();
+
+        $experiences = $experienceRepository->findBy(
+            ['curriculum' => $curriculum],
+            ['beginning' => 'ASC'],
+            10
+        );
+
+        $certifications = $certificationRepo->findBy(
+            ['curriculum' => $curriculum],
+            ['year' => 'ASC'],
+            10
+        );
+
+        return $this->render('candidat/profile.html.twig', [
+            'user' => $user,
+            'experiences' => $experiences,
+            'certifications' => $certifications,
+            'hardSkills' => $hardSkills,
+            'softSkills' => $softSkills,
+            'languages' => $languages,
+            'hobbies' => $hobbies
         ]);
     }
 }

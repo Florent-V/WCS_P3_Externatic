@@ -16,33 +16,6 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/language')]
 class LanguageController extends AbstractController
 {
-    #[Route('/', name: 'app_language_index', methods: ['GET'])]
-    public function index(
-        CandidatRepository $candidatRepository,
-        CurriculumRepository $curriculumRepository,
-        SkillsRepository $skillsRepository,
-        LanguageRepository $languageRepository
-    ): Response {
-        $user = $this->getUser();
-        $candidat = $candidatRepository->findOneBy(
-            ['user' => $user]
-        );
-        $curriculum = $curriculumRepository->findOneBy(
-            ['candidat' => $candidat]
-        );
-        $skills = $skillsRepository->findOneBy(
-            ['curriculum' => $curriculum]
-        );
-
-        $languages = $languageRepository->findBy(
-            ['skills' => $skills]
-        );
-
-        return $this->render('language/index.html.twig', [
-            'languages' => $languages,
-        ]);
-    }
-
     #[Route('/new', name: 'app_language_new', methods: ['GET', 'POST'])]
     public function new(
         Request $request,
@@ -69,24 +42,12 @@ class LanguageController extends AbstractController
             $language->setSkills($skills);
             $languageRepository->save($language, true);
 
-            return $this->redirectToRoute('app_language_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_candidat_profile', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('language/new.html.twig', [
             'language' => $language,
             'languageForm' => $languageForm,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'app_language_show', methods: ['GET'])]
-    public function show(Language $language): Response
-    {
-        if ($language->getSkills()->getCurriculum()->getCandidat()->getUser() !== $this->getUser()) {
-            // If not the owner, throws a 403 Access Denied exception
-            throw $this->createAccessDeniedException('Only the owner can consult !');
-        }
-        return $this->render('language/show.html.twig', [
-            'language' => $language,
         ]);
     }
 
@@ -106,7 +67,7 @@ class LanguageController extends AbstractController
         if ($languageForm->isSubmitted() && $languageForm->isValid()) {
             $languageRepository->save($language, true);
 
-            return $this->redirectToRoute('app_language_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_candidat_profile', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('language/edit.html.twig', [
@@ -126,6 +87,6 @@ class LanguageController extends AbstractController
             $languageRepository->remove($language, true);
         }
 
-        return $this->redirectToRoute('app_language_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_candidat_profile', [], Response::HTTP_SEE_OTHER);
     }
 }
