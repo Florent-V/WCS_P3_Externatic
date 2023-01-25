@@ -159,7 +159,7 @@ class ExternaticConsultantController extends AbstractController
             ->from(new Address('no-reply@externatic.fr', 'Externatic Security Bot'))
             ->to($user->getEmail())
             ->subject('Initialisation de votre mot de passe')
-            ->htmlTemplate('admin/consultant/initPasswordEmail.html.twig')
+            ->htmlTemplate('admin/recruteur/initPasswordEmail.html.twig')
             ->context([
                 'resetToken' => $resetToken,
             ]);

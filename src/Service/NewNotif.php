@@ -3,7 +3,11 @@
 namespace App\Service;
 
 use App\Entity\Annonce;
+use App\Entity\Message;
 use App\Entity\Notif;
+use App\Entity\RecruitmentProcess;
+use App\Entity\SearchProfile;
+use App\Entity\User;
 use App\Repository\CandidatRepository;
 use App\Repository\NotifRepository;
 use App\Repository\SearchProfileRepository;
@@ -47,7 +51,7 @@ class NewNotif extends AbstractController
         foreach ($users as $user) {
             array_push($sentNotif, $user->getId());
             $notification = new Notif();
-            $notification->setContent($annonce->getTitle());
+            $notification->setContent(['title' => $annonce->getTitle()]);
             $notification->setType('newAnnonce');
             $notification->setCreatedAt(new DateTime('now'));
             $notification->setUser($user);
@@ -81,7 +85,7 @@ class NewNotif extends AbstractController
             ) {
                 array_push($sentNotif, $searchProfile->getCandidat()->getUser()->getId());
                 $notification = new Notif();
-                $notification->setContent($annonce->getTitle());
+                $notification->setContent(['title' => $annonce->getTitle()]);
                 $notification->setType('newAnnonce');
                 $notification->setCreatedAt(new DateTime('now'));
                 $notification->setUser($searchProfile->getCandidat()->getUser());
@@ -100,5 +104,44 @@ class NewNotif extends AbstractController
                 sleep(3);
             }
         }
+    }
+    public function newMessageNotif(Message $message, RecruitmentProcess $recruitmentProcess): void
+    {
+        $notification = new Notif();
+        if (!is_null($recruitmentProcess->getAnnonce())) {
+            $notification->setContent([
+                'title' => $recruitmentProcess->getAnnonce()->getTitle(),
+                'firstName' => $message->getSendBy()->getFirstname(),
+                'lastName' => $message->getSendBy()->getLastName(),
+            ]);
+        } else {
+            $notification->setContent([
+                'title' => $recruitmentProcess->getCompany()->getName(),
+                'firstName' => $message->getSendBy()->getFirstname(),
+                'lastName' => $message->getSendBy()->getLastName(),
+            ]);
+        }
+
+        $notification->setType('newMessage');
+        $notification->setCreatedAt(new DateTime('now'));
+        $notification->setUser($message->getSendTo());
+        $notification->setParameter($recruitmentProcess->getId());
+        $notification->setWasRead(false);
+        $this->notifRepository->save($notification, true);
+
+        $email = (new Email())
+            ->to($message->getSendTo()->getEmail())
+            ->from($this->getParameter('mailer_from'))
+            ->subject($message->getSendBy()->getFirstname() . ' ' . $message->getSendBy()->getLastName() .
+                'vous a envoyé un nouveau message')
+            ->html($this->renderView(
+                'message/newEmail.html.twig',
+                [
+                    'recruitementProcess' => $recruitmentProcess,
+                    'message' => $message,
+                ]
+            ));
+
+        $this->mailer->send($email);
     }
 }
