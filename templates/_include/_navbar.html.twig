@@ -81,10 +81,10 @@
                             <a class="nav-link" href="{{  path('consultant_annonces') }}">Mes Annonces</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('annonce_new') }}">Ajouter une offre</a>
+                            <a class="nav-link" href="{{ path('consultant_synthesis') }}">Mes recrutements</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('consultant_synthesis') }}">Synthèse de vos recrutements</a>
+                            <a class="nav-link" href="{{ path('annonce_new') }}">Ajouter une offre</a>
                         </li>
 
                     {% elseif is_granted("ROLE_ADMIN") %}

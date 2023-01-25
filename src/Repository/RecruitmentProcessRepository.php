@@ -27,12 +27,13 @@ class RecruitmentProcessRepository extends ServiceEntityRepository
 
     public function getRecruitmentProcessConsultant(): Query
     {
-        /**
-         * @var ?User $user
-         */
-        //$consultant = $this->security->getUser()->getConsultant();
+        $consultant = $this->security->getUser()->getConsultant();
 
-        return $this->createQueryBuilder('r')->getQuery();
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.externaticConsultant = :consultant')
+            ->join('r.annonce', 'a')
+            ->setParameter('consultant', $consultant)
+            ->getQuery();
     }
 
 
@@ -107,31 +108,4 @@ class RecruitmentProcessRepository extends ServiceEntityRepository
         }
         return null;
     }
-
-
-
-//    /**
-//     * @return RecruitmentProcess[] Returns an array of RecruitmentProcess objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('r.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?RecruitmentProcess
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

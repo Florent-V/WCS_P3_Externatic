@@ -109,23 +109,37 @@ class ExternaticConsultantController extends AbstractController
         ]);
     }
 
-    #[Route('/synthese', name:'synthesis', methods: ['GET'])]
+    #[Route('/recruitments', name:'synthesis', methods: ['GET'])]
     public function processSynthesis(
         Request $request,
-        RecruitmentProcessRepository $recruitmentProcessRepo,
+        RecruitmentProcessRepository $recruitProcessRepo,
         PaginatorInterface $paginator
     ): Response {
 
-        $synthesis = $recruitmentProcessRepo->findAll();
+        $synthesisQuery = $recruitProcessRepo->getRecruitmentProcessConsultant();
 
-       // $paginate = $paginator->paginate(
-         //   $synthesis,
-           // $request->query->getInt('page', 1),
-            //12
+        $synthesis = $paginator->paginate(
+            $synthesisQuery,
+            $request->query->getInt('page', 1),
+            8
+        );
+
 
         return $this->render('externatic_consultant/process-synthesis.html.twig', [
            'synthesis' => $synthesis,
+        ]);
+    }
 
+    #[Route('/recruitments/{id}', name:'recruitment_process_show', methods: ['GET'])]
+    public function recruitmentProcessShow(
+        Request $request,
+        RecruitmentProcessRepository $recruitProcessRepo,
+        RecruitmentProcess $recruitmentProcess
+    ): Response {
+
+
+        return $this->render('externatic_consultant/recruitmentProcessShow.html.twig', [
+            'recruitmentProcess' => $recruitmentProcess,
         ]);
     }
 }
