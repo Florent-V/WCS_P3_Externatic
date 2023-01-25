@@ -27,12 +27,15 @@ class RecruitmentProcessRepository extends ServiceEntityRepository
 
     public function getRecruitmentProcessConsultant(): Query
     {
-        $consultant = $this->security->getUser()->getConsultant();
+        /**
+         * @var ?User $user
+         */
+        $user = $this->security->getUser();
 
         return $this->createQueryBuilder('r')
             ->andWhere('r.externaticConsultant = :consultant')
             ->join('r.annonce', 'a')
-            ->setParameter('consultant', $consultant)
+            ->setParameter('consultant', $user->getConsultant())
             ->getQuery();
     }
 
