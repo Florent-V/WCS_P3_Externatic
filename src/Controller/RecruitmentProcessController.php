@@ -16,62 +16,6 @@ use Symfony\Component\Routing\Annotation\Route;
 #[route('/recruitment_process', name: "recruitmentProcess_")]
 class RecruitmentProcessController extends AbstractController
 {
-    #[Route('/', name: 'index', methods: ['GET'])]
-    public function index(RecruitmentProcessRepository $recruitmentProcRepo): Response
-    {
-        return $this->render('recruitment_process/index.html.twig', [
-            'recruitment_processes' => $recruitmentProcRepo->findAll(),
-        ]);
-    }
-
-    #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    public function new(Request $request, RecruitmentProcessRepository $recruitmentProcRepo): Response
-    {
-        $recruitmentProcess = new RecruitmentProcess();
-        $form = $this->createForm(RecruitmentProcessType::class, $recruitmentProcess);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $recruitmentProcRepo->save($recruitmentProcess, true);
-
-            return $this->redirectToRoute('app_recruitment_process_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('recruitment_process/new.html.twig', [
-            'recruitment_process' => $recruitmentProcess,
-            'form' => $form,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'show', methods: ['GET'])]
-    public function show(RecruitmentProcess $recruitmentProcess): Response
-    {
-        return $this->render('recruitment_process/show.html.twig', [
-            'recruitment_process' => $recruitmentProcess,
-        ]);
-    }
-
-    #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
-    public function edit(
-        Request $request,
-        RecruitmentProcess $recruitmentProcess,
-        RecruitmentProcessRepository $recruitmentProcRepo
-    ): Response {
-        $form = $this->createForm(RecruitmentProcessType::class, $recruitmentProcess);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $recruitmentProcRepo->save($recruitmentProcess, true);
-
-            return $this->redirectToRoute('recruitmentProcess_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('recruitment_process/edit.html.twig', [
-            'recruitment_process' => $recruitmentProcess,
-            'form' => $form,
-        ]);
-    }
-
     #[Route('/{id<\d+>}/change-read', name: 'changeRead', methods: ['GET'])]
     public function changeRead(
         RecruitmentProcess $recruitmentProcess,

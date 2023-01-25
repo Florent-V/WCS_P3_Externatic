@@ -86,17 +86,7 @@ class RecruitmentProcessRepository extends ServiceEntityRepository
 
         if ($user == $recruitmentProcess->getCandidat()->getUser()) {
             return "Candidat";
-        } elseif (
-            !is_null(
-                $recruitmentProcess->getAnnonce()
-            ) &&
-            ($user == $recruitmentProcess->getAnnonce()->getAuthor()->getUser())
-        ) {
-            return "Consultant";
-        } elseif (
-            !is_null($recruitmentProcess->getCompany()) &&
-            ($user == $recruitmentProcess->getCompany()->getExternaticConsultant()->getUser())
-        ) {
+        } elseif ($user == $recruitmentProcess->getExternaticConsultant()->getUser()) {
             return "Consultant";
         }
         return null;
