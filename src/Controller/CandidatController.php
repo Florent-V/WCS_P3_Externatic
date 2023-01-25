@@ -28,7 +28,8 @@ class CandidatController extends AbstractController
 {
     #[Route('/', name: 'app_candidat_profile', methods: ['GET'])]
     public function profile(
-        ExperienceRepository $experienceRepository
+        ExperienceRepository $experienceRepository,
+        CertificationRepository $certificationRepo
     ): Response {
         /**
          * @var ?User $user
@@ -39,13 +40,28 @@ class CandidatController extends AbstractController
         $experiences = $experienceRepository->findBy(
             ['curriculum' => $curriculum],
             ['beginning' => 'ASC'],
+            10
         );
 
+        $certifications = $certificationRepo->findBy(
+            ['curriculum' => $curriculum],
+            ['year' => 'ASC'],
+            10
+        );
 
+        $hardSkills = $curriculum->getSkills()->getHardSkill();
+        $softSkills = $curriculum->getSkills()->getSoftSkill();
+        $languages = $curriculum->getSkills()->getLanguages();
+        $hobbies = $curriculum->getHobbie();
 
         return $this->render('candidat/profile.html.twig', [
             'user' => $user,
             'experiences' => $experiences,
+            'certifications' => $certifications,
+            'hardSkills' => $hardSkills,
+            'softSkills' => $softSkills,
+            'languages' => $languages,
+            'hobbies' => $hobbies
         ]);
     }
 

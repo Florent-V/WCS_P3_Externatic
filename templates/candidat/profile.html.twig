@@ -18,67 +18,24 @@
 
         <div class="candidatCurriculum mb-3">
 
-
             {% include 'candidat/_experiencesCard.html.twig' %}
-
 
             {% include 'candidat/_formationsCard.html.twig' %}
 
+            {% include 'candidat/_certificationsCard.html.twig' %}
+
+            {% include 'candidat/_skillsCard.html.twig' %}
 
 
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Mes Certifications</h5>
-                    <p class="card-text">Consulter et ajouter vos certifications ici.</p>
-                    <div class="buttons">
-                        <a href="{{ path('app_certification_index') }}" class="btn btn-primary">Consulter</a>
-                        <a href="{{ path('app_certification_new') }}" class="btn btn-primary">Ajouter</a>
-                    </div>
-                </div>
-            </div>
+            {% include 'candidat/_languagesCard.html.twig' %}
 
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Mes Compétences</h5>
-                    <p class="card-text">Consulter et ajouter vos compétences ici.</p>
-                    <div class="buttons">
-                        <a href="{{ path('app_skills_index') }}" class="btn btn-primary">Consulter</a>
-                        <a href="{{ path('app_soft_skill_new') }}" class="btn btn-primary">Ajouter des soft skills</a>
-                        <a href="{{ path('app_hard_skill_new') }}" class="btn btn-primary">Ajouter des hard skills</a>
-                    </div>
-                </div>
-            </div>
+            {%  include 'candidat/_hobbiesCard.html.twig' %}
 
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Mes langages</h5>
-                    <p class="card-text">Consulter et ajouter vos langues parlées ici.</p>
-                    <div class="buttons">
-                        <a href="{{ path('app_language_index') }}" class="btn btn-primary">Consulter </a>
-                        <a href="{{ path('app_language_new') }}" class="btn btn-primary">Ajouter</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Mes hobbies</h5>
-                    <p class="card-text">Consulter et ajouter vos hobbies ici.</p>
-                    <div class="buttons">
-                        <a href="{{ path('app_hobbie_index') }}" class="btn btn-primary">Consulter </a>
-                        <a href="{{ path('app_hobbie_new') }}" class="btn btn-primary">Ajouter</a>
-                    </div>
-                </div>
-            </div>
 
         </div>
 
     </main>
 
-
-    <br>
-
-    <a href="{{ path('app_candidat_complete') }}">Compléter mon profil</a>
 
 
 {% endblock %}

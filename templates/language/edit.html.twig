@@ -1,15 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Language{% endblock %}
+{% block title %}Modifier le langage{% endblock %}
 
 {% block body %}
-<main class="candidatForm container-md">
-    <h1>Modifier le langage</h1>
+    <main class="candidatForm container-md">
+        <h1>Modifier le langage</h1>
 
-    {{ include('language/_form.html.twig', {'button_label': 'Update'}) }}
+        {{ include('language/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app_language_index') }}">Retour à la liste des langues</a>
+        <div class="d-flex justify-content-center mt-3">
+            <a class="btn btn-primary" href="{{ path('app_candidat_profile') }}#languagesPanel">Retour à la liste des
+                languages</a>
+        </div>
 
-    {{ include('language/_delete_form.html.twig') }}
-</main>
+
+    </main>
 {% endblock %}

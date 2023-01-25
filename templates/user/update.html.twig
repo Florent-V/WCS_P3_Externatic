@@ -10,8 +10,9 @@
 
         {{ include('user/_updateForm.html.twig') }}
 
-        <br>
-        <a href="{{ path('app_candidat_profile') }}">Retour au profil</a>
+        <div class="d-flex justify-content-center mt-3">
+            <a class="btn btn-primary" href="{{ path('app_candidat_profile') }}">Retour au profil</a>
+        </div>
 
     </main>
 

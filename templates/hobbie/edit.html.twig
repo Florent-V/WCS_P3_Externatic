@@ -1,15 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Hobbie{% endblock %}
+{% block title %}Modifier le Hobby{% endblock %}
 
 {% block body %}
-<main class="candidatForm container-md">
-    <h1>Modifier le Hobby</h1>
+    <main class="candidatForm container-md">
+        <h1>Modifier le Hobby</h1>
 
-    {{ include('hobbie/_form.html.twig', {'button_label': 'Update'}) }}
+        {{ include('hobbie/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app_hobbie_index') }}">Retour à la liste des hobbies</a>
+        <div class="d-flex justify-content-center mt-3">
+            <a class="btn btn-primary" href="{{ path('app_candidat_profile') }}#hobbiesPanel">Retour à la liste des
+                hobbies</a>
+        </div>
 
-    {{ include('hobbie/_delete_form.html.twig') }}
-</main>
+    </main>
 {% endblock %}

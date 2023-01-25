@@ -5,9 +5,6 @@ namespace App\Controller;
 use App\Entity\Experience;
 use App\Entity\User;
 use App\Form\ExperienceType;
-use App\Form\FormationType;
-use App\Repository\CandidatRepository;
-use App\Repository\CurriculumRepository;
 use App\Repository\ExperienceRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,18 +29,10 @@ class ExperienceController extends AbstractController
         return $this->redirectToRoute('app_experience_show', ['id' => $experience->getId()]);
     }
 
-    #[Route('/new/{type}', name: 'app_experience_new', methods: ['GET', 'POST'])]
-    public function newExp(
-        string $type,
-    ): Response {
-
-        if ('experience' === $type) {
-            return $this->renderForm('experience/newExperience.html.twig');
-        } elseif ('formation' === $type) {
-            return $this->renderForm('experience/newFormation.html.twig');
-        } else {
-            throw $this->createNotFoundException('The page doesn\'t exist');
-        }
+    #[Route('/new', name: 'app_experience_new', methods: ['GET', 'POST'])]
+    public function newExp(): Response
+    {
+        return $this->renderForm('experience/newExperience.html.twig');
     }
 
     #[Route('/{id}', name: 'app_experience_show', methods: ['GET'])]
@@ -52,7 +41,10 @@ class ExperienceController extends AbstractController
         ExperienceRepository $repository
     ): Response {
 
-        if ($experience->getCurriculum()->getCandidat()->getUser() !== $this->getUser()) {
+        if (
+            $experience->getCurriculum()->getCandidat()->getUser() !== $this->getUser()
+            || $experience->isIsFormation()
+        ) {
             /**
              * @var ?User $user
              */
@@ -79,6 +71,7 @@ class ExperienceController extends AbstractController
 
         if (!$nextExperience) {
             $nextExperience = $repository->findFirstExperience($curriculum, false);
+            $this->addFlash('info', 'You\'ve reached the end of your CVverse !');
         }
 
         return $this->redirectToRoute('app_experience_show', ['id' => $nextExperience->getId()]);
@@ -96,6 +89,7 @@ class ExperienceController extends AbstractController
 
         if (!$previousExperience) {
             $previousExperience = $repository->findLastExperience($curriculum, false);
+            $this->addFlash('info', 'You\'ve reached the end of your CVverse !');
         }
 
         return $this->redirectToRoute('app_experience_show', ['id' => $previousExperience->getId()]);
@@ -107,40 +101,31 @@ class ExperienceController extends AbstractController
         Experience $experience,
         ExperienceRepository $experienceRepository
     ): Response {
-        if ($experience->getCurriculum()->getCandidat()->getUser() !== $this->getUser()) {
+        if (
+            $experience->getCurriculum()->getCandidat()->getUser() !== $this->getUser()
+            || $experience->isIsFormation()
+        ) {
             // If not the owner, throws a 403 Access Denied exception
-            throw $this->createAccessDeniedException('Only the owner can edit !');
+            throw $this->createAccessDeniedException('Le serveur a compris la requête mais refuse de la satisfaire');
         }
 
-        if ($experience->isIsFormation()) {
-            $formationForm = $this->createForm(FormationType::class, $experience);
-            $formationForm->handleRequest($request);
+        $experienceForm = $this->createForm(ExperienceType::class, $experience);
+        $experienceForm->handleRequest($request);
 
-            if ($formationForm->isSubmitted() && $formationForm->isValid()) {
-                $experienceRepository->save($experience, true);
+        if ($experienceForm->isSubmitted() && $experienceForm->isValid()) {
+            $experienceRepository->save($experience, true);
 
-                return $this->redirectToRoute('app_experience_index', [], Response::HTTP_SEE_OTHER);
-            }
-
-            return $this->renderForm('experience/editFormation.html.twig', [
-                'formationForm' => $formationForm,
-                'experience' => $experience,
-            ]);
-        } else {
-            $experienceForm = $this->createForm(ExperienceType::class, $experience);
-            $experienceForm->handleRequest($request);
-
-            if ($experienceForm->isSubmitted() && $experienceForm->isValid()) {
-                $experienceRepository->save($experience, true);
-
-                return $this->redirectToRoute('app_experience_index', [], Response::HTTP_SEE_OTHER);
-            }
-
-            return $this->renderForm('experience/editExperience.html.twig', [
-                'experienceForm' => $experienceForm,
-                'experience' => $experience,
-            ]);
+            return $this->redirectToRoute(
+                'app_experience_show',
+                ['id' => $experience->getId()],
+                Response::HTTP_SEE_OTHER
+            );
         }
+
+        return $this->renderForm('experience/editExperience.html.twig', [
+            'experienceForm' => $experienceForm,
+            'experience' => $experience,
+        ]);
     }
 
     #[Route('/{id}', name: 'app_experience_delete', methods: ['POST'])]
