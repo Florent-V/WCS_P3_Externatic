@@ -2,7 +2,7 @@ import {Controller} from '@hotwired/stimulus';
 
 export default class extends Controller {
     connect() {
-        if((window.location.pathname).startsWith('/consultant')) {
+        if((window.location.pathname).startsWith("/consultant")) {
 
             document.querySelector(".navbar-toggler").addEventListener('click', (e) => {
                 document.querySelector("main").style.marginLeft = "18rem";

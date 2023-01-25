@@ -115,8 +115,22 @@ class ExternaticConsultantController extends AbstractController
         RecruitmentProcessRepository $recruitProcessRepo,
         PaginatorInterface $paginator
     ): Response {
+        /**
+         * @var User $user
+         */
+        $user = $this->getUser();
 
-        $synthesisQuery = $recruitProcessRepo->getRecruitmentProcessConsultant();
+        $form = $this->createForm(AdminSearchType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $synthesisQuery = $recruitProcessRepo->searchInProcess($user->getConsultant(), 0, $data['search']);
+        } else {
+
+            $synthesisQuery = $recruitProcessRepo->getRecruitmentProcessConsultant();
+        }
+
+
 
         $synthesis = $paginator->paginate(
             $synthesisQuery,
@@ -124,9 +138,9 @@ class ExternaticConsultantController extends AbstractController
             8
         );
 
-
-        return $this->render('externatic_consultant/process-synthesis.html.twig', [
-           'synthesis' => $synthesis,
+        return $this->renderForm('externatic_consultant/process-synthesis.html.twig', [
+            'synthesis' => $synthesis,
+            'form' => $form,
         ]);
     }
 

@@ -57,6 +57,8 @@ class ExternaticConsultantRepository extends ServiceEntityRepository
         return $qb->getQuery();
     }
 
+
+
 /*    public function getRecruitProcessByAnnonce(Annonce $annonce): array
     {
         $queryBuilder = $this->createQueryBuilder('a')

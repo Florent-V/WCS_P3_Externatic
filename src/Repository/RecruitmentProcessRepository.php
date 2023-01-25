@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\ExternaticConsultant;
 use App\Entity\RecruitmentProcess;
 use App\Entity\User;
 use ContainerJU0Z8sU\getExternaticConsultantController2Service;
@@ -110,5 +111,20 @@ class RecruitmentProcessRepository extends ServiceEntityRepository
             return "Consultant";
         }
         return null;
+    }
+
+    public function searchInProcess(
+        ExternaticConsultant $consultant,
+        int $publicationStatus,
+        ?string $search = ''
+    ): Query {
+        $qb = $this->createQueryBuilder('r')
+            ->andWhere('r.externaticConsultant = :consultant')
+            ->setParameter('consultant', $consultant)
+            ->join('r.annonce', 'a', 'WITH', 'a.title LIKE :search')
+            ->setParameter('search', '%' . $search . '%')
+            ->andWhere("a.publicationStatus = 1");
+
+        return $qb->getQuery();
     }
 }
