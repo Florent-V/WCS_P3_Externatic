@@ -27,6 +27,10 @@
                 <p>Nom du contact</p>
                 <p>{{ company.contactName }}</p>
             </div>
+            <div class="list-group-item">
+                <p>Consultant Associé</p>
+                <p>{{ company.externaticConsultant.user.firstName }} {{ company.externaticConsultant.user.lastName }}</p>
+            </div>
 
         {% endif %}
 

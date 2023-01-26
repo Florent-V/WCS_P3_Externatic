@@ -26,8 +26,8 @@
                 <th{% if companies.isSorted('c.name') %} class="sorted"{% endif %}>
                     {{ knp_pagination_sortable(companies, 'Name', 'c.name') }}
                 </th>
-                <th{% if companies.isSorted('c.siret') %} class="sorted"{% endif %}>
-                    {{ knp_pagination_sortable(companies, 'Siret', 'c.siret') }}
+                <th{% if companies.isSorted('u.lastName') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(companies, 'Consultant', 'u.lastName') }}
                 </th>
                 <th{% if companies.isSorted('c.address') %} class="sorted"{% endif %}>
                     {{ knp_pagination_sortable(companies, 'Adresse', 'c.address') }}
@@ -57,7 +57,7 @@
                     <td><img style="height: 100px" src="{{ vich_uploader_asset(company) }}" alt="{{ company.name }}">
                     </td>
                     <td>{{ company.name }}</td>
-                    <td>{{ company.siret }}</td>
+                    <td>{{ company.externaticConsultant.user.firstName }} {{ company.externaticConsultant.user.lastName }}</td>
                     <td>{{ company.address }}</td>
                     <td>{{ company.zipCode }}</td>
                     <td>{{ company.city }}</td>
