@@ -25,7 +25,7 @@ class Techno
     #[ORM\Column(length: 45)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $picture = null;
 
     #[Vich\UploadableField(mapping: 'techno_picture', fileNameProperty: 'picture')]
@@ -41,16 +41,17 @@ class Techno
     #[ORM\ManyToMany(targetEntity: Annonce::class, mappedBy: 'techno')]
     private Collection $annonces;
 
-    #[ORM\ManyToOne(inversedBy: 'technos')]
-    private ?SearchProfile $searchProfile = null;
-
     #[ORM\OneToMany(mappedBy: 'techno', targetEntity: CurriculumHasTechno::class)]
     private Collection $curriculumHasTechnos;
+
+    #[ORM\ManyToMany(targetEntity: SearchProfile::class, mappedBy: 'techno')]
+    private Collection $searchProfiles;
 
     public function __construct()
     {
         $this->annonces = new ArrayCollection();
         $this->curriculumHasTechnos = new ArrayCollection();
+        $this->searchProfiles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -105,18 +106,6 @@ class Techno
         if ($this->annonces->removeElement($annonce)) {
             $annonce->removeTechno($this);
         }
-
-        return $this;
-    }
-
-    public function getSearchProfile(): ?SearchProfile
-    {
-        return $this->searchProfile;
-    }
-
-    public function setSearchProfile(?SearchProfile $searchProfile): self
-    {
-        $this->searchProfile = $searchProfile;
 
         return $this;
     }
@@ -181,6 +170,33 @@ class Techno
     public function setUpdatedAt(?DatetimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SearchProfile>
+     */
+    public function getSearchProfiles(): Collection
+    {
+        return $this->searchProfiles;
+    }
+
+    public function addSearchProfile(SearchProfile $searchProfile): self
+    {
+        if (!$this->searchProfiles->contains($searchProfile)) {
+            $this->searchProfiles->add($searchProfile);
+            $searchProfile->addTechno($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSearchProfile(SearchProfile $searchProfile): self
+    {
+        if ($this->searchProfiles->removeElement($searchProfile)) {
+            $searchProfile->removeTechno($this);
+        }
+
         return $this;
     }
 }

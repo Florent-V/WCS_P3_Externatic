@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Company;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -39,28 +40,31 @@ class CompanyRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Company[] Returns an array of Company objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function countCompany(): array
+    {
+        $queryBuilder = $this->createQueryBuilder('c')
+            ->select('count(c.id)')
+            ->getQuery();
 
-//    public function findOneBySomeField($value): ?Company
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        return $queryBuilder->getResult();
+    }
+
+    public function findCompany(string $search = ''): Query
+    {
+        $qb = $this->createQueryBuilder('c')
+        ->innerJoin('c.externaticConsultant', 'ec')
+        ->innerJoin('ec.user', 'u');
+
+        if ($search) {
+            $qb->where($qb->expr()->orX(
+                $qb->expr()->like('c.name', ':search'),
+                $qb->expr()->like('c.information', ':search'),
+                $qb->expr()->like('c.city', ':search'),
+                $qb->expr()->like('u.firstname', ':search'),
+                $qb->expr()->like('u.lastName', ':search')
+            ))
+                ->setParameter('search', '%' . $search . '%');
+        }
+        return $qb->getQuery();
+    }
 }

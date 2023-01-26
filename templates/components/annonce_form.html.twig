@@ -1,0 +1,45 @@
+<div {{ attributes }}>
+    {{ form_start(form) }}
+    {{ form_row(form.title) }}
+    <div>Salaire</div>
+    <div class="d-flex flex-row">
+        {{ form_widget(form.salaryMin) }}
+        {{ form_widget(form.salaryMax) }}
+    </div>
+    {{ form_row(form.contractType) }}
+    {{ form_row(form.contractDuration) }}
+    {{ form_row(form.studyLevel) }}
+    {{ form_row(form.workTime) }}
+    {{ form_row(form.company) }}
+    {{ form_row(form.remote) }}
+    {{ form_row(form.endingAt) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.techno) }}
+
+    <div class="mb-3">
+        <label for="newTechno">Ajouter un language</label>
+        <div class="input-group">
+            <input
+                class="form-control"
+                type="text"
+                data-model="newTechnoName" id="newTechno">
+            <button
+                class="btn btn-primary"
+                type="button"
+                data-action="live#action"
+                data-action-name="addTechno">ajouter
+            </button>
+        </div>
+    </div>
+
+    {% if not is_granted('ROLE_ADMIN') %}
+        {{ form_row(form.save) }}
+        {{ form_widget(form._token) }}
+        {{ form_end(form, {'render_rest': false}) }}
+    {% else %}
+        {{ form_row(form.author) }}
+        {{ form_row(form.save) }}
+        {{ form_end(form) }}
+    {% endif %}
+
+</div>

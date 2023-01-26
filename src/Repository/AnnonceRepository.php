@@ -3,10 +3,13 @@
 namespace App\Repository;
 
 use App\Entity\Annonce;
+use App\Entity\ExternaticConsultant;
+use App\Entity\User;
 use DateInterval;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -21,6 +24,7 @@ use Doctrine\Persistence\ManagerRegistry;
 class AnnonceRepository extends ServiceEntityRepository
 {
     private const FULL_TIME = 35;
+    public const NUMBER_OF_ITEMS = 10;
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -45,14 +49,18 @@ class AnnonceRepository extends ServiceEntityRepository
         }
     }
 
-    public function annonceFinder(mixed $searchInformations): array
+    public function annonceFinder(mixed $searchInformations): Query
     {
+        $now = new DateTime();
         $searchInformations['searchQuery'] ??= '';
-        //Annonce title
         $queryBuilder = $this->createQueryBuilder('a')
             ->distinct()
             ->andWhere('a.title LIKE :searchQuery')
-            ->setParameter('searchQuery', '%' . $searchInformations['searchQuery'] . '%');
+            ->setParameter('searchQuery', '%' . $searchInformations['searchQuery'] . '%')
+            ->andWhere('a.publicationStatus = 1')
+            ->andWhere('a.endingAt >= :now OR a.endingAt = :test')
+            ->setParameter('now', $now->format("Y-m-d 23:59:59"))
+            ->setParameter('test', null);
 
         //Minimum Salary and remote
         $this->getSalaryAndRemoteQuery($queryBuilder, $searchInformations);
@@ -89,9 +97,7 @@ class AnnonceRepository extends ServiceEntityRepository
         }
 
         $queryBuilder->orderBy('a.createdAt', 'ASC');
-        $query = $queryBuilder->getQuery();
-
-        return $query->getResult();
+        return $queryBuilder->getQuery();
     }
 
     public static function getContractQuery(array $contractTypes): Criteria
@@ -123,7 +129,7 @@ class AnnonceRepository extends ServiceEntityRepository
     private function getSalaryAndRemoteQuery(QueryBuilder $queryBuilder, mixed $searchInformations): void
     {
         if (!empty($searchInformations['salaryMin'])) {
-            $queryBuilder->andWhere('a.salaryMin > :salaryMin')
+            $queryBuilder->andWhere('a.salaryMax > :salaryMin or a.salaryMax IS null')
                 ->setParameter('salaryMin', $searchInformations['salaryMin']);
         }
         if (isset($searchInformations['remote']) && $searchInformations['remote'] != "") {
@@ -132,28 +138,43 @@ class AnnonceRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Annonce[] Returns an array of Annonce objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('a.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function countAnnonce(): array
+    {
+        $queryBuilder = $this->createQueryBuilder('a')
+            ->select('count(a.id)')
+            ->getQuery();
 
-//    public function findOneBySomeField($value): ?Annonce
-//    {
-//        return $this->createQueryBuilder('a')
-//            ->andWhere('a.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        return $queryBuilder->getResult();
+    }
+
+    public function getConsultantAnnonces(ExternaticConsultant $externaticConsultant, int $publicationStatus): Query
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.author = :externaticConsultant')
+            ->setParameter('externaticConsultant', $externaticConsultant)
+            ->andWhere('a.publicationStatus = :publicationStatus')
+            ->setParameter('publicationStatus', $publicationStatus)
+            ->join('a.company', 'c')
+            ->getQuery();
+    }
+
+    public function searchAnnonces(
+        ExternaticConsultant $externaticConsultant,
+        int $publicationStatus,
+        ?string $search = ''
+    ): Query {
+        $qb = $this->createQueryBuilder('a')
+            ->andWhere('a.author = :externaticConsultant')
+            ->setParameter('externaticConsultant', $externaticConsultant)
+            ->andWhere("a.publicationStatus = :publicationStatus")
+            ->setParameter('publicationStatus', $publicationStatus);
+        if (!is_null($search)) {
+            $qb->andWhere('a.title LIKE :search')
+                ->setParameter('search', '%' . $search . '%');
+        }
+        $qb->join('a.company', 'c');
+
+
+        return $qb->getQuery();
+    }
 }

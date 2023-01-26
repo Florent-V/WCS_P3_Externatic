@@ -6,7 +6,7 @@
 @import "_navbar.scss";
 @import "_landing.scss";
 @import "_footer.scss";
-@import "_form_annonce.scss";
+@import "_annonceForm.scss";
 @import "_searchResultForm";
 @import "showAnnonce";
 @import "loginForm";
@@ -14,4 +14,12 @@
 @import "_consultantBoard.scss";
 @import "candidatForm";
 @import "candidatProfile";
-
+@import "404";
+@import "_consultantAnnonces.scss";
+@import "showCard";
+@import "_messagerie";
+@import "resetPassword";
+@import "searchResults";
+@import "adminCandidat";
+@import "_process-synthesis";
+@import "_consultantProcessShow.scss";

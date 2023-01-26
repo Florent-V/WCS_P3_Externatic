@@ -16,7 +16,7 @@ class NotifFixtures extends Fixture implements DependentFixtureInterface
         for ($i = 1; $i < 20; $i++) {
             for ($u = 1; $u <= count(UserFixtures::CANDIDAT_INFOS); $u++) {
                     $notif = new Notif();
-                    $notif->setContent($this->getReference('annonce_' . $i)->getTitle());
+                    $notif->setContent(['title' => $this->getReference('annonce_' . $i)->getTitle()]);
                     $notif->setType('newAnnonce');
                     $notif->setCreatedAt($faker->dateTimeBetween('-2 week'));
                     $notif->setUser($this->getReference('userCandidat_' . $u));
@@ -27,6 +27,7 @@ class NotifFixtures extends Fixture implements DependentFixtureInterface
         }
         $manager->flush();
     }
+
     public function getDependencies(): array
     {
         return [

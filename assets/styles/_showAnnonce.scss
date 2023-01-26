@@ -60,6 +60,16 @@
         }
     }
 
+    .fav-button{
+        position: absolute;
+        right: 1rem;
+        top: 6rem;
+    }
+
+    #fav-company {
+        font-size: 1.7rem;
+    }
+
     .logo{
         display: none;
         @include media-breakpoint-up(sm) {
@@ -91,6 +101,17 @@
         font-size: 1.5rem;
         @include media-breakpoint-up(md) {
             font-size: 2rem;
+        }
+    }
+    .techno-name{
+        overflow-wrap: break-word;
+        width: 65px;
+        margin-bottom: 0;
+        @include media-breakpoint-up(sm) {
+            width: 95px;
+        }
+        @include media-breakpoint-up(md) {
+            width: 110px;
         }
     }
 }

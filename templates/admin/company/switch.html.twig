@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Changement d'affectation d'une entreprise{% endblock %}
+
+{% block body %}
+
+
+    <div class="container-sm">
+        <h1 class="text-center">Changement d'affection Entreprise-Consultant</h1>
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <div class="d-flex justify-content-center">
+            <button class="btn btn-primary">{{ button_label|default('Faire le Changement') }}</button>
+        </div>
+
+        {{ form_end(form) }}
+
+        <div class="d-flex justify-content-center">
+            <a class="btn btn-primary mt-3" href="{{ path('consultant_board') }}">Retour au tableau de bord</a>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+
+

@@ -1,63 +1,56 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Company{% endblock %}
+{% block title %}Fiche Entreprise{% endblock %}
 
 {% block body %}
-    <h1 {{ stimulus_controller('favoritecompany') }}>Company</h1>
+    <main class="container-md mb-5">
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ company.id }}</td>
-            </tr>
-            <tr>
-                <th>Siret</th>
-                <td>{{ company.siret }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ company.name }}</td>
-            </tr>
-            <tr>
-                <th>Logo</th>
-                <td>{{ company.logo }}</td>
-            </tr>
-            <tr>
-                <th>ZipCode</th>
-                <td>{{ company.zipCode }}</td>
-            </tr>
-            <tr>
-                <th>Address</th>
-                <td>{{ company.address }}</td>
-            </tr>
-            <tr>
-                <th>City</th>
-                <td>{{ company.city }}</td>
-            </tr>
-            <tr>
-                <th>PhoneNumber</th>
-                <td>{{ company.phoneNumber }}</td>
-            </tr>
-            <tr>
-                <th>ContactName</th>
-                <td>{{ company.contactName }}</td>
-            </tr>
-            <tr>
-                <th>Size</th>
-                <td>{{ company.size }}</td>
-            </tr>
-            <tr>
-                <th>Information</th>
-                <td>{{ company.information }}</td>
-            </tr>
-        </tbody>
-    </table>
-    {% if is_granted("ROLE_CANDIDAT") %}
-        <a href="{{ path('app_company_add_favorite', {id: company.id}) }}" id="fav-company" class="btn btn-primary fav-icon mt-2">
-            <span>{{ app.user.candidat.isCompanyFavorite(company) ? 'Retirer l\'entreprise des favoris' : 'Mettre l\'entreprise en favoris' }}</span>
-            <i class="bi {{ app.user.candidat.isCompanyFavorite(company) ? 'bi-heart-fill' : 'bi-heart' }}"></i>
-        </a>
-    {% endif %}
+        <h1 class="text-center" {{ stimulus_controller('favoritecompany') }}>Fiche Entreprise</h1>
+
+        <div class="d-xl-flex align-items-xl-center">
+
+            <div class="showCard unique">
+
+                {% include 'company/_companyCard.html.twig' %}
+
+            </div>
+
+            {% if is_granted("ROLE_CANDIDAT") %}
+                <div class="accordion container mb-5" id="accordionExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button d-inline text-center" type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Candidature Spontanée
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                             data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                {% if is_granted("ROLE_CANDIDAT") %}
+                                    {% if recruProcessActuel == null %}
+                                        {{ form(form) }}
+                                    {% else %}
+                                        <p>Vous avez déjà un processus en cours</p>
+                                    {% endif %}
+                                {% elseif is_granted("ROLE_CONSULTANT") %}
+                                    <p>Encart réservé aux candidats - <a href="{{ path('consultant_board') }}">Retourner
+                                            à
+                                            votre
+                                            tableau de bord</a></p>
+                                {% else %}
+                                    <a href="{{ path('app_login') }}">Il faut vous connecter pour postuler !</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+        </div>
+
+
+    </main>
 
 {% endblock %}

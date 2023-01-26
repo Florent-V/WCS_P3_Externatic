@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Messagerie{% endblock %}
+
+{% block body %}
+    <main class="container messagerieIndex messagerie" {{ stimulus_controller({
+        "inbox":{},
+        'symfony/ux-swup/swup': {
+            containers: ['#inbox', '#pageSelectorInbox', '#messageSorting']
+        }
+    }) }}>
+        <div class="text-center m-4"><h1>Bienvenue sur votre messagerie</h1></div>
+        <div class="d-flex justify-content-center">
+            <div class="m-4 pe-4 w-50 text-center">
+                {{ form_start(form,{'attr': {'class': 'd-flex'}}) }}
+                {{ form_row(form.search, {'required': false}) }}
+                <button class="btn btn-primary" type="submit">Go</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+        <dialog {{ stimulus_target('inbox','error') }}>
+            <p>Erreur, veuillez essayer à nouveau et vérifier que vous avez bien les droits nécessaires</p>
+            <button class="btn btn-primary" data-action="inbox#closeModal">Fermer</button>
+        </dialog>
+        <div class="table-responsive-sm">
+            <table class="table">
+                <thead>
+                <tr id="messageSorting"><th{% if receivedMessages.isSorted('m.date') %} class="sorted"{% endif %}>
+                        {{ knp_pagination_sortable(receivedMessages, 'Date', 'm.date') }}
+                    </th>
+                    <th scope="row"> Expéditeur </th>
+                    <th scope="row">Intitulé de l'annonce</th>
+                    <th scope="row">Contenu</th>
+                    <th scope="row"></th>
+                    <th scope="row"></th>
+                </tr>
+                </thead>
+
+                <tbody id="inbox">
+                {% for message in receivedMessages %}
+                    {% include('_include/_messageHeader.html.twig') %}
+                {% endfor %}
+            </table>
+        </div>
+        <div id="pageSelectorInbox"
+             class="container d-flex justify-content-center">{{ knp_pagination_render(receivedMessages) }}</div>
+    </main>
+{% endblock %}

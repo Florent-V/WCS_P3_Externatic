@@ -11,11 +11,10 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserFixtures extends Fixture
 {
-    public static int $userAdminIndex = 0;
     public static int $userConsultantIndex = 0;
     public static int $userCandidatIndex = 0;
 
-    public const ADMIN_INFOS = [
+    public const CONSULTANT_INFOS = [
         [
             'email' => 'admin@mail.fr',
             'pass' => 'motdepasse',
@@ -23,9 +22,6 @@ class UserFixtures extends Fixture
             'lastname' => 'externatic',
             'role' => 'ROLE_ADMIN'
         ],
-    ];
-
-    public const CONSULTANT_INFOS = [
         [
             'email' => 'consultant1@mail.fr',
             'pass' => 'motdepasse',
@@ -104,30 +100,6 @@ class UserFixtures extends Fixture
     {
         $faker = Factory::create('fr_FR');
 
-        foreach (self::ADMIN_INFOS as $adminInfo) {
-            self::$userAdminIndex++;
-            $user = new User();
-
-            $user->setEmail($adminInfo['email']);
-
-            $hashedPassword = $this->passwordHasher->hashPassword(
-                $user,
-                $adminInfo['pass']
-            );
-            $user->setPassword($hashedPassword);
-
-            $user->setRoles(array($adminInfo['role']));
-
-            $user->setFirstname($adminInfo['firstname']);
-            $user->setLastname($faker->lastName);
-            $user->setPhone($faker->phoneNumber());
-            $user->setIsVerified(true);
-
-
-            $manager->persist($user);
-            $this->addReference('userAdmin_' . self::$userAdminIndex, $user);
-        }
-
         foreach (self::CONSULTANT_INFOS as $consultantInfo) {
             self::$userConsultantIndex++;
             $user = new User();
@@ -145,31 +117,28 @@ class UserFixtures extends Fixture
             $user->setLastname($faker->lastName);
             $user->setPhone($faker->phoneNumber());
             $user->setIsVerified(true);
+            $user->setHasNotifUnread(false);
             $manager->persist($user);
             $this->addReference('userConsultant_' . self::$userConsultantIndex, $user);
         }
 
-        foreach (self::CANDIDAT_INFOS as $candidatInfo) {
+        for ($i = 0; $i <= 50; $i++) {
             self::$userCandidatIndex++;
             $user = new User();
-
-
-            $user->setEmail($candidatInfo['email']);
+            $user->setEmail('candidat' . self::$userCandidatIndex . '@mail.fr');
 
             $hashedPassword = $this->passwordHasher->hashPassword(
                 $user,
-                $candidatInfo['pass']
+                'motdepasse'
             );
             $user->setPassword($hashedPassword);
 
-            $user->setRoles(array($candidatInfo['role']));
-
-            $user->setFirstname($candidatInfo['firstname']);
+            $user->setRoles((array)'ROLE_CANDIDAT');
+            $user->setFirstname($faker->firstName);
             $user->setLastname($faker->lastName);
             $user->setPhone($faker->phoneNumber());
             $user->setIsVerified(true);
-
-
+            $user->setHasNotifUnread(true);
 
             $manager->persist($user);
 

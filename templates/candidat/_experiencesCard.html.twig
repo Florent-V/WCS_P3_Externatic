@@ -1,0 +1,40 @@
+<div id="experiencePanel" class="showCard">
+    <div class="card">
+        <div class="cardIcons">
+            <a href="{{ path('app_experience_new') }}"><i class="bi bi-plus-lg"></i></a>
+        </div>
+        <div class="card-body">
+            <h3 class="card-title text-center">Mes Expériences</h3>
+
+            {% for experience in experiences %}
+                {% if not experience.isFormation %}
+                    <div class="card mb-2">
+                        <div class="cardIcons">
+                            <a href="{{ path('app_experience_edit', {id: experience.id}) }}"><i
+                                    class="bi bi-pencil-square"></i></a>
+                            <a href="{{ path('app_experience_show', {id: experience.id}) }}"><i
+                                    class="bi bi-eye"></i></a>
+                        </div>
+                        <div class="card-header">
+                            <h5 class="card-title">{{ experience.title }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">
+                                Du {{ experience.beginning ? experience.beginning|date('Y-m-d') : '' }}
+                                au {{ experience.end ? experience.end|date('Y-m-d') : '' }}
+                            </h6>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Entreprise : {{ experience.organism }}</li>
+                            <li class="list-group-item">Lieu : {{ experience.location }}</li>
+                            <li class="list-group-item">Description : {{ experience.description }}</li>
+                        </ul>
+                    </div>
+
+                {% endif %}
+
+            {% endfor %}
+            <div class="link buttons">
+                <a href="{{ path('app_experience_index') }}" class="btn btn-primary">Consulter</a>
+            </div>
+        </div>
+    </div>
+</div>

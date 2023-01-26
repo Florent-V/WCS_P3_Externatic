@@ -1,0 +1,106 @@
+.consultantProcessShow {
+    #rdvAndMessages{
+        height: 75vh;
+    }
+    .rating > i {
+        color: $primary;
+        cursor: pointer;
+        font-size: 2em;
+
+        &:hover {
+            text-shadow: 0 0 .5rem black;
+        }
+    }
+    h3 > span{
+        color: $primary;
+    }
+
+
+    dialog {
+        width: clamp(40rem, 55vh, 70rem);
+
+        #appointment_length {
+            display: flex;
+
+            .col-auto {
+                display: flex;
+                flex-direction: row;
+
+                label {
+                    font-style: italic;
+                    color: $secondary;
+                    min-width: 4.5rem;
+                    margin-left: 1rem;
+                }
+
+                select {
+                    height: 2.5rem;
+                }
+            }
+        }
+    }
+
+    section:not(.notes) {
+
+        border-radius: $border-radius * 3;
+        background: #ffffff;
+        box-shadow:  20px 20px 60px #d9d9d9,
+        -20px -20px 60px #ffffff;
+        padding:2rem;
+        margin:2rem;
+
+        &#appointments {
+            overflow-y: scroll;
+            @include scrollBar;
+
+            .rdvList {
+                display: grid;
+                gap: 1rem;
+                grid-template-columns: repeat( auto-fit, minmax(10rem, 1fr) );
+
+
+            }
+            .rdv {
+                border-radius: 24px;
+                background: #ffffff;
+                box-shadow:  5px -5px 13px #bababa,
+                -5px 5px 13px #ffffff;
+                padding: 1em;
+                margin-top: 1em;
+            }
+
+        }
+            .boutton {
+                justify-content: space-around;
+            }
+            .showMessages {
+                min-height: 90%;
+                overflow-y: scroll;
+                padding: 1rem;
+
+                @include scrollBar;
+            }
+
+            .showMessages > .response {
+                border-radius: 5px;
+                margin-bottom: 10px;
+                padding: .5em;
+                border: 1px solid $primary;
+                box-shadow: 5px -5px 13px #bababa,
+                -5px 5px 13px #ffffff;
+            }
+
+
+        &#annonce {
+            p.description {
+                max-height:6rem;
+                overflow-y: scroll;
+
+                @include scrollBar;
+
+            }
+        }
+
+        }
+}
+

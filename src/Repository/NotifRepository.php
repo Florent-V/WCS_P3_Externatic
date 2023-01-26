@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Notif;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use DateTime;
 
 /**
  * @extends ServiceEntityRepository<Notif>
@@ -37,6 +38,15 @@ class NotifRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findOlderThan15weeks(): array
+    {
+        return $this->createQueryBuilder('n')
+            ->where('n.createdAt < :oldDate')
+            ->setParameter('oldDate', new DateTime('-15 days'))
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**

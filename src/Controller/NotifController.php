@@ -15,6 +15,10 @@ class NotifController extends AbstractController
     #[Route('/show', name: 'show')]
     public function index(NotifRepository $notifRepository): Response
     {
+
+        foreach ($notifRepository->findOlderThan15weeks() as $notif) {
+            $notifRepository->remove($notif, true);
+        }
         /**
          * @var ?User $user
          */

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +25,15 @@ class LoginController extends AbstractController
             'last_username' => $lastUsername,
             'error' => $error,
         ]);
+    }
+
+    #[Route('/redirectAfterLogin', name: 'redirect_login', methods: ['GET'])]
+    public function redirectAfterLogin(): Response
+    {
+        if ($this->isGranted('ROLE_CONSULTANT')) {
+            return $this->redirectToRoute('consultant_board');
+        }
+        return $this->redirectToRoute('home');
     }
 
     /**

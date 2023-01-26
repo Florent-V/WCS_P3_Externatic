@@ -10,11 +10,6 @@ use Faker\Factory;
 
 class RecruitmentProcessFixtures extends Fixture implements DependentFixtureInterface
 {
-    public const RECRUIT_STATUS = [
-        "Applied",
-        "In progress",
-        "Completed",
-    ];
     public static int $recruitmentIndex = 0;
 
     public function load(ObjectManager $manager): void
@@ -26,10 +21,23 @@ class RecruitmentProcessFixtures extends Fixture implements DependentFixtureInte
                 $recruitmentProcess = new RecruitmentProcess();
                 self::$recruitmentIndex++;
                 $recruitmentProcess->setCreatedAt($faker->dateTimeThisMonth());
-                $recruitmentProcess->setAnnonce($this->getReference("annonce_" . $i));
+                if ($faker->boolean()) {
+                    $annonceRef = "annonce_" . $i;
+                    $recruitmentProcess->setAnnonce($this->getReference($annonceRef));
+                    $recruitmentProcess->setExternaticConsultant($recruitmentProcess->getAnnonce()->getAuthor());
+                } else {
+                    $companyRef = "company_" . $faker->numberBetween(1, CompanyFixtures::$companyIndex);
+                    $recruitmentProcess->setCompany($this->getReference($companyRef));
+                    $recruitmentProcess->setExternaticConsultant(
+                        $recruitmentProcess->getCompany()->getExternaticConsultant()
+                    );
+                }
+                $recruitmentProcess->setRate($faker->numberBetween(1, 5));
                 $recruitmentProcess->setCandidat($this->getReference("candidat_" .
                     $faker->numberBetween(1, CandidatFixtures::$candidatIndex)));
-                $recruitmentProcess->setStatus($faker->randomElement(self::RECRUIT_STATUS));
+                $recruitmentProcess->setReadByCandidat($faker->boolean);
+                $recruitmentProcess->SetReadByConsultant($faker->boolean);
+                $recruitmentProcess->setStatus($faker->randomElement(RecruitmentProcess::RECRUIT_STATUS));
                 $this->addReference('recruitmentProcess_' . self::$recruitmentIndex, $recruitmentProcess);
                 $manager->persist($recruitmentProcess);
             }
@@ -42,7 +50,8 @@ class RecruitmentProcessFixtures extends Fixture implements DependentFixtureInte
         // Tu retournes ici toutes les classes de fixtures dont ProgramFixtures dépend
         return [
             AnnonceFixtures::class,
-            CandidatFixtures::class
+            CandidatFixtures::class,
+            CompanyFixtures::class,
         ];
     }
 }

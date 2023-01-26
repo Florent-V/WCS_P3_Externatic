@@ -14,8 +14,8 @@ class Notif
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $content = null;
+    #[ORM\Column]
+    private ?array $content = null;
 
     #[ORM\ManyToOne(inversedBy: 'notifications')]
     #[ORM\JoinColumn(nullable: false)]
@@ -38,12 +38,12 @@ class Notif
         return $this->id;
     }
 
-    public function getContent(): ?string
+    public function getContent(): ?array
     {
         return $this->content;
     }
 
-    public function setContent(string $content): self
+    public function setContent(array $content): self
     {
         $this->content = $content;
 

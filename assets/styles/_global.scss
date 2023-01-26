@@ -3,4 +3,15 @@ body{
     display: flex;
     min-height: 100vh;
     flex-direction: column;
+    //Barre de défilement
+    scrollbar-color: $primary $light;
+    scrollbar-width: thin;
+    &::-webkit-scrollbar {
+       width: .5rem;
+    }
+    &::-webkit-scrollbar-thumb {
+       background: $primary;
+       border-radius: $border-radius;
+    }
 }
+

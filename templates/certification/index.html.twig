@@ -1,42 +1,51 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Certification index{% endblock %}
+{% block title %}Mes certifications{% endblock %}
 
 {% block body %}
-    <h1>Certification index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Year</th>
-                <th>Link</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for certification in certifications %}
-            <tr>
-                <td>{{ certification.id }}</td>
-                <td>{{ certification.title }}</td>
-                <td>{{ certification.year ? certification.year|date('Y-m-d') : '' }}</td>
-                <td>{{ certification.link }}</td>
-                <td>{{ certification.description }}</td>
-                <td>
-                    <a href="{{ path('app_certification_show', {'id': certification.id}) }}">show</a>
-                    <a href="{{ path('app_certification_edit', {'id': certification.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <main class="searchProfile container-md mb-5">
+        <h1 class="text-center mt-3">Mes Certifications</h1>
 
-    <a href="{{ path('app_certification_new') }}">Ajouter une nouvelle certification</a>
-    <br>
-    <a href="{{ path('app_candidat_profile') }}">Retour au profil</a>
+        <div class="row showCard certification">
+            {% for certification in certifications %}
+                <div class="col-sm-4">
+                    <div class="card mb-5">
+                        <div class="cardIcons">
+                            <a href="{{ path('app_certification_edit', {id: certification.id}) }}"><i
+                                    class="bi bi-pencil-square"></i></a>
+                            {{ include('certification/_delete_form.html.twig') }}
+                        </div>
+                        <div class="card-header">
+                            <h5 class="card-title">{{ certification.title }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">
+                                Obtention : {{ certification.year ? certification.year|date('Y-m-d') : '' }}
+                            </h6>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Lien : {{ certification.link }}</li>
+                            <li class="list-group-item">Description : {{ certification.description }}</li>
+                        </ul>
+                    </div>
+                </div>
+            {% else %}
+
+                <div class="oups">
+                    <img src="{{ asset('build/images/oups.jpg') }}" alt="illustration page vide"/>
+                    <p>
+                        Oh ! Il semblerait qu'il n'y ait encore rien ici !
+                        <br>
+                        Sauvegarde tes recherches et elles apparaîtront ici.
+                    </p>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="d-flex justify-content-center">
+            <a class="btn btn-primary" href="{{ path('app_candidat_profile') }}#certificationPanel">Retour au profil</a>
+        </div>
+
+
+
+    </main>
 {% endblock %}

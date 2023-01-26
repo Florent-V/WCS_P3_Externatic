@@ -1,0 +1,17 @@
+<div{{ attributes }} data-poll>
+    <div class="d-flex flex-column response" {{ stimulus_target('message_scroll', 'messages')}} >
+        {% for message in this.convMessages %}
+            <article class="w-75 m-2 p-2
+                        col-6
+                        rounded rounded-3
+                        border border-1 border-primary
+                        w-25
+                        {{ (message.sendBy.id == app.user.id) ? "bg-primary text-white align-self-end messageRecu" : "bg-white text-primary align-self-start" }}">
+                <small
+                    class="d-block fst-italic {{ (message.sendBy.id == app.user.id) ? "text-light" : "text-primary" }}">
+                    {{ message.sendBy.firstname|capitalize }} - {{ message.date|format_datetime(pattern="d/MM hh:kk:ss") }}
+                </small>{{ message.content|raw }}
+            </article>
+        {% endfor %}
+    </div>
+</div>

@@ -17,12 +17,23 @@ footer {
 
     .link1 {
         text-align:center;
+
+        a{
+            color: white;
+        }
     }
 
     .social-media img {
         height:2rem;
         margin:calc($spacer /2);
+
+        &:hover{
+            border: 2px solid white;
+            border-radius: 50%;
+        }
     }
+
+
 }
 
 

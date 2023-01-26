@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Confirmation de la création{% endblock %}
+
+{% block body %}
+    <main class="container-md confirmation">
+        <h1>Nouveau consultant créé !</h1>
+
+        <p class="confirmIcon"><i class="bi bi-hand-thumbs-up-fill"></i></p>
+
+
+        <p>
+            Le consultant a bien été créé. Un mail vient de lui être envoyé avec un lien pour qu'il puisse créer son mot de passe.<br>
+
+            Ce lien expire dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+        </p>
+        <p>Si aucun mail n'est reçu dans les 15 prochaines minutes, indiquez lui de vérifier également son dossier spam ou <a href="{{ path('app_forgot_password_request') }}">essayez à nouveau</a>.</p>
+
+    </main>
+
+{% endblock %}

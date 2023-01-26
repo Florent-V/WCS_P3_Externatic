@@ -19,13 +19,12 @@ class CompanyFixtures extends Fixture implements DependentFixtureInterface
         $faker = Factory::create('fr_FR');
 
         for ($i = 1; $i <= ExternaticConsultantFixtures::$consultantIndex; $i++) {
-            $nbCompanies = 5;
+            $nbCompanies = 10;
             for ($j = 1; $j <= $nbCompanies; $j++) {
                 $company = new Company();
                 self::$companyIndex++;
                 $company->setSiret($faker->siret());
                 $company->setName("Entreprise-" . self::$companyIndex);
-                $company->setLogo('https://fakeimg.pl/200x200/?text=logo');
                 $company->setZipCode($faker->departmentNumber() . $faker->numberBetween(100, 900));
                 $company->setAddress($faker->streetAddress);
                 $company->setCity($faker->city());

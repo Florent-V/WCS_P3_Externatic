@@ -9,7 +9,15 @@
         <h1 class="">Bienvenue chez Externatic ! ✅</h1>
 
         {% if error %}
-            <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            <div class="alert alert-warning" role="alert" aria-live="assertive">
+                {% if error.code == 2000 %}
+                    &#9785;&#65039;  {{ error.messageKey|trans(error.messageData, 'security')|raw }}
+                {% elseif error.message == "The presented password is invalid." or error.message == "Bad credentials."%}
+                    &#9785;&#65039; Les identifiants sont incorrects. Veuillez les vérifier et réessayer.
+                {% else %}
+                    {{ error.messageKey|trans(error.messageData, 'security')|raw }}
+                {% endif %}
+            </div>
         {% endif %}
 
         <form action="{{ path('app_login') }}" method="post">
@@ -34,8 +42,8 @@
         </form>
 
         <div class="newUser">
-            <p>Pas encore enregistré ?</p>
-            <p>Créer un compte <a href="{{ path('app_register') }}">ici</a></p>
+            <p>Pas encore enregistré ? Créer un compte <a href="{{ path('app_register') }}">ici</a></p>
+            <p><a href="{{ path('app_forgot_password_request') }}">Mot de passe oublié ?</a></p>
         </div>
 
     </main>

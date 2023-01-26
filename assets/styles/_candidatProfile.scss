@@ -1,10 +1,4 @@
 .candidatProfile {
-    h1 {
-        text-align: center;
-    }
-    p {
-        margin: 0;
-    }
     .candidatInfos, .candidatCurriculum {
         display: grid;
         gap: 1rem;
@@ -17,16 +11,77 @@
             flex-wrap: wrap;
             gap: 0.5rem;
         }
-
-    }
-    .card-body {
-        flex: 0 0 auto;
-    }
-    .list-group-item p:first-of-type {
-        font-weight: bold;
-    }
-    .list-group-item p:last-of-type {
-        text-align: right;
     }
 
 }
+
+.candidatProfile, .carou.showCard, .certification.showCard {
+    .cardIcons {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        i {
+            font-size: 1.4rem;
+            color: $primary;
+        }
+    }
+}
+
+.arrow {
+    color: grey;
+    font-size: 5rem;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.carou.showCard {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    .cardIcons {
+        gap: 0;
+    }
+    .arrowLink {
+        align-self: center
+    }
+    @media screen and (min-width: 576px) {
+        flex-direction: row;
+        justify-content: center;
+        .card {
+            min-width: 500px;
+            max-width:700px;
+        }
+    }
+}
+
+.showCard.skills, .showCard.languages, .showCard.hobbies {
+    form {
+        display: inline;
+        button {
+            padding:0;
+        }
+    }
+    span {
+        font-size: 0.9rem;
+    }
+}
+
+.showCard.languages {
+    .list-group-item {
+        display: flex;
+        justify-content: flex-end;
+        span {
+            font-size: 1rem;
+            flex: 1;
+        }
+    }
+}
+
+
+
+
+

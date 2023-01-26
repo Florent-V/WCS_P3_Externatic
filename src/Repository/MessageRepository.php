@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Message;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -39,28 +41,42 @@ class MessageRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Message[] Returns an array of Message objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('m.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function getInbox(string $sendOrReceived, User $user, string $userRole): Query
+    {
+        return $this->createQueryBuilder('m')
+            ->andWhere('m.' . $sendOrReceived . " = :user")
+            ->setParameter('user', $user)
+            ->andWhere('m.recruitmentProcess IS NOT null')
+            ->join('m.recruitmentProcess', "r", 'WITH', 'r.archivedBy' . $userRole . ' = false')
+            ->orderBy('m.date', 'DESC')
+            ->getQuery();
+    }
 
-//    public function findOneBySomeField($value): ?Message
-//    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    /*
+     * -> Tous les messages reçus par le user
+     *
+     * -> Where recruitProcess IS NOT null
+     * -> Join recruitement process
+     *
+     * -> Join Annonce si non null
+     * -> Join company si non null
+     *
+     * Groupe by recruitementprocess
+     * Ne prendre que le dernier message
+     *
+     *
+     * ********* OU ***************
+     *
+     * -> Tous les processus de recrutement non archivés ET où il y a des messages
+     * -> Le dernier message de chacun de ses processus
+     *
+     * -> Join Annonce si non null
+     * -> Join company si non null
+     *
+     *
+     *
+     * ********** ET ****************
+     * scroll messagerie instantanée
+     *
+     */
 }

@@ -3,12 +3,17 @@
 namespace App\Entity;
 
 use App\Repository\CompanyRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CompanyRepository::class)]
+#[Vich\Uploadable]
 class Company
 {
     #[ORM\Id]
@@ -23,7 +28,35 @@ class Company
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $logo = null;
+    private ?string $logo = 'companyLogoIpsum.svg';
+
+    #[Vich\UploadableField(mapping: 'logo_picture', fileNameProperty: 'logo')]
+    #[Assert\File(
+        maxSize: '1M',
+        mimeTypes: ['image/jpeg', 'image/png', 'image/webp'],
+    )]
+    private ?File $logoFile = null;
+
+    /**
+     * @return File|null
+     */
+    public function getLogoFile(): ?File
+    {
+        return $this->logoFile;
+    }
+
+    /**
+     * @param File|null $logoFile
+     * @return Company
+     */
+    public function setLogoFile(?File $logoFile): Company
+    {
+        $this->logoFile = $logoFile;
+        if ($logoFile) {
+            $this->updatedAt = new DateTime('now');
+        }
+        return $this;
+    }
 
     #[ORM\Column(length: 45)]
     private ?string $zipCode = null;
@@ -46,7 +79,7 @@ class Company
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $information = null;
 
-    #[ORM\ManyToOne(inversedBy: 'companies')]
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'], inversedBy: 'companies')]
     #[ORM\JoinColumn(nullable: true)]
     private ?ExternaticConsultant $externaticConsultant = null;
 
@@ -56,10 +89,17 @@ class Company
     #[ORM\ManyToMany(targetEntity: Candidat::class, mappedBy: 'favoriteCompanies')]
     private Collection $followers;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?DateTime $updatedAt = null;
+
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: RecruitmentProcess::class)]
+    private Collection $recruitmentProcesses;
+
     public function __construct()
     {
         $this->annonces = new ArrayCollection();
         $this->followers = new ArrayCollection();
+        $this->recruitmentProcesses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -251,6 +291,48 @@ class Company
     {
         if ($this->followers->removeElement($follower)) {
             $follower->removeCompanyFromFavorite($this);
+        }
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?DateTime $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RecruitmentProcess>
+     */
+    public function getRecruitmentProcesses(): Collection
+    {
+        return $this->recruitmentProcesses;
+    }
+
+    public function addRecruitmentProcess(RecruitmentProcess $recruitmentProcess): self
+    {
+        if (!$this->recruitmentProcesses->contains($recruitmentProcess)) {
+            $this->recruitmentProcesses->add($recruitmentProcess);
+            $recruitmentProcess->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecruitmentProcess(RecruitmentProcess $recruitmentProcess): self
+    {
+        if ($this->recruitmentProcesses->removeElement($recruitmentProcess)) {
+            // set the owning side to null (unless already changed)
+            if ($recruitmentProcess->getCompany() === $this) {
+                $recruitmentProcess->setCompany(null);
+            }
         }
 
         return $this;

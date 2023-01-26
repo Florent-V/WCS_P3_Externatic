@@ -14,14 +14,20 @@
 
         {% if app.user %}
             <div>
+                <a class="d-inline-block me-3 text-dark bell-href" href="{{ path('notif_show') }}">
+                    <i class="bi bi-bell"></i>
+                    {% if app.user.hasNotifUnread == true %}
+                        <span class="dot"></span>
+                    {% endif %}
+                </a>
                 {% if is_granted("ROLE_CANDIDAT") %}
-                    <a class="userName" href="">{{ app.user.firstname }}</a>
+                    <a class="d-none d-md-inline userName" href="{{ path('app_candidat_profile') }}">{{ app.user.firstname }}</a>
                     <a class="connexion navbar-brand" href="{{ path('app_logout') }}">Déconnexion</a>
                 {% elseif is_granted("ROLE_CONSULTANT") %}
-                    <a class="userName" href={{ path('consultant_board') }}>{{ app.user.firstname }}</a>
+                    <a class="d-none d-md-inline userName" href={{ path('consultant_board') }}>{{ app.user.firstname }}</a>
                     <a class="connexion navbar-brand" href="{{ path('app_logout') }}">Déconnexion</a>
                 {% elseif is_granted("ROLE_ADMIN") %}
-                    <a class="userName" href="">{{ app.user.firstname }}</a>
+                    <a class="d-none d-md-inline userName" href="{{ path('consultant_board') }}">{{ app.user.firstname }}</a>
                     <a class="connexion navbar-brand" href="{{ path('app_logout') }}">Déconnexion</a>
                 {% else %}
                     <a class="connexion navbar-brand" href="{{ path('app_login') }}">Connexion</a>
@@ -49,35 +55,66 @@
                             <a class="nav-link" href="{{ path('annonce_search_results') }}">Rechercher une offre</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="{{ path('message_index') }}">Messagerie</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{  path('annonce_show_favorite') }}">Mes Annonces</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{  path('app_company_show_favorite') }}">Mes entreprises</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="{{  path('app_search_profile_index') }}">Mes recherches sauvegardées</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ path('app_candidat_complete') }}">Compléter mon profil
                                 candidat</a>
                         </li>
-                    {% elseif is_granted("ROLE_CONSULTANT") %}
+                    {% elseif is_granted("ROLE_CONSULTANT")%}
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('consultant_board') }}">Tableau de bord</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">Messagerie</a>
+                            <a class="nav-link" href="{{ path('message_index') }}">Messagerie</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">Mes Annonces</a>
+                            <details open>
+                                <summary><a class="nav-link d-inline" href="{{  path('consultant_annonces') }}">Mes Annonces</a></summary>
+                                <ul class="subGroup justify-content-end flex-grow-1 pe-3" >
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ path('annonce_new') }}">Ajouter une offre</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ path('consultant_annonces_archives') }}">Archives</a>
+                                    </li>
+                                </ul>
+                            </details>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">Mes Processus de recrutement</a>
+                            <a class="nav-link" href="{{ path('consultant_synthesis') }}">Mes recrutements</a>
                         </li>
-                    {% elseif is_granted("ROLE_ADMIN") %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">PLACEHOLDER 1</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">PLACEHOLDER 2</a>
-                        </li>
+                        {% if is_granted("ROLE_ADMIN") %}
+                            <span class="text-center badge text-bg-info">Fonction Admin</span>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('admin_app_company_new') }}">Ajouter une entreprise</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('admin_app_consultant_new') }}">Ajouter un consultant</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('admin_app_company_switch') }}">Switch Entreprise</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('admin_app_candidat_index') }}">Base Candidats</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('admin_app_consultant_index') }}">Base Recruteurs</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('admin_app_company_index') }}">Base Entreprises</a>
+                            </li>
+                        {% endif %}
+
                     {% else %}
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('app_login') }}">Se connecter</a>
@@ -86,7 +123,6 @@
                             <a class="nav-link" href="{{ path('app_register') }}">S'inscrire</a>
                         </li>
                     {% endif %}
-
                 </ul>
             </div>
         </div>

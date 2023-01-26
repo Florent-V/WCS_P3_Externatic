@@ -2,19 +2,12 @@
 
 namespace App\Controller;
 
-use App\Entity\Candidat;
-use App\Entity\Certification;
-use App\Entity\Experience;
+use App\Entity\User;
 use App\Form\CandidatType;
-use App\Form\CertificationType;
-use App\Form\ExperienceType;
-use App\Form\FormationType;
 use App\Form\UserUpdateType;
 use App\Repository\CandidatRepository;
 use App\Repository\CertificationRepository;
-use App\Repository\CurriculumRepository;
 use App\Repository\ExperienceRepository;
-use App\Repository\SkillsRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,17 +18,42 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[Route('/profile')]
 class CandidatController extends AbstractController
 {
-    #[Route('/', name: 'app_candidat_profile', methods: ['GET'])]
-    public function profile(CandidatRepository $candidatRepository): Response
-    {
+    #[Route('', name: 'app_candidat_profile', methods: ['GET'])]
+    public function profile(
+        ExperienceRepository $experienceRepository,
+        CertificationRepository $certificationRepo
+    ): Response {
+        /**
+         * @var ?User $user
+         */
         $user = $this->getUser();
-        $candidat = $candidatRepository->findOneBy(
-            ['user' => $user]
+        $curriculum = $user->getCandidat()->getCurriculum();
+
+        $experiences = $experienceRepository->findBy(
+            ['curriculum' => $curriculum],
+            ['beginning' => 'ASC'],
+            10
         );
 
+        $certifications = $certificationRepo->findBy(
+            ['curriculum' => $curriculum],
+            ['year' => 'ASC'],
+            10
+        );
+
+        $hardSkills = $curriculum->getSkills()->getHardSkill();
+        $softSkills = $curriculum->getSkills()->getSoftSkill();
+        $languages = $curriculum->getSkills()->getLanguages();
+        $hobbies = $curriculum->getHobbie();
+
         return $this->render('candidat/profile.html.twig', [
-            'candidat' => $candidat,
             'user' => $user,
+            'experiences' => $experiences,
+            'certifications' => $certifications,
+            'hardSkills' => $hardSkills,
+            'softSkills' => $softSkills,
+            'languages' => $languages,
+            'hobbies' => $hobbies
         ]);
     }
 
@@ -94,7 +112,6 @@ class CandidatController extends AbstractController
     #[Route('/complete', name: 'app_candidat_complete', methods: ['GET', 'POST'])]
     public function complete(): Response
     {
-
         return $this->renderForm('candidat/complete.html.twig');
     }
 }

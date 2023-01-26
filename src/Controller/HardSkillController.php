@@ -44,24 +44,12 @@ class HardSkillController extends AbstractController
             $hardSkill->setSkills($skills);
             $hardSkillRepository->save($hardSkill, true);
 
-            return $this->redirectToRoute('app_skills_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_candidat_profile', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('hard_skill/new.html.twig', [
             'hard_skill' => $hardSkill,
             'hardSkillForm' => $hardSkillForm,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'app_hard_skill_show', methods: ['GET'])]
-    public function show(HardSkill $hardSkill): Response
-    {
-        if ($hardSkill->getSkills()->getCurriculum()->getCandidat()->getUser() !== $this->getUser()) {
-            // If not the owner, throws a 403 Access Denied exception
-            throw $this->createAccessDeniedException('Only the owner can consult !');
-        }
-        return $this->render('hard_skill/show.html.twig', [
-            'hard_skill' => $hardSkill,
         ]);
     }
 
@@ -83,7 +71,7 @@ class HardSkillController extends AbstractController
         if ($hardSkillForm->isSubmitted() && $hardSkillForm->isValid()) {
             $hardSkillRepository->save($hardSkill, true);
 
-            return $this->redirectToRoute('app_skills_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_candidat_profile', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('hard_skill/edit.html.twig', [
@@ -104,6 +92,6 @@ class HardSkillController extends AbstractController
             $hardSkillRepository->remove($hardSkill, true);
         }
 
-        return $this->redirectToRoute('app_skills_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_candidat_profile', [], Response::HTTP_SEE_OTHER);
     }
 }

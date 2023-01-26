@@ -1,54 +1,62 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Candidat{% endblock %}
+{% block title %}Fiche Candidat{% endblock %}
 
 {% block body %}
-    <h1>Candidat</h1>
+    <main class="container-md mb-5">
+        <h1 class="text-center">Fiche Candidat</h1>
+        <div class="showCard unique">
+            <div class="card mb-5">
+                <div class="card-body">
+                    <h3 class="card-title">{{ candidat.user.firstname }} {{ candidat.user.lastName }}</h3>
+                    <p class="card-text">{{ candidat.description }}</p>
+                    {{ include('admin/candidat/_delete_form.html.twig') }}
+                </div>
+                <div class="list-group list-group-flush">
+                    <div class="list-group-item">
+                        <p>Age</p>
+                        <p>{{ candidat.age }}</p>
+                    </div>
+                    <div class="list-group-item">
+                        <p>Téléphone</p>
+                        <p>{{ candidat.user.phone }}</p>
+                    </div>
+                    <div class="list-group-item">
+                        <p>Email</p>
+                        <p>{{ candidat.user.email }}</p>
+                    </div>
+                    <div class="list-group-item">
+                        <p>Adresse</p>
+                        <p>{{ candidat.address }}</p>
+                    </div>
+                    <div class="list-group-item">
+                        <p>Code Postal</p>
+                        <p>{{ candidat.zipCode }}</p>
+                    </div>
+                    <div class="list-group-item">
+                        <p>Ville</p>
+                        <p>{{ candidat.city }}</p>
+                    </div>
+                    <div class="list-group-item">
+                        <p>LinkedIn</p>
+                        <p>{{ candidat.linkedIn }}</p>
+                    </div>
+                    <div class="list-group-item">
+                        <p>Github</p>
+                        <p>{{ candidat.github }}</p>
+                    </div>
+                    <div class="list-group-item">
+                        <p>Peut Postuler ?</p>
+                        <p>{{ candidat.canPostulate ? 'Yes' : 'No' }}</p>
+                    </div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ candidat.id }}</td>
-            </tr>
-            <tr>
-                <th>Age</th>
-                <td>{{ candidat.age }}</td>
-            </tr>
-            <tr>
-                <th>LinkedIn</th>
-                <td>{{ candidat.linkedIn }}</td>
-            </tr>
-            <tr>
-                <th>Github</th>
-                <td>{{ candidat.github }}</td>
-            </tr>
-            <tr>
-                <th>ZipCode</th>
-                <td>{{ candidat.zipCode }}</td>
-            </tr>
-            <tr>
-                <th>Address</th>
-                <td>{{ candidat.address }}</td>
-            </tr>
-            <tr>
-                <th>City</th>
-                <td>{{ candidat.city }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ candidat.description }}</td>
-            </tr>
-            <tr>
-                <th>CanPostulate</th>
-                <td>{{ candidat.canPostulate ? 'Yes' : 'No' }}</td>
-            </tr>
-        </tbody>
-    </table>
+                </div>
+                <div class="card-body link">
+                    <a href="{{ path('admin_app_candidat_index') }}"
+                       class="btn btn-primary">Retour</a>
+                </div>
+            </div>
+        </div>
+    </main>
 
-    <a href="{{ path('app_candidat_index') }}">back to list</a>
-
-    <a href="{{ path('app_candidat_edit', {'id': candidat.id}) }}">edit</a>
-
-    {{ include('candidat/_delete_form.html.twig') }}
 {% endblock %}

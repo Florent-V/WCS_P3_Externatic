@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\SearchProfileRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SearchProfileRepository::class)]
@@ -15,31 +16,40 @@ class SearchProfile
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 45, nullable: true)]
-    private ?string $salaryMax = null;
-
-    #[ORM\Column(length: 45, nullable: true)]
-    private ?string $salaryMin = null;
-
-    #[ORM\Column(length: 100, nullable: true)]
-    private ?string $workTime = null;
-
-    #[ORM\Column(length: 100, nullable: true)]
-    private ?string $title = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?bool $isRemote = null;
-
     #[ORM\ManyToOne(inversedBy: 'searchProfiles')]
     #[ORM\JoinColumn(nullable: true)]
     private ?Candidat $candidat = null;
 
-    #[ORM\OneToMany(mappedBy: 'searchProfile', targetEntity: Techno::class)]
-    private Collection $technos;
+    #[ORM\Column]
+    private ?array $searchQuery = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $title = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $workTime = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $period = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $companyId = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $salaryMin = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $contractType = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $remote = null;
+
+    #[ORM\ManyToMany(targetEntity: Techno::class, inversedBy: 'searchProfiles')]
+    private Collection $techno;
 
     public function __construct()
     {
-        $this->technos = new ArrayCollection();
+        $this->techno = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -47,38 +57,26 @@ class SearchProfile
         return $this->id;
     }
 
-    public function getSalaryMax(): ?string
+    public function getCandidat(): ?Candidat
     {
-        return $this->salaryMax;
+        return $this->candidat;
     }
 
-    public function setSalaryMax(?string $salaryMax): self
+    public function setCandidat(?Candidat $candidat): self
     {
-        $this->salaryMax = $salaryMax;
+        $this->candidat = $candidat;
 
         return $this;
     }
 
-    public function getSalaryMin(): ?string
+    public function getSearchQuery(): ?array
     {
-        return $this->salaryMin;
+        return $this->searchQuery;
     }
 
-    public function setSalaryMin(?string $salaryMin): self
+    public function setSearchQuery(array $searchQuery): self
     {
-        $this->salaryMin = $salaryMin;
-
-        return $this;
-    }
-
-    public function getWorkTime(): ?string
-    {
-        return $this->workTime;
-    }
-
-    public function setWorkTime(?string $workTime): self
-    {
-        $this->workTime = $workTime;
+        $this->searchQuery = $searchQuery;
 
         return $this;
     }
@@ -95,26 +93,74 @@ class SearchProfile
         return $this;
     }
 
-    public function isIsRemote(): ?bool
+    public function isWorkTime(): ?bool
     {
-        return $this->isRemote;
+        return $this->workTime;
     }
 
-    public function setIsRemote(?bool $isRemote): self
+    public function setWorkTime(?bool $workTime): self
     {
-        $this->isRemote = $isRemote;
+        $this->workTime = $workTime;
 
         return $this;
     }
 
-    public function getCandidat(): ?Candidat
+    public function isPeriod(): ?int
     {
-        return $this->candidat;
+        return $this->period;
     }
 
-    public function setCandidat(?Candidat $candidat): self
+    public function setPeriod(?int $period): self
     {
-        $this->candidat = $candidat;
+        $this->period = $period;
+
+        return $this;
+    }
+
+    public function getCompanyId(): ?int
+    {
+        return $this->companyId;
+    }
+
+    public function setCompanyId(?int $companyId): self
+    {
+        $this->companyId = $companyId;
+
+        return $this;
+    }
+
+    public function getSalaryMin(): ?int
+    {
+        return $this->salaryMin;
+    }
+
+    public function setSalaryMin(?int $salaryMin): self
+    {
+        $this->salaryMin = $salaryMin;
+
+        return $this;
+    }
+
+    public function getContractType(): ?string
+    {
+        return $this->contractType;
+    }
+
+    public function setContractType(?string $contractType): self
+    {
+        $this->contractType = $contractType;
+
+        return $this;
+    }
+
+    public function isRemote(): ?bool
+    {
+        return $this->remote;
+    }
+
+    public function setRemote(?bool $remote): self
+    {
+        $this->remote = $remote;
 
         return $this;
     }
@@ -122,16 +168,15 @@ class SearchProfile
     /**
      * @return Collection<int, Techno>
      */
-    public function getTechnos(): Collection
+    public function getTechno(): Collection
     {
-        return $this->technos;
+        return $this->techno;
     }
 
     public function addTechno(Techno $techno): self
     {
-        if (!$this->technos->contains($techno)) {
-            $this->technos->add($techno);
-            $techno->setSearchProfile($this);
+        if (!$this->techno->contains($techno)) {
+            $this->techno->add($techno);
         }
 
         return $this;
@@ -139,12 +184,7 @@ class SearchProfile
 
     public function removeTechno(Techno $techno): self
     {
-        if ($this->technos->removeElement($techno)) {
-            // set the owning side to null (unless already changed)
-            if ($techno->getSearchProfile() === $this) {
-                $techno->setSearchProfile(null);
-            }
-        }
+        $this->techno->removeElement($techno);
 
         return $this;
     }

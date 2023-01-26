@@ -2,8 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Annonce;
 use App\Entity\ExternaticConsultant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -38,6 +40,46 @@ class ExternaticConsultantRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function findConsultant(string $search = ''): Query
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->innerJoin('c.user', 'u', 'WITH', 'u.isActive = true');
+
+        if ($search) {
+            $qb->where($qb->expr()->orX(
+                $qb->expr()->like('u.firstname', ':search'),
+                $qb->expr()->like('u.lastName', ':search'),
+                $qb->expr()->like('u.email', ':search')
+            ))
+                ->setParameter('search', '%' . $search . '%');
+        }
+        return $qb->getQuery();
+    }
+
+
+
+/*    public function getRecruitProcessByAnnonce(Annonce $annonce): array
+    {
+        $queryBuilder = $this->createQueryBuilder('a')
+            ->andWhere('a.consultant = :consultantId')
+            ->setParameter('consultantId', $consultant);
+        if ($plage === "thisWeek") {
+            $queryBuilder->andWhere("a.date >= :date1")
+                ->setParameter('date1', $today)
+                ->andWhere("a.date <= :date2")
+                ->setParameter("date2", $sundayMidnight);
+        } elseif ($plage === "thisMonth") {
+            $queryBuilder->andWhere("a.date > :date1")
+                ->setParameter('date1', $sundayMidnight)
+                ->andWhere("a.date <= :date2")
+                ->setParameter("date2", $nextMonth);
+        }
+        $queryBuilder->orderBy('a.date', 'ASC');
+        $query = $queryBuilder->getQuery();
+
+        return $query->getResult();
+    }*/
 
 //    /**
 //     * @return ExternaticConsultant[] Returns an array of ExternaticConsultant objects

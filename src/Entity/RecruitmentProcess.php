@@ -3,14 +3,22 @@
 namespace App\Entity;
 
 use App\Repository\RecruitmentProcessRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: RecruitmentProcessRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class RecruitmentProcess
 {
+    public const RECRUIT_STATUS = [
+        "Applied",
+        "In progress",
+        "Completed",
+    ];
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -33,7 +41,7 @@ class RecruitmentProcess
     private ?Candidat $candidat = null;
 
     #[ORM\ManyToOne(inversedBy: 'recrutementProcesses')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Annonce $annonce = null;
 
     #[ORM\OneToMany(mappedBy: 'recruitmentProcess', targetEntity: Appointement::class, orphanRemoval: true)]
@@ -41,6 +49,31 @@ class RecruitmentProcess
 
     #[ORM\OneToMany(mappedBy: 'recruitmentProcess', targetEntity: Message::class)]
     private Collection $messages;
+
+    #[ORM\ManyToOne(inversedBy: 'recruitmentProcesses')]
+    private ?Company $company = null;
+
+    #[ORM\Column]
+    private ?bool $readByConsultant = false;
+
+    #[ORM\Column]
+    private ?bool $readByCandidat = false;
+
+    #[ORM\Column]
+    private ?bool $archivedByCandidat = false;
+
+    #[ORM\Column]
+    private ?bool $archivedByConsultant = false;
+
+    #[ORM\ManyToOne(inversedBy: 'recruitmentProcesses')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?ExternaticConsultant $externaticConsultant = null;
+
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->createdAt = new Datetime();
+    }
 
     public function __construct()
     {
@@ -181,6 +214,78 @@ class RecruitmentProcess
                 $message->setRecruitmentProcess(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCompany(): ?Company
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?Company $company): self
+    {
+        $this->company = $company;
+
+        return $this;
+    }
+
+    public function isReadByConsultant(): ?bool
+    {
+        return $this->readByConsultant;
+    }
+
+    public function setReadByConsultant(bool $readByConsultant): self
+    {
+        $this->readByConsultant = $readByConsultant;
+
+        return $this;
+    }
+
+    public function isReadByCandidat(): ?bool
+    {
+        return $this->readByCandidat;
+    }
+
+    public function setReadByCandidat(bool $readByCandidat): self
+    {
+        $this->readByCandidat = $readByCandidat;
+
+        return $this;
+    }
+
+    public function isArchivedByCandidat(): ?bool
+    {
+        return $this->archivedByCandidat;
+    }
+
+    public function setArchivedByCandidat(bool $archivedByCandidat): self
+    {
+        $this->archivedByCandidat = $archivedByCandidat;
+
+        return $this;
+    }
+
+    public function isArchivedByConsultant(): ?bool
+    {
+        return $this->archivedByConsultant;
+    }
+
+    public function setArchivedByConsultant(bool $archivedByConsultant): self
+    {
+        $this->archivedByConsultant = $archivedByConsultant;
+
+        return $this;
+    }
+
+    public function getExternaticConsultant(): ?ExternaticConsultant
+    {
+        return $this->externaticConsultant;
+    }
+
+    public function setExternaticConsultant(?ExternaticConsultant $externaticConsultant): self
+    {
+        $this->externaticConsultant = $externaticConsultant;
 
         return $this;
     }

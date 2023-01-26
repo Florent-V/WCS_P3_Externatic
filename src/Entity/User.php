@@ -57,6 +57,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Notif::class, orphanRemoval: true)]
     private Collection $notifications;
 
+    #[ORM\Column]
+    private ?bool $isActive = true;
+    #[ORM\Column]
+    private ?bool $hasNotifUnread = false;
+
     public function __construct()
     {
         $this->receivedMessages = new ArrayCollection();
@@ -308,6 +313,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             }
         }
 
+        return $this;
+    }
+
+    public function isIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    public function isHasNotifUnread(): ?bool
+    {
+        return $this->hasNotifUnread;
+    }
+
+    public function setHasNotifUnread(bool $hasNotifUnread): self
+    {
+        $this->hasNotifUnread = $hasNotifUnread;
         return $this;
     }
 }

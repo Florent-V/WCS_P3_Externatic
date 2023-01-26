@@ -12,8 +12,9 @@
             experience : null
         }) }}
 
-        <a href="{{ path('app_experience_index') }}">Retour à la liste</a>
-        <br>
-        <a href="{{ path('app_candidat_profile') }}">Retour au profil</a>
+        <div class="d-flex justify-content-center mt-3">
+            <a class="btn btn-primary" href="{{ path('app_candidat_profile') }}#experiencePanel">Retour au profil</a>
+        </div>
+
     </main>
 {% endblock %}

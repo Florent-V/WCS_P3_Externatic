@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Candidat;
+use App\Entity\Company;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -37,6 +39,43 @@ class CandidatRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findActiveCandidat(string $search = ''): Query
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->innerJoin('c.user', 'u', 'WITH', 'u.isActive = true');
+
+        if ($search) {
+            $qb->where($qb->expr()->orX(
+                $qb->expr()->like('u.firstname', ':search'),
+                $qb->expr()->like('u.lastName', ':search'),
+                $qb->expr()->like('u.email', ':search'),
+                $qb->expr()->like('c.city', ':search')
+            ))
+                ->setParameter('search', '%' . $search . '%');
+        }
+        return $qb->getQuery();
+    }
+
+    public function findByFavCompany(Company $company): array
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT c FROM App\Entity\Candidat c WHERE :company MEMBER OF c.favoriteCompanies'
+        )
+            ->setParameter('company', $company);
+
+        return $query->execute();
+    }
+
+    public function countCandidat(): array
+    {
+        $queryBuilder = $this->createQueryBuilder('c')
+            ->select('count(c.id)')
+            ->getQuery();
+
+        return $queryBuilder->getResult();
     }
 
 //    /**

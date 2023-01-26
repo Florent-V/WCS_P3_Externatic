@@ -1,0 +1,34 @@
+<div class="showCard">
+    <div class="card">
+        <div class="cardIcons">
+            <a href="{{ path('app_candidat_account') }}"><i
+                    class="bi bi-pencil-square"></i></a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">Informations du compte</h2>
+            <p class="card-text">Identifiants et autres informations de contact</p>
+        </div>
+        <div class="list-group list-group-flush">
+            <div class="list-group-item">
+                <p>Email</p>
+                <p>{{ user.email }}</p>
+            </div>
+            <div class="list-group-item">
+                <p>Prénom</p>
+                <p>{{ user.firstname }}</p>
+            </div>
+            <div class="list-group-item">
+                <p>Nom</p>
+                <p>{{ user.lastname }}</p>
+            </div>
+            <div class="list-group-item">
+                <p>Téléphone</p>
+                <p>{{ user.phone }}</p>
+            </div>
+            <div class="list-group-item">
+                <p>Compte Vérifié ?</p>
+                <p>{{ user.verified ? 'Yes' : 'No' }}</p>
+            </div>
+        </div>
+    </div>
+</div>
