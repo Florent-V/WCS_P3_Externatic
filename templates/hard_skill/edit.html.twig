@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit HardSkill{% endblock %}
+{% block title %}Modifier la compétence{% endblock %}
 
 {% block body %}
 <main class="candidatForm container-md">
@@ -8,8 +8,11 @@
 
     {{ include('hard_skill/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app_skills_index') }}">Retour à la liste des compétences</a>
+    <div class="d-flex justify-content-center mt-3">
+        <a class="btn btn-primary" href="{{ path('app_candidat_profile') }}#skillsPanel">Retour à la liste des compétences</a>
+    </div>
 
-    {{ include('hard_skill/_delete_form.html.twig') }}
+
+
 </main>
 {% endblock %}

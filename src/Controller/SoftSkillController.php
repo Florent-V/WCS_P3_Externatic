@@ -44,24 +44,12 @@ class SoftSkillController extends AbstractController
             $softSkill->setSkills($skills);
             $softSkillRepository->save($softSkill, true);
 
-            return $this->redirectToRoute('app_skills_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_candidat_profile', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('soft_skill/new.html.twig', [
             'soft_skill' => $softSkill,
             'softSkillForm' => $softSkillForm,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'app_soft_skill_show', methods: ['GET'])]
-    public function show(SoftSkill $softSkill): Response
-    {
-        if ($softSkill->getSkills()->getCurriculum()->getCandidat()->getUser() !== $this->getUser()) {
-            // If not the owner, throws a 403 Access Denied exception
-            throw $this->createAccessDeniedException('Only the owner can consult !');
-        }
-        return $this->render('soft_skill/show.html.twig', [
-            'soft_skill' => $softSkill,
         ]);
     }
 
@@ -81,7 +69,7 @@ class SoftSkillController extends AbstractController
         if ($softSkillForm->isSubmitted() && $softSkillForm->isValid()) {
             $softSkillRepository->save($softSkill, true);
 
-            return $this->redirectToRoute('app_skills_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_candidat_profile', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('soft_skill/edit.html.twig', [
@@ -102,6 +90,6 @@ class SoftSkillController extends AbstractController
             $softSkillRepository->remove($softSkill, true);
         }
 
-        return $this->redirectToRoute('app_skills_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_candidat_profile', [], Response::HTTP_SEE_OTHER);
     }
 }

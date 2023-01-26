@@ -1,5 +1,9 @@
 <div class="showCard">
     <div class="card">
+        <div class="cardIcons">
+            <a href="{{ path('app_candidat_account') }}"><i
+                    class="bi bi-pencil-square"></i></a>
+        </div>
         <div class="card-body">
             <h2 class="card-title">Informations du compte</h2>
             <p class="card-text">Identifiants et autres informations de contact</p>
@@ -25,9 +29,6 @@
                 <p>Compte Vérifié ?</p>
                 <p>{{ user.verified ? 'Yes' : 'No' }}</p>
             </div>
-        </div>
-        <div class="card-body">
-            <a href="{{ path('app_candidat_account') }}" class="card-link">Editer</a>
         </div>
     </div>
 </div>

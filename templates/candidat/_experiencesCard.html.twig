@@ -1,12 +1,12 @@
-<div class="showCard">
+<div id="experiencePanel" class="showCard">
     <div class="card">
         <div class="cardIcons">
-            <a href="{{ path('app_experience_new', {type: 'experience'}) }}"><i class="bi bi-plus-lg"></i></a>
+            <a href="{{ path('app_experience_new') }}"><i class="bi bi-plus-lg"></i></a>
         </div>
         <div class="card-body">
             <h3 class="card-title text-center">Mes Expériences</h3>
 
-            {% for experience in experiences|slice(0,10) %}
+            {% for experience in experiences %}
                 {% if not experience.isFormation %}
                     <div class="card mb-2">
                         <div class="cardIcons">

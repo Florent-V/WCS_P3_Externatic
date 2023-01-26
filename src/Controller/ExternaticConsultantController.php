@@ -4,12 +4,16 @@ namespace App\Controller;
 
 use App\Entity\Appointement;
 use App\Entity\RecruitmentProcess;
+use App\Entity\Candidat;
 use App\Entity\User;
 use App\Form\AdminSearchType;
 use App\Form\AppointmentType;
 use App\Form\RecruitmentProcessNotesType;
 use App\Repository\AnnonceRepository;
 use App\Repository\AppointementRepository;
+use App\Repository\CertificationRepository;
+use App\Repository\ExperienceRepository;
+use App\Repository\CandidatRepository;
 use App\Repository\MessageRepository;
 use App\Repository\RecruitmentProcessRepository;
 use Knp\Component\Pager\PaginatorInterface;
@@ -116,8 +120,21 @@ class ExternaticConsultantController extends AbstractController
         RecruitmentProcessRepository $recruitProcessRepo,
         PaginatorInterface $paginator
     ): Response {
+        /**
+         * @var User $user
+         */
+        $user = $this->getUser();
 
-        $synthesisQuery = $recruitProcessRepo->getRecruitmentProcessConsultant();
+        $form = $this->createForm(AdminSearchType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $synthesisQuery = $recruitProcessRepo->searchInProcess($user->getConsultant(), 0, $data['search']);
+        } else {
+            $synthesisQuery = $recruitProcessRepo->getRecruitmentProcessConsultant();
+        }
+
+
 
         $synthesis = $paginator->paginate(
             $synthesisQuery,
@@ -125,9 +142,9 @@ class ExternaticConsultantController extends AbstractController
             8
         );
 
-
-        return $this->render('externatic_consultant/process-synthesis.html.twig', [
+        return $this->renderForm('externatic_consultant/process-synthesis.html.twig', [
             'synthesis' => $synthesis,
+            'form' => $form,
         ]);
     }
 
@@ -172,6 +189,44 @@ class ExternaticConsultantController extends AbstractController
             'recruitmentProcess' => $recruitmentProcess,
             'notesForm' => $notesForm,
             'appointmentForm' => $appointmentForm
+        ]);
+    }
+
+    #[Route('/candidat/{id}', name: 'app_candidat_show', methods: ['GET'])]
+    public function show(
+        Candidat $candidat,
+        ExperienceRepository $experienceRepository,
+        CertificationRepository $certificationRepo
+    ): Response {
+
+        $user = $candidat->getUser();
+        $curriculum = $candidat->getCurriculum();
+
+        $hardSkills = $curriculum->getSkills()->getHardSkill();
+        $softSkills = $curriculum->getSkills()->getSoftSkill();
+        $languages = $curriculum->getSkills()->getLanguages();
+        $hobbies = $curriculum->getHobbie();
+
+        $experiences = $experienceRepository->findBy(
+            ['curriculum' => $curriculum],
+            ['beginning' => 'ASC'],
+            10
+        );
+
+        $certifications = $certificationRepo->findBy(
+            ['curriculum' => $curriculum],
+            ['year' => 'ASC'],
+            10
+        );
+
+        return $this->render('candidat/profile.html.twig', [
+            'user' => $user,
+            'experiences' => $experiences,
+            'certifications' => $certifications,
+            'hardSkills' => $hardSkills,
+            'softSkills' => $softSkills,
+            'languages' => $languages,
+            'hobbies' => $hobbies
         ]);
     }
 }

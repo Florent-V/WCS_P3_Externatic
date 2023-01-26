@@ -9,7 +9,9 @@
 
         {{ include('certification/_form.html.twig') }}
 
-        <a href="{{ path('app_certification_index') }}">Retour à la liste des certifications</a>
+        <div class="d-flex justify-content-center mt-3">
+            <a class="btn btn-primary" href="{{ path('app_candidat_profile') }}#certificationPanel">Retour au profil</a>
+        </div>
 
     </main>
 

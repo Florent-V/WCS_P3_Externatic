@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 {% block title %}Synthèse des annonces {% endblock %}
 {% block body %}
-   <main class="consultantProcesses container" {{ stimulus_controller('symfony/ux-swup/swup', {
+   <main class="consultantProcesses" {{ stimulus_controller('symfony/ux-swup/swup', {
     containers: ['#ConsultProcesses', '#pageProcesses', '#sortingProcesses']
 }) }}>
-       <div class="sorting d-flex justify-content-start" id="sortingProcesses">
+       <div class="sorting d-flex justify-content-evenly" id="sortingProcesses">
            <p{% if synthesis.isSorted('r.createdAt') %} class="sorted"{% endif %}>
                {{ knp_pagination_sortable(synthesis, 'Date de création', 'r.createdAt') }}
            </p>
@@ -14,20 +14,33 @@
            <p{% if synthesis.isSorted('a.title') %} class="sorted"{% endif %}>
                {{ knp_pagination_sortable(synthesis, 'Annonce', 'a.title') }}
            </p>
+
+           <div class="pe-4">
+               {{ form_start(form,{'attr': {'class': 'd-flex'}}) }}
+               {{ form_row(form.search, {'required': false}) }}
+               <button class="btn btn-primary" type="submit">Go</button>
+               {{ form_end(form) }}
+           </div>
        </div>
-       <div class="container d-flex justify-content-center">
-           <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+       <div class="container d-grid" id="ConsultProcesses" >
+           <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mt-30">
             {% for synthese in synthesis %}
-                <div class="col" id="ConsultProcesses">
+                <div class="col mt-30" >
                     <div class="card h-100">
                     <div class="card-header col-md">
                         <a href="">{# NE PAS OUBLIER DE METTRE LE LIEN VERS LES CANDIATS #}
                         {{ synthese.candidat.user.firstname }}
                         {{ synthese.candidat.user.lastName }}
                         </a>
+                        <div class="rating">
+                            {% for i in 1..5 %}
+                                <i data-action="click->rating#updateRate" data-rate="{{ i }}"
+                                        class="{{ i <= synthese.rate ? 'bi bi-star-fill' : 'bi bi-star' }}"></i>
+                            {% endfor %}
+                        </div>
                     </div>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Nombre de RDV : {{ synthese.appointements.count }}</li>
+                            <li class="list-group-item">{{ synthese.appointements.count }} Rendez-vous en cours</li>
                             <li class="list-group-item d-flex justify-content-between">
                                 {% if synthese.annonce == null %}
                                     <p>Candidature spontanée à {{ synthese.company.name }}</p>
@@ -42,16 +55,17 @@
                             </li>
                             <li class="list-group-item">{{ synthese.status }}</li>
                             <li class="list-group-item">{{ synthese.externaticConsultant.user.firstname }}</li>
-                            <li class="list-group-item d-flex justify-content-center">
-                                <a href="{{ path('consultant_recruitment_process_show', {"id": synthese.id}) }}" class="btn btn-primary"> Suivre le processus</a>
+                            <li class="buttoncards list-group-item d-flex justify-content-center p-0 ">
+                                <a href="{{ path('consultant_recruitment_process_show', {"id": synthese.id}) }}" class="btn btn-primary rounded-0 rounded-bottom w-100"> Suivre le processus</a>
                             </li>
                         </ul>
 
                     </div>
                 </div>
              {% endfor %}
-            <div class="container d-flex justify-content-center mt-4" id="pageProcesses">{{ knp_pagination_render(synthesis) }}</div>
-        </div></div>
+        </div>
+       </div>
+       <div class="container d-flex justify-content-center mt-4" id="pageProcesses">{{ knp_pagination_render(synthesis) }}</div>
     </main>
 {% endblock %}
 
