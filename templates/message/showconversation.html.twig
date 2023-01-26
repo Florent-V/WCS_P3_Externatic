@@ -11,22 +11,26 @@
 {% endblock %}
 
 {% block body %}
-    <main class="messageConversation container" {{ stimulus_controller('symfony/ux-swup/swup', {
+    <main class="messageConversation messagerie container" {{ stimulus_controller('symfony/ux-swup/swup', {
         containers: ['#showMessage', "#pageSelectorConv"]
     }) }}>
-        <h1 class="text-center">Echange relatifs à <span
-                class="text-primary">{{ recruitmentProcess.annonce.title ?: recruitmentProcess.company.name }} </span>
+        <h1 class="text-center">Echange relatifs à
+            <span class="text-primary">{{ recruitmentProcess.annonce.title ?: recruitmentProcess.company.name }} </span>
+            <span> avec </span>
+            <span class="text-primary"> {{ recruitmentProcess.candidat.user.lastName|upper }} {{ recruitmentProcess.candidat.user.firstname|capitalize }}</span>
         </h1>
         <div class="Conversation d-flex justify-content-around">
             <section class="conversationList d-none d-lg-block col-md-5">
                 <div class="table-responsive-md">
                     <table class="table table-hover">
                         <thead>
-                        <tr>
-                            <th scope="row">Expediteur</th>
-                            <th scope="row">Intitulé de l'annonce</th>
-                            <th scope="row">Contenu</th>
-                        </tr>
+                            <tr>
+                                <th scope="row">Expediteur</th>
+                                <th scope="row">Intitulé de l'annonce</th>
+                                <th scope="row">Contenu</th>
+                                <th scope="row"></th>
+                                <th scope="row"></th>
+                            </tr>
                         </thead>
 
                         <tbody id='showMessage' data-controller="inbox">

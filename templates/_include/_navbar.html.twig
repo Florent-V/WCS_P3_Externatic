@@ -70,7 +70,7 @@
                             <a class="nav-link" href="{{ path('app_candidat_complete') }}">Compléter mon profil
                                 candidat</a>
                         </li>
-                    {% elseif is_granted("ROLE_CONSULTANT") and not is_granted("ROLE_ADMIN")%}
+                    {% elseif is_granted("ROLE_CONSULTANT")%}
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('consultant_board') }}">Tableau de bord</a>
                         </li>
@@ -93,23 +93,24 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('consultant_synthesis') }}">Mes recrutements</a>
                         </li>
+                        {% if is_granted("ROLE_ADMIN") %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('admin_app_company_new') }}">Ajouter une entreprise</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('admin_app_consultant_new') }}">Ajouter un consultant</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('admin_app_candidat_index') }}">Base Candidats</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('admin_app_consultant_index') }}">Base Recruteurs</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('admin_app_company_index') }}">Base Entreprises</a>
+                            </li>
+                        {% endif %}
 
-                    {% elseif is_granted("ROLE_ADMIN") %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('admin_app_company_new') }}">Ajouter une entreprise</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('admin_app_consultant_new') }}">Ajouter un consultant</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('admin_app_candidat_index') }}">Base Candidats</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('admin_app_consultant_index') }}">Base Recruteurs</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('admin_app_company_index') }}">Base Entreprises</a>
-                        </li>
                     {% else %}
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('app_login') }}">Se connecter</a>
