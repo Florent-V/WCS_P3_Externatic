@@ -43,14 +43,13 @@
                             <li class="list-group-item">{{ synthese.appointements.count }} Rendez-vous en cours</li>
                             <li class="list-group-item d-flex justify-content-between">
                                 {% if synthese.annonce == null %}
-                                    <p>Candidature spontanée à {{ synthese.company.name }}</p>
+                                    <p>{{ synthese.company.name|capitalize }} - Candidature spontanée</p>
                                     <img src="{{ vich_uploader_asset(synthese.company) }}" alt="{{ synthese.company.name }}">
                                 {% else %}
                                         <p>
                                             <a class="lienAnnonce stretched-link" style="transform: rotate(0);" href="{{ path('annonce_show', {"id": synthese.id}) }}">Annonce : {{ synthese.annonce.title }}</a>
                                         </p>
-                                    {#<img src="{{ vich_uploader_asset(synthese.annonce.company) }}" alt="{{ synthese.annonce.company }}">#}
-
+                                    <img src="{{ vich_uploader_asset(synthese.annonce.company) }}" alt="{{ synthese.annonce.company.name }}">}
                                 {% endif %}
                             </li>
                             <li class="list-group-item">{{ synthese.status }}</li>

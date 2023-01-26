@@ -172,6 +172,7 @@ class ExternaticConsultantController extends AbstractController
         $notesForm->handleRequest($request);
         if ($notesForm->isSubmitted() && $notesForm->isValid()) {
             $recruitProcessRepo->save($recruitmentProcess, true);
+
             return $this->redirectToRoute(
                 'consultant_recruitment_process_show',
                 ['id' => $recruitmentProcess->getId()]

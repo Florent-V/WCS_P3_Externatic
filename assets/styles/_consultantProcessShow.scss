@@ -1,4 +1,5 @@
 .consultantProcessShow {
+
     .rating > i {
         color: $primary;
         cursor: pointer;
@@ -15,6 +16,11 @@
 
     dialog {
         width: clamp(40rem, 55vh, 70rem);
+
+        ul {
+            list-style: none;
+            text-decoration: none;
+        }
 
         #appointment_length {
             display: flex;
@@ -33,15 +39,39 @@
                 select {
                     height: 2.5rem;
                 }
+
             }
         }
     }
 
     #rdvAndMessages {
-        gap:2rem;
+        gap: 2rem;
         margin-bottom: $spacer *2;
         margin-top: $spacer *2;
     }
+
+
+    .contactCard, .descriptionCandidat {
+        margin: $spacer;
+        border-radius: 24px;
+        background: #ffffff;
+        box-shadow: 5px -5px 13px #bababa,
+        -5px 5px 13px #ffffff;
+        padding: 1em;
+        margin-top: 1em;
+
+        .contacts {
+            display:grid;
+            grid-template-columns: 2rem 1fr;
+        }
+
+        img {
+            height: 1.5rem;
+            margin-right: .5rem;
+            vertical-align: super;
+        }
+    }
+
 
     section:not(.notes) {
 
@@ -50,6 +80,9 @@
         box-shadow: 20px 20px 60px #d9d9d9,
         -20px -20px 60px #ffffff;
         padding: $spacer;
+        margin-bottom: $spacer *2;
+        min-width: initial;
+        width:100%;
 
 
         &#appointments {
@@ -69,6 +102,11 @@
                 -5px 5px 13px #ffffff;
                 padding: 1em;
                 margin-top: 1em;
+
+                &.only {
+                    max-width:50%;
+                }
+
             }
 
             .boutton {
@@ -77,7 +115,7 @@
         }
 
         .showMessages {
-            max-height:90%;
+            max-height: 90%;
             overflow-y: scroll;
             padding: 1rem;
 
@@ -99,7 +137,6 @@
             grid-template-columns: 3fr 1fr;
             grid-gap: $spacer;
             width: 100%;
-            margin-bottom: $spacer * 2;
 
             p.description {
                 max-height: 6rem;
@@ -115,6 +152,19 @@
 
         }
 
+        &#techComp {
+            li {
+                display:grid;
+                grid-template-columns: 2rem 1fr;
+                img {
+                    height: 1.5rem;
+                    margin-right: .5rem;
+                    vertical-align: super;
+                }
+            }
+        }
+
     }
+
 }
 
