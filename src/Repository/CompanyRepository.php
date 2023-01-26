@@ -51,13 +51,17 @@ class CompanyRepository extends ServiceEntityRepository
 
     public function findCompany(string $search = ''): Query
     {
-        $qb = $this->createQueryBuilder('c');
+        $qb = $this->createQueryBuilder('c')
+        ->innerJoin('c.externaticConsultant', 'ec')
+        ->innerJoin('ec.user', 'u');
 
         if ($search) {
             $qb->where($qb->expr()->orX(
                 $qb->expr()->like('c.name', ':search'),
                 $qb->expr()->like('c.information', ':search'),
-                $qb->expr()->like('c.city', ':search')
+                $qb->expr()->like('c.city', ':search'),
+                $qb->expr()->like('u.firstname', ':search'),
+                $qb->expr()->like('u.lastName', ':search')
             ))
                 ->setParameter('search', '%' . $search . '%');
         }
