@@ -4,7 +4,6 @@ export default class extends Controller {
     static targets = ["error"]
 
     closeModal(event) {
-        console.log("cocou")
         this.errorTarget.close();
     }
 

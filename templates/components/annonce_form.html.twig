@@ -32,7 +32,6 @@
         </div>
     </div>
 
-
     {% if not is_granted('ROLE_ADMIN') %}
         {{ form_row(form.save) }}
         {{ form_widget(form._token) }}
@@ -42,6 +41,5 @@
         {{ form_row(form.save) }}
         {{ form_end(form) }}
     {% endif %}
-
 
 </div>

@@ -78,13 +78,20 @@
                             <a class="nav-link" href="{{ path('message_index') }}">Messagerie</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{  path('consultant_annonces') }}">Mes Annonces</a>
+                            <details open>
+                                <summary><a class="nav-link d-inline" href="{{  path('consultant_annonces') }}">Mes Annonces</a></summary>
+                                <ul class="subGroup justify-content-end flex-grow-1 pe-3" >
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ path('annonce_new') }}">Ajouter une offre</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ path('consultant_annonces_archives') }}">Archives</a>
+                                    </li>
+                                </ul>
+                            </details>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('consultant_synthesis') }}">Mes recrutements</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('annonce_new') }}">Ajouter une offre</a>
                         </li>
                         {% if is_granted("ROLE_ADMIN") %}
                             <span class="text-center badge text-bg-info">Fonction Admin</span>

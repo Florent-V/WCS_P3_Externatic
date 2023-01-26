@@ -5,7 +5,6 @@ namespace App\Repository;
 use App\Entity\ExternaticConsultant;
 use App\Entity\RecruitmentProcess;
 use App\Entity\User;
-use ContainerJU0Z8sU\getExternaticConsultantController2Service;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;

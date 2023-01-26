@@ -2,18 +2,19 @@
 
 namespace App\Controller;
 
+use App\Entity\Appointement;
 use App\Entity\RecruitmentProcess;
 use App\Entity\Candidat;
 use App\Entity\User;
 use App\Form\AdminSearchType;
+use App\Form\AppointmentType;
+use App\Form\RecruitmentProcessNotesType;
 use App\Repository\AnnonceRepository;
 use App\Repository\AppointementRepository;
 use App\Repository\CertificationRepository;
 use App\Repository\ExperienceRepository;
-use App\Repository\CandidatRepository;
 use App\Repository\MessageRepository;
 use App\Repository\RecruitmentProcessRepository;
-use App\Repository\UserRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -112,7 +113,7 @@ class ExternaticConsultantController extends AbstractController
         ]);
     }
 
-    #[Route('/recruitments', name:'synthesis', methods: ['GET'])]
+    #[Route('/recruitments', name: 'synthesis', methods: ['GET'])]
     public function processSynthesis(
         Request $request,
         RecruitmentProcessRepository $recruitProcessRepo,
@@ -146,16 +147,55 @@ class ExternaticConsultantController extends AbstractController
         ]);
     }
 
-    #[Route('/recruitments/{id}', name:'recruitment_process_show', methods: ['GET'])]
+    #[Route('/recruitments/{id}', name: 'recruitment_process_show', methods: ['GET', 'POST'])]
     public function recruitmentProcessShow(
         Request $request,
         RecruitmentProcessRepository $recruitProcessRepo,
-        RecruitmentProcess $recruitmentProcess
+        RecruitmentProcess $recruitmentProcess,
+        AppointementRepository $appointmentRepo,
     ): Response {
+        /**
+         * @var User $user
+         */
+        $user = $this->getUser();
 
+        if (
+            $recruitProcessRepo->getRelationToRecruitmentProcess($recruitmentProcess) != "Consultant" &&
+            !($this->isGranted('ROLE_ADMIN'))
+        ) {
+            $this->addFlash('danger', "Vous n'avez pas les droits pour accèder à ce processus");
+            return $this->redirectToRoute('consultant_board');
+        }
 
-        return $this->render('externatic_consultant/recruitmentProcessShow.html.twig', [
+        //Formulaire des notes
+        $notesForm = $this->createForm(RecruitmentProcessNotesType::class, $recruitmentProcess);
+        $notesForm->handleRequest($request);
+        if ($notesForm->isSubmitted() && $notesForm->isValid()) {
+            $recruitProcessRepo->save($recruitmentProcess, true);
+            return $this->redirectToRoute(
+                'consultant_recruitment_process_show',
+                ['id' => $recruitmentProcess->getId()]
+            );
+        }
+
+        //Formulaire des RDVs
+        $appointement = new Appointement();
+        $appointmentForm = $this->createForm(AppointmentType::class, $appointement);
+        $appointmentForm->handleRequest($request);
+        if ($appointmentForm->isSubmitted() && $appointmentForm->isValid()) {
+            $appointement->setRecruitmentProcess($recruitmentProcess);
+            $appointement->setConsultant($user->getConsultant());
+            $appointmentRepo->save($appointement, true);
+            return $this->redirectToRoute(
+                'consultant_recruitment_process_show',
+                ['id' => $recruitmentProcess->getId()]
+            );
+        }
+
+        return $this->renderForm('externatic_consultant/recruitmentProcessShow.html.twig', [
             'recruitmentProcess' => $recruitmentProcess,
+            'notesForm' => $notesForm,
+            'appointmentForm' => $appointmentForm
         ]);
     }
 

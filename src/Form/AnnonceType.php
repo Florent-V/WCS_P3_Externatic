@@ -71,6 +71,7 @@ class AnnonceType extends AbstractType
                 'with_months' => true,
                 'with_days' => true,
                 'with_hours' => false,
+                'labels' => ['years' => 'Années', 'mouths' => 'mois', 'days' => 'jours',],
             ])->add('studyLevel', null, [
                 'label' => 'Niveau d\'étude',
                 'attr' => ['placeholder' => 'studyLevel'],
@@ -82,6 +83,7 @@ class AnnonceType extends AbstractType
                 'with_days' => false,
                 'with_hours' => true,
                 'with_minutes' => true,
+                'labels' => ['hours' => 'Heures', 'minutes' => 'Minutes'],
                 'hours' => range(1, 50),
             ])->add('company', EntityType::class, [
                 'class' => Company::class,
