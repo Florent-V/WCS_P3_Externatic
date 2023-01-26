@@ -1,144 +1,144 @@
 {% extends 'base.html.twig' %}
 {% block title %}Processus de Recrutement{% endblock %}
 {% block body %}
-<main class="consultantProcessShow container-md mb-3 px-sm-5" {{ stimulus_controller('recruitProssConsult') }}>
-    <header class="d-flex justify-content-between align-items-center">
-        <h1>
-            <a class="text-decoration-none" title="accéder au profile complet"
-               href="">{{ recruitmentProcess.candidat.user.lastName|upper }} {{ recruitmentProcess.candidat.user.firstname|capitalize }}</a>
-            <span> <i class="bi bi-arrow-right"></i> </span>
+    <main class="consultantProcessShow container-md mb-3 px-sm-5" {{ stimulus_controller('recruitProssConsult') }}>
+        <header class="d-flex justify-content-between align-items-center">
+            <h1>
+                <a class="text-decoration-none" title="accéder au profile complet"
+                   href="">{{ recruitmentProcess.candidat.user.lastName|upper }} {{ recruitmentProcess.candidat.user.firstname|capitalize }}</a>
+                <span> <i class="bi bi-arrow-right"></i> </span>
 
-            {% if recruitmentProcess.annonce == null %}
-                <span class="fst-italic">
+                {% if recruitmentProcess.annonce == null %}
+                    <span class="fst-italic">
                         Candidature spontanée à
                     </span>
-                <a class="text-decoration-none" title="accéder à l'entreprise"
-                   href="{{ path('app_company_show', {'id':recruitmentProcess.company.id}) }}"
-                   target="_blank">{{ recruitmentProcess.company.name }}</a>
+                    <a class="text-decoration-none" title="accéder à l'entreprise"
+                       href="{{ path('app_company_show', {'id':recruitmentProcess.company.id}) }}"
+                       target="_blank">{{ recruitmentProcess.company.name }}</a>
 
-            {% else %}
-                <span>
+                {% else %}
+                    <span>
                         <a class="text-decoration-none" style="transform: rotate(0);"
                            href="{{ path('annonce_show', {"id": recruitmentProcess.id}) }}"> {{ recruitmentProcess.annonce.title }}</a>
                     </span>
-            {% endif %}
-        </h1>
-        <div class="rating" data-recruitmentprocessid="{{ recruitmentProcess.id }}">
-            {% for i in 1..5 %}
-                <i data-action="click->recruitProssConsult#updateRate" data-rate="{{ i }}"
-                   class="{{ i <= recruitmentProcess.rate ? 'bi bi-star-fill' : 'bi bi-star' }}"></i>
-            {% endfor %}
-        </div>
-    </header>
+                {% endif %}
+            </h1>
+            <div class="rating" data-recruitmentprocessid="{{ recruitmentProcess.id }}">
+                {% for i in 1..5 %}
+                    <i data-action="click->recruitProssConsult#updateRate" data-rate="{{ i }}"
+                       class="{{ i <= recruitmentProcess.rate ? 'bi bi-star-fill' : 'bi bi-star' }}"></i>
+                {% endfor %}
+            </div>
+        </header>
 
-    <hr class="text-primary">
+        <hr class="text-primary">
 
-    <section class="notes mb-3">
-        <h2 class="d-flex">
-            <i class="bi bi-pencil-square me-1"></i>
-            <span>Prise de notes</span>
-        </h2>
+        <section class="notes mb-3">
+            <h2 class="d-flex">
+                <i class="bi bi-pencil-square me-1"></i>
+                <span>Prise de notes</span>
+            </h2>
+            <div>
+                {{ form_start(notesForm) }}
+                {{ form_widget(notesForm.information) }}
+                {{ form_end(notesForm) }}
+            </div>
+        </section>
+
+
+        {# ||||||||||| PARTIE VARIABLE ||||||||||| #}
         <div>
-            {{ form_start(notesForm) }}
-            {{ form_widget(notesForm.information) }}
-            {{ form_end(notesForm) }}
-        </div>
-    </section>
 
-
-    {# ||||||||||| PARTIE VARIABLE ||||||||||| #}
-    <div>
-
-        <dialog {{ stimulus_target('recruitProssConsult','error') }}>
-            <div class="d-flex justify-content-end">
-                <button class="btn btn-danger" data-action="recruitProssConsult#closeModal"><i class="bi bi-x"></i>
-                </button>
-            </div>
-            {{ form_start(appointmentForm) }}
-            {{ form_row(appointmentForm.title) }}
-            <div class="d-flex justify-content-evenly">
-                <div>
-                    {{ form_row(appointmentForm.date) }}
-                </div>
-                <div>
-                    {{ form_label(appointmentForm.length) }}
-                    <div class="d-flex align-items-center">
-                        {{ form_widget(appointmentForm.length) }}
-                    </div>
-                </div>
-            </div>
-            {{ form_label(appointmentForm.adress) }}
-            {{ form_widget(appointmentForm.adress, {'attr': {
-                'data-action': 'recruitProssConsult#searchAddress',
-                'data-recruitProssConsult-target': 'inputAddress'
-            }}) }}
-            <ul {{ stimulus_target('recruitProssConsult', 'resultList')}}>
-            </ul>
-            {{ form_end(appointmentForm) }}
-        </dialog>
-
-
-        <div id="rdvAndMessages" class="d-flex justify-content-between flex-wrap flex-md-nowrap">
-            <section id="appointments">
-                <div class="d-flex justify-content-between m-auto">
-                    <h2>Vos rendez-vous</h2>
-                    <button data-action="recruitProssConsult#addAppointment" class="btn btn-primary mt-2"><i class="bi bi-plus-circle"></i> <i
-                            class="ms-2 bi bi-calendar"></i>
+            <dialog {{ stimulus_target('recruitProssConsult','error') }}>
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-danger" data-action="recruitProssConsult#closeModal"><i class="bi bi-x"></i>
                     </button>
                 </div>
-
-                <div class="rdvList">
-                    {% for appointment in recruitmentProcess.appointements %}
-                        <div class="rdv">
-                            <h3 class="h4">{{ appointment.title }}</h3>
-                            <small
-                                class="fst-italic">{{ appointment.date|format_datetime('long', 'short', locale='fr') }}</small>
-                            <small>{{ appointment.adress }}</small>
-
-                            <div class="">
-                                <p class="fst-italic">{{ appointment.description }}</p>
-                                <p>
-                                    {{ render(controller('App\\Controller\\CalendarLinkController::getLinks', {appointment})) }}
-                                </p>
-                            </div>
+                {{ form_start(appointmentForm) }}
+                {{ form_row(appointmentForm.title) }}
+                <div class="d-flex justify-content-evenly">
+                    <div>
+                        {{ form_row(appointmentForm.date) }}
+                    </div>
+                    <div>
+                        {{ form_label(appointmentForm.length) }}
+                        <div class="d-flex align-items-center">
+                            {{ form_widget(appointmentForm.length) }}
                         </div>
-                    {% endfor %}
+                    </div>
                 </div>
-            </section>
+                {{ form_label(appointmentForm.adress) }}
+                {{ form_widget(appointmentForm.adress, {'attr': {
+                    'data-action': 'recruitProssConsult#searchAddress',
+                    'data-recruitProssConsult-target': 'inputAddress'
+                }}) }}
+                <ul {{ stimulus_target('recruitProssConsult', 'resultList') }}>
+                </ul>
+                {{ form_end(appointmentForm) }}
+            </dialog>
 
-            <section class="messages">
-                <div class="d-flex justify-content-between">
-                    <h3 class=>Vos échanges avec
-                        <span>{{ recruitmentProcess.candidat.user.firstname|capitalize }}</span>
-                    </h3>
-                    <small>
-                        <a href="{{ path('message_conversation', {"recruitmentProcess": recruitmentProcess.id}) }}">
-                            <button class=" btn btn-primary"><i class="bi bi-chat-text-fill"></i></button>
-                        </a>
-                    </small>
-                </div>
 
-                <div class="showMessages col w-100 m-2 p-2
+            <div id="rdvAndMessages" class="d-flex justify-content-between flex-wrap flex-md-nowrap">
+                <section id="appointments">
+                    <div class="d-flex justify-content-between m-auto">
+                        <h2>Vos rendez-vous</h2>
+                        <button data-action="recruitProssConsult#addAppointment" class="btn btn-primary mt-2"><i
+                                class="bi bi-plus-circle"></i> <i
+                                class="ms-2 bi bi-calendar"></i>
+                        </button>
+                    </div>
+
+                    <div class="rdvList">
+                        {% for appointment in recruitmentProcess.appointements %}
+                            <div class="rdv">
+                                <h3 class="h4">{{ appointment.title }}</h3>
+                                <small
+                                    class="fst-italic">{{ appointment.date|format_datetime('long', 'short', locale='fr') }}</small>
+                                <small>{{ appointment.adress }}</small>
+
+                                <div class="">
+                                    <p class="fst-italic">{{ appointment.description }}</p>
+                                    <p>
+                                       Rendez-vous via : {{ render(controller('App\\Controller\\CalendarLinkController::getLinks', {appointment})) }}
+                                    </p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </section>
+
+                <section class="messages">
+                    <div class="d-flex justify-content-between">
+                        <h3 class=>Vos échanges avec
+                            <span>{{ recruitmentProcess.candidat.user.firstname|capitalize }}</span>
+                        </h3>
+                        <small>
+                            <a href="{{ path('message_conversation', {"recruitmentProcess": recruitmentProcess.id}) }}">
+                                <button class=" btn btn-primary"><i class="bi bi-chat-text-fill"></i> <i class="bi bi-arrow-right"></i></button>
+                            </a>
+                        </small>
+                    </div>
+
+                    <div class="showMessages col w-100 m-2 p-2
                     rounded rounded-3
                     w-25">
-                    {% for message in recruitmentProcess.messages|sort((a, b) => a.date(date) <=> b.date(date)) %}
-                        Le: {{ message.date|format_datetime('short', 'short', locale='fr') }}
-                        <article
-                            class="response {{ (message.sendby.id == app.user.id) ? "bg-primary text-white align-self-end" : "bg-white text-primary align-self-start" }}">
-                            <small class="d-block fst-italic
+                        {% for message in recruitmentProcess.messages|sort((a, b) => a.date(date) <=> b.date(date)) %}
+                            Le: {{ message.date|format_datetime('short', 'short', locale='fr') }}
+                            <article
+                                class="response {{ (message.sendby.id == app.user.id) ? "bg-primary text-white align-self-end" : "bg-white text-primary align-self-start" }}">
+                                <small class="d-block fst-italic
                                     {{ (message.sendBy.id == app.user.id) ? "text-light" : "text-primary" }}">
-                                {{ message.sendBy.firstname|capitalize }}<br>
-                            </small>
-                            {{ message.content }}
-                        </article>
-                    {% endfor %}
-                </div>
-            </section>
-        </div>
+                                    {{ message.sendBy.firstname|capitalize }}<br>
+                                </small>
+                                {{ message.content }}
+                            </article>
+                        {% endfor %}
+                    </div>
+                </section>
+            </div>
 
-        {% if recruitmentProcess.annonce != null %}
+            {% if recruitmentProcess.annonce != null %}
             <div id="annonceorCompany" class="d-flex justify-content-between flex-wrap flex-md-nowrap">
-
                 <section>
                     <h2>Rappel de l'annonce</h2>
                     <div>
@@ -150,21 +150,24 @@
                     <img src="{{ vich_uploader_asset(recruitmentProcess.annonce.company) }}"
                          alt="{{ recruitmentProcess.annonce.company.name }}"> #}
                 </section>
+
+                {% else %}
+                    <section id="annonceorCompany">
+                        <section>
+                            <h2>Rappel de l'entreprise</h2>
+                            <div>
+                                <h3>{{ recruitmentProcess.annonce.title }}</h3>
+                                <p class="description">{{ recruitmentProcess.annonce.description }}</p>
+                            </div>
+                        </section>
+                        <section>
+                            <img src="{{ vich_uploader_asset(recruitmentProcess.annonce.company) }}"
+                                 alt="{{ recruitmentProcess.annonce.company.name }}"> #}
+                        </section>
+                    </section>
+                {% endif %}
             </div>
-
-
-        {% else %}
-            <section id="annonce">
-                <h2>Rappel de l'entreprise</h2>
-
-            </section>
-    </div>
-
-        {% endif %}
-
-
-    </div>
-</main>
+    </main>
 
 
 {% endblock %}
