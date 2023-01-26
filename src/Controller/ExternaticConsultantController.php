@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\RecruitmentProcess;
 use App\Entity\Candidat;
 use App\Entity\User;
 use App\Form\AdminSearchType;
@@ -9,7 +10,10 @@ use App\Repository\AnnonceRepository;
 use App\Repository\AppointementRepository;
 use App\Repository\CertificationRepository;
 use App\Repository\ExperienceRepository;
+use App\Repository\CandidatRepository;
 use App\Repository\MessageRepository;
+use App\Repository\RecruitmentProcessRepository;
+use App\Repository\UserRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -105,6 +109,53 @@ class ExternaticConsultantController extends AbstractController
         return $this->renderForm('externatic_consultant/annoncesArchives.html.twig', [
             'annonces' => $annonces,
             'form' => $form
+        ]);
+    }
+
+    #[Route('/recruitments', name:'synthesis', methods: ['GET'])]
+    public function processSynthesis(
+        Request $request,
+        RecruitmentProcessRepository $recruitProcessRepo,
+        PaginatorInterface $paginator
+    ): Response {
+        /**
+         * @var User $user
+         */
+        $user = $this->getUser();
+
+        $form = $this->createForm(AdminSearchType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $synthesisQuery = $recruitProcessRepo->searchInProcess($user->getConsultant(), 0, $data['search']);
+        } else {
+            $synthesisQuery = $recruitProcessRepo->getRecruitmentProcessConsultant();
+        }
+
+
+
+        $synthesis = $paginator->paginate(
+            $synthesisQuery,
+            $request->query->getInt('page', 1),
+            8
+        );
+
+        return $this->renderForm('externatic_consultant/process-synthesis.html.twig', [
+            'synthesis' => $synthesis,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/recruitments/{id}', name:'recruitment_process_show', methods: ['GET'])]
+    public function recruitmentProcessShow(
+        Request $request,
+        RecruitmentProcessRepository $recruitProcessRepo,
+        RecruitmentProcess $recruitmentProcess
+    ): Response {
+
+
+        return $this->render('externatic_consultant/recruitmentProcessShow.html.twig', [
+            'recruitmentProcess' => $recruitmentProcess,
         ]);
     }
 

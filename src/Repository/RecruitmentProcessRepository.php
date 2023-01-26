@@ -2,9 +2,12 @@
 
 namespace App\Repository;
 
+use App\Entity\ExternaticConsultant;
 use App\Entity\RecruitmentProcess;
 use App\Entity\User;
+use ContainerJU0Z8sU\getExternaticConsultantController2Service;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Security;
 
@@ -22,6 +25,23 @@ class RecruitmentProcessRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, RecruitmentProcess::class);
     }
+
+    public function getRecruitmentProcessConsultant(): Query
+    {
+        /**
+         * @var ?User $user
+         */
+        $user = $this->security->getUser();
+
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.externaticConsultant = :consultant')
+            ->join('r.annonce', 'a')
+            ->setParameter('consultant', $user->getConsultant())
+            ->getQuery();
+    }
+
+
+
 
     public function save(RecruitmentProcess $entity, bool $flush = false): void
     {
@@ -81,6 +101,7 @@ class RecruitmentProcessRepository extends ServiceEntityRepository
 
     public function getRelationToRecruitmentProcess(RecruitmentProcess $recruitmentProcess): ?string
     {
+
         /** @var ?User $user */
         $user = $this->security->getUser();
 
@@ -92,28 +113,18 @@ class RecruitmentProcessRepository extends ServiceEntityRepository
         return null;
     }
 
-//    /**
-//     * @return RecruitmentProcess[] Returns an array of RecruitmentProcess objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('r.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function searchInProcess(
+        ExternaticConsultant $consultant,
+        int $publicationStatus,
+        ?string $search = ''
+    ): Query {
+        $qb = $this->createQueryBuilder('r')
+            ->andWhere('r.externaticConsultant = :consultant')
+            ->setParameter('consultant', $consultant)
+            ->join('r.annonce', 'a', 'WITH', 'a.title LIKE :search')
+            ->setParameter('search', '%' . $search . '%')
+            ->andWhere("a.publicationStatus = 1");
 
-//    public function findOneBySomeField($value): ?RecruitmentProcess
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        return $qb->getQuery();
+    }
 }

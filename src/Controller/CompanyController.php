@@ -81,7 +81,7 @@ class CompanyController extends AbstractController
 
 
             $messageRepository->save($message, true);
-            $this->addFlash('success', 'Vous avez postulé !');
+            $this->addFlash('success', 'Vous avez effectueé une cadidature spontanée !');
             return $this->redirectToRoute('app_company_show', ['id' => $company->getId()]);
         }
         return $this->renderForm('company/show.html.twig', [
