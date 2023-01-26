@@ -32,12 +32,10 @@
         </div>
     </div>
 
-
     {% if is_granted("ROLE_ADMIN") %}
         {{ form_row(form.author) }}
     {% endif %}
     {{ form_row(form.save) }}
     {{ form_end(form) }}
-
 
 </div>

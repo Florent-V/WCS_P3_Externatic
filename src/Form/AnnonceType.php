@@ -9,12 +9,10 @@ use App\Repository\AnnonceRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateIntervalType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
@@ -47,44 +45,48 @@ class AnnonceType extends AbstractType
                 'row_attr' => ['class' => 'form-floating mb-3'],
                 'label' => 'Titre',
                 'attr' => ['placeholder' => 'Titre']
-            ])
-            ->add('salaryMin', MoneyType::class, [
+            ])->add('salaryMin', MoneyType::class, [
                 'label' => 'Salaire Min',
                 'attr' => ['placeholder' => 'Salaire Min'],
                 'row_attr' => ['class' => 'form-floating'],
-            ])
-            ->add('salaryMax', MoneyType::class, [
+            ])->add('salaryMax', MoneyType::class, [
                 'label' => 'Salaire Max',
                 'required' => false,
                 'attr' => ['placeholder' => 'Salaire Max'],
                 'row_attr' => ['class' => 'form-floating mb-3'],
-            ])
-            ->add('contractType', ChoiceType::class, [
+            ])->add('contractType', ChoiceType::class, [
                 'choices' => $this->fetchingContractTypes(),
                 'expanded' => true,
                 'multiple' => false,
                 'attr' => ['class' => 'contracts']
-            ])
-            ->add('contractDuration', DateIntervalType::class, [
+            ])->add('contractDuration', DateIntervalType::class, [
                 'label' => "Durée du contrat",
                 'with_years' => true,
                 'with_months' => true,
                 'with_days' => true,
                 'with_hours' => false,
-            ])
-            ->add('studyLevel', null, [
+                'labels' => [
+                    'years' => 'Années',
+                    'mouths' => 'mois',
+                    'days' => 'jours',
+                ],
+            ])->add('studyLevel', null, [
                 'label' => 'Niveau d\'étude',
                 'attr' => ['placeholder' => 'studyLevel'],
                 'row_attr' => ['class' => 'form-floating mb-3 mt-3'],
-            ])
-            ->add('workTime', DateIntervalType::class, [
+            ])->add('workTime', DateIntervalType::class, [
                 'label' => 'Durée hebdomadaire',
                 'with_years' => false,
                 'with_months' => false,
                 'with_days' => false,
                 'with_hours' => true,
                 'with_minutes' => true,
+                'labels' => [
+                    'hours' => 'Heures',
+                    'minutes' => 'Minutes',
+                ],
                 'hours' => range(1, 50),
+
             ])
             ->add('company', null, [
                 'choice_label' => 'name',
