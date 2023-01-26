@@ -3,10 +3,11 @@
 {% block title %}Hello CalendarLinkController!{% endblock %}
 
 {% block body %}
-
-<div>
+<h3>Prenez rendez-vous via:</h3>
+<div class="d-flex flex-sm-nowrap ">
     <a href="{{ googleLink }}" target="_blank"><button class="btn btn-primary">Google</button></a>
     <a href="{{ outlookLink }}"target="_blank"><button class="btn btn-primary">Outlook</button></a>
     <a href="{{ icsLink }}"target="_blank"><button class="btn btn-primary">Ics</button></a>
 </div>
 {% endblock %}
+

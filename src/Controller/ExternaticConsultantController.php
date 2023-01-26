@@ -163,7 +163,7 @@ class ExternaticConsultantController extends AbstractController
             $recruitProcessRepo->getRelationToRecruitmentProcess($recruitmentProcess) != "Consultant" &&
             !($this->isGranted('ROLE_ADMIN'))
         ) {
-            $this->addFlash('danger', "Vous n'avez pas les droits pour accèder à ce processus");
+            $this->addFlash('danger', "Vous n'avez pas les droits pour visualiser à ce processus");
             return $this->redirectToRoute('consultant_board');
         }
 

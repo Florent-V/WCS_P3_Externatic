@@ -94,11 +94,15 @@
                             <a class="nav-link" href="{{ path('consultant_synthesis') }}">Mes recrutements</a>
                         </li>
                         {% if is_granted("ROLE_ADMIN") %}
+                            <span class="text-center badge text-bg-info">Fonction Admin</span>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ path('admin_app_company_new') }}">Ajouter une entreprise</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ path('admin_app_consultant_new') }}">Ajouter un consultant</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('admin_app_company_switch') }}">Switch Entreprise</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ path('admin_app_candidat_index') }}">Base Candidats</a>
