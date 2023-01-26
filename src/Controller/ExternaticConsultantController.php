@@ -13,7 +13,6 @@ use App\Repository\AnnonceRepository;
 use App\Repository\AppointementRepository;
 use App\Repository\CertificationRepository;
 use App\Repository\ExperienceRepository;
-use App\Repository\CandidatRepository;
 use App\Repository\MessageRepository;
 use App\Repository\RecruitmentProcessRepository;
 use Knp\Component\Pager\PaginatorInterface;
@@ -159,6 +158,14 @@ class ExternaticConsultantController extends AbstractController
          * @var User $user
          */
         $user = $this->getUser();
+
+        if (
+            $recruitProcessRepo->getRelationToRecruitmentProcess($recruitmentProcess) != "Consultant" &&
+            !($this->isGranted('ROLE_ADMIN'))
+        ) {
+            $this->addFlash('danger', "Vous n'avez pas les droits pour accèder à ce processus");
+            return $this->redirectToRoute('consultant_board');
+        }
 
         //Formulaire des notes
         $notesForm = $this->createForm(RecruitmentProcessNotesType::class, $recruitmentProcess);
