@@ -1,5 +1,9 @@
 .consultantProcessShow {
 
+    h2 {
+        margin-bottom: 1rem;
+    }
+
     .rating > i {
         color: $primary;
         cursor: pointer;
@@ -51,7 +55,7 @@
     }
 
 
-    .contactCard, .descriptionCandidat {
+    .contactCard, .descriptionCandidat, .tech {
         margin: $spacer;
         border-radius: 24px;
         background: #ffffff;
@@ -65,11 +69,26 @@
             grid-template-columns: 2rem 1fr;
         }
 
+
         img {
             height: 1.5rem;
             margin-right: .5rem;
             vertical-align: super;
         }
+    }
+
+    .contactCard {
+        padding:1rem;
+        overflow-x: clip;
+        text-overflow: ellipsis;
+        flex-shrink: 1;
+        min-width:25%;
+    }
+
+    .descriptionCandidat {
+        flex-grow:1;
+        overflow-y: scroll;
+        @include scrollBar;
     }
 
 
@@ -86,13 +105,15 @@
 
 
         &#appointments {
-            overflow-y: scroll;
-            @include scrollBar;
-
+            max-height: 35rem;
             .rdvList {
+                overflow-y: scroll;
+                @include scrollBar;
                 display: grid;
+                padding: 1rem;
                 gap: 1rem;
                 grid-template-columns: repeat( auto-fit, minmax(15rem, 1fr) );
+                max-height: 90%;
             }
 
             .rdv {
@@ -114,21 +135,25 @@
             }
         }
 
-        .showMessages {
-            max-height: 90%;
-            overflow-y: scroll;
-            padding: 1rem;
+        &.messages {
+            max-height: 35rem;
+            .showMessages {
+                max-height: 90%;
+                overflow-y: scroll;
+                padding: 1rem;
 
-            > .response {
-                border-radius: 5px;
-                margin-bottom: 10px;
-                padding: .5em;
-                border: 1px solid $primary;
-                box-shadow: 5px 5px 13px #bababa,
-                -5px -5px 13px #ffffff;
+                > .response {
+                    border-radius: 5px;
+                    margin-bottom: 10px;
+                    padding: .5em;
+                    border: 1px solid $primary;
+                    box-shadow: 5px 5px 13px #bababa,
+                    -5px -5px 13px #ffffff;
+                    width: 75%;
+                }
+
+                @include scrollBar;
             }
-
-            @include scrollBar;
         }
 
 
@@ -153,18 +178,22 @@
         }
 
         &#techComp {
-            li {
+            .comparatif {
                 display:grid;
-                grid-template-columns: 2rem 1fr;
-                img {
-                    height: 1.5rem;
-                    margin-right: .5rem;
-                    vertical-align: super;
+                grid-template-columns: 1fr 1fr 1fr;
+                li {
+                    display:grid;
+                    grid-template-columns: 2.5rem 1fr;
+                    padding:.5rem 0;
+                    img {
+                        object-fit:contain;
+                        width: 2rem;
+                        max-height:2rem;
+                    }
+                    border-bottom: 1px solid #acacac;
                 }
             }
         }
-
     }
-
 }
 

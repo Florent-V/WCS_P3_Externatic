@@ -2,7 +2,7 @@ import {Controller} from '@hotwired/stimulus';
 
 export default class extends Controller {
 
-    addMargin(event) {
+/*    addMargin(event) {
         if ((window.location.pathname).startsWith("/consultant")) {
             document.querySelector("main").style.marginLeft = "18rem";
         }
@@ -14,10 +14,13 @@ export default class extends Controller {
                 document.querySelector("main").style.marginLeft = ""
             }, 500);
         }
-    }
+    }*/
 
     connect() {
-        document.querySelector("main").style.marginLeft = "18rem";
+/*        if ((window.location.pathname).startsWith("/consultant")) {
+            document.querySelector("main").style.marginLeft = "";
+        }*/
+
 
         /*        if ((window.location.pathname).startsWith("/consultant")) {
                     document.querySelector(".navbar-toggler").addEventListener('click', (e) => {

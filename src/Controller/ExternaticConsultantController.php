@@ -15,6 +15,7 @@ use App\Repository\CertificationRepository;
 use App\Repository\ExperienceRepository;
 use App\Repository\MessageRepository;
 use App\Repository\RecruitmentProcessRepository;
+use App\Repository\TechnoRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -153,6 +154,7 @@ class ExternaticConsultantController extends AbstractController
         RecruitmentProcessRepository $recruitProcessRepo,
         RecruitmentProcess $recruitmentProcess,
         AppointementRepository $appointmentRepo,
+        TechnoRepository $technoRepository,
     ): Response {
         /**
          * @var User $user
@@ -196,7 +198,8 @@ class ExternaticConsultantController extends AbstractController
         return $this->renderForm('externatic_consultant/recruitmentProcessShow.html.twig', [
             'recruitmentProcess' => $recruitmentProcess,
             'notesForm' => $notesForm,
-            'appointmentForm' => $appointmentForm
+            'appointmentForm' => $appointmentForm,
+            'AllTechs' => $technoRepository->findAll(),
         ]);
     }
 

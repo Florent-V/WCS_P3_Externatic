@@ -8,9 +8,8 @@
         <div class="d-flex justify-content-between align-items-center flex-column flex-md-row ">
             <h1>
                 <a class="text-decoration-none" title="accéder au profile complet"
-                   href="">{{ recruitmentProcess.candidat.user.lastName|upper }} {{ recruitmentProcess.candidat.user.firstname|capitalize }}</a>
+                   href="{{ path('consultant_app_candidat_show', {'id' : recruitmentProcess.candidat.id }) }}">{{ recruitmentProcess.candidat.user.lastName|upper }} {{ recruitmentProcess.candidat.user.firstname|capitalize }}</a>
                 <span> <i class="bi bi-arrow-right"></i> </span>
-
                 {% if recruitmentProcess.annonce == null %}
                     <span class="fst-italic fs-4">
                         Candidature spontanée à
@@ -34,7 +33,7 @@
             </div>
         </div>
         {{ app.request.uri != app.request.headers.get('referer') ?
-        "<a class='btn btn-primary' href='{{ (app.request.headers.get('referer')) }}' title='retour à la page précédente'><i class='me-1 bi bi-arrow-return-left'></i>Retour</a>"
+        ("<a class='btn btn-primary' href='" ~ app.request.headers.get('referer') ~ "' title='retour à la page précédente'><i class='me-1 bi bi-arrow-return-left'></i>Retour</a>")|raw
         : "" }}
         <hr class="text-primary">
 
@@ -57,7 +56,7 @@
             {# RDV modale #}
             {% include('externatic_consultant/_modalAppointment.html.twig') %}
 
-            <div id="rdvAndMessages" class="d-flex flex-wrap flex-md-nowrap">
+            <div id="rdvAndMessages" class="d-flex flex-wrap flex-lg-nowrap">
                 {# RDV #}
                 <section id="appointments">
                     <div class="d-flex justify-content-between m-auto">
@@ -100,15 +99,16 @@
                     </div>
                     <div class="showMessages col w-100 m-2 p-2
                     rounded rounded-3
-                    w-25">
+                    w-25 d-flex flex-column">
                         {% if recruitmentProcess.messages|length != 0 %}
                             {% for message in recruitmentProcess.messages|sort((a, b) => a.date(date) <=> b.date(date)) %}
-                                Le: {{ message.date|format_datetime('short', 'short', locale='fr') }}
                                 <article
                                     class="response {{ (message.sendby.id == app.user.id) ? "bg-primary text-white align-self-end" : "bg-white text-primary align-self-start" }}">
                                     <small class="d-block fst-italic
                                     {{ (message.sendBy.id == app.user.id) ? "text-light" : "text-primary" }}">
-                                        {{ message.sendBy.firstname|capitalize }}<br>
+                                        {{ message.sendBy.firstname|capitalize }} -
+                                        <span>Le : {{ message.date|format_datetime('short', 'short', locale='fr') }}</span>
+                                        <br>
                                     </small>
                                     {{ message.content }}
                                 </article>
@@ -188,13 +188,18 @@
                         <a title="Profil Github"
                            href="{{ recruitmentProcess.candidat.github }}"
                            target="_blank"><img alt="Profil Github" src="{{ asset('build/images/github.png') }}"></a>
-                        <p>{{ recruitmentProcess.candidat.github }}</p>
+
+                        <p><a title="Profil Github"
+                              href="{{ recruitmentProcess.candidat.github }}"
+                              target="_blank">Github</a></p>
 
                         <a title="Profil LinkedIn"
                            href="{{ recruitmentProcess.candidat.linkedIn }}"
                            target="_blank"><img alt="Profil LinkedIn"
                                                 src="{{ asset('build/images/linkedin.png') }}"></a>
-                        <p>{{ recruitmentProcess.candidat.linkedIn }}</p>
+                        <p><a title="Profil LinkedIn"
+                              href="{{ recruitmentProcess.candidat.linkedIn }}"
+                              target="_blank">LinkedIn</a></p>
                     </div>
                 </div>
                 <div class="descriptionCandidat">
@@ -214,36 +219,65 @@
         {# Comparatif technos #}
         <section id="techComp">
             <h2>Les Technos </h2>
-            {% if recruitmentProcess.annonce != null %}
-                <div class="tech d-inline-block mt-3">
-                    <h3>Technos de l'annonce</h3>
-                    <ul class="ms-2 ps-0 mt-2 pb-2">
-                        {% for tech in recruitmentProcess.annonce.techno %}
-                            <li class="mt-3 d-flex align-items-center">
-                                <img src="{{ asset('/uploads/images/logo/' ~ tech.picture) }}"
-                                     alt="image de {{ tech.name }}"
-                                     class="image_techno">
-                                <p class="d-inline-block techno-name ms-2">{{ tech.name }}</p>
+            <div class="comparatif">
+                {# TECHNO DE L'ANNONCE #}
+                {% if recruitmentProcess.annonce != null %}
+                    <div class="tech d-inline-block mt-3">
+                        <h3>Technos de l'annonce</h3>
+                        <ul>
+                            {% for tech in recruitmentProcess.annonce.techno %}
+                                <li>
+                                    <img src="{{ asset('/uploads/images/logo/' ~ tech.picture) }}"
+                                         alt="image de {{ tech.name }}">
+                                    <p class="d-inline-block techno-name ms-2">{{ tech.name }}</p>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+
+                    <div class="tech">
+                        <h3>Technos communes</h3>
+                        <ul>
+                            {% for techCandidat in recruitmentProcess.candidat.curriculum.skills.hardSkill %}
+
+                                    {% for techAnnonce in recruitmentProcess.annonce.techno %}
+                                        {% if techAnnonce.name == techCandidat.name %}
+                                            <li><img src="{{ asset('/uploads/images/logo/' ~ techAnnonce.picture) }}"
+                                                 alt="image de {{ techAnnonce.name }}"
+                                                 title="{{ techAnnonce.name }}">
+                                            <p>{{ techAnnonce.name }}</p>                                </li>
+                                        {% endif %}
+                                    {% endfor %}
+
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                {% endif %}
+
+
+
+                {# TECHNO DU CANDIDAT #}
+                <div class="tech">
+                    <h3>HardSkills du candidat</h3>
+                    <ul>
+                        {% for techCandidat in recruitmentProcess.candidat.curriculum.skills.hardSkill %}
+                            <li>
+                                {% for tech in AllTechs %}
+                                    {% if techCandidat.name == tech.name %}
+                                        <img src="{{ asset('/uploads/images/logo/' ~ tech.picture) }}"
+                                             alt="image de {{ techCandidat.name }}"
+                                             title="{{ techCandidat.name }}">
+                                    {% elseif loop.last %}
+                                        <p>{{ techCandidat.name }}</p>
+                                    {% endif %}
+                                {% endfor %}
                             </li>
                         {% endfor %}
                     </ul>
                 </div>
-            {% endif %}
-            <h3>Technos du candidat</h3>
-            <ul class="ms-2 ps-0 mt-2 pb-2">
-                {% for tech in recruitmentProcess.candidat.curriculum.skills.hardSkill %}
-                    <li class="mt-3 d-flex align-items-center">
-                        <img src="{{ asset('/uploads/images/logo/' ~ tech.picture) }}"
-                             alt="image de {{ tech.name }}"
-                             class="image_techno">
-                        <p class="d-inline-block techno-name ms-2">{{ tech.name }}</p>
-                    </li>
-                {% endfor %}
-            </ul>
+            </div>
         </section>
-
-
     </main>
-
-
 {% endblock %}
