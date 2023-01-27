@@ -7,7 +7,7 @@ use App\Form\AdminSearchType;
 use App\Form\CompanySwitchType;
 use App\Form\CompanyType;
 use App\Repository\CompanyRepository;
-use App\Service\SwitchCompany;
+use App\Service\CompanyTools;
 use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -70,7 +70,7 @@ class CompanyController extends AbstractController
     #[Route('/switch', name: 'app_company_switch', methods: ['GET', 'POST'])]
     public function switch(
         Request $request,
-        SwitchCompany $switchCompany
+        CompanyTools $switchCompany
     ): Response {
 
         $form = $this->createForm(CompanySwitchType::class);
@@ -103,7 +103,6 @@ class CompanyController extends AbstractController
     }
 
 
-
     #[Route('/{id}/edit', name: 'app_company_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Company $company, CompanyRepository $companyRepository): Response
     {
@@ -120,6 +119,34 @@ class CompanyController extends AbstractController
             'company' => $company,
             'form' => $form,
         ]);
+    }
+
+    #[Route('/{id}/disable', name: 'app_company_disable', methods: ['GET', 'POST'])]
+    public function disable(
+        Company $company,
+        CompanyRepository $companyRepository,
+        CompanyTools $companyTools
+    ): Response {
+
+        $companyTools->disable($company);
+        if (!$company->isActive()) {
+            $this->addFlash('success', 'L\'entreprise ' . $company->getName() . ' a bien été désactivée');
+        }
+        return $this->redirectToRoute('admin_app_company_index');
+    }
+
+    #[Route('/{id}/enable', name: 'app_company_enable', methods: ['GET', 'POST'])]
+    public function enable(
+        Company $company,
+        CompanyRepository $companyRepository,
+        CompanyTools $companyTools
+    ): Response {
+
+        $companyTools->enable($company);
+        if ($company->isActive()) {
+            $this->addFlash('success', 'L\'entreprise ' . $company->getName() . ' a bien été activée');
+        }
+        return $this->redirectToRoute('admin_app_company_index');
     }
 
     #[Route('/{id}', name: 'app_company_delete', methods: ['POST'])]
