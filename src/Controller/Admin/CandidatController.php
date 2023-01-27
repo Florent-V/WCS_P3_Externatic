@@ -6,8 +6,6 @@ use App\Entity\Candidat;
 use App\Form\AdminSearchType;
 use App\Form\CandidatType;
 use App\Repository\CandidatRepository;
-use App\Repository\CertificationRepository;
-use App\Repository\ExperienceRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

@@ -4,7 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Annonce;
 use App\Entity\ExternaticConsultant;
-use App\Entity\User;
 use DateInterval;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
