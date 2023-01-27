@@ -1,12 +1,7 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Hello CalendarLinkController!{% endblock %}
-
-{% block body %}
-
-<div>
-    <a href="{{ googleLink }}" target="_blank">Google</a>
-    <a href="{{ outlookLink }}"target="_blank">Outlook</a>
-    <a href="{{ icsLink }}"target="_blank">Ics</a>
+<h5 class="h5 fs-6">Ajouter à votre calendrier :</h5>
+<div class="d-inline flex-sm-nowrap ">
+    <a href="{{ googleLink }}" title="Google Agenda" target="_blank"><img class=logoMess src="{{ asset('build/images/G-agenda.png') }}" alt='Google agenda'></a>
+    <a href="{{ outlookLink }}" title="Outlook Agenda" target="_blank"><img class=logoMess src="{{ asset('build/images/O-agenda.png') }}" alt='Outlook agenda'"></a>
+    <a  href="{{ icsLink }}" title="Ical-Ics" target="_blank"><img class=logoMess src="{{ asset('build/images/i-agenda.png') }}" alt="other agendas"></a>
 </div>
-{% endblock %}
+

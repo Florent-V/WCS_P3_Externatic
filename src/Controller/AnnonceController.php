@@ -215,6 +215,15 @@ class AnnonceController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /**
+             * @var ?User $user
+             */
+            $user = $this->getUser();
+            if ($this->isGranted('ROLE_ADMIN')) {
+                $annonce->setAuthor($form->getData()->getAuthor());
+            } else {
+                $annonce->setAuthor($user->getConsultant());
+            }
             $annonceRepository->save($annonce, true);
             $this->addFlash('success', 'Annonce modifiée');
             return $this->redirectToRoute('annonce_show', ['id' => $annonce->getId()]);

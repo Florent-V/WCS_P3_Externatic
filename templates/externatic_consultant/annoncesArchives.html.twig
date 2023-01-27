@@ -3,7 +3,7 @@
 {% block title %}Vos annonces{% endblock %}
 
 {% block body %}
-    <main class="consultantAnnonces" {{ stimulus_controller('symfony/ux-swup/swup', {
+    <main class="consultantAnnonces container" {{ stimulus_controller('symfony/ux-swup/swup', {
         containers: ['#ConsultAnnonceArchives', '#pageAnnoncesArchives', '#sortingArchived']
     }) }}>
         <div class="d-flex flex-column align-items-center" {{ stimulus_controller('publiStatus') }}>
