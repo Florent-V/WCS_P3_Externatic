@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\RecruitmentProcess;
-use App\Entity\User;
 use App\Form\RecruitmentProcessType;
 use App\Repository\RecruitmentProcessRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;

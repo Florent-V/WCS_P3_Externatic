@@ -2,11 +2,8 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Candidat;
 use App\Entity\User;
-use App\Form\CandidatType;
 use App\Form\UserUpdateType;
-use App\Repository\CandidatRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
