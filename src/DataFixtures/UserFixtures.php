@@ -121,7 +121,7 @@ class UserFixtures extends Fixture
             $this->addReference('userConsultant_' . self::$userConsultantIndex, $user);
         }
 
-        for ($i = 0; $i <= 50; $i++) {
+        for ($i = 0; $i <= 20; $i++) {
             self::$userCandidatIndex++;
             $user = new User();
             $user->setEmail('candidat' . self::$userCandidatIndex . '@mail.fr');
