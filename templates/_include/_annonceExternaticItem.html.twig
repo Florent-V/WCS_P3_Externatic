@@ -25,7 +25,7 @@
                 {% for recruitmentProcess in annonce.recrutementProcesses|sort((a, b) => a.status <=> b.status) %}
                     <tr {{ stimulus_target('rating', 'recruitmentProcessLine') }}
                         data-recruitmentProcessId= {{ recruitmentProcess.id }}>
-                        <td>{{ recruitmentProcess.candidat.user.firstname|upper }} {{ recruitmentProcess.candidat.user.lastName|capitalize }}</td>
+                        <td><a href="{{ path('consultant_app_candidat_show', {'id': recruitmentProcess.candidat.id }) }}">{{ recruitmentProcess.candidat.user.firstname|upper }} {{ recruitmentProcess.candidat.user.lastName|capitalize }}</a></td>
                         <td>{{ recruitmentProcess.status }}</td>
                         <td class="rating">
                             {% for i in 1..5 %}

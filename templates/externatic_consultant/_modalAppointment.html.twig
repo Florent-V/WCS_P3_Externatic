@@ -1,0 +1,27 @@
+<dialog {{ stimulus_target('recruitProssConsult','error') }}>
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-danger" data-action="recruitProssConsult#closeModal"><i class="bi bi-x"></i>
+        </button>
+    </div>
+    {{ form_start(appointmentForm) }}
+    {{ form_row(appointmentForm.title) }}
+    <div class="d-flex justify-content-evenly">
+        <div>
+            {{ form_row(appointmentForm.date) }}
+        </div>
+        <div>
+            {{ form_label(appointmentForm.length) }}
+            <div class="d-flex align-items-center">
+                {{ form_widget(appointmentForm.length) }}
+            </div>
+        </div>
+    </div>
+    {{ form_label(appointmentForm.adress) }}
+    {{ form_widget(appointmentForm.adress, {'attr': {
+        'data-action': 'recruitProssConsult#searchAddress',
+        'data-recruitProssConsult-target': 'inputAddress'
+    }}) }}
+    <ul {{ stimulus_target('recruitProssConsult', 'resultList') }}>
+    </ul>
+    {{ form_end(appointmentForm) }}
+</dialog>

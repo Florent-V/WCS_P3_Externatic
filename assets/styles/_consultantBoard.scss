@@ -1,5 +1,4 @@
 .consultantBoard {
-    margin-left: $navBarWidth;
 
     section {
         height: 30vh;
@@ -50,25 +49,8 @@
             }
         }
 
-        //personnalisation scroll bar
-        scrollbar-color: $primary $light;
-        scrollbar-width: thin;
-        &::-webkit-scrollbar {
-            width: .5rem;
-        }
-        &::-webkit-scrollbar-thumb {
-            background: $primary;
-            border-radius: $border-radius;
-        }
+        @include scrollBar;
     }
-}
-
-.openNavBar {
-    margin-left: $navBarWidth;
-}
-
-.closedNavBar {
-    margin-left: initial;
 }
 
 

@@ -1,7 +1,9 @@
 .consultantProcessShow {
-    #rdvAndMessages{
-        height: 75vh;
+
+    h2 {
+        margin-bottom: 1rem;
     }
+
     .rating > i {
         color: $primary;
         cursor: pointer;
@@ -11,13 +13,18 @@
             text-shadow: 0 0 .5rem black;
         }
     }
-    h3 > span{
+
+    h3 > span {
         color: $primary;
     }
 
-
     dialog {
         width: clamp(40rem, 55vh, 70rem);
+
+        ul {
+            list-style: none;
+            text-decoration: none;
+        }
 
         #appointment_length {
             display: flex;
@@ -36,71 +43,165 @@
                 select {
                     height: 2.5rem;
                 }
+
             }
         }
     }
+
+    #rdvAndMessages {
+        gap: 2rem;
+        margin-bottom: $spacer *2;
+        margin-top: $spacer *2;
+        button {
+            height:2.5rem;
+        }
+    }
+
+
+    .contactCard, .descriptionCandidat, .tech {
+        margin: $spacer;
+        border-radius: 24px;
+        background: #ffffff;
+        box-shadow: 5px -5px 13px #bababa,
+        -5px 5px 13px #ffffff;
+        padding: 1em;
+        margin-top: 1em;
+
+        .contacts {
+            display:grid;
+            grid-template-columns: 2rem 1fr;
+        }
+
+
+        img {
+            height: 1.5rem;
+            margin-right: .5rem;
+            vertical-align: super;
+        }
+    }
+
+    .contactCard {
+        padding:1rem;
+        overflow-x: clip;
+        text-overflow: ellipsis;
+        flex-shrink: 1;
+        min-width:25%;
+    }
+
+    .descriptionCandidat {
+        flex-grow:1;
+        overflow-y: scroll;
+        @include scrollBar;
+    }
+
 
     section:not(.notes) {
 
         border-radius: $border-radius * 3;
         background: #ffffff;
-        box-shadow:  20px 20px 60px #d9d9d9,
+        box-shadow: 20px 20px 60px #d9d9d9,
         -20px -20px 60px #ffffff;
-        padding:2rem;
-        margin:2rem;
+        padding: $spacer;
+        margin-bottom: $spacer *2;
+        min-width: initial;
+        width:100%;
+
 
         &#appointments {
-            overflow-y: scroll;
-            @include scrollBar;
-
+            max-height: 35rem;
             .rdvList {
+                overflow-y: scroll;
+                @include scrollBar;
                 display: grid;
+                padding: 1rem;
                 gap: 1rem;
-                grid-template-columns: repeat( auto-fit, minmax(10rem, 1fr) );
-
-
+                grid-template-columns: repeat( auto-fit, minmax(15rem, 1fr) );
+                max-height: 90%;
             }
+
             .rdv {
                 border-radius: 24px;
                 background: #ffffff;
-                box-shadow:  5px -5px 13px #bababa,
+                box-shadow: 5px -5px 13px #bababa,
                 -5px 5px 13px #ffffff;
                 padding: 1em;
                 margin-top: 1em;
+
+                .logoMess {
+                    width:2rem;
+                    margin-left: .5rem;
+                }
+
+                &.only {
+                    max-width:50%;
+                }
+
             }
 
-        }
             .boutton {
                 justify-content: space-around;
             }
+        }
+
+        &.messages {
+            max-height: 35rem;
             .showMessages {
-                min-height: 90%;
+                max-height: 90%;
                 overflow-y: scroll;
                 padding: 1rem;
 
+                > .response {
+                    border-radius: 5px;
+                    margin-bottom: 10px;
+                    padding: .5em;
+                    border: 1px solid $primary;
+                    box-shadow: 5px 5px 13px #bababa,
+                    -5px -5px 13px #ffffff;
+                    width: 75%;
+                }
+
                 @include scrollBar;
             }
-
-            .showMessages > .response {
-                border-radius: 5px;
-                margin-bottom: 10px;
-                padding: .5em;
-                border: 1px solid $primary;
-                box-shadow: 5px -5px 13px #bababa,
-                -5px 5px 13px #ffffff;
-            }
+        }
 
 
-        &#annonce {
+        &#annonceorCompanySection {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            grid-gap: $spacer;
+            width: 100%;
+
             p.description {
-                max-height:6rem;
+                max-height: 6rem;
                 overflow-y: scroll;
-
                 @include scrollBar;
 
             }
-        }
+
+            img {
+                height: 80%;
+                margin: 0 auto;
+            }
 
         }
+
+        &#techComp {
+            .comparatif {
+                display:grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                li {
+                    display:grid;
+                    grid-template-columns: 2.5rem 1fr;
+                    padding:.5rem 0;
+                    img {
+                        object-fit:contain;
+                        width: 2rem;
+                        max-height:2rem;
+                    }
+                    border-bottom: 1px solid #acacac;
+                }
+            }
+        }
+    }
 }
 

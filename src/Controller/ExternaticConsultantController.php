@@ -15,6 +15,7 @@ use App\Repository\CertificationRepository;
 use App\Repository\ExperienceRepository;
 use App\Repository\MessageRepository;
 use App\Repository\RecruitmentProcessRepository;
+use App\Repository\TechnoRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -153,6 +154,7 @@ class ExternaticConsultantController extends AbstractController
         RecruitmentProcessRepository $recruitProcessRepo,
         RecruitmentProcess $recruitmentProcess,
         AppointementRepository $appointmentRepo,
+        TechnoRepository $technoRepository,
     ): Response {
         /**
          * @var User $user
@@ -163,7 +165,7 @@ class ExternaticConsultantController extends AbstractController
             $recruitProcessRepo->getRelationToRecruitmentProcess($recruitmentProcess) != "Consultant" &&
             !($this->isGranted('ROLE_ADMIN'))
         ) {
-            $this->addFlash('danger', "Vous n'avez pas les droits pour accèder à ce processus");
+            $this->addFlash('danger', "Vous n'avez pas les droits pour visualiser à ce processus");
             return $this->redirectToRoute('consultant_board');
         }
 
@@ -172,6 +174,7 @@ class ExternaticConsultantController extends AbstractController
         $notesForm->handleRequest($request);
         if ($notesForm->isSubmitted() && $notesForm->isValid()) {
             $recruitProcessRepo->save($recruitmentProcess, true);
+
             return $this->redirectToRoute(
                 'consultant_recruitment_process_show',
                 ['id' => $recruitmentProcess->getId()]
@@ -195,7 +198,8 @@ class ExternaticConsultantController extends AbstractController
         return $this->renderForm('externatic_consultant/recruitmentProcessShow.html.twig', [
             'recruitmentProcess' => $recruitmentProcess,
             'notesForm' => $notesForm,
-            'appointmentForm' => $appointmentForm
+            'appointmentForm' => $appointmentForm,
+            'AllTechs' => $technoRepository->findAll(),
         ]);
     }
 
