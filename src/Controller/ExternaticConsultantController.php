@@ -11,6 +11,7 @@ use App\Form\AppointmentType;
 use App\Form\RecruitmentProcessNotesType;
 use App\Repository\AnnonceRepository;
 use App\Repository\AppointementRepository;
+use App\Repository\CandidatRepository;
 use App\Repository\CertificationRepository;
 use App\Repository\ExperienceRepository;
 use App\Repository\MessageRepository;
@@ -196,6 +197,36 @@ class ExternaticConsultantController extends AbstractController
             'recruitmentProcess' => $recruitmentProcess,
             'notesForm' => $notesForm,
             'appointmentForm' => $appointmentForm
+        ]);
+    }
+
+    #[Route('/candidat/search', name: 'app_candidat_search', methods: ['GET'])]
+    public function candidatSearch(
+        Request $request,
+        CandidatRepository $candidatRepository,
+        PaginatorInterface $paginator
+    ): Response {
+
+        $form = $this->createForm(AdminSearchType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $queryCandidats = $candidatRepository->findCandidatByCriteria($data['search']);
+        } else {
+            $queryCandidats = $candidatRepository->findActiveCandidat();
+        }
+
+        $candidats = $paginator->paginate(
+            $queryCandidats,
+            $request->query->getInt('page', 1),
+            10
+        );
+
+        //dd($candidats);
+        return $this->renderForm('externatic_consultant/searchCandidat.html.twig', [
+            'candidats' => $candidats,
+            'form' => $form,
         ]);
     }
 

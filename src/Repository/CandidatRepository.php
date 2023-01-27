@@ -58,6 +58,41 @@ class CandidatRepository extends ServiceEntityRepository
         return $qb->getQuery();
     }
 
+    public function findCandidatByCriteria(string $research = ''): Query
+    {
+        $keywords = explode(" ", $research);
+
+        $qb = $this->createQueryBuilder('c')
+            ->innerJoin('c.user', 'u', 'WITH', 'u.isActive = true')
+            ->innerJoin('c.curriculum', 'cu')
+            ->innerJoin('cu.skills', 's')
+            ->innerJoin('s.hardSkill', 'hs')
+            ->innerJoin('s.softSkill', 'ss')
+            ->innerJoin('s.languages', 'l')
+            ->innerJoin('cu.experience', 'exp')
+            ->innerJoin('cu.certifications', 'cert');
+
+        foreach ($keywords as $key => $search) {
+                $qb->orWhere($qb->expr()->orX(
+                    $qb->expr()->like('u.firstname', ':search' . $key),
+                    $qb->expr()->like('u.lastName', ':search' . $key),
+                    $qb->expr()->like('u.email', ':search' . $key),
+                    $qb->expr()->like('c.city', ':search' . $key),
+                    $qb->expr()->like('c.description', ':search' . $key),
+                    $qb->expr()->like('cert.title', ':search' . $key),
+                    $qb->expr()->like('exp.title', ':search' . $key),
+                    $qb->expr()->like('exp.organism', ':search' . $key),
+                    $qb->expr()->like('exp.diploma', ':search' . $key),
+                    $qb->expr()->like('hs.name', ':search' . $key),
+                    $qb->expr()->like('ss.name', ':search' . $key),
+                    $qb->expr()->like('l.language', ':search' . $key),
+                ))
+                    ->setParameter('search' . $key, '%' . $search . '%');
+        }
+
+        return $qb->getQuery();
+    }
+
     public function findByFavCompany(Company $company): array
     {
         $entityManager = $this->getEntityManager();
