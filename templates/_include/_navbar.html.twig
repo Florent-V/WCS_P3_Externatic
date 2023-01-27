@@ -1,4 +1,4 @@
-<nav class="navbar bg-light fixed-top" >
+<nav class="navbar bg-light fixed-top">
     <div class="container-fluid d-flex">
 
         <button class="border-0 navbar-toggler" type="button" data-bs-toggle="offcanvas"
@@ -21,13 +21,16 @@
                     {% endif %}
                 </a>
                 {% if is_granted("ROLE_CANDIDAT") %}
-                    <a class="d-none d-md-inline userName" href="{{ path('app_candidat_profile') }}">{{ app.user.firstname }}</a>
+                    <a class="d-none d-md-inline userName"
+                       href="{{ path('app_candidat_profile') }}">{{ app.user.firstname }}</a>
                     <a class="connexion navbar-brand" href="{{ path('app_logout') }}">Déconnexion</a>
                 {% elseif is_granted("ROLE_CONSULTANT") %}
-                    <a class="d-none d-md-inline userName" href={{ path('consultant_board') }}>{{ app.user.firstname }}</a>
+                    <a class="d-none d-md-inline userName"
+                       href={{ path('consultant_board') }}>{{ app.user.firstname }}</a>
                     <a class="connexion navbar-brand" href="{{ path('app_logout') }}">Déconnexion</a>
                 {% elseif is_granted("ROLE_ADMIN") %}
-                    <a class="d-none d-md-inline userName" href="{{ path('consultant_board') }}">{{ app.user.firstname }}</a>
+                    <a class="d-none d-md-inline userName"
+                       href="{{ path('consultant_board') }}">{{ app.user.firstname }}</a>
                     <a class="connexion navbar-brand" href="{{ path('app_logout') }}">Déconnexion</a>
                 {% else %}
                     <a class="connexion navbar-brand" href="{{ path('app_login') }}">Connexion</a>
@@ -37,15 +40,15 @@
             <a class="connexion navbar-brand" href="{{ path('app_login') }}">Connexion</a>
         {% endif %}
 
-        <div class="navPannel offcanvas offcanvas-start bg-primary text-light text-uppercase shadow-sm
-{#{{ is_granted("ROLE_CONSULTANT") and "consultant" in app.request.requestUri  ? 'show' : '' }}#}"
+        <div class="navPannel offcanvas offcanvas-start bg-primary text-light text-uppercase shadow-sm"
              data-bs-scroll="true"
              data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
             <div class="offcanvas-header">
                 <h5 class="offcanvas-title text-light text-uppercase" id="offcanvasScrollingLabel">
                     Bonjour {{ app.user ? app.user.firstname : '' }}
                 </h5>
-                <button type="button" class="btn-close close-cross" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                <button type="button" class="btn-close close-cross" data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
                 <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
@@ -60,19 +63,20 @@
                             <a class="nav-link" href="{{ path('message_index') }}">Messagerie</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{  path('annonce_show_favorite') }}">Mes Annonces</a>
+                            <a class="nav-link" href="{{ path('annonce_show_favorite') }}">Mes Annonces</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{  path('app_company_show_favorite') }}">Mes entreprises</a>
+                            <a class="nav-link" href="{{ path('app_company_show_favorite') }}">Mes entreprises</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{  path('app_search_profile_index') }}">Mes recherches sauvegardées</a>
+                            <a class="nav-link" href="{{ path('app_search_profile_index') }}">Mes recherches
+                                sauvegardées</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('app_candidat_complete') }}">Compléter mon profil
                                 candidat</a>
                         </li>
-                    {% elseif is_granted("ROLE_CONSULTANT")%}
+                    {% elseif is_granted("ROLE_CONSULTANT") %}
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('consultant_board') }}">Tableau de bord</a>
                         </li>
@@ -81,40 +85,55 @@
                         </li>
                         <li class="nav-item">
                             <details open>
-                                <summary><a class="nav-link d-inline" href="{{  path('consultant_annonces') }}">Mes Annonces</a></summary>
-                                <ul class="subGroup justify-content-end flex-grow-1 pe-3" >
+                                <summary><a class="nav-link d-inline" href="{{ path('consultant_annonces') }}">Mes
+                                        Annonces</a></summary>
+                                <ul class="subGroup justify-content-end flex-grow-1 pe-3">
                                     <li class="nav-item">
                                         <a class="nav-link" href="{{ path('annonce_new') }}">Ajouter une offre</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ path('consultant_annonces_archives') }}">Archives</a>
+                                        <a class="nav-link"
+                                           href="{{ path('consultant_annonces_archives') }}">Archives</a>
                                     </li>
                                 </ul>
                             </details>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('consultant_synthesis') }}">Mes processus de recrutements</a>
+                            <a class="nav-link" href="{{ path('consultant_synthesis') }}">Mes processus de
+                                recrutements</a>
                         </li>
                         {% if is_granted("ROLE_ADMIN") %}
-                            <span class="text-center badge text-bg-info">Fonction Admin</span>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ path('admin_app_company_new') }}">Ajouter une entreprise</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path('admin_app_consultant_new') }}">Ajouter un consultant</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path('admin_app_company_switch') }}">Switch Entreprise</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path('admin_app_candidat_index') }}">Base Candidats</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path('admin_app_consultant_index') }}">Base Recruteurs</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path('admin_app_company_index') }}">Base Entreprises</a>
-                            </li>
+                            <details>
+                            <summary><span class="text-center badge text-bg-info">Fonctions Admin</span>
+                            </summary>
+                            <ul class="subGroup justify-content-end flex-grow-1 pe-3">
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('admin_app_company_new') }}">Ajouter une
+                                        entreprise</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('admin_app_consultant_new') }}">Ajouter un
+                                        consultant</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('admin_app_company_switch') }}">Switch
+                                        Entreprise</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('admin_app_candidat_index') }}">Base Candidats</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('admin_app_consultant_index') }}">Base
+                                        Recruteurs</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('admin_app_company_index') }}">Base
+                                        Entreprises</a>
+                                </li>
+                            </ul>
+                            </details>
                         {% endif %}
 
                     {% else %}
