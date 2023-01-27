@@ -14,11 +14,14 @@
     <main class="messageConversation messagerie container" {{ stimulus_controller('symfony/ux-swup/swup', {
         containers: ['#showMessage', "#pageSelectorConv"]
     }) }}>
-        <h1 class="text-center">Echange relatifs à
+        <h1 class="text-center mb-3 mt-3">Echange relatifs à
             <span class="text-primary">{{ recruitmentProcess.annonce.title ?: recruitmentProcess.company.name }} </span>
             <span> avec </span>
             <span class="text-primary"> {{ recruitmentProcess.candidat.user.lastName|upper }} {{ recruitmentProcess.candidat.user.firstname|capitalize }}</span>
         </h1>
+        {{ app.request.uri != app.request.headers.get('referer') ?
+        ("<a class='btn btn-primary' href='" ~ app.request.headers.get('referer') ~ "' title='retour à la page précédente'><i class='me-1 bi bi-arrow-return-left'></i>Retour</a>")|raw
+        : "" }}
         <div class="Conversation d-flex justify-content-around">
             <section class="conversationList d-none d-lg-block col-md-5">
                 <div class="table-responsive-md">

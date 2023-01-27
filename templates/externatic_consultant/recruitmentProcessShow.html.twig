@@ -1,170 +1,283 @@
 {% extends 'base.html.twig' %}
 {% block title %}Processus de Recrutement{% endblock %}
 {% block body %}
-<main class="consultantProcessShow container-md mb-3 px-sm-5" {{ stimulus_controller('recruitProssConsult') }}>
-    <header class="d-flex justify-content-between align-items-center">
-        <h1>
-            <a class="text-decoration-none" title="accéder au profile complet"
-               href="">{{ recruitmentProcess.candidat.user.lastName|upper }} {{ recruitmentProcess.candidat.user.firstname|capitalize }}</a>
-            <span> <i class="bi bi-arrow-right"></i> </span>
 
-            {% if recruitmentProcess.annonce == null %}
-                <span class="fst-italic">
+
+
+    <main class="consultantProcessShow container-md mb-3 px-sm-5" {{ stimulus_controller('recruitProssConsult') }}>
+        <div class="d-flex justify-content-between align-items-center flex-column flex-md-row ">
+            <h1>
+                <a class="text-decoration-none" title="accéder au profile complet"
+                   href="{{ path('consultant_app_candidat_show', {'id' : recruitmentProcess.candidat.id }) }}">{{ recruitmentProcess.candidat.user.lastName|upper }} {{ recruitmentProcess.candidat.user.firstname|capitalize }}</a>
+                <span> <i class="bi bi-arrow-right"></i> </span>
+                {% if recruitmentProcess.annonce == null %}
+                    <span class="fst-italic fs-4">
                         Candidature spontanée à
                     </span>
-                <a class="text-decoration-none" title="accéder à l'entreprise"
-                   href="{{ path('app_company_show', {'id':recruitmentProcess.company.id}) }}"
-                   target="_blank">{{ recruitmentProcess.company.name }}</a>
+                    <a class="text-decoration-none fs-4" title="accéder à l'entreprise"
+                       href="{{ path('app_company_show', {'id':recruitmentProcess.company.id}) }}"
+                       target="_blank">{{ recruitmentProcess.company.name }}</a>
 
-            {% else %}
-                <span>
-                        <a class="text-decoration-none" style="transform: rotate(0);"
+                {% else %}
+                    <span>
+                        <a class="ftw-italic text-decoration-none" title="accéder à l'annonce"
                            href="{{ path('annonce_show', {"id": recruitmentProcess.id}) }}"> {{ recruitmentProcess.annonce.title }}</a>
                     </span>
-            {% endif %}
-        </h1>
-        <div class="rating" data-recruitmentprocessid="{{ recruitmentProcess.id }}">
-            {% for i in 1..5 %}
-                <i data-action="click->recruitProssConsult#updateRate" data-rate="{{ i }}"
-                   class="{{ i <= recruitmentProcess.rate ? 'bi bi-star-fill' : 'bi bi-star' }}"></i>
-            {% endfor %}
+                {% endif %}
+            </h1>
+            <div class="rating fs-6" data-recruitmentprocessid="{{ recruitmentProcess.id }}">
+                {% for i in 1..5 %}
+                    <i data-action="click->recruitProssConsult#updateRate" data-rate="{{ i }}"
+                       class="{{ i <= recruitmentProcess.rate ? 'bi bi-star-fill' : 'bi bi-star' }}"></i>
+                {% endfor %}
+            </div>
         </div>
-    </header>
+        {{ app.request.uri != app.request.headers.get('referer') ?
+        ("<a class='btn btn-primary' href='" ~ app.request.headers.get('referer') ~ "' title='retour à la page précédente'><i class='me-1 bi bi-arrow-return-left'></i>Retour</a>")|raw
+        : "" }}
+        <hr class="text-primary">
 
-    <hr class="text-primary">
+        <section class="notes mb-3">
+            <h2 class="d-flex">
+                <i class="bi bi-pencil-square me-1"></i>
+                <span>Prise de notes</span>
+            </h2>
+            <div>
+                {{ form_start(notesForm) }}
+                {{ form_widget(notesForm.information) }}
+                {{ form_end(notesForm) }}
+            </div>
+        </section>
 
-    <section class="notes mb-3">
-        <h2 class="d-flex">
-            <i class="bi bi-pencil-square me-1"></i>
-            <span>Prise de notes</span>
-        </h2>
+
+        {# ||||||||||| PARTIE VARIABLE ||||||||||| #}
         <div>
-            {{ form_start(notesForm) }}
-            {{ form_widget(notesForm.information) }}
-            {{ form_end(notesForm) }}
-        </div>
-    </section>
 
+            {# RDV modale #}
+            {% include('externatic_consultant/_modalAppointment.html.twig') %}
 
-    {# ||||||||||| PARTIE VARIABLE ||||||||||| #}
-    <div>
-
-        <dialog {{ stimulus_target('recruitProssConsult','error') }}>
-            <div class="d-flex justify-content-end">
-                <button class="btn btn-danger" data-action="recruitProssConsult#closeModal"><i class="bi bi-x"></i>
-                </button>
-            </div>
-            {{ form_start(appointmentForm) }}
-            {{ form_row(appointmentForm.title) }}
-            <div class="d-flex justify-content-evenly">
-                <div>
-                    {{ form_row(appointmentForm.date) }}
-                </div>
-                <div>
-                    {{ form_label(appointmentForm.length) }}
-                    <div class="d-flex align-items-center">
-                        {{ form_widget(appointmentForm.length) }}
+            <div id="rdvAndMessages" class="d-flex flex-wrap flex-lg-nowrap">
+                {# RDV #}
+                <section id="appointments">
+                    <div class="d-flex justify-content-between">
+                        <h2>Vos rendez-vous</h2>
+                        <button data-action="recruitProssConsult#addAppointment" class="btn btn-primary"
+                                title="Ajouter un rdv">
+                            <i class="bi bi-calendar"></i>
+                            <i class="bi bi-plus-circle"></i>
+                        </button>
                     </div>
-                </div>
-            </div>
-            {{ form_label(appointmentForm.adress) }}
-            {{ form_widget(appointmentForm.adress, {'attr': {
-                'data-action': 'recruitProssConsult#searchAddress',
-                'data-recruitProssConsult-target': 'inputAddress'
-            }}) }}
-            <ul {{ stimulus_target('recruitProssConsult', 'resultList')}}>
-            </ul>
-            {{ form_end(appointmentForm) }}
-        </dialog>
-
-
-        <div id="rdvAndMessages" class="d-flex justify-content-between flex-wrap flex-md-nowrap">
-            <section id="appointments">
-                <div class="d-flex justify-content-between m-auto">
-                    <h2>Vos rendez-vous</h2>
-                    <button data-action="recruitProssConsult#addAppointment" class="btn btn-primary mt-2"><i class="bi bi-plus-circle"></i> <i
-                            class="ms-2 bi bi-calendar"></i>
-                    </button>
-                </div>
-
-                <div class="rdvList">
-                    {% for appointment in recruitmentProcess.appointements %}
-                        <div class="rdv">
-                            <h3 class="h4">{{ appointment.title }}</h3>
-                            <small
-                                class="fst-italic">{{ appointment.date|format_datetime('long', 'short', locale='fr') }}</small>
-                            <small>{{ appointment.adress }}</small>
-
-                            <div class="">
-                                <p class="fst-italic">{{ appointment.description }}</p>
-                                <p>
-                                    {{ render(controller('App\\Controller\\CalendarLinkController::getLinks', {appointment})) }}
-                                </p>
+                    <div class="rdvList">
+                        {% for appointment in recruitmentProcess.appointements %}
+                            <div class="rdv {{ recruitmentProcess.appointements.count != 1 ?: 'only' }}">
+                                <h3 class="h4">{{ appointment.title }}</h3>
+                                <small
+                                    class="fst-italic">{{ appointment.date|format_datetime('long', 'short', locale='fr') }}</small>
+                                <small>{{ appointment.adress }}</small>
+                                <div>
+                                    <p class="fst-italic">{{ appointment.description }}</p>
+                                    <p> {{ render(controller('App\\Controller\\CalendarLinkController::getLinks', {appointment})) }}
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </section>
+                        {% endfor %}
+                    </div>
+                </section>
 
-            <section class="messages">
-                <div class="d-flex justify-content-between">
-                    <h3 class=>Vos échanges avec
-                        <span>{{ recruitmentProcess.candidat.user.firstname|capitalize }}</span>
-                    </h3>
-                    <small>
-                        <a href="{{ path('message_conversation', {"recruitmentProcess": recruitmentProcess.id}) }}">
-                            <button class=" btn btn-primary"><i class="bi bi-chat-text-fill"></i></button>
-                        </a>
-                    </small>
-                </div>
-
-                <div class="showMessages col w-100 m-2 p-2
+                {# Messages #}
+                <section class="messages">
+                    <div class="d-flex justify-content-between">
+                        <h3>Vos échanges avec
+                            <span>{{ recruitmentProcess.candidat.user.firstname|capitalize }}</span>
+                        </h3>
+                        <small>
+                            <a href="{{ path('message_conversation', {"recruitmentProcess": recruitmentProcess.id}) }}">
+                                <button class="btn btn-primary" title="Accéder à la conversation"><i
+                                        class="bi bi-chat-text-fill"></i> <i class="bi bi-arrow-right"></i></button>
+                            </a>
+                        </small>
+                    </div>
+                    <div class="showMessages col w-100 m-2 p-2
                     rounded rounded-3
-                    w-25">
-                    {% for message in recruitmentProcess.messages|sort((a, b) => a.date(date) <=> b.date(date)) %}
-                        Le: {{ message.date|format_datetime('short', 'short', locale='fr') }}
-                        <article
-                            class="response {{ (message.sendby.id == app.user.id) ? "bg-primary text-white align-self-end" : "bg-white text-primary align-self-start" }}">
-                            <small class="d-block fst-italic
+                    w-25 d-flex flex-column">
+                        {% if recruitmentProcess.messages|length != 0 %}
+                            {% for message in recruitmentProcess.messages|sort((a, b) => a.date(date) <=> b.date(date)) %}
+                                <article
+                                    class="response {{ (message.sendby.id == app.user.id) ? "bg-primary text-white align-self-end" : "bg-white text-primary align-self-start" }}">
+                                    <small class="d-block fst-italic
                                     {{ (message.sendBy.id == app.user.id) ? "text-light" : "text-primary" }}">
-                                {{ message.sendBy.firstname|capitalize }}<br>
-                            </small>
-                            {{ message.content }}
-                        </article>
-                    {% endfor %}
+                                        {{ message.sendBy.firstname|capitalize }} -
+                                        <span>Le : {{ message.date|format_datetime('short', 'short', locale='fr') }}</span>
+                                        <br>
+                                    </small>
+                                    {{ message.content }}
+                                </article>
+                            {% endfor %}
+                        {% else %}
+                            <p>Pas d'échanges pour le moment</p>
+                        {% endif %}
+                    </div>
+                </section>
+            </div>
+
+            {#
+            Rappel de l'annonce ou de l'entreprise
+            #}
+
+            <section id="annonceorCompanySection">
+                <div id="annonceOrCompanyDescription">
+                    {% if recruitmentProcess.annonce != null %}
+                        <h2>Rappel de l'annonce</h2>
+                        <div>
+                            <h3 class="h4">{{ recruitmentProcess.annonce.title }}</h3>
+                            <small
+                                class="fst-italic">{{ recruitmentProcess.annonce.createdAt|format_datetime('short', 'none', locale='fr') }}</small>
+                            <p class="description">{{ recruitmentProcess.annonce.description }}</p>
+                        </div>
+                    {% else %}
+                        <h2>Rappel de l'entreprise</h2>
+                        <div>
+                            <h3 class="h4">{{ recruitmentProcess.company.name }}</h3>
+                            <p class="description fw">{{ recruitmentProcess.company.information }}</p>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div id="companyLogo" class="d-none d-md-block">
+                    {% if recruitmentProcess.annonce != null %}
+                        <img src="{{ vich_uploader_asset(recruitmentProcess.annonce.company) }}"
+                             alt="{{ recruitmentProcess.annonce.company.name }}">
+                    {% else %}
+                        <img src="{{ vich_uploader_asset(recruitmentProcess.company) }}"
+                             alt="{{ recruitmentProcess.company.name }}">
+                    {% endif %}
                 </div>
             </section>
         </div>
 
-        {% if recruitmentProcess.annonce != null %}
-            <div id="annonceorCompany" class="d-flex justify-content-between flex-wrap flex-md-nowrap">
+        {#
+        Le candidat
+        #}
 
-                <section>
-                    <h2>Rappel de l'annonce</h2>
+        <section id="candidat">
+            <h2>Le candidat - <a
+                    href="{{ path('consultant_app_candidat_show', {'id': recruitmentProcess.candidat.id }) }}">{{ recruitmentProcess.candidat.user.firstname|upper }} {{ recruitmentProcess.candidat.user.lastName|capitalize }}</a>
+            </h2>
+            <div class="d-flex flex-row contactsAndDescription">
+                <div class="contactCard">
                     <div>
-                        <h3>{{ recruitmentProcess.annonce.title }}</h3>
-                        <p class="description">{{ recruitmentProcess.annonce.description }}</p>
+                        <h3>Contact - Liens</h3>
                     </div>
-                </section>
-                <section>
-                    <img src="{{ vich_uploader_asset(recruitmentProcess.annonce.company) }}"
-                         alt="{{ recruitmentProcess.annonce.company.name }}"> #}
-                </section>
+                    <div class="contacts">
+                        <a class="d-flex justify-content-center"
+                           title="Envoyer un mail"
+                           href="mailto:{{ recruitmentProcess.candidat.user.email }}"
+                           target="_blank"><i class="bi bi-envelope-at"></i></a>
+                        <p>{{ recruitmentProcess.candidat.user.email }}</p>
+
+                        <a class="d-flex justify-content-center"
+                           href="tel:{{ recruitmentProcess.candidat.user.phone }}"
+                           target="_blank"><i class="bi bi-telephone"></i></a>
+                        <p>{{ recruitmentProcess.candidat.user.phone }}</p>
+
+                        <a title="voir dans Google Maps"
+                           href="https://www.google.fr/maps/place/{{ recruitmentProcess.candidat.address ~ " " ~ recruitmentProcess.candidat.zipCode ~ " " ~ recruitmentProcess.candidat.city }}"
+                           target="_blank"><img alt="lien Maps" src="{{ asset('build/images/maps.png') }}"></a>
+                        <p>{{ (recruitmentProcess.candidat.address ~ " " ~ recruitmentProcess.candidat.zipCode ~ " " ~ recruitmentProcess.candidat.city)|capitalize }}</p>
+
+                        <a title="Profil Github"
+                           href="{{ recruitmentProcess.candidat.github }}"
+                           target="_blank"><img alt="Profil Github" src="{{ asset('build/images/github.png') }}"></a>
+
+                        <p><a title="Profil Github"
+                              href="{{ recruitmentProcess.candidat.github }}"
+                              target="_blank">Github</a></p>
+
+                        <a title="Profil LinkedIn"
+                           href="{{ recruitmentProcess.candidat.linkedIn }}"
+                           target="_blank"><img alt="Profil LinkedIn"
+                                                src="{{ asset('build/images/linkedin.png') }}"></a>
+                        <p><a title="Profil LinkedIn"
+                              href="{{ recruitmentProcess.candidat.linkedIn }}"
+                              target="_blank">LinkedIn</a></p>
+                    </div>
+                </div>
+                <div class="descriptionCandidat">
+                    <div>
+                        <h3>Description</h3>
+                    </div>
+                    <div>
+                        <div>
+                            <p>{{ recruitmentProcess.candidat.description ?: "Le candidat n'a pas encore complété sa description" }}</p>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </section>
 
 
-        {% else %}
-            <section id="annonce">
-                <h2>Rappel de l'entreprise</h2>
+        {# Comparatif technos #}
+        <section id="techComp">
+            <h2>Les Technos </h2>
+            <div class="comparatif">
+                {# TECHNO DE L'ANNONCE #}
+                {% if recruitmentProcess.annonce != null %}
+                    <div class="tech d-inline-block mt-3">
+                        <h3>Technos de l'annonce</h3>
+                        <ul>
+                            {% for tech in recruitmentProcess.annonce.techno %}
+                                <li>
+                                    <img src="{{ asset('/uploads/images/logo/' ~ tech.picture) }}"
+                                         alt="image de {{ tech.name }}">
+                                    <p class="d-inline-block techno-name ms-2">{{ tech.name }}</p>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
 
-            </section>
-    </div>
 
-        {% endif %}
+                    <div class="tech">
+                        <h3>Technos communes</h3>
+                        <ul>
+                            {% for techCandidat in recruitmentProcess.candidat.curriculum.skills.hardSkill %}
+
+                                    {% for techAnnonce in recruitmentProcess.annonce.techno %}
+                                        {% if techAnnonce.name == techCandidat.name %}
+                                            <li><img src="{{ asset('/uploads/images/logo/' ~ techAnnonce.picture) }}"
+                                                 alt="image de {{ techAnnonce.name }}"
+                                                 title="{{ techAnnonce.name }}">
+                                            <p>{{ techAnnonce.name }}</p>                                </li>
+                                        {% endif %}
+                                    {% endfor %}
+
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                {% endif %}
 
 
-    </div>
-</main>
 
-
+                {# TECHNO DU CANDIDAT #}
+                <div class="tech">
+                    <h3>HardSkills du candidat</h3>
+                    <ul>
+                        {% for techCandidat in recruitmentProcess.candidat.curriculum.skills.hardSkill %}
+                            <li>
+                                {% for tech in AllTechs %}
+                                    {% if techCandidat.name == tech.name %}
+                                        <img src="{{ asset('/uploads/images/logo/' ~ tech.picture) }}"
+                                             alt="image de {{ techCandidat.name }}"
+                                             title="{{ techCandidat.name }}">
+                                    {% elseif loop.last %}
+                                        <p>{{ techCandidat.name }}</p>
+                                    {% endif %}
+                                {% endfor %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
 {% endblock %}

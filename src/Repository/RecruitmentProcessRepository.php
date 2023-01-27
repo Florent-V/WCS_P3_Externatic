@@ -34,7 +34,7 @@ class RecruitmentProcessRepository extends ServiceEntityRepository
 
         return $this->createQueryBuilder('r')
             ->andWhere('r.externaticConsultant = :consultant')
-            ->join('r.annonce', 'a')
+            ->leftjoin('r.annonce', 'a')
             ->setParameter('consultant', $user->getConsultant())
             ->getQuery();
     }

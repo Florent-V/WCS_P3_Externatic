@@ -1,4 +1,4 @@
-<nav class="navbar bg-light fixed-top" {{ stimulus_controller("consultantBoardMargin") }}>
+<nav class="navbar bg-light fixed-top" >
     <div class="container-fluid d-flex">
 
         <button class="border-0 navbar-toggler" type="button" data-bs-toggle="offcanvas"
@@ -37,7 +37,9 @@
             <a class="connexion navbar-brand" href="{{ path('app_login') }}">Connexion</a>
         {% endif %}
 
-        <div class="navPannel offcanvas offcanvas-start bg-primary text-light text-uppercase shadow-sm {{ is_granted("ROLE_CONSULTANT") and "consultant" in app.request.requestUri  ? 'show' : '' }}" data-bs-scroll="true"
+        <div class="navPannel offcanvas offcanvas-start bg-primary text-light text-uppercase shadow-sm
+{#{{ is_granted("ROLE_CONSULTANT") and "consultant" in app.request.requestUri  ? 'show' : '' }}#}"
+             data-bs-scroll="true"
              data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
             <div class="offcanvas-header">
                 <h5 class="offcanvas-title text-light text-uppercase" id="offcanvasScrollingLabel">
@@ -91,7 +93,7 @@
                             </details>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('consultant_synthesis') }}">Mes recrutements</a>
+                            <a class="nav-link" href="{{ path('consultant_synthesis') }}">Mes processus de recrutements</a>
                         </li>
                         {% if is_granted("ROLE_ADMIN") %}
                             <span class="text-center badge text-bg-info">Fonction Admin</span>
