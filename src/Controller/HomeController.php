@@ -6,6 +6,8 @@ use App\Entity\Annonce;
 use App\Repository\AnnonceRepository;
 use App\Repository\CandidatRepository;
 use App\Repository\CompanyRepository;
+use App\Repository\RecruitmentProcessRepository;
+use App\Repository\UserRepository;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,10 +18,9 @@ class HomeController extends AbstractController
 {
     #[Route('/', name: 'home')]
     public function index(
-        Request $request,
         AnnonceRepository $annonceRepository,
         CandidatRepository $candidatRepository,
-        CompanyRepository $companyRepository
+        CompanyRepository $companyRepository,
     ): Response {
         $form = $this->createFormBuilder()
             ->add('searchQuery', TextType::class, [
@@ -34,7 +35,6 @@ class HomeController extends AbstractController
         $nbAnnonce = $annonceRepository->countAnnonce();
         $nbCompany = $companyRepository->countCompany();
         $nbCandidat = $candidatRepository->countCandidat();
-//        dd($nbCompany[0][1]);
         return $this->renderForm('home/index.html.twig', [
             'form' => $form,
             'annoncesLandingPage' => $annoncesLandingPage,

@@ -7,6 +7,7 @@ use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @extends ServiceEntityRepository<RecruitmentProcess>
@@ -90,6 +91,20 @@ class RecruitmentProcessRepository extends ServiceEntityRepository
             return "Consultant";
         }
         return null;
+    }
+
+    public function countMessageSummary(UserInterface $user): array
+    {
+        return $this->createQueryBuilder('r')
+            ->select('count(m.id)')
+            ->addSelect('r')
+            ->join('r.messages', 'm')
+            ->join('m.notif', 'n')
+            ->where('n.active = 1')
+            ->andWhere('m.sendBy != :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**

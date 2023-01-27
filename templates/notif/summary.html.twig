@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% if notifAnnonce %}
+        <main class="summary" {{ stimulus_controller('favoriteoffer') }}>
+            <h1 class="fs-2 mb-4">nouvelles Annonces pouvant vous intéréssez :</h1>
+            <div class="row row-cols-xl-3 row-cols-md-2">
+                {% for notif in notifAnnonce %}
+                {% set annonce = notif.annonce %}
+                    <div class="cards-result">
+                        {% include '_include/_card_result.html.twig' %}
+                    </div>
+                {% endfor %}
+            </div>
+    {% endif %}
+            {% if recruitmentProcesses %}
+                <h1 class="fs-2">Nouveau message reçu :</h1>
+                {% for recruitmentProcess in recruitmentProcesses %}
+                    <p>Vous avez reçu {{ recruitmentProcess.1 }} nouveaux messages au sujet de
+                        <a href="{{ path('message_conversation', {'recruitmentProcess': recruitmentProcess.0.id}) }}">{{ recruitmentProcess.0.annonce.title ?: recruitmentProcess.0.company.name }} </a></p>
+                {% endfor %}
+            {% endif %}
+        </main>
+
+{% endblock %}

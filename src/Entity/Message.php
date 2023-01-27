@@ -35,6 +35,8 @@ class Message
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $title = null;
+    #[ORM\OneToOne(mappedBy: 'message', cascade: ['persist', 'remove'])]
+    private ?Notif $notif = null;
 
 
     #[ORM\PrePersist]
@@ -117,6 +119,27 @@ class Message
     {
         $this->title = $title;
 
+        return $this;
+    }
+
+    public function getNotif(): ?Notif
+    {
+        return $this->notif;
+    }
+
+    public function setNotif(?Notif $notif): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($notif === null && $this->notif !== null) {
+            $this->notif->setMessage(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($notif !== null && $notif->getMessage() !== $this) {
+            $notif->setMessage($this);
+        }
+
+        $this->notif = $notif;
         return $this;
     }
 }

@@ -7,6 +7,7 @@ use App\Entity\RecruitmentProcess;
 use App\Entity\User;
 use App\Form\ConversationType;
 use App\Repository\MessageRepository;
+use App\Repository\NotifRepository;
 use App\Repository\RecruitmentProcessRepository;
 use App\Service\NewNotif;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
@@ -56,7 +57,8 @@ class MessageController extends AbstractController
         Request $request,
         PaginatorInterface $paginator,
         RecruitmentProcessRepository $processRepo,
-        NewNotif $newNotif
+        NewNotif $newNotif,
+        NotifRepository $notifRepository,
     ): Response {
 
         $messages = $messageRepository->findBy(['recruitmentProcess' => $recruitmentProcess], ['date' => 'ASC']);
@@ -68,6 +70,8 @@ class MessageController extends AbstractController
          * @var ?User $user
          */
         $user = $this->getUser();
+
+        $newNotif->verifyIfIsRead($recruitmentProcess);
 
             $userConsultant = $recruitmentProcess->getExternaticConsultant()->getUser();
 

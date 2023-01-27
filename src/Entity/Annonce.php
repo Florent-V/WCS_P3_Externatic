@@ -20,9 +20,6 @@ class Annonce
     #[ORM\Column(length: 50)]
     private ?string $title = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $picture = null;
-
     #[ORM\Column(length: 255)]
     private ?int $salaryMin = null;
 
@@ -75,12 +72,15 @@ class Annonce
 
     #[ORM\Column(nullable: true)]
     private ?\DateInterval $workTime = null;
+    #[ORM\OneToMany(mappedBy: 'annonce', targetEntity: Notif::class)]
+    private Collection $notifs;
 
     public function __construct()
     {
         $this->recrutementProcesses = new ArrayCollection();
         $this->techno = new ArrayCollection();
         $this->followers = new ArrayCollection();
+        $this->notifs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -96,18 +96,6 @@ class Annonce
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
-        return $this;
-    }
-
-    public function getPicture(): ?string
-    {
-        return $this->picture;
-    }
-
-    public function setPicture(?string $picture): self
-    {
-        $this->picture = $picture;
 
         return $this;
     }
@@ -357,6 +345,36 @@ class Annonce
     public function setWorkTime(?\DateInterval $workTime): self
     {
         $this->workTime = $workTime;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Notif>
+     */
+    public function getNotifs(): Collection
+    {
+        return $this->notifs;
+    }
+
+    public function addNotif(Notif $notif): self
+    {
+        if (!$this->notifs->contains($notif)) {
+            $this->notifs->add($notif);
+            $notif->setAnnonce($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotif(Notif $notif): self
+    {
+        if ($this->notifs->removeElement($notif)) {
+// set the owning side to null (unless already changed)
+            if ($notif->getAnnonce() === $this) {
+                $notif->setAnnonce(null);
+            }
+        }
 
         return $this;
     }
