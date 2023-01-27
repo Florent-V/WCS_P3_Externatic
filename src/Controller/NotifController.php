@@ -43,7 +43,6 @@ class NotifController extends AbstractController
     #[Route('/summary', name: 'summary')]
     public function summary(NotifRepository $notifRepository, RecruitmentProcessRepository $processRepository): Response
     {
-
         return $this->render('notif/summary.html.twig', [
             'notifAnnonce' => $notifRepository->findBy(['inSummary' => true, 'type' => 'newAnnonce']),
             'recruitmentProcesses' => $processRepository->countMessageSummary($this->getUser())

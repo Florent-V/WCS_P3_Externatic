@@ -13,7 +13,7 @@
                 {% endfor %}
             </div>
     {% endif %}
-            {% if recruitmentProcesses %}
+            {% if recruitmentProcesses[0][0] %}
                 <h1 class="fs-2">Nouveau message reçu :</h1>
                 {% for recruitmentProcess in recruitmentProcesses %}
                     <p>Vous avez reçu {{ recruitmentProcess.1 }} nouveaux messages au sujet de
