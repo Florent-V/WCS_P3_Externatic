@@ -1,5 +1,11 @@
 <div class="showCard">
     <div class="card">
+        {% if not is_granted('ROLE_CONSULTANT') %}
+            <div class="cardIcons">
+                <a href="{{ path('app_candidat_data') }}"><i
+                        class="bi bi-pencil-square"></i></a>
+            </div>
+        {% endif %}
         <div class="card-body">
             <h2 class="card-title">Informations personnelles</h2>
             <p class="card-text">Informations personnelles de votre CV</p>
@@ -33,13 +39,10 @@
                 <p>Description</p>
                 <p>{{ user.candidat.description }}</p>
             </div>
-            <div class="list-group-item">
-                <p>Peut postuler ?</p>
-                <p>{{ user.candidat.canPostulate ? 'Yes' : 'No' }}</p>
-            </div>
-        </div>
-        <div class="card-body">
-            <a href="{{ path('app_candidat_data') }}" class="card-link">Editer</a>
+{#            <div class="list-group-item">#}
+{#                <p>Peut postuler ?</p>#}
+{#                <p>{{ user.candidat.canPostulate ? 'Yes' : 'No' }}</p>#}
+{#            </div>#}
         </div>
     </div>
 </div>

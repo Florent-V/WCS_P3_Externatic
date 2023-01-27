@@ -2,7 +2,6 @@
 
 namespace App\Repository;
 
-use App\Entity\Annonce;
 use App\Entity\ExternaticConsultant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
@@ -56,6 +55,8 @@ class ExternaticConsultantRepository extends ServiceEntityRepository
         }
         return $qb->getQuery();
     }
+
+
 
 /*    public function getRecruitProcessByAnnonce(Annonce $annonce): array
     {

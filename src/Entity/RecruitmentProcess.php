@@ -69,6 +69,9 @@ class RecruitmentProcess
     #[ORM\JoinColumn(nullable: false)]
     private ?ExternaticConsultant $externaticConsultant = null;
 
+    #[ORM\Column]
+    private ?bool $isActive = null;
+
     #[ORM\PrePersist]
     public function setCreatedAtValue(): void
     {
@@ -286,6 +289,18 @@ class RecruitmentProcess
     public function setExternaticConsultant(?ExternaticConsultant $externaticConsultant): self
     {
         $this->externaticConsultant = $externaticConsultant;
+
+        return $this;
+    }
+
+    public function isActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
 
         return $this;
     }

@@ -28,8 +28,9 @@ export default class extends Controller {
                 .then(function (data) {
                     // Affiche les résultats
                     let div = document.createElement('div');
-                    div.setAttribute('class', 'alert alert-success')
-                    div.setAttribute('role', 'alert')
+                    div.setAttribute('class', 'alert alert-success');
+                    div.setAttribute('role', 'alert');
+                    div.setAttribute('aria-live', 'assertive');
                     let span = document.createElement("span");
                     span.innerHTML = data['result'];
                     results.innerHTML = '';

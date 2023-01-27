@@ -10,11 +10,16 @@
 
         <div class="carou showCard">
 
-            <a href="{{ path('app_experience_previous', {id: experience.id}) }}">
+            <a class="arrowLink" href="{{ experience.isFormation ? path('app_formation_previous', {id: experience.id}) : path('app_experience_previous', {id: experience.id}) }}">
                 <span class="arrow" aria-hidden="true"><i class="bi bi-chevron-left"></i></span>
             </a>
 
             <div class="card">
+                <div class="cardIcons">
+                    <a href="{{ path('app_experience_edit', {id: experience.id}) }}"><i
+                            class="bi bi-pencil-square"></i></a>
+                    {{ include('experience/_delete_form.html.twig') }}
+                </div>
                 <div class="card-body">
                     <h2 class="card-title">{{ experience.title }}</h2>
                     <p class="card-text">{{ experience.description }}</p>
@@ -44,11 +49,11 @@
                     {% endif %}
                 </div>
                 <div class="card-body link">
-                    <a class="btn btn-primary" href="{{ path('app_candidat_account') }}">Editer</a>
+                    <a class="btn btn-primary" href="{{ path('app_candidat_profile') }}{{ experience.isFormation ? "#formationPanel" : "#experiencePanel" }}">Retour au profil</a>
                 </div>
             </div>
 
-            <a href="{{ path('app_experience_next', {id: experience.id}) }}">
+            <a class="arrowLink" href="{{ experience.isFormation ? path('app_formation_next', {id: experience.id}) : path('app_experience_next', {id: experience.id}) }}">
                 <span class="arrow" aria-hidden="true"><i class="bi bi-chevron-right"></i></span>
             </a>
 
@@ -57,11 +62,4 @@
     </main>
 
 
-
-
-    <a href="{{ path('app_experience_index') }}">back to list</a>
-
-    <a href="{{ path('app_experience_edit', {'id': experience.id}) }}">edit</a>
-
-    {{ include('experience/_delete_form.html.twig') }}
 {% endblock %}

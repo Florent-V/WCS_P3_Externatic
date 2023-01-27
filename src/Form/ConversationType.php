@@ -3,11 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Message;
-use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -20,7 +17,7 @@ class ConversationType extends AbstractType
                 'label' => 'Label for field 1',
                 'required' => true,
                 'attr' => array(
-          'placeholder' => 'Vous pouvez discuter avec votre intercoluteur'
+          'placeholder' => 'Vous pouvez discuter avec votre interlocuteur'
             )
             ]);
     }

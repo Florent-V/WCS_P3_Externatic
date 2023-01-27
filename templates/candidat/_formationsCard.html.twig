@@ -1,20 +1,25 @@
-<div class="showCard">
+<div id="formationPanel" class="showCard">
     <div class="card">
-        <div class="cardIcons">
-            <a href="{{ path('app_experience_new', {type: 'formation'}) }}"><i class="bi bi-plus-lg"></i></a>
-        </div>
+        {% if not is_granted('ROLE_CONSULTANT') %}
+            <div class="cardIcons">
+                <a href="{{ path('app_formation_new') }}"><i class="bi bi-plus-lg"></i></a>
+            </div>
+        {% endif %}
+
         <div class="card-body">
             <h3 class="card-title text-center">Mes Formations</h3>
 
-            {% for experience in experiences|slice(0,10) %}
+            {% for experience in experiences %}
                 {% if experience.isFormation %}
-                    <div class="card mb-2">
-                        <div class="cardIcons">
-                            <a href="{{ path('app_experience_edit', {id: experience.id}) }}"><i
-                                    class="bi bi-pencil-square"></i></a>
-                            <a href="{{ path('app_experience_show', {id: experience.id}) }}"><i
-                                    class="bi bi-eye"></i></a>
-                        </div>
+                    <div class="card mb-4">
+                        {% if not is_granted('ROLE_CONSULTANT') %}
+                            <div class="cardIcons">
+                                <a href="{{ path('app_formation_edit', {id: experience.id}) }}"><i
+                                        class="bi bi-pencil-square"></i></a>
+                                <a href="{{ path('app_formation_show', {id: experience.id}) }}"><i
+                                        class="bi bi-eye"></i></a>
+                            </div>
+                        {% endif %}
                         <div class="card-header">
                             <h5 class="card-title">{{ experience.title }}</h5>
                             <h6 class="card-subtitle mb-2 text-muted">
@@ -33,9 +38,11 @@
                 {% endif %}
 
             {% endfor %}
-            <div class="link buttons">
-                <a href="{{ path('app_experience_index') }}" class="btn btn-primary">Consulter</a>
-            </div>
+            {% if not is_granted('ROLE_CONSULTANT') %}
+                <div class="link buttons">
+                    <a href="{{ path('app_experience_index') }}" class="btn btn-primary">Consulter</a>
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>

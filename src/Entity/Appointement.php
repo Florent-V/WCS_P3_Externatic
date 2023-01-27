@@ -14,7 +14,7 @@ class Appointement
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
     #[ORM\ManyToOne(inversedBy: 'appointements')]
@@ -26,6 +26,15 @@ class Appointement
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $title = null;
+
+    #[ORM\Column]
+    private ?\DateInterval $length = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $adress = null;
 
     public function getId(): ?int
     {
@@ -76,6 +85,42 @@ class Appointement
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    public function getLength(): ?\DateInterval
+    {
+        return $this->length;
+    }
+
+    public function setLength(\DateInterval $length): self
+    {
+        $this->length = $length;
+
+        return $this;
+    }
+
+    public function getAdress(): ?string
+    {
+        return $this->adress;
+    }
+
+    public function setAdress(?string $adress): self
+    {
+        $this->adress = $adress;
 
         return $this;
     }

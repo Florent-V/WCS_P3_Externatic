@@ -2,7 +2,6 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Candidat;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -122,7 +121,7 @@ class UserFixtures extends Fixture
             $this->addReference('userConsultant_' . self::$userConsultantIndex, $user);
         }
 
-        for ($i = 0; $i <= 100; $i++) {
+        for ($i = 0; $i <= 50; $i++) {
             self::$userCandidatIndex++;
             $user = new User();
             $user->setEmail('candidat' . self::$userCandidatIndex . '@mail.fr');

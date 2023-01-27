@@ -70,7 +70,7 @@
                             <a class="nav-link" href="{{ path('app_candidat_complete') }}">Compléter mon profil
                                 candidat</a>
                         </li>
-                    {% elseif is_granted("ROLE_CONSULTANT") and not is_granted("ROLE_ADMIN")%}
+                    {% elseif is_granted("ROLE_CONSULTANT")%}
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('consultant_board') }}">Tableau de bord</a>
                         </li>
@@ -78,28 +78,43 @@
                             <a class="nav-link" href="{{ path('message_index') }}">Messagerie</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{  path('consultant_annonces') }}">Mes Annonces</a>
+                            <details open>
+                                <summary><a class="nav-link d-inline" href="{{  path('consultant_annonces') }}">Mes Annonces</a></summary>
+                                <ul class="subGroup justify-content-end flex-grow-1 pe-3" >
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ path('annonce_new') }}">Ajouter une offre</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ path('consultant_annonces_archives') }}">Archives</a>
+                                    </li>
+                                </ul>
+                            </details>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('annonce_new') }}">Ajouter une offre</a>
+                            <a class="nav-link" href="{{ path('consultant_synthesis') }}">Mes recrutements</a>
                         </li>
+                        {% if is_granted("ROLE_ADMIN") %}
+                            <span class="text-center badge text-bg-info">Fonction Admin</span>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('admin_app_company_new') }}">Ajouter une entreprise</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('admin_app_consultant_new') }}">Ajouter un consultant</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('admin_app_company_switch') }}">Switch Entreprise</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('admin_app_candidat_index') }}">Base Candidats</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('admin_app_consultant_index') }}">Base Recruteurs</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('admin_app_company_index') }}">Base Entreprises</a>
+                            </li>
+                        {% endif %}
 
-                    {% elseif is_granted("ROLE_ADMIN") %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('admin_app_company_new') }}">Ajouter une entreprise</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('admin_app_consultant_new') }}">Ajouter un consultant</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('admin_app_candidat_index') }}">Base Candidats</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('admin_app_consultant_index') }}">Base Recruteurs</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('admin_app_company_index') }}">Base Entreprises</a>
-                        </li>
                     {% else %}
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('app_login') }}">Se connecter</a>

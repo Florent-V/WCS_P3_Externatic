@@ -3,10 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Certification;
+use App\Entity\User;
 use App\Form\CertificationType;
-use App\Repository\CandidatRepository;
 use App\Repository\CertificationRepository;
-use App\Repository\CurriculumRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,23 +15,14 @@ use Symfony\Component\Routing\Annotation\Route;
 class CertificationController extends AbstractController
 {
     #[Route('/', name: 'app_certification_index', methods: ['GET'])]
-    public function index(
-        CertificationRepository $certificationRepo,
-        CandidatRepository $candidatRepository,
-        CurriculumRepository $curriculumRepository,
-    ): Response {
+    public function index(): Response
+    {
+
+        /**
+         * @var ?User $user
+         */
         $user = $this->getUser();
-        $candidat = $candidatRepository->findOneBy(
-            ['user' => $user]
-        );
-
-        $curriculum = $curriculumRepository->findOneBy(
-            ['candidat' => $candidat]
-        );
-
-        $certifications = $certificationRepo->findBy(
-            ['curriculum' => $curriculum]
-        );
+        $certifications = $user->getCandidat()->getCurriculum()->getCertifications();
 
         return $this->render('certification/index.html.twig', [
             'certifications' => $certifications,
@@ -42,17 +32,14 @@ class CertificationController extends AbstractController
     #[Route('/new', name: 'app_certification_new', methods: ['GET', 'POST'])]
     public function new(
         Request $request,
-        CandidatRepository $candidatRepository,
-        CurriculumRepository $curriculumRepository,
         CertificationRepository $certificationRepo
     ): Response {
+
+        /**
+         * @var ?User $user
+         */
         $user = $this->getUser();
-        $candidat = $candidatRepository->findOneBy(
-            ['user' => $user]
-        );
-        $curriculum = $curriculumRepository->findOneBy(
-            ['candidat' => $candidat]
-        );
+        $curriculum = $user->getCandidat()->getCurriculum();
 
         //Certification Entity &  Form
         $certification = new Certification();
@@ -64,27 +51,15 @@ class CertificationController extends AbstractController
             $certification->setCurriculum($curriculum);
             $certificationRepo->save($certification, true);
 
+
             return $this->redirectToRoute(
                 'app_candidat_profile',
-                ['candidat' => $candidat,],
-                Response::HTTP_SEE_OTHER
+                ['_fragment' => 'certificationPanel']
             );
         }
 
         return $this->renderForm('certification/new.html.twig', [
             'certificationForm' => $certificationForm,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'app_certification_show', methods: ['GET'])]
-    public function show(Certification $certification): Response
-    {
-        if ($certification->getCurriculum()->getCandidat()->getUser() !== $this->getUser()) {
-            // If not the owner, throws a 403 Access Denied exception
-            throw $this->createAccessDeniedException('Only the owner can consult !');
-        }
-        return $this->render('certification/show.html.twig', [
-            'certification' => $certification,
         ]);
     }
 

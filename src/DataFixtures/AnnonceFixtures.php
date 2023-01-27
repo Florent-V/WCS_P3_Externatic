@@ -27,7 +27,6 @@ class AnnonceFixtures extends Fixture implements DependentFixtureInterface
                 $annonce = new Annonce();
                 self::$annonceIndex++;
                 $annonce->setTitle(self::$annonceIndex . " - Developeur " . $faker->word());
-                $annonce->setPicture('https://fakeimg.pl/200x200/?text=picture');
                 $annonce->setContractType($faker->randomElement(self::CONTRACT_TYPE));
                 $annonce->setStudyLevel("bac+" . $faker->numberBetween(0, 8));
                 $annonce->setSalaryMin($faker->numberBetween(25000, 35000));

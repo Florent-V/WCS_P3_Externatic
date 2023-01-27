@@ -53,8 +53,7 @@ class AnnonceController extends AbstractController
     public function new(
         Request $request,
         AnnonceRepository $annonceRepository,
-        NewNotif $newNotif,
-        CandidatRepository $candidatRepository
+        NewNotif $newNotif
     ): Response {
         $annonce = new Annonce();
         $form = $this->createForm(AnnonceType::class, $annonce);
@@ -67,11 +66,12 @@ class AnnonceController extends AbstractController
              * @var ?User $user
              */
             $user = $this->getUser();
-            if (in_array("ROLE_ADMIN", $user->getRoles())) {
-                $annonce->setAuthor($user->getConsultant());
+            if ($this->isGranted('ROLE_ADMIN')) {
+                $annonce->setAuthor($form->getData()->getAuthor());
             } else {
                 $annonce->setAuthor($user->getConsultant());
             }
+
 
             $annonceRepository->save($annonce, true);
             $this->addFlash('success', 'Annonce en ligne');

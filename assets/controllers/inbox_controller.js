@@ -4,7 +4,6 @@ export default class extends Controller {
     static targets = ["error"]
 
     closeModal(event) {
-        console.log("cocou")
         this.errorTarget.close();
     }
 
@@ -40,12 +39,11 @@ export default class extends Controller {
             })
     }
 
+    openMessage(event)
+    {
+        window.location.assign(`/message/recruitmentProcess/${event.target.parentNode.dataset.messageid}`);
+    }
+
     connect() {
-        const messageCells = document.querySelectorAll("td:not(:has(> button))");
-        for (let messageCell of messageCells) {
-            messageCell.addEventListener("click", () => {
-                window.location.assign(` /message/recruitmentProcess/${messageCell.parentNode.dataset.messageid}`);
-            })
-        }
     }
 }

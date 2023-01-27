@@ -12,9 +12,24 @@ $primary: #c91961;
 $secondary: #404040;
 $light: #FFFAFA;
 $purple: #851342;
+$unreadMessage: #eaeaea;
 
 
 //Variable d'espacement et taille
 $navbarHeight: 4rem;
 $navTextHeight:1rem;
 $navBarWidth:17rem;
+
+
+//Mixin
+@mixin scrollBar {
+    scrollbar-color: $primary $light;
+    scrollbar-width: thin;
+        &::-webkit-scrollbar {
+        width: .5rem;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: $primary;
+        border-radius: $border-radius;
+    }
+}

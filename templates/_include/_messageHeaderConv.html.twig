@@ -5,7 +5,14 @@
 {% endif %}
 
 <tr data-messageId="{{ message.recruitmentProcess.id }}" class="messageHeader {{ isRead ? 'isRead' : "isUnread" }}">
-    <td class="col-3">{{ message.sendBy.lastName|upper }} {{ message.sendBy.firstname|capitalize }}</td>
-    <td class="col-3">{{ message.recruitmentProcess.annonce.title ?: message.recruitmentProcess.company.name ?: "" }}</td>
-    <td class="messageContent col-6 contentMessage text-muted">{{ message.content|striptags|raw }}</td>
+    <td class="col-3" data-action="click->inbox#openMessage">{{ message.sendBy.lastName|upper }} {{ message.sendBy.firstname|capitalize }}</td>
+    <td class="col-3" data-action="click->inbox#openMessage">{{ message.recruitmentProcess.annonce.title ?: message.recruitmentProcess.company.name ?: "" }}</td>
+    <td class="messageContent col-6 contentMessage text-muted" data-action="click->inbox#openMessage">{{ message.content|striptags|raw }}</td>
+    <td><button data-action="inbox#archive" data-messageId="{{ message.recruitmentProcess.id }}" type="submit" class="btn btn-read">
+        <i {{ isRead ? "class='bi bi-envelope' title='Marquer non-lu'" : "class='bi bi-envelope-open' title='Marquer lu'" }}>
+        </i>
+    </button></td>
+    <td>
+        <button data-action="inbox#delete" data-messageId="{{ message.recruitmentProcess.id }}" type="submit" class="btn btn-del"><i class="bi bi-trash3-fill" title="supprimer/archiver" ></i></button>
+    </td>
 </tr>

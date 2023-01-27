@@ -26,8 +26,8 @@
                 <th{% if companies.isSorted('c.name') %} class="sorted"{% endif %}>
                     {{ knp_pagination_sortable(companies, 'Name', 'c.name') }}
                 </th>
-                <th{% if companies.isSorted('c.siret') %} class="sorted"{% endif %}>
-                    {{ knp_pagination_sortable(companies, 'Siret', 'c.siret') }}
+                <th{% if companies.isSorted('u.lastName') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(companies, 'Consultant', 'u.lastName') }}
                 </th>
                 <th{% if companies.isSorted('c.address') %} class="sorted"{% endif %}>
                     {{ knp_pagination_sortable(companies, 'Adresse', 'c.address') }}
@@ -44,8 +44,8 @@
                 <th{% if companies.isSorted('c.contactName') %} class="sorted"{% endif %}>
                     {{ knp_pagination_sortable(companies, 'Contact', 'c.contactName') }}
                 </th>
-                <th{% if companies.isSorted('c.size') %} class="sorted"{% endif %}>
-                    {{ knp_pagination_sortable(companies, 'Size', 'c.size') }}
+                <th{% if companies.isSorted('c.isActive') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(companies, 'Actif', 'c.isActive') }}
                 </th>
                 <th>actions</th>
             </tr>
@@ -57,16 +57,22 @@
                     <td><img style="height: 100px" src="{{ vich_uploader_asset(company) }}" alt="{{ company.name }}">
                     </td>
                     <td>{{ company.name }}</td>
-                    <td>{{ company.siret }}</td>
+                    <td>{{ company.externaticConsultant.user.firstName }} {{ company.externaticConsultant.user.lastName }}</td>
                     <td>{{ company.address }}</td>
                     <td>{{ company.zipCode }}</td>
                     <td>{{ company.city }}</td>
                     <td>{{ company.phoneNumber }}</td>
                     <td>{{ company.contactName }}</td>
-                    <td>{{ company.size }}</td>
+                    <td>{{ company.isActive ? 'Oui' : 'Non' }}</td>
                     <td>
                         <a href="{{ path('admin_app_company_show', {'id': company.id}) }}">Voir</a> {{ include('admin/company/_delete_form.html.twig') }}<br>
-                        <a href="{{ path('admin_app_company_edit', {'id': company.id}) }}">Modifier</a>
+                        <a href="{{ path('admin_app_company_edit', {'id': company.id}) }}">Modifier</a><br>
+                        {% if company.isActive %}
+                            <a href="{{ path('admin_app_company_disable', {'id': company.id}) }}">Désactiver</a>
+                            {% else %}
+                                <a href="{{ path('admin_app_company_enable', {'id': company.id}) }}">Activer</a>
+
+                        {% endif %}
                     </td>
                 </tr>
             {% else %}

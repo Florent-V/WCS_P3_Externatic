@@ -4,11 +4,12 @@ namespace App\Controller\Admin;
 
 use App\Entity\Company;
 use App\Form\AdminSearchType;
+use App\Form\CompanySwitchType;
 use App\Form\CompanyType;
 use App\Repository\CompanyRepository;
+use App\Service\CompanyTools;
 use Exception;
 use Knp\Component\Pager\PaginatorInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -66,6 +67,33 @@ class CompanyController extends AbstractController
         ]);
     }
 
+    #[Route('/switch', name: 'app_company_switch', methods: ['GET', 'POST'])]
+    public function switch(
+        Request $request,
+        CompanyTools $switchCompany
+    ): Response {
+
+        $form = $this->createForm(CompanySwitchType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $company = $data['company'];
+            $consultant = $data['consultant'];
+            $switchCompany->assign($company, $consultant);
+
+            $this->addFlash('success', 'L\'entreprise ' . $company->getName() .
+                ' a bien été affectée à ' . $consultant->getUser()->getFirstname() . ' ' .
+            $consultant->getUser()->getLastName());
+
+            return $this->redirectToRoute('admin_app_company_switch');
+        }
+
+        return $this->renderForm('admin/company/switch.html.twig', [
+            'form' => $form,
+        ]);
+    }
+
     #[Route('/{id}', name: 'app_company_show', methods: ['GET'])]
     public function show(Company $company): Response
     {
@@ -73,6 +101,7 @@ class CompanyController extends AbstractController
             'company' => $company,
         ]);
     }
+
 
     #[Route('/{id}/edit', name: 'app_company_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Company $company, CompanyRepository $companyRepository): Response
@@ -90,6 +119,34 @@ class CompanyController extends AbstractController
             'company' => $company,
             'form' => $form,
         ]);
+    }
+
+    #[Route('/{id}/disable', name: 'app_company_disable', methods: ['GET', 'POST'])]
+    public function disable(
+        Company $company,
+        CompanyRepository $companyRepository,
+        CompanyTools $companyTools
+    ): Response {
+
+        $companyTools->disable($company);
+        if (!$company->isActive()) {
+            $this->addFlash('success', 'L\'entreprise ' . $company->getName() . ' a bien été désactivée');
+        }
+        return $this->redirectToRoute('admin_app_company_index');
+    }
+
+    #[Route('/{id}/enable', name: 'app_company_enable', methods: ['GET', 'POST'])]
+    public function enable(
+        Company $company,
+        CompanyRepository $companyRepository,
+        CompanyTools $companyTools
+    ): Response {
+
+        $companyTools->enable($company);
+        if ($company->isActive()) {
+            $this->addFlash('success', 'L\'entreprise ' . $company->getName() . ' a bien été activée');
+        }
+        return $this->redirectToRoute('admin_app_company_index');
     }
 
     #[Route('/{id}', name: 'app_company_delete', methods: ['POST'])]

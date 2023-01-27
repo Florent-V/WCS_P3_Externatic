@@ -15,28 +15,6 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/hobbie')]
 class HobbieController extends AbstractController
 {
-    #[Route('/', name: 'app_hobbie_index', methods: ['GET'])]
-    public function index(
-        CandidatRepository $candidatRepository,
-        CurriculumRepository $curriculumRepository,
-        HobbieRepository $hobbieRepository
-    ): Response {
-        $user = $this->getUser();
-        $candidat = $candidatRepository->findOneBy(
-            ['user' => $user]
-        );
-        $curriculum = $curriculumRepository->findOneBy(
-            ['candidat' => $candidat]
-        );
-        $hobbies = $hobbieRepository->findBy(
-            ['curriculum' => $curriculum]
-        );
-
-        return $this->render('hobbie/index.html.twig', [
-            'hobbies' => $hobbies,
-        ]);
-    }
-
     #[Route('/new', name: 'app_hobbie_new', methods: ['GET', 'POST'])]
     public function new(
         Request $request,
@@ -60,24 +38,12 @@ class HobbieController extends AbstractController
             $hobbie->setCurriculum($curriculum);
             $hobbieRepository->save($hobbie, true);
 
-            return $this->redirectToRoute('app_hobbie_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_candidat_profile', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('hobbie/new.html.twig', [
             'hobbie' => $hobbie,
             'hobbieForm' => $hobbieForm,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'app_hobbie_show', methods: ['GET'])]
-    public function show(Hobbie $hobbie): Response
-    {
-        if ($hobbie->getCurriculum()->getCandidat()->getUser() !== $this->getUser()) {
-            // If not the owner, throws a 403 Access Denied exception
-            throw $this->createAccessDeniedException('Only the owner can consult !');
-        }
-        return $this->render('hobbie/show.html.twig', [
-            'hobbie' => $hobbie,
         ]);
     }
 
@@ -97,7 +63,7 @@ class HobbieController extends AbstractController
         if ($hobbieForm->isSubmitted() && $hobbieForm->isValid()) {
             $hobbieRepository->save($hobbie, true);
 
-            return $this->redirectToRoute('app_hobbie_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_candidat_profile', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('hobbie/edit.html.twig', [
@@ -117,6 +83,6 @@ class HobbieController extends AbstractController
             $hobbieRepository->remove($hobbie, true);
         }
 
-        return $this->redirectToRoute('app_hobbie_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_candidat_profile', [], Response::HTTP_SEE_OTHER);
     }
 }
