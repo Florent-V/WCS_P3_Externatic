@@ -51,7 +51,6 @@ class CertificationController extends AbstractController
             $certification->setCurriculum($curriculum);
             $certificationRepo->save($certification, true);
 
-
             return $this->redirectToRoute(
                 'app_candidat_profile',
                 ['_fragment' => 'certificationPanel']

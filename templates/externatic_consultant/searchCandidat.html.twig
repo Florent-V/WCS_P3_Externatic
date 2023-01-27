@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Recherche de Candidats{% endblock %}
+
+{% block body %}
+
+    <main class="adminIndex">
+        <div class="head">
+            <h1>Liste des Profils Candidats. Total : {{ candidats.getTotalItemCount }}</h1>
+
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button class="btn btn-primary" type="submit">Go !</button>
+            {{ form_end(form) }}
+
+        </div>
+
+        <table class="table">
+            <thead>
+            <tr>
+                {# sorting of properties based on query components #}
+                <th>{{ knp_pagination_sortable(candidats, 'Id', 'c.id') }}</th>
+                <th{% if candidats.isSorted('u.firstname') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(candidats, 'Prénom', 'u.firstname') }}
+                </th>
+                <th{% if candidats.isSorted('u.lastName') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(candidats, 'Nom', 'u.lastName') }}
+                </th>
+                <th{% if candidats.isSorted('u.email') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(candidats, 'Email', 'u.email') }}
+                </th>
+                <th{% if candidats.isSorted('c.linkedIn') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(candidats, 'LinkedIn', 'c.linkedIn') }}
+                </th>
+                <th>Techno</th>
+                <th>Experience</th>
+                <th>Formation</th>
+                <th>Langue</th>
+                <th>actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {# table body #}
+            {% for candidat in candidats %}
+                <tr {% if loop.index is odd %}class="color"{% endif %}>
+                    <td>{{ candidat.id }}</td>
+                    <td>{{ candidat.user.firstname }}</td>
+                    <td>{{ candidat.user.lastName }}</td>
+                    <td>{{ candidat.user.email }}</td>
+                    <td>{{ candidat.linkedIn }}</td>
+                    <td>
+                        {% for skill in candidat.curriculum.skills.hardSkill %}
+                            {{ skill.name }}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for exp in candidat.curriculum.experience %}
+                            {% if not exp.isFormation %}
+                                {{ exp.title }}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for exp in candidat.curriculum.experience %}
+                            {% if exp.isFormation %}
+                                {{ exp.title }}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for lg in candidat.curriculum.skills.languages %}
+                                {{ lg.language }}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <a href="{{ path('consultant_app_candidat_show', {'id': candidat.id}) }}">Voir</a> {{ include('admin/candidat/_delete_form.html.twig') }}<br>
+                        <a href="{{ path('admin_app_candidat_edit', {'id': candidat.id}) }}">Edit info Candidat</a><br>
+                        <a href="{{ path('admin_app_user_edit', {'id': candidat.user.id}) }}">Edit info
+                            Utilisateur</a><br>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="10">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="container d-flex justify-content-center">{{ knp_pagination_render(candidats) }}</div>
+
+    </main>
+
+{% endblock %}
