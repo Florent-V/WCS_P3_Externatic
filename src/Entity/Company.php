@@ -95,6 +95,9 @@ class Company
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: RecruitmentProcess::class)]
     private Collection $recruitmentProcesses;
 
+    #[ORM\Column]
+    private ?bool $isActive = null;
+
     public function __construct()
     {
         $this->annonces = new ArrayCollection();
@@ -334,6 +337,18 @@ class Company
                 $recruitmentProcess->setCompany(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
 
         return $this;
     }
