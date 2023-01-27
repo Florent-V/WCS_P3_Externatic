@@ -181,9 +181,9 @@
                         <p>{{ recruitmentProcess.candidat.user.phone }}</p>
 
                         <a title="voir dans Google Maps"
-                           href="https://www.google.fr/maps/place/{{ recruitmentProcess.candidat.address }}"
+                           href="https://www.google.fr/maps/place/{{ recruitmentProcess.candidat.address ~ " " ~ recruitmentProcess.candidat.zipCode ~ " " ~ recruitmentProcess.candidat.city }}"
                            target="_blank"><img alt="lien Maps" src="{{ asset('build/images/maps.png') }}"></a>
-                        <p>{{ recruitmentProcess.candidat.address|capitalize }}</p>
+                        <p>{{ (recruitmentProcess.candidat.address ~ " " ~ recruitmentProcess.candidat.zipCode ~ " " ~ recruitmentProcess.candidat.city)|capitalize }}</p>
 
                         <a title="Profil Github"
                            href="{{ recruitmentProcess.candidat.github }}"
