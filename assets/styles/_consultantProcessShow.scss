@@ -127,6 +127,11 @@
                 padding: 1em;
                 margin-top: 1em;
 
+                .logoMess {
+                    width:2rem;
+                    margin-left: .5rem;
+                }
+
                 &.only {
                     max-width:50%;
                 }
