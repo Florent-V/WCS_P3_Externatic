@@ -59,11 +59,11 @@
             <div id="rdvAndMessages" class="d-flex flex-wrap flex-lg-nowrap">
                 {# RDV #}
                 <section id="appointments">
-                    <div class="d-flex justify-content-between m-auto">
+                    <div class="d-flex justify-content-between">
                         <h2>Vos rendez-vous</h2>
-                        <button data-action="recruitProssConsult#addAppointment" class="btn btn-primary mt-2"
+                        <button data-action="recruitProssConsult#addAppointment" class="btn btn-primary"
                                 title="Ajouter un rdv">
-                            <i class="ms-2 bi bi-calendar"></i>
+                            <i class="bi bi-calendar"></i>
                             <i class="bi bi-plus-circle"></i>
                         </button>
                     </div>
@@ -74,7 +74,7 @@
                                 <small
                                     class="fst-italic">{{ appointment.date|format_datetime('long', 'short', locale='fr') }}</small>
                                 <small>{{ appointment.adress }}</small>
-                                <div class="">
+                                <div>
                                     <p class="fst-italic">{{ appointment.description }}</p>
                                     <p> {{ render(controller('App\\Controller\\CalendarLinkController::getLinks', {appointment})) }}
                                     </p>
@@ -87,7 +87,7 @@
                 {# Messages #}
                 <section class="messages">
                     <div class="d-flex justify-content-between">
-                        <h3 class=>Vos échanges avec
+                        <h3>Vos échanges avec
                             <span>{{ recruitmentProcess.candidat.user.firstname|capitalize }}</span>
                         </h3>
                         <small>
