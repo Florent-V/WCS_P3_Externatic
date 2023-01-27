@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\SearchProfile;
-use App\Entity\User;
 use App\Form\SearchProfileType;
 use App\Repository\SearchProfileRepository;
 use App\Repository\TechnoRepository;
@@ -25,15 +24,10 @@ class SearchProfileController extends AbstractController
     #[Route('/new', name: 'app_search_profile_new', methods: ['GET', 'POST'])]
     public function new(
         Request $request,
-        SearchProfileRepository $searchProfileRepo,
-        TechnoRepository $technoRepository,
         SearchProfileAdd $searchProfileAdd,
     ): Response {
 
-
         $data = json_decode($request->request->get('research'), true);
-
-
         $searchProfileAdd->addToEntity($data);
 
         return $this->json([

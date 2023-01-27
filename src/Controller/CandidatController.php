@@ -88,7 +88,6 @@ class CandidatController extends AbstractController
     public function candidat(
         Request $request,
         UserInterface $user,
-        UserRepository $userRepository,
         CandidatRepository $candidatRepository
     ): Response {
         //Get Candidat Entity form User

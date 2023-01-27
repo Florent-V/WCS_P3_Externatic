@@ -6,8 +6,6 @@ use App\Entity\Annonce;
 use App\Entity\Message;
 use App\Entity\Notif;
 use App\Entity\RecruitmentProcess;
-use App\Entity\SearchProfile;
-use App\Entity\User;
 use App\Repository\CandidatRepository;
 use App\Repository\NotifRepository;
 use App\Repository\SearchProfileRepository;

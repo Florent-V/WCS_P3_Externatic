@@ -2,9 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\DataFixtures\ExternaticConsultantFixtures;
 use App\Entity\Company;
-use App\Entity\ExternaticConsultant;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -28,6 +26,7 @@ class CompanyFixtures extends Fixture implements DependentFixtureInterface
                 $company->setZipCode($faker->departmentNumber() . $faker->numberBetween(100, 900));
                 $company->setAddress($faker->streetAddress);
                 $company->setCity($faker->city());
+                $company->setIsActive(true);
                 $company->setPhoneNumber($faker->phoneNumber());
                 $company->setContactName($faker->name());
                 $company->setSize($faker->numberBetween(10, 100000));
