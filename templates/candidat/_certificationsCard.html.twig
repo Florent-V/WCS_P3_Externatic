@@ -1,18 +1,22 @@
 <div id="certificationPanel" class="showCard">
     <div class="card">
-        <div class="cardIcons">
-            <a href="{{ path('app_certification_new') }}"><i class="bi bi-plus-lg"></i></a>
-        </div>
+        {% if not is_granted('ROLE_CONSULTANT') %}
+            <div class="cardIcons">
+                <a href="{{ path('app_certification_new') }}"><i class="bi bi-plus-lg"></i></a>
+            </div>
+        {% endif %}
         <div class="card-body">
             <h3 class="card-title text-center">Mes Certifications</h3>
 
             {% for certification in certifications %}
-                    <div class="card mb-2">
-                        <div class="cardIcons">
-                            <a href="{{ path('app_certification_edit', {id: certification.id}) }}"><i
-                                    class="bi bi-pencil-square"></i></a>
-                            {{ include('certification/_delete_form.html.twig') }}
-                        </div>
+                    <div class="card mb-4">
+                        {% if not is_granted('ROLE_CONSULTANT') %}
+                            <div class="cardIcons">
+                                <a href="{{ path('app_certification_edit', {id: certification.id}) }}"><i
+                                        class="bi bi-pencil-square"></i></a>
+                                {{ include('certification/_delete_form.html.twig') }}
+                            </div>
+                        {% endif %}
                         <div class="card-header">
                             <h5 class="card-title">{{ certification.title }}</h5>
                             <h6 class="card-subtitle mb-2 text-muted">
@@ -25,9 +29,11 @@
                         </ul>
                     </div>
             {% endfor %}
-            <div class="link buttons">
-                <a href="{{ path('app_certification_index') }}" class="btn btn-primary">Consulter</a>
-            </div>
+            {% if not is_granted('ROLE_CONSULTANT') %}
+                <div class="link buttons">
+                    <a href="{{ path('app_certification_index') }}" class="btn btn-primary">Consulter</a>
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>

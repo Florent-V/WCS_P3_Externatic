@@ -1,9 +1,11 @@
 <div class="showCard">
     <div class="card">
-        <div class="cardIcons">
-            <a href="{{ path('app_candidat_account') }}"><i
-                    class="bi bi-pencil-square"></i></a>
-        </div>
+        {% if not is_granted('ROLE_CONSULTANT') %}
+            <div class="cardIcons">
+                <a href="{{ path('app_candidat_account') }}"><i
+                        class="bi bi-pencil-square"></i></a>
+            </div>
+        {% endif %}
         <div class="card-body">
             <h2 class="card-title">Informations du compte</h2>
             <p class="card-text">Identifiants et autres informations de contact</p>
@@ -25,10 +27,10 @@
                 <p>Téléphone</p>
                 <p>{{ user.phone }}</p>
             </div>
-            <div class="list-group-item">
-                <p>Compte Vérifié ?</p>
-                <p>{{ user.verified ? 'Yes' : 'No' }}</p>
-            </div>
+{#            <div class="list-group-item">#}
+{#                <p>Compte Vérifié ?</p>#}
+{#                <p>{{ user.verified ? 'Yes' : 'No' }}</p>#}
+{#            </div>#}
         </div>
     </div>
 </div>
