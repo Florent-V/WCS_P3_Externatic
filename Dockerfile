@@ -35,7 +35,7 @@ RUN docker-php-ext-install pdo_mysql bcmath > /dev/null
 
 # Install INTL
 RUN apk add icu-dev
-RUN docker-php-ext-configure intl && docker-php-ext-install intl
+RUN docker-php-ext-configure intl && docker-php-ext-install intl && docker-php-ext-enable intl
 
 COPY nginx.conf /etc/nginx/nginx.conf
 
