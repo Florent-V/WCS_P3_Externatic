@@ -55,6 +55,7 @@ RUN apk add nodejs
 RUN apk add npm
 RUN npm install npm@latest -g
 RUN npm install yarn@latest -g
+RUN npx browserslist@latest --update-db
 RUN node -v
 RUN npm -v
 RUN yarn install
