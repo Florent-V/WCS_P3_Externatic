@@ -1,7 +1,16 @@
-<h1>Une Nouvelle annonce a été créer</h1>
-
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>New program</title>
+</head>
+<body>
+<h1>Une Nouvelle Techno a été créée</h1>
 <p>
-    Une nouvelles annonce <a href="{{ url('annonce_show', {id: annonce.id}) }}">"{{ annonce.title }}"</a> de
-    <a href="{{ url('app_company_show', {'id': annonce.company.id}) }}"> {{ annonce.company.name }} </a> vient d'être créer. <br><br>
-    cliquez sur ce lien pour y accéder : <a href="{{ url('annonce_show', {'id': annonce.id}) }}">"{{ annonce.title }}"</a>
+    Une nouvelles techno <a href="{{ url('admin_app_techno_index') }}">"{{ techno.name }}"</a> de
+    vient d'être créée. <br>
+    cliquez sur ce lien pour y accéder : <a href="{{ url('admin_app_techno_edit, {id: techno.id') }}">"{{ techno.name }}"</a>.
 </p>
+</body>
+</html>
