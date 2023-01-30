@@ -4,7 +4,7 @@
     <a href="{{ path("annonce_search_results") }}" class="ms-4">Retours aux offres</a>
     <main class="show_annonce" {{ stimulus_controller('favoriteoffer') }}>
         <div class="d-flex" {{ stimulus_controller('heartcompany') }}>
-            <img src="{{ annonce.picture }}" alt="logo de l'entreprise" class="ms-5 logo">
+            <img src="{{ vich_uploader_asset(annonce.company) }}" alt="logo de l'entreprise" class="ms-5 logo">
             <div class="w-100 d-flex flex-column justify-content-center">
                 <h1 class="mt-2"><strong>{{ annonce.title }}</strong></h1>
                 <div class="d-flex justify-content-center">

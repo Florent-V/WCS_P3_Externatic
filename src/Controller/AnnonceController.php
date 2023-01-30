@@ -85,7 +85,7 @@ class AnnonceController extends AbstractController
         ]);
     }
 
-
+    #[IsGranted('ROLE_CANDIDAT')]
     #[Route('/{id}/favorite', name: 'add_favorite', methods: ['GET'])]
     public function addToFavorite(
         Annonce $annonce,
@@ -110,6 +110,7 @@ class AnnonceController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_CANDIDAT')]
     #[Route('/favorite', name: 'show_favorite', methods: ['GET'])]
     public function showFavorites(
         UserInterface $user,
@@ -124,6 +125,7 @@ class AnnonceController extends AbstractController
         ]);
     }
 
+    #[IsGranted(['ROLE_CANDIDAT', 'ROLE_CONSULTANT'])]
     #[Route('/company/{id}', name: 'show_by_company', methods: ['GET'])]
     public function showAnnonceByCompany(
         Company $company,
@@ -138,7 +140,6 @@ class AnnonceController extends AbstractController
             )
         ]);
     }
-
 
     #[Route('/{id}', name: 'show', methods: ['GET', 'POST'])]
     public function show(
@@ -157,8 +158,12 @@ class AnnonceController extends AbstractController
          */
         $user = $this->getUser();
         if (!is_null($user)) {
-            foreach ($notifRepository->findBy(['wasRead' => false, 'user' => $user]) as $notif) {
-                if ($notif->getParameter() == $annonce->getId()) {
+            foreach (
+                $notifRepository->findBy(
+                    ['wasRead' => false, 'user' => $user, 'type' => 'newAnnonce']
+                ) as $notif
+            ) {
+                if ($notif->getAnnonce()->getId() == $annonce->getId()) {
                     $notif->setWasRead(true);
                     $notifRepository->save($notif, true);
                 }

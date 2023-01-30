@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Form\AdminSearchType;
 use App\Form\ConversationType;
 use App\Repository\MessageRepository;
+use App\Repository\NotifRepository;
 use App\Repository\RecruitmentProcessRepository;
 use App\Service\NewNotif;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
@@ -33,13 +34,10 @@ class MessageController extends AbstractController
          * @var ?User $user
          */
         $user = $this->getUser();
-        $userRole = $this->isGranted('ROLE_CANDIDAT') ? "Candidat" : "Consultant";
 
         $form = $this->createForm(AdminSearchType::class);
         $form->handleRequest($request);
-
-//        $receivedMessages = $messageRepository->findBy(['sendTo' => $user], ["date" => "DESC"]);
-        $messageQuery = $messageRepository->getInbox("sendTo", $user, $userRole);
+        $messageQuery = $messageRepository->getInbox($user);
         $receivedMessages = $paginator->paginate(
             $messageQuery,
             $request->query->getInt('page', 1),
@@ -61,7 +59,8 @@ class MessageController extends AbstractController
         Request $request,
         PaginatorInterface $paginator,
         RecruitmentProcessRepository $processRepo,
-        NewNotif $newNotif
+        NewNotif $newNotif,
+        NotifRepository $notifRepository,
     ): Response {
 
         $messages = $messageRepository->findBy(['recruitmentProcess' => $recruitmentProcess], ['date' => 'ASC']);
@@ -74,6 +73,8 @@ class MessageController extends AbstractController
          */
         $user = $this->getUser();
 
+        $newNotif->verifyIfIsRead($recruitmentProcess);
+
             $userConsultant = $recruitmentProcess->getExternaticConsultant()->getUser();
 
         if (($user !== $userConsultant) && ($user !== $recruitmentProcess->getCandidat()->getUser())) {
@@ -82,10 +83,8 @@ class MessageController extends AbstractController
         }
 
         if ($this->isGranted('ROLE_CANDIDAT')) {
-            $userRole = 'Candidat';
             $recruitmentProcess->setReadByCandidat(true);
         } else {
-            $userRole = 'Consultant';
             $recruitmentProcess->setReadByConsultant(true);
         }
         $processRepo->save($recruitmentProcess, true);
@@ -112,7 +111,7 @@ class MessageController extends AbstractController
         }
 
 
-        $otherConvQuery = $messageRepository->getInbox("sendTo", $user, $userRole);
+        $otherConvQuery = $messageRepository->getInbox($user);
         $otherConversations = $paginator->paginate(
             $otherConvQuery,
             $request->query->getInt('page', 1),

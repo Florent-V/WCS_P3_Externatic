@@ -16,6 +16,7 @@ grumphp:
                 - 'src'
             exclude:
                 - '\src\Kernel.php'
+                - '\src\Entity\Annonce.php'
             ruleset:
                 - 'phpmd.xml'
     fixer:

@@ -14,9 +14,6 @@ class Notif
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?array $content = null;
-
     #[ORM\ManyToOne(inversedBy: 'notifications')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
@@ -25,29 +22,26 @@ class Notif
     private ?\DateTimeInterface $createdAt = null;
 
     #[ORM\Column]
-    private ?bool $wasRead = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?int $parameter = null;
+    private ?bool $wasRead = false;
 
     #[ORM\Column(length: 255)]
     private ?string $type = null;
 
+    #[ORM\Column]
+    private ?bool $inSummary = true;
+
+    #[ORM\ManyToOne(inversedBy: 'notifs')]
+    private ?Annonce $annonce = null;
+
+    #[ORM\OneToOne(inversedBy: 'notif', cascade: ['persist', 'remove'])]
+    private ?Message $message = null;
+
+    #[ORM\Column]
+    private ?bool $active = false;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getContent(): ?array
-    {
-        return $this->content;
-    }
-
-    public function setContent(array $content): self
-    {
-        $this->content = $content;
-
-        return $this;
     }
 
     public function getUser(): ?User
@@ -86,18 +80,6 @@ class Notif
         return $this;
     }
 
-    public function getParameter(): ?int
-    {
-        return $this->parameter;
-    }
-
-    public function setParameter(?int $parameter): self
-    {
-        $this->parameter = $parameter;
-
-        return $this;
-    }
-
     public function getType(): ?string
     {
         return $this->type;
@@ -106,6 +88,54 @@ class Notif
     public function setType(string $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function isInSummary(): ?bool
+    {
+        return $this->inSummary;
+    }
+
+    public function setInSummary(bool $isInSummary): self
+    {
+        $this->inSummary = $isInSummary;
+
+        return $this;
+    }
+
+    public function getAnnonce(): ?Annonce
+    {
+        return $this->annonce;
+    }
+
+    public function setAnnonce(?Annonce $annonce): self
+    {
+        $this->annonce = $annonce;
+
+        return $this;
+    }
+
+    public function getMessage(): ?Message
+    {
+        return $this->message;
+    }
+
+    public function setMessage(?Message $message): self
+    {
+        $this->message = $message;
+
+        return $this;
+    }
+
+    public function isActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $isActive): self
+    {
+        $this->active = $isActive;
 
         return $this;
     }

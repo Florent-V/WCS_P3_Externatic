@@ -10,6 +10,7 @@ use App\Form\SpontaneType;
 use App\Repository\MessageRepository;
 use App\Repository\CandidatRepository;
 use App\Repository\RecruitmentProcessRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,6 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/company')]
 class CompanyController extends AbstractController
 {
+    #[IsGranted('ROLE_CANDIDAT')]
     #[Route('/{id}/favorite', name:'app_company_add_favorite', methods: ['GET'])]
     public function addToFavorite(
         Company $company,
@@ -41,7 +43,7 @@ class CompanyController extends AbstractController
             'isInFavorite' => $isInFavorite
         ]);
     }
-
+    #[IsGranted('ROLE_CANDIDAT')]
     #[Route('/favorite', name:'app_company_show_favorite', methods: ['GET'])]
     public function showFavorites(): Response
     {

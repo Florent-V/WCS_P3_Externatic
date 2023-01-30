@@ -35,7 +35,7 @@ RUN docker-php-ext-install pdo_mysql bcmath > /dev/null
 
 # Install INTL
 RUN apk add icu-dev
-RUN docker-php-ext-configure intl && docker-php-ext-install intl
+RUN docker-php-ext-configure intl && docker-php-ext-install intl && docker-php-ext-enable intl
 
 COPY nginx.conf /etc/nginx/nginx.conf
 
@@ -55,6 +55,7 @@ RUN apk add nodejs
 RUN apk add npm
 RUN npm install npm@latest -g
 RUN npm install yarn@latest -g
+RUN npx browserslist@latest --update-db
 RUN node -v
 RUN npm -v
 RUN yarn install
