@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\Techno;
 use App\Form\TechnoType;
@@ -16,7 +16,7 @@ class TechnoController extends AbstractController
     #[Route('/', name: 'app_techno_index', methods: ['GET'])]
     public function index(TechnoRepository $technoRepository): Response
     {
-        return $this->render('techno/index.html.twig', [
+        return $this->render('admin/techno/index.html.twig', [
             'technos' => $technoRepository->findAll(),
         ]);
     }
@@ -31,10 +31,10 @@ class TechnoController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $technoRepository->save($techno, true);
 
-            return $this->redirectToRoute('app_techno_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_app_techno_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('techno/new.html.twig', [
+        return $this->renderForm('admin/techno/new.html.twig', [
             'techno' => $techno,
             'form' => $form,
         ]);
@@ -43,7 +43,7 @@ class TechnoController extends AbstractController
     #[Route('/{id}', name: 'app_techno_show', methods: ['GET'])]
     public function show(Techno $techno): Response
     {
-        return $this->render('techno/show.html.twig', [
+        return $this->render('admin/techno/show.html.twig', [
             'techno' => $techno,
         ]);
     }
@@ -57,10 +57,10 @@ class TechnoController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $technoRepository->save($techno, true);
 
-            return $this->redirectToRoute('app_techno_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_app_techno_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('techno/edit.html.twig', [
+        return $this->renderForm('admin/techno/edit.html.twig', [
             'techno' => $techno,
             'form' => $form,
         ]);
@@ -73,6 +73,6 @@ class TechnoController extends AbstractController
             $technoRepository->remove($techno, true);
         }
 
-        return $this->redirectToRoute('app_techno_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('admin_app_techno_index', [], Response::HTTP_SEE_OTHER);
     }
 }

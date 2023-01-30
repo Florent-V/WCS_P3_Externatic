@@ -53,10 +53,17 @@ security:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/profile, roles: ROLE_CANDIDAT }
         - { path: ^/experience, roles: ROLE_CANDIDAT }
-        - { path: ^/notif, roles: IS_AUTHENTICATED }
+        - { path: ^/formation, roles: ROLE_CANDIDAT }
+        - { path: ^/hard/skill, roles: ROLE_CANDIDAT }
+        - { path: ^/skills, roles: ROLE_CANDIDAT }
+        - { path: ^/hobbie, roles: ROLE_CANDIDAT }
+        - { path: ^/soft/skill, roles: ROLE_CANDIDAT }
+        - { path: ^/language, roles: ROLE_CANDIDAT }
         - { path: ^/certification, roles: ROLE_CANDIDAT }
         - { path: ^/language, roles: ROLE_CANDIDAT }
         - { path: ^/consultant, roles: ROLE_CONSULTANT }
+        - { path: ^/search/profile, roles: ROLE_CANDIDAT }
+        - { path: ^/notif, roles: IS_AUTHENTICATED }
 
 when@test:
     security:

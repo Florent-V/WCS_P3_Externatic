@@ -26,9 +26,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_techno_index') }}">back to list</a>
+    <a href="{{ path('admin_app_techno_index') }}">back to list</a>
 
-    <a href="{{ path('app_techno_edit', {'id': techno.id}) }}">edit</a>
+    <a href="{{ path('admin_app_techno_edit', {'id': techno.id}) }}">edit</a>
 
-    {{ include('techno/_delete_form.html.twig') }}
+    {{ include('admin/techno/_delete_form.html.twig') }}
 {% endblock %}
