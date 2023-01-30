@@ -3,9 +3,16 @@
 {% block title %}New Techno{% endblock %}
 
 {% block body %}
-    <h1>Create new Techno</h1>
 
-    {{ include('admin/techno/_form.html.twig') }}
+    <main class="container-md p-md-5">
+        <h1 class="text-center">Create new Techno</h1>
 
-    <a href="{{ path('admin_app_techno_index') }}">back to list</a>
+        {{ include('admin/techno/_form.html.twig') }}
+
+        <div class="d-flex justify-content-center">
+            <a class="btn btn-primary" href="{{ path('admin_app_techno_index') }}">back to list</a>
+        </div>
+
+    </main>
+
 {% endblock %}

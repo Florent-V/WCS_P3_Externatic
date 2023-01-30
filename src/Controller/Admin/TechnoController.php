@@ -40,14 +40,6 @@ class TechnoController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_techno_show', methods: ['GET'])]
-    public function show(Techno $techno): Response
-    {
-        return $this->render('admin/techno/show.html.twig', [
-            'techno' => $techno,
-        ]);
-    }
-
     #[Route('/{id}/edit', name: 'app_techno_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Techno $techno, TechnoRepository $technoRepository): Response
     {

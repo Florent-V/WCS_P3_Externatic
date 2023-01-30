@@ -23,8 +23,8 @@
                 <td><img style="height: 100px" src="{{ vich_uploader_asset(techno) }}" alt="{{ techno.name }}"></td>
                 <td>{{ techno.updatedAt ? techno.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('admin_app_techno_show', {'id': techno.id}) }}">show</a>
                     <a href="{{ path('admin_app_techno_edit', {'id': techno.id}) }}">edit</a>
+                    {{ include('admin/techno/_delete_form.html.twig') }}
                 </td>
             </tr>
         {% else %}

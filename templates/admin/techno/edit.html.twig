@@ -3,11 +3,20 @@
 {% block title %}Edit Techno{% endblock %}
 
 {% block body %}
-    <h1>Edit Techno</h1>
 
-    {{ include('admin/techno/_form.html.twig', {'button_label': 'Update'}) }}
+    <main class="container-md p-md-5">
 
-    <a href="{{ path('admin_app_techno_index') }}">back to list</a>
+        <h1 class="text-center">Edit Techno</h1>
 
-    {{ include('admin/techno/_delete_form.html.twig') }}
+        {{ include('admin/techno/_form.html.twig', {'button_label': 'Update'}) }}
+
+        <div class="d-flex justify-content-center">
+            <a class="btn btn-primary" href="{{ path('admin_app_techno_index') }}">back to list</a>
+        </div>
+
+
+
+
+    </main>
+
 {% endblock %}
