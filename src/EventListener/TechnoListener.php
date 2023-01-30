@@ -29,6 +29,7 @@ class TechnoListener extends AbstractController
                 ->subject('Nouvelle Techno')
                 ->html($this->renderView('annonce/newTechnoEmail.html.twig', ['techno' => $techno]));
             $this->mailer->send($email);
+            sleep(3);
         }
     }
 }
