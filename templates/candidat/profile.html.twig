@@ -8,32 +8,39 @@
 
         <h1 class="text-center mt-3">Profil de {{ user.firstname }}  {{ user.lastname }}</h1>
 
-        <div class="candidatInfos mb-3">
+        <div class="cardsSection d-md-flex gap-4">
 
-            {% include 'candidat/_accountCard.html.twig' %}
+            <div class="firstColumn">
+                <div class="candidatInfos mb-3">
+                    {% include 'candidat/_accountCard.html.twig' %}
+                </div>
+                <div class="candidatCurriculum mb-3">
+                    {% include 'candidat/_experiencesCard.html.twig' %}
+                </div>
+                <div class="candidatCurriculum mb-3">
+                    {% include 'candidat/_certificationsCard.html.twig' %}
+                </div>
+            </div>
 
-            {% include 'candidat/_professionalCard.html.twig' %}
+            <div class="secondColumn">
+                <div class="candidatInfos mb-3">
+                    {% include 'candidat/_professionalCard.html.twig' %}
+                </div>
+                <div class="candidatCurriculum mb-3">
+                    {% include 'candidat/_formationsCard.html.twig' %}
+                </div>
+                <div class="candidatCurriculum mb-3">
+                    {% include 'candidat/_skillsCard.html.twig' %}
+                </div>
+                <div class="candidatCurriculum mb-3">
+                    {% include 'candidat/_languagesCard.html.twig' %}
+                </div>
+                <div class="candidatCurriculum mb-3">
+                    {%  include 'candidat/_hobbiesCard.html.twig' %}
+                </div>
+            </div>
 
         </div>
-
-        <div class="candidatCurriculum mb-3">
-
-            {% include 'candidat/_experiencesCard.html.twig' %}
-
-            {% include 'candidat/_formationsCard.html.twig' %}
-
-            {% include 'candidat/_certificationsCard.html.twig' %}
-
-            {% include 'candidat/_skillsCard.html.twig' %}
-
-
-            {% include 'candidat/_languagesCard.html.twig' %}
-
-            {%  include 'candidat/_hobbiesCard.html.twig' %}
-
-
-        </div>
-
     </main>
 
 
