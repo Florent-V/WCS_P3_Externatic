@@ -9,7 +9,7 @@
         <div class="d-flex flex-column align-items-center" data-controller="publiStatus">
             <h1>Annonces en cours</h1>
             <small>
-                <a href="{{ path('consultant_annonces_archives') }}">Accès aux archives</a>
+                <a class="btn btn-primary" href="{{ path('consultant_annonces_archives') }}">Accès aux archives</a>
             </small>
         </div>
         <div class="sorting d-flex justify-content-between">
@@ -38,8 +38,8 @@
                     <div class="accordion container rounded-1" id="accordionExample-{{ loop.index }}">
                         {% if date(annonce.endingAt) <= date() %}
                             <div class="d-flex justify-content-center font-italic bg-warning">
-                                <div class="font-italic text-muted">Annonce trop ancienne - </div>
-                                <div><a href="{{ path('annonce_edit', {"id": annonce.id}) }}"> Changer la date de
+                                <div class="font-italic text-muted">⚠️ Annonce trop ancienne ⚠️ - </div>
+                                <div><a href="{{ path('annonce_edit', {"id": annonce.id}) }}">  Changer la date de
                                         fin</a>
                                 </div>
                             </div>
@@ -53,7 +53,7 @@
                                 <small>-
                                     jusqu'au {{ annonce.endingAt|format_datetime('full', 'none', locale='fr') }}</small>
                             </div>
-                            <div>créée {{ annonce.createdAt|date("d-m-y") }} - <a
+                            <div>créée {{ annonce.createdAt|date("d-m-y") }} - <a class="btn btn-primary p-1"
                                     href="{{ path('annonce_edit', {"id": annonce.id}) }}">edit</a></div>
                             <span class="form-check form-switch">
                             <input data-annonce="{{ annonce.id }}" class="annonceSwiper form-check-input"

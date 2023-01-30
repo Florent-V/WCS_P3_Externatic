@@ -39,7 +39,7 @@
                                 {% else %}
                                     {{ difference|date("%i minutes") }}
                                 {% endif %}</td>
-                            <td class="delete-row"><a href="{{ path('notif_delete', {'id': notification.id}) }}"><button class="delete-button">supprimer</button></a></td>
+                            <td class="delete-row"><a href="{{ path('notif_delete', {'id': notification.id}) }}"><button class="delete-button btn btn-primary">supprimer</button></a></td>
                         </tr>
                     {% endfor %}
                 </tbody>

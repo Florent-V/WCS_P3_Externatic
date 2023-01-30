@@ -11,7 +11,7 @@
                 </h1>
                 {{ form_start(form) }}
                 {{ form_widget(form) }}
-                <button type="submit">C'est parti !</button>
+                <button class="btn px-5 mb-2" type="submit">C'est parti !</button>
                 {{ form_end(form) }}
                 <div class="cards-result container-fluid-md d-flex flex-column flex-md-row justify-content-around align-items-center">
                     {% for annonce in annoncesLandingPage %}
@@ -21,8 +21,8 @@
             </div>
         </section>
 
-        <h3 class="ms-3 mt-3">Inscrivez vous pour accéder à tous nos services :</h3>
-        <article class="d-flex flex-column flex-md-row justify-content-around align-items-center services">
+        <h3 class="ms-3 mt-3">Inscrivez vous pour accéder à <span class="text-primary fw-bold">tous nos services</span> :</h3>
+        <article class="landing-article d-flex flex-column flex-md-row justify-content-around align-items-center services">
             <div class="card text-black bg-light mb-3 mx-3 mt-3 my-5">
                 <div class="cardHeaderServices card-header card-info d-flex align-items-center">Postuler en un clic
                 </div>
@@ -54,7 +54,7 @@
         </article>
 
 
-        <h3 class="ms-3 mt-4">Externatic en chiffre c'est :</h3>
+        <h3 class="ms-3 mt-4 "><span class="text-primary font-italic fw-bold">Externatic</span> en chiffre c'est :</h3>
         <article class="desc-number d-flex justify-content-around mt-4 pb-5">
             <div class="d-flex flex-column align-items-center">
                 <img src="{{ asset('build/images/batiment.png') }}" alt="photo of an enterprise"/>
