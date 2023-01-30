@@ -66,6 +66,17 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $queryBuilder->getResult();
     }
 
+    public function findWithSummary(): array
+    {
+        $queryBuilder = $this->createQueryBuilder('u')
+            ->select('u')
+            ->join('u.notifications', 'n')
+            ->where('n.active = 1')
+            ->getQuery();
+
+        return $queryBuilder->getResult();
+    }
+
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */

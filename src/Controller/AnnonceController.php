@@ -157,8 +157,12 @@ class AnnonceController extends AbstractController
          */
         $user = $this->getUser();
         if (!is_null($user)) {
-            foreach ($notifRepository->findBy(['wasRead' => false, 'user' => $user]) as $notif) {
-                if ($notif->getParameter() == $annonce->getId()) {
+            foreach (
+                $notifRepository->findBy(
+                    ['wasRead' => false, 'user' => $user, 'type' => 'newAnnonce']
+                ) as $notif
+            ) {
+                if ($notif->getAnnonce()->getId() == $annonce->getId()) {
                     $notif->setWasRead(true);
                     $notifRepository->save($notif, true);
                 }
