@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Annonce;
 use App\Repository\AnnonceRepository;
 use App\Repository\CandidatRepository;
 use App\Repository\CompanyRepository;

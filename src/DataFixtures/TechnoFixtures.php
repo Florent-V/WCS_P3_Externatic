@@ -38,9 +38,9 @@ class TechnoFixtures extends Fixture
             $file = __DIR__ . '/data/logo/' . 'Logo' . $langage['name'] . '.png';
             if (
                 copy($file, $this->containerBag->get('upload_directory') .
-                'images/logo/' . 'Logo' . $langage['name'] . '.png')
+                'images/logo/' . 'Logo' . self::$technoIndex . '.png')
             ) {
-                $techno->setPicture('Logo' . $langage['name'] . '.png');
+                $techno->setPicture('Logo' . self::$technoIndex . '.png');
             }
             $this->addReference('techno_' . self::$technoIndex, $techno);
             $manager->persist($techno);
