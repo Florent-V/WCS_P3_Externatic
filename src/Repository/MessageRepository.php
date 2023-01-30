@@ -6,6 +6,8 @@ use App\Entity\Message;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
+use Doctrine\ORM\Query\ResultSetMapping;
+use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -41,15 +43,26 @@ class MessageRepository extends ServiceEntityRepository
         }
     }
 
-    public function getInbox(string $sendOrReceived, User $user, string $userRole): Query
+    public function getInbox(User $user): array
     {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.' . $sendOrReceived . " = :user")
-            ->setParameter('user', $user)
-            ->andWhere('m.recruitmentProcess IS NOT null')
-            ->join('m.recruitmentProcess', "r", 'WITH', 'r.archivedBy' . $userRole . ' = false')
-            ->orderBy('m.date', 'DESC')
-            ->getQuery();
+        $mappingBuilder = new ResultSetMappingBuilder($this->getEntityManager());
+        $mappingBuilder->addRootEntityFromClassMetadata('App\Entity\Message', 'm');
+        $querySql = 'select m.*,  md.maxDate
+                from (
+                select Max(date) as maxDate, Max(id) as maxId,
+                       recruitment_process_id
+                from message
+                group by recruitment_process_id
+                ) md
+                inner join message m
+                on md.recruitment_process_id = m.recruitment_process_id
+                        and m.date = md.maxDate and m.id = md.maxId
+                where m.recruitment_process_id is not null
+                and m.send_to_id = ? or send_by_id = ?
+                order by m.date DESC';
+        $query = $this->getEntityManager()->createNativeQuery($querySql, $mappingBuilder);
+        $query->setParameters([1 => $user, 2 => $user]);
+        return $query->getResult();
     }
 
     /*

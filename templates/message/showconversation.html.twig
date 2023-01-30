@@ -46,16 +46,20 @@
                      class="container d-flex justify-content-center">{{ knp_pagination_render(receivedMessages) }}</div>
             </section>
 
-            <section class="allconv col-lg-5 d-flex justify-content-start flex-column">
-                <div {{ stimulus_controller('message_scroll') }}>
+            <section class="allconv col-lg-5 d-flex justify-content-start flex-column" {{ stimulus_controller('message_scroll') }}>
+                <div>
                     {{ component('conversation', {
                         recruitmentProcess: recruitmentProcess
                     }) }}
                 </div>
                 <div class="formconvo col-12">
-                    {{ form_start(form) }}
+                    {{ form_start(form, {
+                        'attr': {'data-message-scroll-target': 'formNewMessage'}
+                    }) }}
                     {{ form_widget(form.content) }}
-                    <button class="btn btn-primary" type="submit"><i class="bi bi-chat-text-fill"></i> Envoyer</button>
+                    <button class="btn btn-primary" type="submit">
+                        <i class="bi bi-chat-text-fill"></i> Envoyer
+                    </button>
                     {{ form_end(form) }}
                 </div>
             </section>

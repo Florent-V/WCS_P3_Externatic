@@ -9,7 +9,7 @@
                         {{ (message.sendBy.id == app.user.id) ? "bg-primary text-white align-self-end messageRecu" : "bg-white text-primary align-self-start" }}">
                 <small
                     class="d-block fst-italic {{ (message.sendBy.id == app.user.id) ? "text-light" : "text-primary" }}">
-                    {{ message.sendBy.firstname|capitalize }} - {{ message.date|format_datetime(pattern="d/MM hh:kk:ss") }}
+                    {{ message.sendBy.firstname|capitalize }} - {{ message.date|format_datetime(locale='fr') }}
                 </small>{{ message.content|raw }}
             </article>
         {% endfor %}
