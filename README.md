@@ -1,25 +1,38 @@
-# Project 3 - Starter Kit - Symfony
 
-## Presentation
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
 
-This starter kit is here to easily start a repository for Wild Code School students.
+- [Externatic](#externatic)
+    - [🏃 Clone and run Externatic](#-clone-and-run-externatic)
+        - [Prerequisites](#prerequisites)
+        - [Install](#install)
+        - [Launching](#launching)
+    - [🏠 Architecture of Externatic](#-architecture-of-externatic)
+        - [Organisation](#organisation)
+        - [Public pages](#public-pages)
+        - [Page when login as Candidate](#page-when-login-as-candidate)
+        - [Consultant page](#consultant-page)
+        - [Admin pages](#admin-pages)
+    - [🔑 Login to Externatic](#-login-to-externatic)
+        - [Admin](#admin)
+        - [Consultant](#consultant)
+        - [Candidate](#candidate)
+    - [📰 Info about Externatic](#-info-about-externatic)
+        - [Our team](#our-team)
+        - [Built With](#built-with)
+    - [🌏 Browser Support](#-browser-support)
 
-It's symfony website-skeleton project with some additional library (webpack, fixtures) and tools to validate code standards.
+</details>
 
-* GrumPHP, as pre-commit hook, will run 2 tools when `git commit` is run :
 
-    * PHP_CodeSniffer to check PSR12
-    * PHPStan focuses on finding errors in your code (without actually running it)
-    * PHPmd will check if you follow PHP best practices
+# Externatic
 
-  If tests fail, the commit is canceled and a warning message is displayed to developper.
+<a name="readme-top"></a>
 
-* Github Action as Continuous Integration will be run when a branch with active pull request is updated on github. It will run :
+![Externatic](https://i.imgur.com/zMuSY2p.jpg)
 
-    * Tasks to check if vendor, .idea, env.local are not versionned,
-    * PHP_CodeSniffer, PHPStan and PHPmd with same configuration as GrumPHP.
-
-## Getting Started for Students
+## 🏃 Clone and run Externatic
 
 ### Prerequisites
 
@@ -29,98 +42,123 @@ It's symfony website-skeleton project with some additional library (webpack, fix
 ### Install
 
 1. Clone this project
-2. Run `composer install`
-3. Run `yarn install`
-4. Run `yarn encore dev` to build assets
+2. Create your .env.local
+3. Add & personalize this line to your .env.local :
 
-### Working
+DATABASE_URL="mysql://user:password@127.0.0.1:3306/dbname?serverVersion=8.0&charset=utf8mb4"
+
+4. Run `bash script.sh`
+5. Script.sh What ?
+   Voici le rôle de ce script :
+
+    * #### Installer le projet
+    1. Run `composer install`
+    2. Run `yarn install`
+
+    * #### Create the database
+    3. Run `php bin/console d:d:c`
+    4. Run `php bin/console d:m:m`
+    5. Run `php bin/console d:f:l`
+
+
+### Launching
 
 1. Run `symfony server:start` to launch your local php web server
 2. Run `yarn run dev --watch` to launch your local server for assets (or `yarn dev-server` do the same with Hot Module Reload activated)
 
-### Testing
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-1. Run `php ./vendor/bin/phpcs` to launch PHP code sniffer
-2. Run `php ./vendor/bin/phpstan analyse src --level max` to launch PHPStan
-3. Run `php ./vendor/bin/phpmd src text phpmd.xml` to launch PHP Mess Detector
-4. Run `./node_modules/.bin/eslint assets/js` to launch ESLint JS linter
+## 🏠 Architecture of Externatic
 
-### Windows Users
+### Organisation
+There is **3 access level** to externatic :
 
-If you develop on Windows, you should edit you git configuration to change your end of line rules with this command:
+* **Candidate :** He can create his candidate profile, read job offer and apply to any of them
+* **Recruiter :** He can create job offer and validate candidacy
+* **Admin :** He can access any CRUD
 
-`git config --global core.autocrlf true`
+### Public pages
+* Home page at [localhost:8000/](http://localhost:8000/)
+* Connect at [localhost:8000/login](http://localhost:8000/login)
+* Register at [localhost:8000/register](http://localhost:8000/register)
 
-The `.editorconfig` file in root directory do this for you. You probably need `EditorConfig` extension if your IDE is VSCode.
+### Page when login as Candidate
+* Get the profile page at [localhost:8000/profile](http://localhost:8000/candidat/mypage)
+* Use the Hamburger menu to access other links
 
-### Run locally with Docker
+### Consultant page
+* Get the profile page at [localhost:8000/consultant/board](http://localhost:8000/consultant/board)
+* Use the Hamburger menu to access other links
 
-1. Fill DATABASE_URL variable in .env.local file with
-`DATABASE_URL="mysql://root:password@database:3306/<choose_a_db_name>"`
-2. Install Docker Desktop an run the command:
-```bash
-docker-compose up -d
-```
-3. Wait a moment and visit http://localhost:8000
+### Admin pages
+* Adminb is a Super-Consultant so he has the same features than the consultant and Admin features so :
+* Use the Hamburger menu to access other features
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Deployment
+## 🔑 Login to Externatic
 
-Some files are used to manage automatic deployments (using tools as Caprover, Docker and Github Action). Please do not modify them.
+### Admin
 
-* [captain-definition](/captain-definition) Caprover entry point
-* [Dockerfile](/Dockerfile) Web app configuration for Docker container
-* [docker-entry.sh](/docker-entry.sh) shell instruction to execute when docker image is built
-* [nginx.conf](/ginx.conf) Nginx server configuration
-* [php.ini](/php.ini) Php configuration
+* email : `admin@mail.fr` // password : `motdepasse`
 
 
-## Built With
+### Consultant
+From
+* email : `consultant1@mail.fr` // password : `motdepasse`
+
+
+To
+* email : `consultant3@mail.fr` // password : `motdepasse`
+
+
+
+### Candidate
+
+From
+* email : `candidat1@mail.fr` // password : `motdepasse`
+
+To
+* email : `candidat50@mail.fr` // password : `motdepasse`
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+## 📰 Info about Externatic
+
+### Our team
+
+Externatic is a [school](https://www.wildcodeschool.com/) project created by :
+
+* Emeric Riff  [<img src="https://i.imgur.com/i3QdWQl.png">](https://www.linkedin.com/in/e-riff/)    [<img src="https://i.imgur.com/MXFQZTy.png">](https://github.com/e-riff)
+
+
+* Macence Hattabi  [<img src="https://i.imgur.com/i3QdWQl.png">](https://www.linkedin.com/in/maxence-hattabi-75033617b/)    [<img src="https://i.imgur.com/MXFQZTy.png">](https://github.com/MaxenceCodeFR)
+
+
+* Nicolas Montard  [<img src="https://i.imgur.com/i3QdWQl.png">](https://www.linkedin.com/in/nicolas-montard-9ba08a258/)    [<img src="https://i.imgur.com/MXFQZTy.png">](https://github.com/Nicolas-Montard)
+
+
+* Florent Vasseur  [<img src="https://i.imgur.com/i3QdWQl.png">](https://www.linkedin.com/in/florentvasseur/)    [<img src="https://i.imgur.com/MXFQZTy.png">](https://github.com/Florent-V)
+
+
+
+
+### Built With
 
 * [Symfony](https://github.com/symfony/symfony)
-* [GrumPHP](https://github.com/phpro/grumphp)
-* [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer)
-* [PHPStan](https://github.com/phpstan/phpstan)
-* [PHPMD](http://phpmd.org)
-* [ESLint](https://eslint.org/)
-* [Sass-Lint](https://github.com/sasstools/sass-lint)
+* [Bootstrap](https://getbootstrap.com/)
+* [SymfonyUX](https://ux.symfony.com/)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
+## 🌏 Browser Support
 
-## Contributing
+| <img src="https://user-images.githubusercontent.com/1215767/34348387-a2e64588-ea4d-11e7-8267-a43365103afe.png" alt="Chrome" width="16px" height="16px" /> Chrome | <img src="https://user-images.githubusercontent.com/1215767/34348590-250b3ca2-ea4f-11e7-9efb-da953359321f.png" alt="IE" width="16px" height="16px" /> Internet Explorer | <img src="https://user-images.githubusercontent.com/1215767/34348380-93e77ae8-ea4d-11e7-8696-9a989ddbbbf5.png" alt="Edge" width="16px" height="16px" /> Edge | <img src="https://user-images.githubusercontent.com/1215767/34348394-a981f892-ea4d-11e7-9156-d128d58386b9.png" alt="Safari" width="16px" height="16px" /> Safari | <img src="https://user-images.githubusercontent.com/1215767/34348383-9e7ed492-ea4d-11e7-910c-03b39d52f496.png" alt="Firefox" width="16px" height="16px" /> Firefox |
+| :---------: | :---------: | :---------: | :---------: | :---------: |
+| Yes | 11+ | Yes | Yes | Yes |
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Versioning
-
-
-## Authors
-
-Wild Code School trainers team
-
-## License
-
-MIT License
-
-Copyright (c) 2019 aurelien@wildcodeschool.fr
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
-## Acknowledgments
 
