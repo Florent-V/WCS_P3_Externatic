@@ -1,9 +1,10 @@
 .consultantBoard {
-
     section {
+        margin-top: 2rem;
         height: 30vh;
         overflow-y: scroll;
-        border: 1px solid $primary;
+        box-shadow:  20px 20px 34px #bebebe,
+        -20px -20px 34px #ffffff;
         padding: $spacer;
         border-radius: $border-radius;
 

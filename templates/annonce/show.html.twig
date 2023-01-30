@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <a href="{{ path("annonce_search_results") }}" class="ms-4">Retours aux offres</a>
+    <a class="retour-bouton btn btn-primary m-5" href="{{ path("annonce_search_results") }}" class="ms-4">Retours aux offres</a>
     <main class="show_annonce" {{ stimulus_controller('favoriteoffer') }}>
         <div class="d-flex" {{ stimulus_controller('heartcompany') }}>
             <img src="{{ vich_uploader_asset(annonce.company) }}" alt="logo de l'entreprise" class="ms-5 logo">
@@ -9,7 +9,7 @@
                 <h1 class="mt-2"><strong>{{ annonce.title }}</strong></h1>
                 <div class="d-flex justify-content-center">
                     <a href="{{ path('app_company_show', {'id': annonce.company.id}) }}">
-                        <h2 class="name_company d-inline-block align-items-center m-0 mx-2 mt-1 text-dark">
+                        <h2 class="name_company text-primary d-inline-block align-items-center m-0 mx-2 mt-1">
                             {{ annonce.company.name }}
                         </h2>
                     </a>

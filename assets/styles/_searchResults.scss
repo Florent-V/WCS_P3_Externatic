@@ -1,9 +1,19 @@
 .search {
+
     form {
         display: flex;
         flex-direction: column;
+        box-shadow:  20px 20px 34px #bebebe,
+        -20px -20px 34px #ffffff;
     }
     .btn.btn-primary {
         margin: 2rem auto;
     }
+    article{
+        box-shadow:  20px 20px 34px #bebebe,
+        -20px -20px 34px #ffffff;
+        h3{
+            color: $primary;
+        }
+        }
 }
