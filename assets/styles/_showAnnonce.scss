@@ -1,11 +1,20 @@
+.retour-bouton{
+    width: 10%;
+    @media (max-width: 576px) {
+        width: 30%;
+        margin: 0;
+    }
+}
 .show_annonce{
-
     h1{
         text-align: center;
     }
 
     .name_company{
         margin-left: 10rem;
+        &:hover{
+            text-decoration: underline;
+        }
     }
 
     .image_techno{
@@ -23,9 +32,9 @@
     }
 
     .tech {
-        border-color: rgb(17, 17, 17);
-        border: solid;
-        border-width:1px;
+        border-radius: 15px;
+        box-shadow:  20px 20px 60px #bebebe,
+        -20px -20px 60px #ffffff;
         min-height: 18rem;
         min-width: 7rem;
         @include media-breakpoint-up(sm) {
@@ -92,6 +101,7 @@
 
     .h2-info{
         font-size: 1.5rem;
+        color: $primary;
         @include media-breakpoint-up(sm) {
             font-size: 1.7rem;
         }
