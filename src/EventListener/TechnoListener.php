@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 
-#[AsEntityListener(event: Events::prePersist, method: 'prePersist', entity: Techno::class)]
+#[AsEntityListener(event: Events::postPersist, method: 'postPersist', entity: Techno::class)]
 class TechnoListener extends AbstractController
 {
     public function __construct(
@@ -20,7 +20,7 @@ class TechnoListener extends AbstractController
     ) {
     }
 
-    public function prePersist(Techno $techno, LifecycleEventArgs $event): void
+    public function postPersist(Techno $techno, LifecycleEventArgs $event): void
     {
         foreach ($this->userRepository->findByRole("ADMIN") as $admin) {
             $email = (new Email())
