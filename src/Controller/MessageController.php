@@ -34,13 +34,10 @@ class MessageController extends AbstractController
          * @var ?User $user
          */
         $user = $this->getUser();
-        $userRole = $this->isGranted('ROLE_CANDIDAT') ? "Candidat" : "Consultant";
 
         $form = $this->createForm(AdminSearchType::class);
         $form->handleRequest($request);
-
-//        $receivedMessages = $messageRepository->findBy(['sendTo' => $user], ["date" => "DESC"]);
-        $messageQuery = $messageRepository->getInbox("sendTo", $user, $userRole);
+        $messageQuery = $messageRepository->getInbox($user);
         $receivedMessages = $paginator->paginate(
             $messageQuery,
             $request->query->getInt('page', 1),
@@ -86,10 +83,8 @@ class MessageController extends AbstractController
         }
 
         if ($this->isGranted('ROLE_CANDIDAT')) {
-            $userRole = 'Candidat';
             $recruitmentProcess->setReadByCandidat(true);
         } else {
-            $userRole = 'Consultant';
             $recruitmentProcess->setReadByConsultant(true);
         }
         $processRepo->save($recruitmentProcess, true);
@@ -116,7 +111,7 @@ class MessageController extends AbstractController
         }
 
 
-        $otherConvQuery = $messageRepository->getInbox("sendTo", $user, $userRole);
+        $otherConvQuery = $messageRepository->getInbox($user);
         $otherConversations = $paginator->paginate(
             $otherConvQuery,
             $request->query->getInt('page', 1),
