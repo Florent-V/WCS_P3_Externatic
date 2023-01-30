@@ -37,8 +37,8 @@
                 <article class="m-3 p-2">
                     <div class="accordion container" id="accordionExample-{{ loop.index }}">
                         <div class="d-flex justify-content-between">
-                            <div><img src="{{ annonce.picture }}"
-                                      alt="logo of an enterprise"/> {{ annonce.company.name }}
+                            <div><img class="p-1 align-self-center rounded-1" src="{{ vich_uploader_asset(annonce.company) }}"
+                                      alt="logo of {{ annonce.company.name }}"/>  {{ annonce.company.name }}
                             </div>
                             <div>
                                 <a href="{{ path('annonce_show', {"id": annonce.id}) }}"><strong>{{ annonce.title }}</strong></a><small>-

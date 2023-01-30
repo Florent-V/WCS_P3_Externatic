@@ -29,8 +29,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class ExternaticConsultantController extends AbstractController
 {
     #[Route('/board', name: 'board')]
-    public function board(AppointementRepository $appointRepository, MessageRepository $messageRepository): Response
-    {
+    public function board(
+        AppointementRepository $appointRepository,
+        MessageRepository $messageRepository,
+        AnnonceRepository $annonceRepository
+    ): Response {
         /**
          * @var User $user
          */
@@ -39,13 +42,20 @@ class ExternaticConsultantController extends AbstractController
         $weekAppointments = $appointRepository->findAppoitmentList($user->getConsultant()->getId(), "thisWeek");
         $otherAppointments = $appointRepository->findAppoitmentList($user->getConsultant()->getId(), "thisMonth");
 
-        $messages = $messageRepository->findBy(["sendTo" => $user], ["date" => 'DESC'], 10);
+        $annonces = $annonceRepository->findBy(
+            ['author' => $user->getConsultant(), 'publicationStatus' => 1],
+            ['endingAt' => 'DESC'],
+            10
+        );
+
+        $messages = $messageRepository->getInboxBoard($user);
 
         return $this->render('externatic_consultant/board.html.twig', [
             'controller_name' => 'ExternaticConsultantController',
             'weekAppointment' => $weekAppointments,
             'otherAppointment' => $otherAppointments,
-            'messages' => $messages
+            'messages' => $messages,
+            'annonces' => $annonces,
         ]);
     }
 
