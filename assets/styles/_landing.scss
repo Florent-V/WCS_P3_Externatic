@@ -1,12 +1,19 @@
 main.landing {
 
     section.research {
-        background-image: url("/assets/images/landing.webp");
+        background:linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url("/assets/images/landing.webp") ;
         background-position: center;
         background-size: cover;
         min-height: 50vh;
         @include media-breakpoint-up(lg) {
             min-height: 75vh;
+        }
+        button{
+            background-color: #FAE8EF;
+            color: $primary;
+        }
+        form{
+            color: $light;
         }
     }
 
@@ -34,7 +41,6 @@ main.landing {
 
 
     article.cardResult {
-
         &:nth-last-child(1){
             @include media-breakpoint-up(md) {
                 display:none;
@@ -45,6 +51,7 @@ main.landing {
         }
         width: 100%;
         height: 18.5rem;
+        border-radius: 15px;
     }
 
     .desc-number {
@@ -64,10 +71,19 @@ main.landing {
             @include media-breakpoint-up(md) {
                 font-size: 1.7rem;
             }
+            .span{
+                font-weight: bold;
+            }
+        }
+    }
+    .landing-article{
+        .card{
+            box-shadow: 20px 20px 60px #bebebe,
+            -20px -20px 60px #ffffff;
         }
     }
     .card-info{
-        background-color: $purple;
+        background-color: $primary;
         color: white;
     }
 }
