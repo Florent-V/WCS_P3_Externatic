@@ -4,6 +4,7 @@ namespace App\Component;
 
 use App\Entity\User;
 use App\Form\UserUpdateType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
@@ -26,8 +27,9 @@ class UserUpdate extends AbstractController
     }
 
     #[LiveAction]
-    public function save(EntityManagerInterface $entityManager): void
-    {
+    public function save(
+        EntityManagerInterface $entityManager
+    ): void {
         // shortcut to submit the form with form values
         // if any validation fails, an exception is thrown automatically
         // and the component will be re-rendered with the form errors
