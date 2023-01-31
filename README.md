@@ -47,9 +47,15 @@
 
 DATABASE_URL="mysql://user:password@127.0.0.1:3306/dbname?serverVersion=8.0&charset=utf8mb4"
 
-4. Run `bash script.sh`
-5. Script.sh What ?
-   Voici le rôle de ce script :
+4. For testing this project, you have to set a mailer in your .env.local like this :
+
+###> symfony/mailer ###
+MAILER_DSN=smtp://...
+MAILER_FROM_ADDRESS=your@mail.fr
+###< symfony/mailer ###
+
+5. Run `bash script.sh`
+6. Script.sh What ? Here what this script do:
 
     * #### Installer le projet
     1. Run `composer install`
@@ -74,7 +80,7 @@ DATABASE_URL="mysql://user:password@127.0.0.1:3306/dbname?serverVersion=8.0&char
 There is **3 access level** to externatic :
 
 * **Candidate :** He can create his candidate profile, read job offer and apply to any of them
-* **Recruiter :** He can create job offer and validate candidacy
+* **Consultant :** He can create job offer and validate candidacy
 * **Admin :** He can access any CRUD
 
 ### Public pages
@@ -133,7 +139,7 @@ Externatic is a [school](https://www.wildcodeschool.com/) project created by :
 * Emeric Riff  [<img src="https://i.imgur.com/i3QdWQl.png">](https://www.linkedin.com/in/e-riff/)    [<img src="https://i.imgur.com/MXFQZTy.png">](https://github.com/e-riff)
 
 
-* Macence Hattabi  [<img src="https://i.imgur.com/i3QdWQl.png">](https://www.linkedin.com/in/maxence-hattabi-75033617b/)    [<img src="https://i.imgur.com/MXFQZTy.png">](https://github.com/MaxenceCodeFR)
+* Maxence Hattabi  [<img src="https://i.imgur.com/i3QdWQl.png">](https://www.linkedin.com/in/maxence-hattabi-75033617b/)    [<img src="https://i.imgur.com/MXFQZTy.png">](https://github.com/MaxenceCodeFR)
 
 
 * Nicolas Montard  [<img src="https://i.imgur.com/i3QdWQl.png">](https://www.linkedin.com/in/nicolas-montard-9ba08a258/)    [<img src="https://i.imgur.com/MXFQZTy.png">](https://github.com/Nicolas-Montard)
