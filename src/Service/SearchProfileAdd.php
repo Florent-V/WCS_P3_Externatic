@@ -53,6 +53,9 @@ class SearchProfileAdd extends AbstractController
                 $searchProfile->addTechno($this->technoRepository->findOneBy(['id' => $techno]));
             }
         }
+        if (isset($data['contractType'])) {
+            $searchProfile->setContractType($data['contractType']);
+        }
         /**
          * @var ?User $user
          */
