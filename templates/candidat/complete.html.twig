@@ -20,7 +20,9 @@
                      data-bs-parent="#accordionExample">
                     <div class="accordion-body">
 
-                        {{ component('user_update') }}
+                        {{ component('user_update', {
+                            user: app.user
+                        }) }}
 
                     </div>
                 </div>
