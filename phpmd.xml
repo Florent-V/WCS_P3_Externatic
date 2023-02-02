@@ -15,6 +15,7 @@
     <rule ref="rulesets/codesize.xml" >
         <exclude name="TooManyFields" />
         <exclude name="ExcessivePublicCount" />
+        <exclude name="ExcessiveClassComplexity" />
     </rule>
     <rule ref="rulesets/codesize.xml/TooManyFields" >
         <properties>
