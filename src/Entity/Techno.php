@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TechnoRepository::class)]
 #[Vich\Uploadable]
+#[ORM\HasLifecycleCallbacks]
 class Techno
 {
     #[ORM\Id]
@@ -46,6 +47,24 @@ class Techno
 
     #[ORM\ManyToMany(targetEntity: SearchProfile::class, mappedBy: 'techno')]
     private Collection $searchProfiles;
+
+    private bool $isFixture = false;
+
+    /**
+     * @return bool
+     */
+    public function isFixture(): bool
+    {
+        return $this->isFixture;
+    }
+
+    /**
+     * @param bool $isFixture
+     */
+    public function setIsFixture(bool $isFixture): void
+    {
+        $this->isFixture = $isFixture;
+    }
 
     public function __construct()
     {
