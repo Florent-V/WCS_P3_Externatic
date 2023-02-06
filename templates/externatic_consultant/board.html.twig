@@ -58,7 +58,7 @@
                         <tr class="messageHeader" data-messageid="{{ message.recruitmentProcess.id }}">
                             <td class="col-2">{{ message.date|format_datetime('short', 'short', locale='fr') }}</td>
                             <td class="col-2">{{ message.sendBy.lastName|upper }} {{ message.sendBy.firstname|capitalize }}</td>
-                            <td class="messageContent">{{ message.content|raw }}</td>
+                            <td class="messageContent"><a href="{{ path("message_conversation", {'recruitmentProcess': message.recruitmentProcess.id}) }}">{{ message.content|raw }}</a></td>
                         </tr>
                         {% if loop.index == 10 %}
                             <tr>

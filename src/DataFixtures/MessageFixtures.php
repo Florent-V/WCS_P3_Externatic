@@ -19,14 +19,10 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
         for ($i = 1; $i <= 600; $i++) {
             //Attachement à un processus de recrutement
             $recruitmentProcess = null;
-            if ($faker->randomElement([false,true,true,true])) {
                 $recruitmentProcess = "recruitmentProcess_" .
                     $faker->numberBetween(1, RecruitmentProcessFixtures::$recruitmentIndex);
-            }
 
             //Choix des destinataires et du premier envoyeur
-            $candidat = 'userCandidat_' . $faker->numberBetween(1, UserFixtures::$userCandidatIndex);
-            $externaticConsultant = 'userConsultant_' . $faker->numberBetween(1, UserFixtures::$userConsultantIndex);
             $isSendByCandidat = $faker->boolean();
 
 
@@ -40,34 +36,24 @@ class MessageFixtures extends Fixture implements DependentFixtureInterface
                 $message->setContent("Contenu : " . $faker->paragraph);
 
                 if ($isSendByCandidat) {
-                    if (!is_null($recruitmentProcess)) {
                         $message->setRecruitmentProcess($this->getReference($recruitmentProcess));
                         $message->setSendBy($message->getRecruitmentProcess()->getCandidat()->getUser());
-                        if (!is_null($message->getRecruitmentProcess()->getAnnonce())) {
-                            $message->setSendTo($message->getRecruitmentProcess()->getAnnonce()
-                                ->getAuthor()->getUser());
-                        } else {
-                            $message->setSendTo($message->getRecruitmentProcess()->getCompany()
-                                ->getExternaticConsultant()->getUser());
-                        }
+                    if (!is_null($message->getRecruitmentProcess()->getAnnonce())) {
+                        $message->setSendTo($message->getRecruitmentProcess()->getAnnonce()
+                            ->getAuthor()->getUser());
                     } else {
-                        $message->setSendBy($this->getReference($candidat));
-                        $message->setSendTo($this->getReference($externaticConsultant));
+                        $message->setSendTo($message->getRecruitmentProcess()->getCompany()
+                            ->getExternaticConsultant()->getUser());
                     }
                 } else {
-                    if (!is_null($recruitmentProcess)) {
                         $message->setRecruitmentProcess($this->getReference($recruitmentProcess));
                         $message->setSendTo($message->getRecruitmentProcess()->getCandidat()->getUser());
-                        if (!is_null($message->getRecruitmentProcess()->getAnnonce())) {
-                            $message->setSendBy($message->getRecruitmentProcess()->getAnnonce()
-                                ->getAuthor()->getUser());
-                        } else {
-                            $message->setSendBy($message->getRecruitmentProcess()->getCompany()
-                                ->getExternaticConsultant()->getUser());
-                        }
+                    if (!is_null($message->getRecruitmentProcess()->getAnnonce())) {
+                        $message->setSendBy($message->getRecruitmentProcess()->getAnnonce()
+                            ->getAuthor()->getUser());
                     } else {
-                        $message->setSendTo($this->getReference($candidat));
-                        $message->setSendBy($this->getReference($externaticConsultant));
+                        $message->setSendBy($message->getRecruitmentProcess()->getCompany()
+                            ->getExternaticConsultant()->getUser());
                     }
                 }
 

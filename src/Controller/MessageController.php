@@ -110,7 +110,6 @@ class MessageController extends AbstractController
             return $this->redirectToRoute('message_conversation', [], Response::HTTP_SEE_OTHER);
         }
 
-
         $otherConvQuery = $messageRepository->getInbox($user);
         $otherConversations = $paginator->paginate(
             $otherConvQuery,
