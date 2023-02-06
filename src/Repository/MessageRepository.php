@@ -65,6 +65,29 @@ class MessageRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    public function getInboxBoard(User $user): array
+    {
+        $mappingBuilder = new ResultSetMappingBuilder($this->getEntityManager());
+        $mappingBuilder->addRootEntityFromClassMetadata('App\Entity\Message', 'm');
+        $querySql = 'select m.*,  md.maxDate
+                from (
+                select Max(date) as maxDate, Max(id) as maxId,
+                       recruitment_process_id
+                from message
+                group by recruitment_process_id
+                ) md
+                inner join message m
+                on md.recruitment_process_id = m.recruitment_process_id
+                        and m.date = md.maxDate and m.id = md.maxId
+                where m.recruitment_process_id is not null
+                and m.send_to_id = ? or send_by_id = ?
+                order by m.date DESC
+                limit 10';
+        $query = $this->getEntityManager()->createNativeQuery($querySql, $mappingBuilder);
+        $query->setParameters([1 => $user, 2 => $user]);
+        return $query->getResult();
+    }
+
     /*
      * -> Tous les messages reçus par le user
      *
