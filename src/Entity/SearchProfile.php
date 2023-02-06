@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\SearchProfileRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SearchProfileRepository::class)]
@@ -37,14 +38,14 @@ class SearchProfile
     #[ORM\Column(nullable: true)]
     private ?int $salaryMin = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $contractType = null;
-
     #[ORM\Column(nullable: true)]
     private ?bool $remote = null;
 
     #[ORM\ManyToMany(targetEntity: Techno::class, inversedBy: 'searchProfiles')]
     private Collection $techno;
+
+    #[ORM\Column(type: Types::ARRAY, nullable: true)]
+    private ?array $contractType = null;
 
     public function __construct()
     {
@@ -140,18 +141,6 @@ class SearchProfile
         return $this;
     }
 
-    public function getContractType(): ?string
-    {
-        return $this->contractType;
-    }
-
-    public function setContractType(?string $contractType): self
-    {
-        $this->contractType = $contractType;
-
-        return $this;
-    }
-
     public function isRemote(): ?bool
     {
         return $this->remote;
@@ -184,6 +173,18 @@ class SearchProfile
     public function removeTechno(Techno $techno): self
     {
         $this->techno->removeElement($techno);
+
+        return $this;
+    }
+
+    public function getContractType(): array
+    {
+        return $this->contractType;
+    }
+
+    public function setContractType(?array $contractType): self
+    {
+        $this->contractType = $contractType;
 
         return $this;
     }
