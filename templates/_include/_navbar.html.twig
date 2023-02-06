@@ -54,52 +54,52 @@
                 <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                     {% if is_granted("ROLE_CANDIDAT") %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_candidat_profile') }}">Mon Compte</a>
+                            <a class="nav-link {{ app.request.pathInfo == path('app_candidat_profile') ? "active" : "" }}" href="{{ path('app_candidat_profile') }}">Mon Compte</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('annonce_search_results') }}">Rechercher une offre</a>
+                            <a class="nav-link {{ app.request.pathInfo == path('annonce_search_results') ? "active" : "" }}" href="{{ path('annonce_search_results') }}">Rechercher une offre</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('message_index') }}">Messagerie</a>
+                            <a class="nav-link {{ app.request.pathInfo == path('message_index') ? "active" : "" }}" href="{{ path('message_index') }}">Messagerie</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('annonce_show_favorite') }}">Mes Annonces</a>
+                            <a class="nav-link {{ app.request.pathInfo == path('annonce_show_favorite') ? "active" : "" }}" href="{{ path('annonce_show_favorite') }}">Mes Annonces</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_company_show_favorite') }}">Mes entreprises</a>
+                            <a class="nav-link {{ app.request.pathInfo == path('app_company_show_favorite') ? "active" : "" }}" href="{{ path('app_company_show_favorite') }}">Mes entreprises</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_search_profile_index') }}">Mes recherches
+                            <a class="nav-link {{ app.request.pathInfo == path('app_search_profile_index') ? "active" : "" }}" href="{{ path('app_search_profile_index') }}">Mes recherches
                                 sauvegardées</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_candidat_complete') }}">Compléter mon profil
+                            <a class="nav-link {{ app.request.pathInfo == path('app_candidat_complete') ? "active" : "" }}" href="{{ path('app_candidat_complete') }}">Compléter mon profil
                                 candidat</a>
                         </li>
                     {% elseif is_granted("ROLE_CONSULTANT") %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('consultant_board') }}">Tableau de bord</a>
+                            <a class="nav-link {{ app.request.pathInfo == path('consultant_board') ? "active" : "" }}" href="{{ path('consultant_board') }}">Tableau de bord</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('message_index') }}">Messagerie</a>
+                            <a class="nav-link {{ app.request.pathInfo == path('message_index') ? "active" : "" }}" href="{{ path('message_index') }}">Messagerie</a>
                         </li>
                         <li class="nav-item">
                             <details open>
-                                <summary><a class="nav-link d-inline" href="{{ path('consultant_annonces') }}">Mes
+                                <summary><a class="nav-link d-inline {{ app.request.pathInfo == path('consultant_annonces') ? "active" : "" }}" href="{{ path('consultant_annonces') }}">Mes
                                         Annonces</a></summary>
                                 <ul class="subGroup justify-content-end flex-grow-1 pe-3">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ path('annonce_new') }}">Ajouter une offre</a>
+                                        <a class="nav-link {{ app.request.pathInfo == path('annonce_new') ? "active" : "" }}" href="{{ path('annonce_new') }}">Ajouter une offre</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link"
+                                        <a class="nav-link {{ app.request.pathInfo == path('consultant_annonces_archives') ? "active" : "" }}"
                                            href="{{ path('consultant_annonces_archives') }}">Archives</a>
                                     </li>
                                 </ul>
                             </details>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('consultant_synthesis') }}">Mes processus de
+                            <a class="nav-link {{ app.request.pathInfo == path('consultant_synthesis') ? "active" : "" }}" href="{{ path('consultant_synthesis') }}">Mes processus de
                                 recrutements</a>
                         </li>
                         {% if is_granted("ROLE_ADMIN") %}
@@ -110,26 +110,26 @@
                             <ul class="subGroup justify-content-end flex-grow-1 pe-3">
 
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ path('admin_app_company_new') }}">Ajouter une
+                                    <a class="nav-link {{ app.request.pathInfo == path('admin_app_company_new') ? "active" : "" }}" href="{{ path('admin_app_company_new') }}">Ajouter une
                                         entreprise</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ path('admin_app_consultant_new') }}">Ajouter un
+                                    <a class="nav-link {{ app.request.pathInfo == path('admin_app_consultant_new') ? "active" : "" }}" href="{{ path('admin_app_consultant_new') }}">Ajouter un
                                         consultant</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ path('admin_app_company_switch') }}">Switch
+                                    <a class="nav-link {{ app.request.pathInfo == path('admin_app_company_switch') ? "active" : "" }}" href="{{ path('admin_app_company_switch') }}">Switch
                                         Entreprise</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ path('admin_app_candidat_index') }}">Base Candidats</a>
+                                    <a class="nav-link {{ app.request.pathInfo == path('admin_app_candidat_index') ? "active" : "" }}" href="{{ path('admin_app_candidat_index') }}">Base Candidats</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ path('admin_app_consultant_index') }}">Base
+                                    <a class="nav-link {{ app.request.pathInfo == path('admin_app_consultant_index') ? "active" : "" }}" href="{{ path('admin_app_consultant_index') }}">Base
                                         Recruteurs</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ path('admin_app_company_index') }}">Base
+                                    <a class="nav-link {{ app.request.pathInfo == path('admin_app_company_index') ? "active" : "" }}" href="{{ path('admin_app_company_index') }}">Base
                                         Entreprises</a>
                                 </li>
                             </ul>
@@ -138,10 +138,10 @@
 
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_login') }}">Se connecter</a>
+                            <a class="nav-link {{ app.request.pathInfo == path('app_login') ? "active" : "" }}" href="{{ path('app_login') }}">Se connecter</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_register') }}">S'inscrire</a>
+                            <a class="nav-link {{ app.request.pathInfo == path('app_register') ? "active" : "" }}" href="{{ path('app_register') }}">S'inscrire</a>
                         </li>
                     {% endif %}
                 </ul>

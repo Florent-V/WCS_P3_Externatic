@@ -9,7 +9,8 @@
         <div class="d-flex flex-column align-items-center" data-controller="publiStatus">
             <h1>Annonces en cours</h1>
             <small>
-                <a class="btn btn-primary" href="{{ path('consultant_annonces_archives') }}">Accès aux archives</a>
+                <a class="btn btn-primary" href="{{ path('annonce_new') }}">Ajouter une annonce</a>
+                <a class="btn btn-warning" href="{{ path('consultant_annonces_archives') }}">Les archives</a>
             </small>
         </div>
         <div class="sorting d-flex justify-content-between">
@@ -45,8 +46,9 @@
                             </div>
                         {% endif %}
                         <div class="d-flex justify-content-between">
-                            <div><img src="{{ annonce.picture }}"
-                                      alt="logo of an enterprise"/> {{ annonce.company.name }}
+                            <div>
+                                    <img src="{{ vich_uploader_asset(annonce.company) }}"
+                                         alt="{{ annonce.company.name }}">
                             </div>
                             <div>
                                 <a href="{{ path('annonce_show', {"id": annonce.id}) }}"><strong>{{ annonce.title }}</strong></a>
