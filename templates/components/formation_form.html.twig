@@ -1,17 +1,18 @@
 <div {{ attributes }}>
 
     {% if this.isSubmitted %}
-        <div class="alert bg-success">
-            enregistrement effectué
+        <div class="alert alert-success" role="alert">
+            Nouvelle formation ajoutée
         </div>
-
     {% endif %}
-
+    <div {{ stimulus_controller('emptyFormationForm') }}></div>
+    <div {{ stimulus_controller('global') }}></div>
 
     {{ form_start(form, {
         attr: {
             'data-action': 'live#action',
-            'data-action-name': 'prevent|save'
+            'data-action-name': 'prevent|save',
+            'id': 'formationForm'
         }
     }) }}
 

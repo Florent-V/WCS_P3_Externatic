@@ -48,10 +48,13 @@ class SearchProfileAdd extends AbstractController
         if ($data['remote']) {
             $searchProfile->setRemote($data['remote']);
         }
-        if ($data['techno']) {
+        if (isset($data['techno']) && $data['techno']) {
             foreach ($data['techno'] as $techno) {
                 $searchProfile->addTechno($this->technoRepository->findOneBy(['id' => $techno]));
             }
+        }
+        if (isset($data['contractType'])) {
+            $searchProfile->setContractType($data['contractType']);
         }
         /**
          * @var ?User $user

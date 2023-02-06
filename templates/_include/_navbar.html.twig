@@ -1,7 +1,7 @@
 <nav class="navbar bg-light fixed-top">
     <div class="container-fluid d-flex">
 
-        <button class="border-0 navbar-toggler" type="button" data-bs-toggle="offcanvas"
+        <button class="border-0 navbar-toggler " type="button" data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -54,7 +54,11 @@
                 <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                     {% if is_granted("ROLE_CANDIDAT") %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_candidat_profile') }}">Mon Compte</a>
+                            <a class="nav-link" href="{{ path('app_candidat_profile') }}">Mon profil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_candidat_complete') }}">Compléter mon profil
+                                candidat</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('annonce_search_results') }}">Rechercher une offre</a>
@@ -71,10 +75,6 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('app_search_profile_index') }}">Mes recherches
                                 sauvegardées</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('app_candidat_complete') }}">Compléter mon profil
-                                candidat</a>
                         </li>
                     {% elseif is_granted("ROLE_CONSULTANT") %}
                         <li class="nav-item">

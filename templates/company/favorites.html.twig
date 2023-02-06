@@ -18,9 +18,15 @@
                 </div>
 
             {% else %}
-                <tr>
-                    <td colspan="12">no records found</td>
-                </tr>
+                <div class="oups">
+
+                    <img src="{{ asset('build/images/oups.jpg') }}" alt="illustration page vide"/>
+                    <p>
+                        Oh ! Il semblerait qu'il n'y ait encore rien ici !
+                        <br>
+                        Mets des entreprises en favori et elles apparaîtront ici.
+                    </p>
+                </div>
             {% endfor %}
 
         </div>

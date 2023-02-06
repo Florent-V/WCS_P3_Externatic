@@ -1,14 +1,17 @@
 <div {{ attributes }}>
     {% if this.isSubmitted %}
-        <div class="alert bg-success">
-            enregistrement effectué
+        <div class="alert alert-success" role="alert">
+            Nouvelle expérience ajoutée
         </div>
     {% endif %}
+    <div {{ stimulus_controller('emptyExperienceForm') }}></div>
+    <div {{ stimulus_controller('global') }}></div>
 
     {{ form_start(form, {
         attr: {
             'data-action': 'live#action',
-            'data-action-name': 'prevent|save'
+            'data-action-name': 'prevent|save',
+            'id' : 'experienceForm'
         }
     }) }}
 
@@ -74,7 +77,8 @@
     }) }}
 
 
-    <button type="submit" class="btn btn-primary">{{ button_label|default('Ajouter') }}</button>
+    <button id="experienceBtn" type="submit" class="btn btn-primary">{{ button_label|default('Ajouter') }}</button>
+
     {{ form_end(form) }}
 
 </div>

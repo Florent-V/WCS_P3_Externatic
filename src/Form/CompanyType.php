@@ -18,16 +18,19 @@ class CompanyType extends AbstractType
     {
         $builder
             ->add('siret', TextType::class, [
+                'purify_html' => true,
                 'row_attr' => ['class' => 'form-floating mb-3'],
                 'label' => 'Numéro de Siret',
                 'attr' => ['placeholder' => '362 521 879 00034']
             ])
             ->add('name', TextType::class, [
+                'purify_html' => true,
                 'row_attr' => ['class' => 'form-floating mb-3'],
                 'label' => 'Nom de l\'entreprise',
                 'attr' => ['placeholder' => 'Sensio Labs']
             ])
             ->add('logoFile', VichFileType::class, [
+                'purify_html' => true,
                 'required' => false,
                 'allow_delete' => true, // not mandatory, default is true
                 'download_uri' => true, // not mandatory, default is true
@@ -36,36 +39,43 @@ class CompanyType extends AbstractType
                 'attr' => ['placeholder' => 'Ajouter un fichier']
             ])
             ->add('address', TextType::class, [
+                'purify_html' => true,
                 'row_attr' => ['class' => 'form-floating mb-3'],
                 'label' => 'Adresse',
                 'attr' => ['placeholder' => '5 rue de la paix']
             ])
             ->add('zipCode', TextType::class, [
+                'purify_html' => true,
                 'row_attr' => ['class' => 'form-floating mb-3'],
                 'label' => 'Code Postal',
                 'attr' => ['placeholder' => '75 000']
             ])
             ->add('city', TextType::class, [
+                'purify_html' => true,
                 'row_attr' => ['class' => 'form-floating mb-3'],
                 'label' => 'Ville',
                 'attr' => ['placeholder' => 'Paris']
             ])
             ->add('phoneNumber', TextType::class, [
+                'purify_html' => true,
                 'row_attr' => ['class' => 'form-floating mb-3'],
                 'label' => 'Numéro de Téléphone',
                 'attr' => ['placeholder' => '+33 6 86...']
             ])
             ->add('contactName', TextType::class, [
+                'purify_html' => true,
                 'row_attr' => ['class' => 'form-floating mb-3'],
                 'label' => 'Nom du contact',
                 'attr' => ['placeholder' => 'Pierre Richard']
             ])
             ->add('size', TextType::class, [
+                'purify_html' => true,
                 'row_attr' => ['class' => 'form-floating mb-3'],
                 'label' => 'Taille de l\'entreprise',
                 'attr' => ['placeholder' => '1000']
             ])
             ->add('information', TextareaType::class, [
+                'purify_html' => true,
                 'row_attr' => ['class' => 'form-floating mb-3'],
                 'label' => 'Information supplémentaire',
                 'attr' => ['placeholder' => 'Information à noter']
