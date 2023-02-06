@@ -45,6 +45,9 @@ class AnnonceController extends AbstractController
         if (isset($searchData["techno"])) {
             unset($searchData["techno"]);
         }
+        if (isset($searchData["salaryMin"])) {
+            $searchData["salaryMin"] = intVal($searchData["salaryMin"]);
+        }
 
         $annonces = $paginator->paginate(
             $queryAnnonces,
