@@ -46,7 +46,7 @@
                         {% endif %}
                         <div class="d-flex justify-content-between">
                             <div><img class="p-1 align-self-center rounded-1" src="{{ vich_uploader_asset(annonce.company) }}"
-                                      alt="logo of {{ annonce.company.name }}"/> {{ annonce.company.name }}
+                                      alt="logo of {{ annonce.company.name }}"> {{ annonce.company.name }}
                             </div>
                             <div>
                                 <a href="{{ path('annonce_show', {"id": annonce.id}) }}"><strong>{{ annonce.title }}</strong></a>
