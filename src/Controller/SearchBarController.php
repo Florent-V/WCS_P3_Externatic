@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SearchBarController extends AbstractController
 {
-    public function searchBar(AnnonceRepository $annonceRepository): Response
+    public function searchBar(AnnonceRepository $annonceRepository, mixed $searchData): Response
     {
         //fetching contact types from Bdd
         $contractTypeQuery = $annonceRepository->createQueryBuilder("a")
@@ -31,7 +31,7 @@ class SearchBarController extends AbstractController
 
 
         //Creating search engine
-        $form = $this->createFormBuilder()
+        $form = $this->createFormBuilder($searchData)
             ->add('searchQuery', TextType::class, [
                 'attr' => [
                     'placeholder' => 'votre recherche'
@@ -77,7 +77,7 @@ class SearchBarController extends AbstractController
             ])
 
             ->add('salaryMin', MoneyType::class, [
-                'grouping' => true,
+                'grouping' => false,
                 "required" => false,
             ])
 
@@ -88,7 +88,6 @@ class SearchBarController extends AbstractController
                 'multiple' => true,
                 'attr' => ['class' => '']
             ])
-
 
             ->add('techno', EntityType::class, [
                 'class' => Techno::class,

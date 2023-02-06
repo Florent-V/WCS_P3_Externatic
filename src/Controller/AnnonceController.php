@@ -37,6 +37,15 @@ class AnnonceController extends AbstractController
     ): Response {
         $queryAnnonces = $annonceRepository->annonceFinder($request->get('form'));
 
+        $searchData = $request->get('form');
+
+        if (isset($searchData["company"])) {
+            unset($searchData["company"]);
+        }
+        if (isset($searchData["techno"])) {
+            unset($searchData["techno"]);
+        }
+
         $annonces = $paginator->paginate(
             $queryAnnonces,
             $request->query->getInt('page', 1),
@@ -44,7 +53,8 @@ class AnnonceController extends AbstractController
         );
 
         return $this->render('annonce/results.html.twig', [
-            'annonces' => $annonces
+            'annonces' => $annonces,
+            'searchData' => $searchData
         ]);
     }
 
