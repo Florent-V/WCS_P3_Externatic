@@ -14,6 +14,7 @@ class ConversationType extends AbstractType
     {
         $builder
             ->add('content', TextareaType::class, [
+                'purify_html' => true,
                 'label' => 'Label for field 1',
                 'required' => true,
                 'attr' => array(

@@ -15,6 +15,7 @@ class MessageType extends AbstractType
     {
         $builder
             ->add('content', CKEditorType::class, [
+                'purify_html' => true,
                 'label' => 'Décrivez votre candidature',
                 'config_name' => 'light',
                 'config'      => ['editorplaceholder' => "Expliquez votre candidature en quelques mots.
