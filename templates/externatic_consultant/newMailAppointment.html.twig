@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>New program</title>
+</head>
+<body>
+<h1>Une nouveau RDV a été programmé avec vous</h1>
+<p>
+    Votre consultant·e Externatic a programmé un RDV avec vous le {{ appointment.date|format_datetime('long', 'short', locale='fr') }} à l'adresse suivante : {{ appointment.adress }}.
+</p>
+<p>Cordialement</p>
+</body>
+</html>

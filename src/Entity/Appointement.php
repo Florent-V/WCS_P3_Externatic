@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AppointementRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -35,6 +37,14 @@ class Appointement
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $adress = null;
+
+    #[ORM\OneToMany(mappedBy: 'appointment', targetEntity: Notif::class)]
+    private Collection $notifs;
+
+    public function __construct()
+    {
+        $this->notifs = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -121,6 +131,36 @@ class Appointement
     public function setAdress(?string $adress): self
     {
         $this->adress = $adress;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Notif>
+     */
+    public function getNotifs(): Collection
+    {
+        return $this->notifs;
+    }
+
+    public function addNotif(Notif $notif): self
+    {
+        if (!$this->notifs->contains($notif)) {
+            $this->notifs->add($notif);
+            $notif->setAppointment($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotif(Notif $notif): self
+    {
+        if ($this->notifs->removeElement($notif)) {
+            // set the owning side to null (unless already changed)
+            if ($notif->getAppointment() === $this) {
+                $notif->setAppointment(null);
+            }
+        }
 
         return $this;
     }
