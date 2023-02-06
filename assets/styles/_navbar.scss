@@ -58,6 +58,11 @@ nav.navbar {
         list-style: none;
         text-decoration: none;
     }
+    .active {
+        padding: .5rem;
+        background-color: $light;
+
+    }
 }
 
 .blank {
