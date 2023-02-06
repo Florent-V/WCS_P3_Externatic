@@ -105,34 +105,35 @@
                         {% if is_granted("ROLE_ADMIN") %}
                             <li class="nav-item">
                             <details>
-                            <summary><span class="text-center badge text-bg-info">Fonctions Admin</span>
-                            </summary>
-                            <ul class="subGroup justify-content-end flex-grow-1 pe-3">
+                                <summary><span class="text-center badge text-bg-info">Fonctions Admin</span>
+                                </summary>
+                                <ul class="subGroup justify-content-end flex-grow-1 pe-3">
 
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ path('admin_app_company_new') }}">Ajouter une
-                                        entreprise</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ path('admin_app_consultant_new') }}">Ajouter un
-                                        consultant</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ path('admin_app_company_switch') }}">Switch
-                                        Entreprise</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ path('admin_app_candidat_index') }}">Base Candidats</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ path('admin_app_consultant_index') }}">Base
-                                        Recruteurs</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ path('admin_app_company_index') }}">Base
-                                        Entreprises</a>
-                                </li>
-                            </ul>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ path('admin_app_company_new') }}">Ajouter une
+                                            entreprise</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ path('admin_app_consultant_new') }}">Ajouter un
+                                            consultant</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ path('admin_app_company_switch') }}">Switch
+                                            Entreprise</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ path('admin_app_candidat_index') }}">Base
+                                            Candidats</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ path('admin_app_consultant_index') }}">Base
+                                            Recruteurs</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ path('admin_app_company_index') }}">Base
+                                            Entreprises</a>
+                                    </li>
+                                </ul>
                             </details>
                         {% endif %}
 
