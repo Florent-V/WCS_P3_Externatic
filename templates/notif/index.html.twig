@@ -31,6 +31,10 @@
                                             {{ notification.message.recruitementProcess.company.name }}
                                         {% endif %}"</a>
                                 {% endif %}
+                                {% if notification.type == 'newAppointment' %}
+                                    {{ notification.appointment.consultant.user.firstname }} {{ notification.appointment.consultant.user.lastName }}
+                                    vous propose un rendez-vous le {{ appointment.date|format_datetime('long', 'short', locale='fr') }}. Adresse : {{ appointment.adress }}.
+                                {% endif %}
                             </td>
                             <td class="table-time">{% if difference.d >= 1 %}
                                     {{ difference|date("%d jours, %h heures") }}

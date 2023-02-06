@@ -8,7 +8,9 @@
 
         <h1>Informations du compte</h1>
 
-        {{ include('user/_updateForm.html.twig') }}
+        {{ component('user_update', {
+            user: app.user
+        }) }}
 
         <div class="d-flex justify-content-center mt-3">
             <a class="btn btn-primary" href="{{ path('app_candidat_profile') }}">Retour au profil</a>

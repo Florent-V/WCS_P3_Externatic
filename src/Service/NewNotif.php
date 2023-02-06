@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Annonce;
+use App\Entity\Appointement;
 use App\Entity\Message;
 use App\Entity\Notif;
 use App\Entity\RecruitmentProcess;
@@ -11,20 +12,25 @@ use App\Repository\NotifRepository;
 use App\Repository\SearchProfileRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use DateTime;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
 class NewNotif extends AbstractController
 {
     private NotifRepository $notifRepository;
     private CandidatRepository $candidatRepository;
     private SearchProfileRepository $profileRepository;
+    private MailerInterface $mailer;
     public function __construct(
         NotifRepository $notifRepository,
         CandidatRepository $candidatRepository,
         SearchProfileRepository $profileRepository,
+        MailerInterface $mailer
     ) {
         $this->notifRepository = $notifRepository;
         $this->candidatRepository = $candidatRepository;
         $this->profileRepository = $profileRepository;
+        $this->mailer = $mailer;
     }
 
     public function notifNewAnnonce(Annonce $annonce): void
@@ -98,5 +104,26 @@ class NewNotif extends AbstractController
                 $this->notifRepository->save($notif, true);
             }
         }
+    }
+
+    public function newAppointmentNotif(Appointement $appointment): void
+    {
+        $notification = new Notif();
+
+        $notification->setAppointment($appointment);
+        $notification->setType('newAppointment');
+        $notification->setCreatedAt(new DateTime('now'));
+        $notification->setUser($appointment->getRecruitmentProcess()->getCandidat()->getUser());
+        $this->notifRepository->save($notification, true);
+
+        $email = (new Email())
+            ->to($appointment->getRecruitmentProcess()->getCandidat()->getUser()->getEmail())
+            ->from($this->getParameter('mailer_from'))
+            ->subject('Nouveau rendez-vous')
+            ->html($this->renderView('externatic_consultant/newMailAppointment.html.twig', [
+                'appointment' => $appointment
+            ]));
+        $this->mailer->send($email);
+        sleep(3);
     }
 }
