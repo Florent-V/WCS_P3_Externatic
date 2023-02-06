@@ -1,7 +1,7 @@
-<h1>Une Nouvelle annonce a été créer</h1>
+<h1>Une Nouvelle annonce a été créée</h1>
 
 <p>
     Une nouvelles annonce <a href="{{ url('annonce_show', {id: annonce.id}) }}">"{{ annonce.title }}"</a> de
-    <a href="{{ url('app_company_show', {'id': annonce.company.id}) }}"> {{ annonce.company.name }} </a> vient d'être créer. <br><br>
+    <a href="{{ url('app_company_show', {'id': annonce.company.id}) }}"> {{ annonce.company.name }} </a> vient d'être créée. <br><br>
     cliquez sur ce lien pour y accéder : <a href="{{ url('annonce_show', {'id': annonce.id}) }}">"{{ annonce.title }}"</a>
 </p>

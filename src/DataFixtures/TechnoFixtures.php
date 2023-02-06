@@ -3,9 +3,13 @@
 namespace App\DataFixtures;
 
 use App\Entity\Techno;
+use App\EventListener\TechnoListener;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\EventManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
 use Symfony\Component\Serializer\Encoder\DecoderInterface;
 
@@ -34,6 +38,7 @@ class TechnoFixtures extends Fixture
         foreach ($csv as $langage) {
             self::$technoIndex++;
             $techno = new Techno();
+            $techno->setIsFixture(true);
             $techno->setName($langage['name']);
             $file = __DIR__ . '/data/logo/' . 'Logo' . $langage['name'] . '.png';
             if (
