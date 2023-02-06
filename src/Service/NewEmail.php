@@ -23,7 +23,5 @@ class NewEmail extends AbstractController
             ->html($this->renderView($mailLocation, $renderViewArray));
 
         $this->mailer->send($email);
-
-        sleep(3);
     }
 }
