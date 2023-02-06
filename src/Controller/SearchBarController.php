@@ -70,8 +70,6 @@ class SearchBarController extends AbstractController
                     return $er->createQueryBuilder('c')
                         ->orderBy('c.name', 'ASC');
                 },
-                'attr' => [
-                    'placeholder' => 'Entreprise'],
                 'choice_label' => 'name',
                 "required" => false,
             ])
