@@ -58,7 +58,7 @@ class Candidat
 
     #[ORM\Column(length: 100, nullable: true)]
     #[Assert\Length(
-        max: 255,
+        max: 100,
         maxMessage: 'La ville saisie {{ value }} est trop longue, elle ne devrait pas dépasser {{ limit }} caractères',
     )]
     private ?string $city = null;

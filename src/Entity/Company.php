@@ -22,9 +22,19 @@ class Company
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Vous devez indiquer une numéro de Siret')]
+    #[Assert\Regex(
+        pattern: '/\d{14}/',
+        message: '{{ value }} n\'est pas un siret valide'
+    )]
     private ?string $siret = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Vous devez indiquer une nom')]
+    #[Assert\Length(
+        max: 100,
+        maxMessage: 'Le nom {{ value }} est trop long, il ne devrait pas dépasser {{ limit }} caractères'
+    )]
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -59,24 +69,57 @@ class Company
     }
 
     #[ORM\Column(length: 45)]
+    #[Assert\NotBlank(message: 'Vous devez indiquer un code postal')]
+    #[Assert\Regex(
+        pattern: '/^(?:0[1-9]|[1-8]\d|9[0-8])\d{3}$/',
+        message: '{{ value }} n\'est pas un code postal valide'
+    )]
     private ?string $zipCode = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Vous devez indiquer une adresse')]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: 'L\'adresse saisie {{ value }} est trop longue, elle ne devrait pas dépasser {{ limit }} caractères'
+    )]
     private ?string $address = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank(message: 'Vous devez indiquer une ville')]
+    #[Assert\Length(
+        max: 100,
+        maxMessage: 'La ville saisie {{ value }} est trop longue, elle ne devrait pas dépasser {{ limit }} caractères',
+    )]
     private ?string $city = null;
 
     #[ORM\Column(length: 20)]
+    #[Assert\NotBlank(message: 'Vous devez indiquer un numéro de téléphone')]
+    #[Assert\Length(
+        max: 15,
+        maxMessage: 'Ce numéro semble bien trop long, veuillez ne pas dépasser {{ limit }} caractères',
+    )]
     private ?string $phoneNumber = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank(message: 'Vous devez indiquer le nom du contact')]
+    #[Assert\Length(
+        max: 100,
+        maxMessage: 'Le nom du contact ne doit pas dépasser {{ limit }} caractères',
+    )]
     private ?string $contactName = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\Type(
+        type: 'integer',
+        message: '{{ value }} n\'est pas un nombre entier.',
+    )]
     private ?int $size = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Assert\Type(
+        type: 'string',
+        message: 'Ces informations doivent être une chaîne de caractère',
+    )]
     private ?string $information = null;
 
     #[ORM\ManyToOne(cascade: ['persist', 'remove'], inversedBy: 'companies')]
