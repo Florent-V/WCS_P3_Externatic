@@ -48,6 +48,7 @@ class AnnonceType extends AbstractType
     {
         $builder
             ->add('title', null, [
+                'purify_html' => true,
                 'row_attr' => ['class' => 'form-floating mb-3'],
                 'label' => 'Titre',
                 'attr' => ['placeholder' => 'Titre']
@@ -126,6 +127,7 @@ class AnnonceType extends AbstractType
                 'label_attr' => ['class' => 'checkbox-inline']
             ])->add('description', CKEditorType::class, [
                 'attr' => ['data-ckeditor' => true],
+                'purify_html' => true,
                 'config_name' => 'light',
                 'config' => ['editorplaceholder' => "Décrivez votre annonce..."]
             ])->add('author', EntityType::class, [

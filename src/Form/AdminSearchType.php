@@ -13,6 +13,7 @@ class AdminSearchType extends AbstractType
     {
         $builder
             ->add('search', SearchType::class, [
+                    'purify_html' => true,
                     'label' => '🔍',
                     'attr' => ['placeholder' => 'rechercher...'],
                     'row_attr' => ['class' => 'input-group'],

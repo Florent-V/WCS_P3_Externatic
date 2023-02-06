@@ -17,10 +17,18 @@ class UserUpdateType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email')
-            ->add('firstname')
-            ->add('lastname')
-            ->add('phone')
+            ->add('email', null, [
+                'purify_html' => true,
+            ])
+            ->add('firstname', null, [
+                'purify_html' => true,
+            ])
+            ->add('lastname', null, [
+                'purify_html' => true,
+            ])
+            ->add('phone', null, [
+                'purify_html' => true,
+            ])
         ;
     }
 
