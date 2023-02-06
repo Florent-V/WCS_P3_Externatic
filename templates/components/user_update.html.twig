@@ -1,9 +1,10 @@
 <div{{ attributes }}>
     {% if this.isSubmitted %}
-        <div class="alert bg-success">
-            enregistrement effectué
+        <div class="alert alert-success" role="alert">
+            Modification(s) effectuée(s)
         </div>
     {% endif %}
+    <div {{ stimulus_controller('global') }}></div>
     {{ form_start(form, {
         attr: {
             'data-action': 'live#action',
