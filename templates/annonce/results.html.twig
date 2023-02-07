@@ -3,7 +3,7 @@
 
 {% block body %}
     <header class="container">
-        {{ render(controller('App\\Controller\\SearchBarController::searchBar')) }}
+        {{ render(controller('App\\Controller\\SearchBarController::searchBar', {searchData})) }}
     </header>
     <main class="search" {{ stimulus_controller('favoriteoffer') }}>
         <div {{ stimulus_controller('favoritesearch') }}></div>
