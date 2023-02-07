@@ -66,6 +66,7 @@ nav.navbar {
     .active {
         padding: .2rem .5rem;
         background-color: $light;
+        border-radius : $border-radius;
     }
 }
 
