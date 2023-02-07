@@ -58,6 +58,16 @@ nav.navbar {
         list-style: none;
         text-decoration: none;
     }
+
+    li:has(>a.active){
+        border-radius: $border-radius;
+    }
+
+    .active {
+        padding: .2rem .5rem;
+        background-color: $light;
+        border-radius : $border-radius;
+    }
 }
 
 .blank {
