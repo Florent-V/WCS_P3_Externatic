@@ -16,10 +16,10 @@ class Certification
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
-    #[Assert\NotBlank(message: 'Vous devez indiquer un titre')]
+    #[Assert\NotBlank(message: 'Vous devez donner un nom à votre certification')]
     #[Assert\Length(
         max: 100,
-        maxMessage: 'Le titre {{ value }} est trop long, il ne devrait pas dépasser {{ limit }} caractères.'
+        maxMessage: 'Le nom {{ value }} est trop long, il ne devrait pas dépasser {{ limit }} caractères.'
     )]
     private ?string $title = null;
 

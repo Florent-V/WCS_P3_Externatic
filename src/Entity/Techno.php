@@ -24,6 +24,11 @@ class Techno
     private ?int $id = null;
 
     #[ORM\Column(length: 45)]
+    #[Assert\NotBlank(message: 'Vous devez donner un nom à votre techno')]
+    #[Assert\Length(
+        max: 45,
+        maxMessage: 'Le nom {{ value }} est trop long, il ne devrait pas dépasser {{ limit }} caractères.'
+    )]
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
