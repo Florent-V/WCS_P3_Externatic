@@ -20,9 +20,12 @@ main.landing {
     article.services {
         color:$light;
         div.card-body {
-            background-image: url("/assets/images/landing.webp");
+            background-image: url("/assets/images/cardslanding.jpg");
             background-position: center;
             background-size: cover;
+            border-radius: 15px;
+            overflow: hidden;
+            font-weight: bold;
         }
 
         div.cardHeaderServices {
@@ -80,6 +83,9 @@ main.landing {
         .card{
             box-shadow: 20px 20px 60px #bebebe,
             -20px -20px 60px #ffffff;
+            .card-title {
+                font-variant-caps: small-caps;
+            }
         }
     }
     .card-info{
