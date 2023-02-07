@@ -21,6 +21,7 @@ class UserUpdate extends AbstractController
     use DefaultActionTrait;
     use ComponentWithFormTrait;
 
+    #[LiveProp]
     public bool $isSubmitted = false;
 
     #[LiveProp(writable: true)]

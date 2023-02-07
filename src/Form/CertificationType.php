@@ -16,10 +16,10 @@ class CertificationType extends AbstractType
             ->add('title', null, [
                 'purify_html' => true,
             ])
-            ->add('year', DateType::class, array(
+            ->add('year', DateType::class, [
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
-            ))
+            ])
             ->add('link', null, [
                 'purify_html' => true,
             ])

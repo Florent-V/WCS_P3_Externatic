@@ -7,7 +7,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
+#[Assert\EnableAutoMapping]
 #[ORM\Entity(repositoryClass: CandidatRepository::class)]
 class Candidat
 {
@@ -17,21 +19,48 @@ class Candidat
     private ?int $id = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\NotBlank(message: 'Vous devez indiquez votre âge !')]
+    #[Assert\LessThan(
+        value: 64,
+        message: '{{ value }} ans ? Il est venu l\'heure de profiter d\'une retraire bien méritée !',
+    )]
+    #[Assert\LessThan(
+        value: 100,
+        message: '{{ value }} ans ? Toujours en vie ! Quelle pêche !',
+    )]
     private ?int $age = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Url(
+        message: 'Vous devez entrer une URL valide'
+    )]
     private ?string $linkedIn = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Url(
+        message: 'Vous devez entrer une URL valide',
+    )]
     private ?string $github = null;
 
     #[ORM\Column(length: 45, nullable: true)]
+    #[Assert\Regex(
+        pattern: '/^(?:0[1-9]|[1-8]\d|9[0-8])\d{3}$/',
+        message: '{{ value }} n\'est pas un code postal valide'
+    )]
     private ?string $zipCode = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: 'L\'adresse saisie {{ value }} est trop longue, elle ne devrait pas dépasser {{ limit }} caractères'
+    )]
     private ?string $address = null;
 
     #[ORM\Column(length: 100, nullable: true)]
+    #[Assert\Length(
+        max: 100,
+        maxMessage: 'La ville saisie {{ value }} est trop longue, elle ne devrait pas dépasser {{ limit }} caractères',
+    )]
     private ?string $city = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]

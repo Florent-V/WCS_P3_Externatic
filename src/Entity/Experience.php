@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ExperienceRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ExperienceRepository::class)]
 class Experience
@@ -14,25 +15,54 @@ class Experience
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 45)]
+    #[ORM\Column(length: 100)]
+    #[Assert\NotBlank(message: 'Vous devez donner un nom à votre certification')]
+    #[Assert\Length(
+        max: 100,
+        maxMessage: 'Le titre {{ value }} est trop long, il ne devrait pas dépasser {{ limit }} caractères.'
+    )]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Assert\NotBlank(message: 'Vous devez indiquer une date')]
+    #[Assert\LessThanOrEqual('today')]
     private ?\DateTime $beginning = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Assert\NotBlank(message: 'Vous devez indiquer une date')]
+    #[Assert\LessThanOrEqual('today')]
+    #[Assert\Expression(
+        "this.getBeginning() < this.getEnd()",
+        message : "La date de fin doit être postérieure à la date de début"
+    )]
     private ?\DateTime $end = null;
 
     #[ORM\Column(length: 100, nullable: true)]
+    #[Assert\NotBlank(message: 'Ce champ ne doit pas être vide')]
+    #[Assert\Length(
+        max: 100,
+        maxMessage: 'Votre saisie : {{ value }} est trop longue, elle ne devrait pas dépasser {{ limit }} caractères.'
+    )]
     private ?string $organism = null;
 
     #[ORM\Column(length: 100, nullable: true)]
+    #[Assert\NotBlank(message: 'Ce champ ne doit pas être vide')]
+    #[Assert\Length(
+        max: 100,
+        maxMessage: 'Votre saisie : {{ value }} est trop longue, elle ne devrait pas dépasser {{ limit }} caractères.'
+    )]
     private ?string $location = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Assert\NotBlank(message: 'Ce champ ne doit pas être vide')]
+    #[Assert\Type('string')]
     private ?string $description = null;
 
     #[ORM\Column(length: 100, nullable: true)]
+    #[Assert\Length(
+        max: 100,
+        maxMessage: 'Votre saisie : {{ value }} est trop longue, elle ne devrait pas dépasser {{ limit }} caractères.'
+    )]
     private ?string $diploma = null;
 
     #[ORM\Column(nullable: true)]

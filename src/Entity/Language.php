@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\LanguageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: LanguageRepository::class)]
 class Language
@@ -14,6 +15,11 @@ class Language
     private ?int $id = null;
 
     #[ORM\Column(length: 45)]
+    #[Assert\NotBlank(message: 'Vous devez donner un nom à votre langue')]
+    #[Assert\Length(
+        max: 45,
+        maxMessage: 'Le nom {{ value }} est trop long, il ne devrait pas dépasser {{ limit }} caractères.'
+    )]
     private ?string $language = null;
 
     #[ORM\Column(length: 45, nullable: true)]
