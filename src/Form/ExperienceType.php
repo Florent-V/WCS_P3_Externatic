@@ -13,7 +13,9 @@ class ExperienceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title')
+            ->add('title', null, [
+                'purify_html' => true,
+            ])
             ->add('beginning', DateType::class, array(
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
@@ -22,9 +24,15 @@ class ExperienceType extends AbstractType
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
             ))
-            ->add('organism')
-            ->add('location')
-            ->add('description')
+            ->add('organism', null, [
+                'purify_html' => true,
+            ])
+            ->add('location', null, [
+                'purify_html' => true,
+            ])
+            ->add('description', null, [
+                'purify_html' => true,
+            ])
         ;
     }
 

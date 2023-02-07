@@ -23,7 +23,7 @@ class UserUpdateType extends AbstractType
             ->add('firstname', null, [
                 'purify_html' => true,
             ])
-            ->add('lastname', null, [
+            ->add('lastName', null, [
                 'purify_html' => true,
             ])
             ->add('phone', null, [

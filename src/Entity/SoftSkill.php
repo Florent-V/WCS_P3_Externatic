@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\SoftSkillRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SoftSkillRepository::class)]
 class SoftSkill
@@ -14,6 +15,11 @@ class SoftSkill
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank(message: 'Vous devez donner un nom à votre compétence')]
+    #[Assert\Length(
+        max: 100,
+        maxMessage: 'Le nom {{ value }} est trop long, il ne devrait pas dépasser {{ limit }} caractères.'
+    )]
     private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'softSkill')]
