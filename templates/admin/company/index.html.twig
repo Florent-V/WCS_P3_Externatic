@@ -24,7 +24,7 @@
                     {{ knp_pagination_sortable(companies, 'Logo', 'c.logo') }}
                 </th>
                 <th{% if companies.isSorted('c.name') %} class="sorted"{% endif %}>
-                    {{ knp_pagination_sortable(companies, 'Name', 'c.name') }}
+                    {{ knp_pagination_sortable(companies, 'Nom', 'c.name') }}
                 </th>
                 <th{% if companies.isSorted('u.lastName') %} class="sorted"{% endif %}>
                     {{ knp_pagination_sortable(companies, 'Consultant', 'u.lastName') }}
@@ -54,7 +54,7 @@
             {% for company in companies %}
                 <tr>
                     <td>{{ company.id }}</td>
-                    <td><img style="height: 100px" src="{{ vich_uploader_asset(company) }}" alt="{{ company.name }}">
+                    <td><img src="{{ vich_uploader_asset(company) }}" alt="{{ company.name }}">
                     </td>
                     <td>{{ company.name }}</td>
                     <td>{{ company.externaticConsultant.user.firstName }} {{ company.externaticConsultant.user.lastName }}</td>

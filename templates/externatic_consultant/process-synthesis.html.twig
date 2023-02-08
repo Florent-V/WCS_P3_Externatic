@@ -49,7 +49,7 @@
                                         <p>
                                             <a class="lienAnnonce stretched-link" style="transform: rotate(0);" href="{{ path('annonce_show', {"id": synthese.id}) }}">Annonce : {{ synthese.annonce.title }}</a>
                                         </p>
-                                    <img src="{{ vich_uploader_asset(synthese.annonce.company) }}" alt="{{ synthese.annonce.company.name }}">}
+                                    <img src="{{ vich_uploader_asset(synthese.annonce.company) }}" alt="{{ synthese.annonce.company.name }}">
                                 {% endif %}
                             </li>
                             <li class="list-group-item">Statut : {{ synthese.status }}</li>

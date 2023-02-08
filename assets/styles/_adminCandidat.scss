@@ -17,3 +17,13 @@
         display: inline;
     }
 }
+
+.table {
+    img {
+        max-height: 100px;
+        max-width: 10rem;
+        object-fit: contain;
+        display: block;
+        margin: auto;
+    }
+}

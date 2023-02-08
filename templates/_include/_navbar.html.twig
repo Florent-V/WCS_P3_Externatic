@@ -132,6 +132,10 @@
                                     <a class="nav-link {{ app.request.pathInfo == path('admin_app_company_index') ? "active" : "" }}" href="{{ path('admin_app_company_index') }}">Base
                                         Entreprises</a>
                                 </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link {{ app.request.pathInfo == path('admin_app_techno_index') ? "active" : "" }}" href="{{ path('admin_app_techno_index') }}">Base
+                                            Technos</a>
+                                    </li>
                             </ul>
                             </details>
                         {% endif %}

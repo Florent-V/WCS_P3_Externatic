@@ -2,7 +2,7 @@
 
 {% block body %}
     <a class="retour-bouton btn btn-primary m-5 ms-4" href="{{ path("annonce_search_results") }}">Retours aux offres</a>
-    <main class="show_annonce" {{ stimulus_controller('favoriteoffer') }}>
+    <main style="position: relative" class="show_annonce container-lg" {{ stimulus_controller('favoriteoffer') }}>
         <div class="d-flex" {{ stimulus_controller('heartcompany') }}>
             <img src="{{ vich_uploader_asset(annonce.company) }}" alt="logo de l'entreprise" class="ms-5 logo">
             <div class="w-100 d-flex flex-column justify-content-center">
@@ -26,7 +26,7 @@
                     <p class="created_at d-flex align-items-center m-0">
                         Posté le {{ annonce.createdAt|date('d-m-Y') }}
                         {% if is_granted('ROLE_CONSULTANT') %}
-                            <a class="mx-1" href="{{  path('annonce_edit', { "id": annonce.id }) }}">| Editer</a>
+                            | <a class="mx-1" href="{{  path('annonce_edit', { "id": annonce.id }) }}">Editer</a>
                         {% endif %}
 
                     </p>
@@ -34,11 +34,11 @@
             </div>
         </div>
 
-        <div class="d-flex mb-5 me-3">
-            <div class="tech d-inline-block mt-3">
-                <ul class="ms-2 ps-0 mt-2 pb-2">
+        <div class="d-flex align-items-start mb-5 me-3">
+            <div class="tech d-inline-block mt-2">
+                <ul class="ms-1 p-2 mt-2 pb-2">
                     {% for tech in annonce.techno %}
-                        <li class="mt-3 d-flex align-items-center">
+                        <li class="mb-3 d-flex align-items-center">
                             <img src="{{ asset('/uploads/images/logo/' ~ tech.picture) }}"
                                  alt="image de {{ tech.name }}"
                                  class="image_techno">
@@ -92,7 +92,7 @@
                             {% if recruProcessActuel == null %}
                                 {{ form(form) }}
                             {% else %}
-                                <p>Vous avez déjà un processus en cours</p>
+                                <p>Vous avez déjà un processus de recrutement en cours pour cette annonce.</p>
                             {% endif %}
                         {% elseif is_granted("ROLE_CONSULTANT") %}
                             <p>Encart réservé aux candidats - <a href="{{ path('consultant_board') }}">Retourner à votre

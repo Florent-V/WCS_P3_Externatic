@@ -55,7 +55,7 @@
     .created_at{
         position: absolute;
         right: 1rem;
-        top: 8.5rem;
+        top: 1rem;
         font-size: 0.65rem;
         @include media-breakpoint-up(sm) {
             font-size: 0.75rem;
@@ -79,6 +79,7 @@
     }
 
     .logo{
+        object-fit: contain;
         display: none;
         @include media-breakpoint-up(sm) {
             height: 6.25rem;

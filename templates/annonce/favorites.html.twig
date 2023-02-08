@@ -6,7 +6,7 @@
     <main class="container-md search" {{ stimulus_controller('favoriteoffer') }}>
 
         {% for annonce in fetchedAnnonces %}
-            <div class="row row-cols-xl-3 row-cols-md-2">
+            <div class="row row-cols-xl-3 row-cols-md-2 favoriteAnnounceList">
                 <div class="col mt-4 cards-result">
                     {% include '_include/_card_result.html.twig' %}
                 </div>

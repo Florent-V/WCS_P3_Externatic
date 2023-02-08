@@ -48,13 +48,11 @@ class SearchProfileRepository extends ServiceEntityRepository
             ->andWhere('s.companyId IS NULL OR s.companyId = :annonceCompanyId')
             ->andWhere('s.workTime IS NULL OR s.workTime = :workTime')
             ->andWhere(':annonceTechno MEMBER OF s.techno')
-            ->andWhere(':annonceContractType MEMBER OF s.contractType OR s.contractType IS NULL')
             ->setParameter('annonceSalaryMin', $annonce->getSalaryMin())
             ->setParameter('annonceIsRemote', $annonce->isRemote())
             ->setParameter('annonceCompanyId', $annonce->getCompany()->getId())
             ->setParameter('workTime', $workTime)
             ->setParameter('annonceTechno', $annonce->getTechno())
-            ->setParameter('annonceContractType', $annonce->getContractType())
             ->getQuery();
 
         return $queryBuilder->getResult();

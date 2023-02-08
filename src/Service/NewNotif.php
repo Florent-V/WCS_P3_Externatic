@@ -68,6 +68,8 @@ class NewNotif extends AbstractController
         foreach ($this->profileRepository->findBySearchProfile($annonce, $worktime) as $searchProfile) {
             if (
                 $searchProfile->getSearchQuery()['searchQuery'] == "" ||
+                strpos($annonce->getTitle(), $searchProfile->getSearchQuery()['searchQuery']) &&
+                $searchProfile->getContractType() == "" ||
                 strpos($annonce->getTitle(), $searchProfile->getSearchQuery()['searchQuery'])
             ) {
                 array_push($sentNotif, $searchProfile->getCandidat()->getUser()->getId());

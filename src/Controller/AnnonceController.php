@@ -52,7 +52,7 @@ class AnnonceController extends AbstractController
         $annonces = $paginator->paginate(
             $queryAnnonces,
             $request->query->getInt('page', 1),
-            12
+            9
         );
 
         return $this->render('annonce/results.html.twig', [
@@ -84,8 +84,7 @@ class AnnonceController extends AbstractController
             } else {
                 $annonce->setAuthor($user->getConsultant());
             }
-
-
+            $annonce->setPublicationStatus(1);
             $annonceRepository->save($annonce, true);
             $this->addFlash('success', 'Annonce en ligne');
             $newNotif->notifNewAnnonce($annonce);
