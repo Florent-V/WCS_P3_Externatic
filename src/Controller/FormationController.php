@@ -26,6 +26,10 @@ class FormationController extends AbstractController
         $curriculum = $user->getCandidat()->getCurriculum();
         $experience = $repository->findFirstExperience($curriculum, true);
 
+        if (!$experience) {
+            return $this->render('candidat/oups.html.twig');
+        }
+
         return $this->redirectToRoute('app_formation_show', ['id' => $experience->getId()]);
     }
 
