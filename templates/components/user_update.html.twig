@@ -16,7 +16,8 @@
     {{ form_row(form.email, {
         label: 'Email',
         attr: {
-            placeholder: 'john@doe.fr'
+            placeholder: 'john@doe.fr',
+            'data-model': 'norender|max'
         },
         row_attr: {
             class: 'form-floating mb-3'
@@ -26,7 +27,8 @@
     {{ form_row(form.firstname, {
         label: 'Prénom',
         attr: {
-            placeholder: 'John'
+            placeholder: 'John',
+            'data-model': 'norender|max'
         },
         row_attr: {
             class: 'form-floating mb-3'
@@ -37,7 +39,8 @@
     {{ form_row(form.lastName, {
         label: 'Nom',
         attr: {
-            placeholder: 'Doe'
+            placeholder: 'Doe',
+            'data-model': 'norender|max'
         },
         row_attr: {
             class: 'form-floating mb-3'
@@ -47,7 +50,8 @@
     {{ form_row(form.phone, {
         label: 'Numéro de téléphone',
         attr: {
-            placeholder: '+33...'
+            placeholder: '+33...',
+            'data-model': 'norender|max'
         },
         row_attr: {
             class: 'form-floating mb-3'

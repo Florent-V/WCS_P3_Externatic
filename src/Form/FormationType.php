@@ -36,6 +36,7 @@ class FormationType extends AbstractType
             ])
             ->add('diploma', null, [
                 'purify_html' => true,
+                'required' => true,
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Le champ ne doit pas être vide'
