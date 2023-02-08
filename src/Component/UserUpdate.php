@@ -4,11 +4,9 @@ namespace App\Component;
 
 use App\Entity\User;
 use App\Form\UserUpdateType;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Security\Core\Security;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
@@ -24,7 +22,7 @@ class UserUpdate extends AbstractController
     #[LiveProp]
     public bool $isSubmitted = false;
 
-    #[LiveProp(writable: true)]
+    #[LiveProp(fieldName: 'userField')]
     public ?User $user = null;
 
     protected function instantiateForm(): FormInterface

@@ -1,0 +1,9 @@
+<form
+    class="d-flex justify-content-center"
+    method="post"
+    action="{{ path('app_candidat_delete') }}"
+    onsubmit="return confirm('Êtes vous sur de vouloir supprimer vos données ? Cette demande est irréversible');"
+>
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ app.user.id) }}">
+    <button class="btn" title="Cliquez pour demander la suppression des données"><i style="font-size: 10rem" class="bi bi-trash3-fill"></i></button>
+</form>
