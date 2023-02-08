@@ -56,6 +56,7 @@ class CompanyController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $company->setIsActive(true);
             $companyRepository->save($company, true);
 
             return $this->redirectToRoute('admin_app_company_index', [], Response::HTTP_SEE_OTHER);
