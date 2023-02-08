@@ -64,6 +64,7 @@ security:
         - { path: ^/consultant, roles: ROLE_CONSULTANT }
         - { path: ^/search/profile, roles: ROLE_CANDIDAT }
         - { path: ^/notif, roles: IS_AUTHENTICATED }
+        - { path: '^/', roles: PUBLIC_ACCESS, requires_channel: '%env(SECURE_SCHEME)%' }
 
 when@test:
     security:
