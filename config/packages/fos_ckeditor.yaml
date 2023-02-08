@@ -24,6 +24,5 @@ fos_ck_editor:
                       - Cut
                       - Copy
                       - Paste
-                      - Smiley
                       - Undo
                       - Redo

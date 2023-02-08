@@ -110,7 +110,7 @@
                                         <span>Le : {{ message.date|format_datetime('short', 'short', locale='fr') }}</span>
                                         <br>
                                     </small>
-                                    {{ message.content }}
+                                    {{ message.content|raw }}
                                 </article>
                             {% endfor %}
                         {% else %}
@@ -132,7 +132,7 @@
                             <h3 class="h4">{{ recruitmentProcess.annonce.title }}</h3>
                             <small
                                 class="fst-italic">{{ recruitmentProcess.annonce.createdAt|format_datetime('short', 'none', locale='fr') }}</small>
-                            <p class="description">{{ recruitmentProcess.annonce.description }}</p>
+                            <p class="description">{{ recruitmentProcess.annonce.description|raw }}</p>
                         </div>
                     {% else %}
                         <h2>Rappel de l'entreprise</h2>

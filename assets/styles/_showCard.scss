@@ -10,11 +10,19 @@
     }
     .list-group-item p:last-of-type {
         text-align: right;
+   }
+    .list-group-item:last-of-type {
+            p:first-of-type {
+                text-align: center;
+            }
+        p:last-of-type {
+            text-align: left;
+        }
     }
-    .link {
-        display: flex;
-        flex-direction: column;
-    }
+
+
+
+
     .link a {
         margin: auto;
     }
