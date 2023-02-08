@@ -9,9 +9,12 @@ use App\Repository\CandidatRepository;
 use App\Repository\CertificationRepository;
 use App\Repository\ExperienceRepository;
 use App\Repository\UserRepository;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -112,5 +115,42 @@ class CandidatController extends AbstractController
     public function complete(): Response
     {
         return $this->renderForm('candidat/complete.html.twig');
+    }
+
+    #[Route('/ask-delete', name: 'app_candidat_ask_delete', methods: ['GET', 'POST'])]
+    public function askDelete(): Response
+    {
+        return $this->render('candidat/askDelete.html.twig');
+    }
+
+    #[Route('/delete', name: 'app_candidat_delete', methods: ['GET', 'POST'])]
+    public function delete(
+        Request $request,
+        UserRepository $userRepository,
+        MailerInterface $mailer
+    ): Response {
+        /**
+         * @var ?User $user
+         */
+        $user = $this->getUser();
+
+        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
+            $user->setIsActive(false);
+            $userRepository->save($user, true);
+
+            $email = (new TemplatedEmail())
+                ->from(new Address('no-reply@externatic.fr', 'Externatic Bot'))
+                ->to('admin@externatic.fr')
+                ->subject('Demande de suppression des données')
+                ->htmlTemplate('admin/candidat/askDeleteEmail.html.twig')
+                ->context([
+                    'user' => $user,
+                ]);
+            $mailer->send($email);
+
+            $this->addFlash('success', 'Votre demande de suppression de vos données a bien été prise en compte !');
+        }
+
+        return $this->redirectToRoute('app_logout', [], Response::HTTP_SEE_OTHER);
     }
 }
