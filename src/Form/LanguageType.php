@@ -13,7 +13,9 @@ class LanguageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('language')
+            ->add('language', null, [
+                'purify_html' => true,
+            ])
             ->add('level', ChoiceType::class, [
                 'label' => "Niveau",
                 'choices' => [

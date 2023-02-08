@@ -73,21 +73,20 @@ class RegistrationController extends AbstractController
                 'app_verify_email',
                 $user,
                 (new TemplatedEmail())
-                    ->from(new Address('vasseurflorent@gmail.com', 'Externatic Bot'))
+                    ->from('no-reply@externatic.fr')
                     ->to($user->getEmail())
                     ->subject('Please Confirm your Email')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
             // do anything else you need here, like send an email
-
             $this->addFlash('success', 'Votre compte a bien été créé ! Un mail vous a été envoyé
             pour valider votre compte et confirmer l\'adresse mail');
 
             return $this->redirectToRoute('home');
         }
 
-        return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form->createView(),
+        return $this->renderForm('registration/register.html.twig', [
+            'registrationForm' => $form,
         ]);
     }
 

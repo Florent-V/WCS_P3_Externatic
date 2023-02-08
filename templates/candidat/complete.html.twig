@@ -1,6 +1,5 @@
 {% extends 'base.html.twig' %}
 
-
 {% block title %}Candidat{% endblock %}
 
 {% block body %}
@@ -21,7 +20,9 @@
                      data-bs-parent="#accordionExample">
                     <div class="accordion-body">
 
-                        {{ component('user_update') }}
+                        {{ component('user_update', {
+                            user: app.user
+                        }) }}
 
                     </div>
                 </div>
@@ -42,8 +43,6 @@
                             candidat: app.user.candidat
                         }) }}
 
-                        <a href="{{ path('app_candidat_profile') }}">Retour au profil</a>
-
                     </div>
                 </div>
             </div>
@@ -52,14 +51,12 @@
                 <h2 class="accordion-header" id="experience">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                             data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                        Ajouter une expérience
+                        Ajouter une Expérience
                     </button>
                 </h2>
                 <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="experience"
                      data-bs-parent="#accordionExample">
                     <div class="accordion-body">
-
-                        {{  dump(app.request.pathInfo) }}
 
                         {{ component('experience_form', {
                             pathInfo : app.request.pathInfo,
@@ -74,14 +71,12 @@
                 <h2 class="accordion-header" id="formation">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                             data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                        Ajouter une formation
+                        Ajouter une Formation
                     </button>
                 </h2>
                 <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="formation"
                      data-bs-parent="#accordionExample">
                     <div class="accordion-body">
-
-                        {{  dump(app.request.pathInfo) }}
 
                         {{ component('formation_form', {
                             pathInfo : app.request.pathInfo,
@@ -115,7 +110,7 @@
                 <h2 class="accordion-header" id="skills">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                             data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-                        Ajouter des compétences
+                        Ajouter des Compétences
                     </button>
                 </h2>
                 <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="skills"
@@ -137,7 +132,7 @@
                 <h2 class="accordion-header" id="skills">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                             data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
-                        Ajouter des hobbies
+                        Ajouter des Hobbies
                     </button>
                 </h2>
                 <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="hobbies"
@@ -150,12 +145,10 @@
                 </div>
             </div>
 
-
-
-
         </div>
 
-        <a href="{{ path('app_candidat_profile') }}">Retour au profil</a>
+        <a class="btn btn-primary mt-3" href="{{ path('app_candidat_profile') }}" title="Retour au profil"><i class='me-1 bi bi-arrow-return-left'></i>Retour au profil</a>
+
     </main>
 
 {% endblock %}

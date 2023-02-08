@@ -10,4 +10,14 @@
         display: block;
         margin: auto;
     }
+    textarea[id] {
+        height: 150px;
+    }
+    label.required::after {
+        content: "*";
+        position : relative;
+        top: -4px;
+        left: 1px;
+        color: $primary;
+    }
 }

@@ -14,6 +14,7 @@ class RecruitmentProcessNotesType extends AbstractType
     {
         $builder
             ->add('information', TextareaType::class, [
+                'purify_html' => true,
                 'label' => 'Vos notes',
                 'attr' => [
                     'placeholder' => 'Votre prise de note...'

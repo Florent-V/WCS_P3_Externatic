@@ -1,9 +1,10 @@
 <div{{ attributes }}>
     {% if this.isSubmitted %}
-        <div class="alert bg-success">
-            enregistrement effectué
+        <div class="alert alert-success" role="alert">
+            Modification(s) effectuée(s)
         </div>
     {% endif %}
+    <div {{ stimulus_controller('global') }}></div>
     {{ form_start(form, {
         attr: {
             'data-action': 'live#action',
@@ -15,7 +16,8 @@
     {{ form_row(form.email, {
         label: 'Email',
         attr: {
-            placeholder: 'john@doe.fr'
+            placeholder: 'john@doe.fr',
+            'data-model': 'norender|max'
         },
         row_attr: {
             class: 'form-floating mb-3'
@@ -25,7 +27,8 @@
     {{ form_row(form.firstname, {
         label: 'Prénom',
         attr: {
-            placeholder: 'John'
+            placeholder: 'John',
+            'data-model': 'norender|max'
         },
         row_attr: {
             class: 'form-floating mb-3'
@@ -33,10 +36,11 @@
     }) }}
 
 
-    {{ form_row(form.lastname, {
+    {{ form_row(form.lastName, {
         label: 'Nom',
         attr: {
-            placeholder: 'Doe'
+            placeholder: 'Doe',
+            'data-model': 'norender|max'
         },
         row_attr: {
             class: 'form-floating mb-3'
@@ -46,7 +50,8 @@
     {{ form_row(form.phone, {
         label: 'Numéro de téléphone',
         attr: {
-            placeholder: '+33...'
+            placeholder: '+33...',
+            'data-model': 'norender|max'
         },
         row_attr: {
             class: 'form-floating mb-3'

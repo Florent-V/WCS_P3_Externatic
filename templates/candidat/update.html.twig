@@ -8,7 +8,9 @@
 
         <h1>Informations personnelles</h1>
 
-        {{ include('candidat/_form.html.twig') }}
+        {{ component('candidat_form', {
+            candidat: app.user.candidat
+        }) }}
 
         <div class="d-flex justify-content-center mt-3">
             <a class="btn btn-primary" href="{{ path('app_candidat_profile') }}">Retour au profil</a>

@@ -1,3 +1,4 @@
+{% if annonce.recrutementProcesses|length %}
 <div class="accordion-item">
     <h2 class="accordion-header ms-4 me-4" id="heading-{{ loop.index }}">
         <button class="accordion-button d-inline text-center" type="button"
@@ -41,3 +42,4 @@
             </table>
         </div>
     </div>
+{% endif %}

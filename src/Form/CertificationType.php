@@ -13,13 +13,19 @@ class CertificationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title')
-            ->add('year', DateType::class, array(
+            ->add('title', null, [
+                'purify_html' => true,
+            ])
+            ->add('year', DateType::class, [
                 'widget' => 'single_text',
                 'format' => 'yyyy-MM-dd',
-            ))
-            ->add('link')
-            ->add('description')
+            ])
+            ->add('link', null, [
+                'purify_html' => true,
+            ])
+            ->add('description', null, [
+                'purify_html' => true,
+            ])
         ;
     }
 

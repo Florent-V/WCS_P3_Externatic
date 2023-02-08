@@ -6,7 +6,6 @@ export default class extends Controller {
         let formSave = document.getElementById('saveSearch');
         let saveBtn = document.getElementById('saveBtn');
         let results = document.getElementById('results');
-        const toastLiveExample = document.getElementById('liveToast');
 
         saveBtn.addEventListener('click', sendData);
 

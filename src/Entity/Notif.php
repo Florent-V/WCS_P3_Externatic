@@ -39,6 +39,9 @@ class Notif
     #[ORM\Column]
     private ?bool $active = false;
 
+    #[ORM\ManyToOne(inversedBy: 'notifs')]
+    private ?Appointement $appointment = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -136,6 +139,18 @@ class Notif
     public function setActive(bool $isActive): self
     {
         $this->active = $isActive;
+
+        return $this;
+    }
+
+    public function getAppointment(): ?Appointement
+    {
+        return $this->appointment;
+    }
+
+    public function setAppointment(?Appointement $appointment): self
+    {
+        $this->appointment = $appointment;
 
         return $this;
     }

@@ -2,28 +2,26 @@
 
 namespace App\Service;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 
-class NewEmail extends AbstractController
+class NewEmail
 {
     private MailerInterface $mailer;
 
-    public function __construct(MailerInterface $mailer)
+    public function __construct(MailerInterface $mailer, private readonly ParameterBagInterface $parameterBag)
     {
         $this->mailer = $mailer;
     }
     public function sendMail(string $sendTo, string $subject, string $mailLocation, array $renderViewArray = []): void
     {
-        $email = (new Email())
+        $email = (new TemplatedEmail())
             ->to($sendTo)
-            ->from($this->getParameter('mailer_from'))
+            ->from($this->parameterBag->get('mailer_from'))
             ->subject($subject)
-            ->html($this->renderView($mailLocation, $renderViewArray));
-
+            ->htmlTemplate($mailLocation)
+        ->context($renderViewArray);
         $this->mailer->send($email);
-
-        sleep(3);
     }
 }

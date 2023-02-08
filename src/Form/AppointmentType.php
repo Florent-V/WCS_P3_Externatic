@@ -21,6 +21,7 @@ class AppointmentType extends AbstractType
                 'label' => 'Date',
             ])
             ->add('title', null, [
+                'purify_html' => true,
                 'label' => 'Titre',
                 'attr' => ['placeholder' => 'RDV RH avec M DUPONT']
             ])
@@ -37,12 +38,14 @@ class AppointmentType extends AbstractType
                 ],
             ])
             ->add('adress', TextType::class, [
+                'purify_html' => true,
                 'label' => 'Adresse',
                 'attr' => ['placeholder' => 'Externatic Bordeaux...'],
                 'row_attr' => ['class' => 'mb-3 mt-3'],
                 'required' => false
             ])
             ->add('description', TextareaType::class, [
+                'purify_html' => true,
                 'label' => 'Description du RDV',
                 'attr' => [
                     'placeholder' => 'Votre prise de note...',

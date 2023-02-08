@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TechnoRepository::class)]
 #[Vich\Uploadable]
+#[ORM\HasLifecycleCallbacks]
 class Techno
 {
     #[ORM\Id]
@@ -23,6 +24,11 @@ class Techno
     private ?int $id = null;
 
     #[ORM\Column(length: 45)]
+    #[Assert\NotBlank(message: 'Vous devez donner un nom à votre techno')]
+    #[Assert\Length(
+        max: 45,
+        maxMessage: 'Le nom {{ value }} est trop long, il ne devrait pas dépasser {{ limit }} caractères.'
+    )]
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -46,6 +52,24 @@ class Techno
 
     #[ORM\ManyToMany(targetEntity: SearchProfile::class, mappedBy: 'techno')]
     private Collection $searchProfiles;
+
+    private bool $isFixture = false;
+
+    /**
+     * @return bool
+     */
+    public function isFixture(): bool
+    {
+        return $this->isFixture;
+    }
+
+    /**
+     * @param bool $isFixture
+     */
+    public function setIsFixture(bool $isFixture): void
+    {
+        $this->isFixture = $isFixture;
+    }
 
     public function __construct()
     {
