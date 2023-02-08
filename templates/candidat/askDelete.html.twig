@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Externatic - Suppression des données{% endblock %}
+
+{% block body %}
+
+
+    <div class="container-sm">
+        <h1 class="text-center mt-3">Demande de suppression des données</h1>
+
+        {{ include('candidat/_ask_delete_form.html.twig') }}
+
+        <div class="d-flex justify-content-center">
+            <a class="btn btn-primary mt-3" href="{{ path('app_candidat_profile') }}">Retour au profil</a>
+        </div>
+
+    </div>
+
+{% endblock %}

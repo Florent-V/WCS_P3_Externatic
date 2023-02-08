@@ -23,6 +23,13 @@ class UserChecker implements UserCheckerInterface
             return;
         }
 
+        if (!$user->isIsActive()) {
+            throw new CustomUserMessageAccountStatusException(
+                message: 'Vous avez demandé la suppression de vos données. L\'opération est en cours',
+                code: 2000
+            );
+        }
+
         if (!$user->isVerified()) {
             // the message passed to this exception is meant to be displayed to the user
             // generate a signed url and email it to the user
