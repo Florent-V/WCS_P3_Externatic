@@ -4,7 +4,7 @@
 
 {% block body %}
     <main class="landing" {{ stimulus_controller('favoriteoffer') }}>
-        <section class="research container-fluid">
+        <div class="research container-fluid">
             <div class="container text-center searchBar p-4">
                 <h1 class="text-light text-uppercase font-weight-bold">
                     Trouvez un poste qui vous correspond !
@@ -19,9 +19,9 @@
                     {% endfor %}
                 </div>
             </div>
-        </section>
+        </div>
 
-        <h3 class="ms-3 mt-3">Inscrivez vous pour accéder à <span class="text-primary fw-bold">tous nos services</span> :</h3>
+        <div class="d-flex justify-content-center"><h3 class="ms-3 mt-3">Inscrivez vous pour accéder à <span class="text-primary fw-bold">tous nos services</span></h3></div>
         <article class="landing-article d-flex flex-column flex-md-row justify-content-around align-items-center services">
             <div class="card text-black bg-light mb-3 mx-3 mt-3 my-5">
                 <div class="card-body">
@@ -47,7 +47,7 @@
         </article>
 
 
-        <h3 class="ms-3 mt-4 "><span class="text-primary font-italic fw-bold">Externatic</span> en chiffre c'est :</h3>
+        <div class="d-flex justify-content-center"><h3 class="ms-3 mt-4 "><span class="text-primary font-italic fw-bold">Externatic</span> en chiffre c'est</h3></div>
         <article class="desc-number d-flex justify-content-around mt-4 pb-5">
             <div class="d-flex flex-column align-items-center">
                 <img src="{{ asset('build/images/batiment.png') }}" alt="photo of an enterprise">

@@ -42,6 +42,10 @@ class Certification
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Assert\NotBlank(message: 'Vous devez entrer une description')]
+    #[Assert\Length(
+        max: 500,
+        maxMessage: 'Attention, {{ limit }} caractères maximum.'
+    )]
     private ?string $description = null;
 
     public function getId(): ?int

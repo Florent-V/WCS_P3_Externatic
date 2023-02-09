@@ -14,11 +14,11 @@
 
         {% if app.user %}
             <div>
-                <a class="d-inline-block me-3 text-dark bell-href" href="{{ path('notif_show') }}">
-                    <i class="bi bi-bell"></i>
+                <a class="d-inline-block me-1 text-dark bell-href" href="{{ path('notif_show') }}">
                     {% if app.user.hasNotifUnread == true %}
                         <span class="dot"></span>
                     {% endif %}
+                    <i class="bi bi-bell"></i>
                 </a>
                 {% if is_granted("ROLE_CANDIDAT") %}
                     <a class="d-none d-md-inline userName"
@@ -57,6 +57,10 @@
                             <a class="nav-link {{ app.request.pathInfo == path('app_candidat_profile') ? "active" : "" }}" href="{{ path('app_candidat_profile') }}">Mon Compte</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link {{ app.request.pathInfo == path('app_candidat_complete') ? "active" : "" }}" href="{{ path('app_candidat_complete') }}">Compléter mon profil
+                                candidat</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link {{ app.request.pathInfo == path('annonce_search_results') ? "active" : "" }}" href="{{ path('annonce_search_results') }}">Rechercher une offre</a>
                         </li>
                         <li class="nav-item">
@@ -72,10 +76,7 @@
                             <a class="nav-link {{ app.request.pathInfo == path('app_search_profile_index') ? "active" : "" }}" href="{{ path('app_search_profile_index') }}">Mes recherches
                                 sauvegardées</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ app.request.pathInfo == path('app_candidat_complete') ? "active" : "" }}" href="{{ path('app_candidat_complete') }}">Compléter mon profil
-                                candidat</a>
-                        </li>
+
                     {% elseif is_granted("ROLE_CONSULTANT") %}
                         <li class="nav-item">
                             <a class="nav-link {{ app.request.pathInfo == path('consultant_board') ? "active" : "" }}" href="{{ path('consultant_board') }}">Tableau de bord</a>
@@ -132,6 +133,10 @@
                                     <a class="nav-link {{ app.request.pathInfo == path('admin_app_company_index') ? "active" : "" }}" href="{{ path('admin_app_company_index') }}">Base
                                         Entreprises</a>
                                 </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link {{ app.request.pathInfo == path('admin_app_techno_index') ? "active" : "" }}" href="{{ path('admin_app_techno_index') }}">Base
+                                            Technos</a>
+                                    </li>
                             </ul>
                             </details>
                         {% endif %}

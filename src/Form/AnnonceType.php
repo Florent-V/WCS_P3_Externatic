@@ -23,22 +23,18 @@ use Symfony\Component\Security\Core\Security;
 
 class AnnonceType extends AbstractType
 {
+    public const CONTRACT_TYPE = ['CDD', 'CDI', 'stage', 'alternance', 'contrat aidé', 'freelance', 'autre'];
+
     public function __construct(
-        private readonly AnnonceRepository $annonceRepository,
         private readonly Security $security
     ) {
     }
 
     public function fetchingContractTypes(): array
     {
-        $contractTypeQuery = $this->annonceRepository->createQueryBuilder("a")
-            ->select("distinct (a.contractType)")
-            ->getQuery()
-            ->getResult();
-
         $contractTypeFromDb = [];
-        foreach ($contractTypeQuery as $contractType) {
-            $contractTypeFromDb[ucfirst($contractType[1])] = $contractType[1];
+        foreach (self::CONTRACT_TYPE as $contractType) {
+            $contractTypeFromDb[ucfirst($contractType)] = $contractType;
         }
         ksort($contractTypeFromDb);
         return $contractTypeFromDb;

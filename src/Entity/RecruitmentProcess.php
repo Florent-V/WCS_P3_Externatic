@@ -70,7 +70,7 @@ class RecruitmentProcess
     private ?ExternaticConsultant $externaticConsultant = null;
 
     #[ORM\Column]
-    private ?bool $isActive = null;
+    private ?bool $isActive = true;
 
     #[ORM\PrePersist]
     public function setCreatedAtValue(): void

@@ -1,7 +1,7 @@
-<div class="card mb-5">
+<div class="company card mb-5">
     <div class="card-body">
         <h3 class="card-title">{{ company.name }}</h3>
-        <p class="card-text">{{ company.information }}</p>
+        <p class="companyInfos card-text">{{ company.information }}</p>
         {% if is_granted("ROLE_ADMIN") %}
             {{ include('admin/company/_delete_form.html.twig') }}
         {% endif %}
@@ -56,16 +56,18 @@
         </div>
 
     </div>
-    <div class="card-body link">
+    <div class="card-body link d-flex flex-column">
         {% if is_granted("ROLE_ADMIN") %}
             <a href="{{ path('admin_app_company_index') }}"
                class="btn btn-primary">Retour à la liste</a>
         {% else %}
             <a href="{{ path('app_company_show', {id: company.id}) }}"
                class="btn btn-primary">Candidature Spontanée</a>
+            <a href="{{ path('annonce_show_by_company', {id: company.id}) }}"
+               class="btn btn-primary mt-2">Voir les annonces</a>
 
-            <a href="{{ path('app_company_add_favorite', {id: company.id}) }}" id="fav-company"
-               class="btn btn-primary fav-icon mt-2">
+            <a href="{{ path('app_company_add_favorite', {id: company.id}) }}"
+               class="btn btn-primary fav-icon mt-2 fav-company">
                 <span>{{ app.user.candidat.isCompanyFavorite(company) ? 'Retirer l\'entreprise des favoris' : 'Mettre l\'entreprise en favoris' }}</span>
                 <i class="bi {{ app.user.candidat.isCompanyFavorite(company) ? 'bi-heart-fill' : 'bi-heart' }}"></i>
             </a>

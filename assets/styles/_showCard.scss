@@ -10,10 +10,14 @@
     }
     .list-group-item p:last-of-type {
         text-align: right;
-    }
-    .link {
-        display: flex;
-        flex-direction: column;
+   }
+    .list-group-item.description {
+            p:first-of-type {
+                text-align: center;
+            }
+        p:last-of-type {
+            text-align: left;
+        }
     }
     .link a {
         margin: auto;
@@ -27,6 +31,14 @@
         border: 1px solid $primary;
     }
 }
+.company.card {
+    .companyInfos {
+        height: 10rem;
+        overflow-y: scroll;
+        @include scrollBar;
+    }
+}
+
 
 .showCard.unique {
     max-width: 600px;

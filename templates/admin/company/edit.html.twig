@@ -1,13 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Company{% endblock %}
+{% block title %}Externatic - Edition Entreprise{% endblock %}
 
 {% block body %}
-    <h1>Edit Company</h1>
 
-    {{ include('admin/company/_form.html.twig', {'button_label': 'Update'}) }}
+    <main class="container-md">
+        <h1 class="text-center">Editer une entreprise</h1>
 
-    <a href="{{ path('admin_app_company_index') }}">back to list</a>
 
-    {{ include('admin/company/_delete_form.html.twig') }}
+            {{ include('admin/company/_form.html.twig', {'button_label': 'Update'}) }}
+
+        <div class="d-flex justify-content-center">
+            <a class="btn btn-primary" href="{{ path('admin_app_company_index') }}">back to list</a>
+        </div>
+
+    </main>
+
 {% endblock %}

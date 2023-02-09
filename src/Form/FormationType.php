@@ -33,6 +33,7 @@ class FormationType extends AbstractType
             ])
             ->add('description', null, [
                 'purify_html' => true,
+                'help' => '500 caractères maximum',
             ])
             ->add('diploma', null, [
                 'purify_html' => true,

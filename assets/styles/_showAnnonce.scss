@@ -1,22 +1,25 @@
-.retour-bouton{
-    width: 10%;
-    @media (max-width: 576px) {
-        width: 30%;
+.show_annonce {
+    position: relative;
+
+    .postele {
+        text-align: center;
+        font-size: small;
+        font-style: italic;
     }
-}
-.show_annonce{
-    h1{
+
+    h1 {
         text-align: center;
     }
 
-    .name_company{
+    .name_company {
         margin-left: 10rem;
-        &:hover{
+
+        &:hover {
             text-decoration: underline;
         }
     }
 
-    .image_techno{
+    .image_techno {
         height: 1.5rem;
         width: 1.5rem;
         object-fit: contain;
@@ -32,9 +35,9 @@
 
     .tech {
         border-radius: 15px;
-        box-shadow:  20px 20px 60px #bebebe,
+        box-shadow: 20px 20px 60px #bebebe,
         -20px -20px 60px #ffffff;
-        min-height: 18rem;
+
         min-width: 7rem;
         @include media-breakpoint-up(sm) {
             min-width: 9.3rem;
@@ -42,43 +45,32 @@
         @include media-breakpoint-up(md) {
             min-width: 10rem;
             margin-left: 3rem;
+            min-height: 18rem;
         }
     }
 
-    .header_info{
+    .header_info {
         font-style: italic;
         @include media-breakpoint-up(md) {
             margin-left: 3rem;
         }
     }
 
-    .created_at{
-        position: absolute;
-        right: 1rem;
-        top: 8.5rem;
-        font-size: 0.65rem;
-        @include media-breakpoint-up(sm) {
-            font-size: 0.75rem;
-            top: 9.5rem
-        }
-        @include media-breakpoint-up(md) {
-            margin-right: 5rem;
-            font-size: 1rem;
-            top: 11.5rem;
-        }
-    }
-
-    .fav-button{
+    .fav-button {
         position: absolute;
         right: 1rem;
         top: 6rem;
+    }
+    .fav-button.bis {
+        top: 7rem;
     }
 
     #fav-company {
         font-size: 1.7rem;
     }
 
-    .logo{
+    .logo {
+        object-fit: contain;
         display: none;
         @include media-breakpoint-up(sm) {
             height: 6.25rem;
@@ -91,14 +83,14 @@
         }
     }
 
-    .all_info{
+    .all_info {
         margin-left: 1rem;
         @include media-breakpoint-up(sm) {
             margin-left: 3rem;
         }
     }
 
-    .h2-info{
+    .h2-info {
         font-size: 1.5rem;
         color: $primary;
         @include media-breakpoint-up(sm) {
@@ -106,13 +98,14 @@
         }
     }
 
-    h1{
+    h1 {
         font-size: 1.5rem;
         @include media-breakpoint-up(md) {
             font-size: 2rem;
         }
     }
-    .techno-name{
+
+    .techno-name {
         overflow-wrap: break-word;
         width: 65px;
         margin-bottom: 0;

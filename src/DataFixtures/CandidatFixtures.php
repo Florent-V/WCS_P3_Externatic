@@ -15,62 +15,63 @@ class CandidatFixtures extends Fixture implements DependentFixtureInterface
     public const CANDIDATS = [
         [
             'age' => 25,
-            'linked_in' => 'https://www.linkedin.com/Baboulinet',
-            'github' => 'https://www.github.com/Baboulinet',
+            'linked_in' => 'https://www.linkedin.com/candidat1',
+            'github' => 'https://www.github.com/LoveCode',
             'zip_code' => '33789',
             'address' => '19 Rue Pommier',
             'city' => 'Metz',
-            'description' => 'Salut Joe Maboule je maitrise le HTML',
+            'description' => 'Bonjour, après plusieurs années en tant que boulanger,
+            je me réoriente',
             'can_postulate' => true,
         ],
         [
             'age' => 38,
-            'linked_in' => 'https://www.linkedin.com/Glandouille',
-            'github' => 'https://www.github.com/Glandouille',
+            'linked_in' => 'https://www.linkedin.com/candidat2',
+            'github' => 'https://www.github.com/LoveCyber',
             'zip_code' => '91000',
-            'address' => '74 Impasse Philippe Etchebest',
+            'address' => '74 Impasse Jean De la Fontaine',
             'city' => 'Marmande',
-            'description' => 'Salut Jacques Glandux je maitrise MariaDB',
+            'description' => 'Bonjour, Je suis DevOps',
             'can_postulate' => false,
         ],
         [
             'age' => 75,
-            'linked_in' => 'https://www.linkedin.com/BientotDead',
-            'github' => 'https://www.github.com/PorteDeLaMort',
+            'linked_in' => 'https://www.linkedin.com/candidat3',
+            'github' => 'https://www.github.com/LoveHTML',
             'zip_code' => '98765',
-            'address' => '74 Boulevard Jacquie & Michel',
+            'address' => '74 Boulevard François Pérusse',
             'city' => 'Brest',
-            'description' => 'Salut Marius DuTrou je maitrise rien',
+            'description' => 'Salut, Je suis SCRUM Master et LeadDev',
             'can_postulate' => true,
         ],
         [
-            'age' => 98,
-            'linked_in' => 'https://www.linkedin.com/decede',
-            'github' => 'https://www.github.com/rip',
+            'age' => 39,
+            'linked_in' => 'https://www.linkedin.com/candidat4',
+            'github' => 'https://www.github.com/PHP>JS',
             'zip_code' => '77000',
-            'address' => '74 Rue Rhinocéros',
-            'city' => 'Calcuta',
-            'description' => 'Salut depuis le cercueil je faisais du .NET',
+            'address' => '74 Place Vendaume',
+            'city' => 'Paris',
+            'description' => 'Salut, Ma spécialité c\'est le .NET et Java' ,
             'can_postulate' => true,
         ],
         [
-            'age' => 14,
-            'linked_in' => 'https://www.linkedin.com/JeSuisHPI',
-            'github' => 'https://www.github.com/PorteDuMIT',
+            'age' => 18,
+            'linked_in' => 'https://www.linkedin.com/candidat5',
+            'github' => 'https://www.github.com/Wild>Harvard',
             'zip_code' => '95000',
-            'address' => '74 Rue Précoce',
+            'address' => '74 Rue D\'Artagnan',
             'city' => 'Le Havre',
-            'description' => 'Bonjour Marcel Pagnol je suis hacker a la Défense',
+            'description' => 'Bonjour , je travaillais pour le gouvernement en tant que hacker éthique',
             'can_postulate' => true,
         ],
         [
-            'age' => 8,
-            'linked_in' => 'https://www.linkedin.com/JeSuIHPI',
-            'github' => 'https://www.github.com/PorteDuMdIT',
+            'age' => 28,
+            'linked_in' => 'https://www.linkedin.com/in/e-riff/',
+            'github' => 'https://www.github.com/e-riff',
             'zip_code' => '95080',
-            'address' => '74 Rue Préuoce',
-            'city' => 'Le Havrke',
-            'description' => 'Bonjour Marcele Pagnol je suis hacker a la Défense',
+            'address' => '74 Rue Jean-François Morin',
+            'city' => 'Pau',
+            'description' => 'Bonjour, Je suis actuellement dev web chez Externatic et je souhaite me réorienter',
             'can_postulate' => true,
 
         ],
@@ -80,8 +81,6 @@ class CandidatFixtures extends Fixture implements DependentFixtureInterface
     public static int $candidatIndex = 0;
     public function load(ObjectManager $manager): void
     {
-        $faker = Factory::create('fr_FR');
-
         foreach (self::CANDIDATS as $candidatinf) {
             self::$candidatIndex++;
             $candidat = new Candidat();
@@ -104,30 +103,6 @@ class CandidatFixtures extends Fixture implements DependentFixtureInterface
             $manager->persist($candidat);
             $manager->persist($skills);
             $manager->persist($curriculum);
-        }
-
-        for ($i = count(self::CANDIDATS) + 1; $i <= UserFixtures::$userCandidatIndex; $i++) {
-            self::$candidatIndex++;
-            $candidat = new Candidat();
-            $curriculum = new Curriculum();
-            $candidat->setAge($faker->numberBetween(18, 50));
-            $candidat->setLinkedIn('https://www.linkedin.com/' . $faker->word());
-            $candidat->setGithub('https://www.github.com/' . $faker->word());
-            $candidat->setZipCode($faker->postcode());
-            $candidat->setAddress($faker->address());
-            $candidat->setCity($faker->city());
-            $candidat->setDescription('Description : ' . $faker->paragraph());
-            $candidat->setCanPostulate(true);
-            $candidat->setCurriculum($curriculum);
-            $candidat->setUser($this->getReference('userCandidat_' . self::$candidatIndex));
-            $skills = new Skills();
-            $skills->setCurriculum($curriculum);
-            $this->addReference('curriculum_' . self::$candidatIndex, $curriculum);
-            $this->addReference('candidat_' . self::$candidatIndex, $candidat);
-            $this->addReference('skills_' . self::$candidatIndex, $skills);
-            $manager->persist($curriculum);
-            $manager->persist($candidat);
-            $manager->persist($skills);
         }
         $manager->flush();
     }

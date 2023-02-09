@@ -19,6 +19,7 @@ use App\Service\NewNotif;
 use DateTime;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -52,7 +53,7 @@ class AnnonceController extends AbstractController
         $annonces = $paginator->paginate(
             $queryAnnonces,
             $request->query->getInt('page', 1),
-            12
+            9
         );
 
         return $this->render('annonce/results.html.twig', [
@@ -84,8 +85,7 @@ class AnnonceController extends AbstractController
             } else {
                 $annonce->setAuthor($user->getConsultant());
             }
-
-
+            $annonce->setPublicationStatus(1);
             $annonceRepository->save($annonce, true);
             $this->addFlash('success', 'Annonce en ligne');
             $newNotif->notifNewAnnonce($annonce);
@@ -138,7 +138,7 @@ class AnnonceController extends AbstractController
         ]);
     }
 
-    #[IsGranted(['ROLE_CANDIDAT', 'ROLE_CONSULTANT'])]
+    #[Security("is_granted('ROLE_CANDIDAT') or is_granted('ROLE_CONSULTANT')")]
     #[Route('/company/{id}', name: 'show_by_company', methods: ['GET'])]
     public function showAnnonceByCompany(
         Company $company,

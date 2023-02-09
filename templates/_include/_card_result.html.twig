@@ -6,7 +6,7 @@
             <h3 class="cardTitle text-start text-center">{{ annonce.title }}</h3>
             <div class="annonceInfos">
                 <small class="text-center">{{ annonce.company.name }}</small>
-                <small class="text-center">{{ annonce.createdAt|date("d/m/Y") }}</small>
+                <small class="text-center"> - postée le {{ annonce.createdAt|date("d/m/Y") }}</small>
             </div>
         </div>
         {% if is_granted("ROLE_CANDIDAT") %}
@@ -25,9 +25,7 @@
             {{ annonce.workTime|date("%h") != 0 ? (annonce.workTime|date("%hh")) : "" }}/hebdo</p>
         <p class="rounded-2 p-1 d-flex align-items-center justify-content-center"> {{ annonce.studyLevel }}</p>
         <p class="rounded-2 p-1 d-flex align-items-center justify-content-center third-line">{{ annonce.salaryMin }}
-            € {% if annonce.salarymax is defined %}
-                à {{ annonce.salaryMax }} €
-            {% endif %}</p>
+            € {{ annonce.salaryMax ? "à " ~ annonce.salaryMax ~ " €" }}</p>
         <p class="rounded-2 p-1 d-flex align-items-center justify-content-center third-line">
             {% if annonce.techno|length >= 4 %}
                 {% for i in 0..3 %}

@@ -25,7 +25,7 @@ class HobbyFixtures extends Fixture implements DependentFixtureInterface
         $faker = Factory::create('fr_FR');
 
         for ($i = 1; $i <= CandidatFixtures::$candidatIndex; $i++) {
-            for ($j = 0; $j < 5; $j++) {
+            for ($j = 0; $j < 3; $j++) {
                 $hobby = new Hobbie();
                 $hobby->setCurriculum($this->getReference('curriculum_' . $i));
                 $hobby->setTitle(self::HOBBIES[$faker->numberBetween(0, count(self::HOBBIES) - 1)]);

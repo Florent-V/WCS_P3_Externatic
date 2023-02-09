@@ -1,15 +1,26 @@
 {% extends 'base.html.twig' %}
 {% form_theme form 'bootstrap_5_layout.html.twig' %}
 
-{% block title %}Ajouter une annonce {% endblock %}
+{% block title %}Modifier votre annonce {% endblock %}
 
 {% block body %}
-    <div class="annonce-title">
-        <h1>
-            Modifier votre annonce
-        </h1>
-    </div>
+    <main class="container-md" data-controller="publiStatus">
+        <div class="annonce-title d-flex justify-content-center">
+            <h1>
+                Modifier votre annonce
+            </h1>
+        </div>
+        <div class="text-secondary text-decoration-none d-flex justify-content-center">
+            activer/désactiver :
+            <span class="form-check form-switch ms-1">
+                            <input data-annonce="{{ annonce.id }}" class="annonceSwiper form-check-input"
+                                   type="checkbox" role="switch"
+                                   id={{ annonce.publicationStatus==1 ? "flexSwitchCheckChecked" ~ annonce.id  : "flexSwitchCheckDefault" ~ annonce.id }} {{ annonce.publicationStatus==1 ? "checked='true'" : "" }}>
+                    <label class="form-check-label"
+                           for={{ annonce.publicationStatus==0 ? "flexSwitchCheckChecked" ~ annonce.id  : "flexSwitchCheckDefault" ~ annonce.id }}></label>
+                    </span>
+        </div>
 
-    {% include "annonce/_form.html.twig" %}
-
+        {% include "annonce/_form.html.twig" %}
+    </main>
 {% endblock %}

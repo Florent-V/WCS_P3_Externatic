@@ -35,8 +35,6 @@ class CompanyType extends AbstractType
             ])
             ->add('logoFile', VichFileType::class, [
                 'required' => false,
-                'allow_delete' => true, // not mandatory, default is true
-                'download_uri' => true, // not mandatory, default is true
                 'row_attr' => ['class' => 'mb-3'],
                 'label' => 'Image/Logo de l\'entreprise',
                 'attr' => ['placeholder' => 'Ajouter un fichier']
@@ -94,8 +92,6 @@ class CompanyType extends AbstractType
                 },
                 'multiple' => false,
                 'expanded' => false,
-                'by_reference' => false,
-                'mapped' => false,
             ])
         ;
     }

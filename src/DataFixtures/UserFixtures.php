@@ -34,15 +34,7 @@ class UserFixtures extends Fixture
             'firstname' => 'consultant2',
             'lastname' => 'externatic',
             'role' => 'ROLE_CONSULTANT'
-        ],
-        [
-            'email' => 'consultant3@mail.fr',
-            'pass' => 'motdepasse',
-            'firstname' => 'consultant3',
-            'lastname' => 'externatic',
-            'role' => 'ROLE_CONSULTANT'
-        ],
-
+        ]
     ];
 
     public const CANDIDAT_INFOS = [
@@ -50,14 +42,14 @@ class UserFixtures extends Fixture
         [
             'email' => 'candidat1@mail.fr',
             'pass' => 'motdepasse',
-            'firstname' => 'candidat1',
-            'lastname' => 'externatic',
+            'firstname' => 'Victorine',
+            'lastname' => 'Beaulieu',
             'role' => 'ROLE_CANDIDAT',
         ],
         [
             'email' => 'candidat2@mail.fr',
             'pass' => 'motdepasse',
-            'firstname' => 'candidat2',
+            'firstname' => 'Stéphane',
             'lastname' => 'externatic',
             'role' => 'ROLE_CANDIDAT',
         ],
@@ -112,7 +104,7 @@ class UserFixtures extends Fixture
 
             $user->setRoles(array($consultantInfo['role']));
 
-            $user->setFirstname($consultantInfo['firstname']);
+            $user->setFirstname($faker->firstName);
             $user->setLastname($faker->lastName);
             $user->setPhone($faker->phoneNumber());
             $user->setIsVerified(true);

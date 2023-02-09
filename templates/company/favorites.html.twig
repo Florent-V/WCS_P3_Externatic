@@ -5,13 +5,13 @@
 {% block body %}
 
     <main class="container-md mb-5">
-        <h1 class="text-center mt-3">Mes entreprises favorites</h1>
+        <h1 class="text-center mt-3" {{ stimulus_controller('favoritecompany') }}>Mes entreprises favorites</h1>
 
         <div class="row showCard">
 
             {% for company in app.user.candidat.favoriteCompanies %}
 
-                <div class="col-sm-4">
+                <div class="col-md-6 col-lg-4">
 
                     {% include 'company/_companyCard.html.twig' %}
 
