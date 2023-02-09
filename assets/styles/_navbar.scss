@@ -47,11 +47,15 @@ nav.navbar {
         border-radius: 50%;
         display: inline-block;
         position: relative;
-        right: 12px;
+        left: 27px;
         top: 3px;
     }
     .bell-href{
         text-decoration: none;
+        margin-right: 1rem;
+        @include media-breakpoint-down(md){
+            margin-right: 0.25rem;
+        }
     }
 
     ul.subGroup {
@@ -67,6 +71,12 @@ nav.navbar {
         padding: .2rem .5rem;
         background-color: $light;
         border-radius : $border-radius;
+    }
+
+    .connexion{
+        @include media-breakpoint-down(sm){
+            margin-right: 0;
+        }
     }
 }
 

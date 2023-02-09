@@ -4,7 +4,7 @@
 
 {% block body %}
     <main class="landing" {{ stimulus_controller('favoriteoffer') }}>
-        <section class="research container-fluid">
+        <div class="research container-fluid">
             <div class="container text-center searchBar p-4">
                 <h1 class="text-light text-uppercase font-weight-bold">
                     Trouvez un poste qui vous correspond !
@@ -19,7 +19,7 @@
                     {% endfor %}
                 </div>
             </div>
-        </section>
+        </div>
 
         <div class="d-flex justify-content-center"><h3 class="ms-3 mt-3">Inscrivez vous pour accéder à <span class="text-primary fw-bold">tous nos services</span></h3></div>
         <article class="landing-article d-flex flex-column flex-md-row justify-content-around align-items-center services">

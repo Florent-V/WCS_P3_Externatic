@@ -14,11 +14,11 @@
 
         {% if app.user %}
             <div>
-                <a class="d-inline-block me-3 text-dark bell-href" href="{{ path('notif_show') }}">
-                    <i class="bi bi-bell"></i>
+                <a class="d-inline-block me-1 text-dark bell-href" href="{{ path('notif_show') }}">
                     {% if app.user.hasNotifUnread == true %}
                         <span class="dot"></span>
                     {% endif %}
+                    <i class="bi bi-bell"></i>
                 </a>
                 {% if is_granted("ROLE_CANDIDAT") %}
                     <a class="d-none d-md-inline userName"
