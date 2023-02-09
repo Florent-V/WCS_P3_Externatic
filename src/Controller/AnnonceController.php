@@ -137,7 +137,7 @@ class AnnonceController extends AbstractController
         ]);
     }
 
-    #[IsGranted(['ROLE_CANDIDAT', 'ROLE_CONSULTANT'])]
+    #[IsGranted(['ROLE_CANDIDAT', ''])]
     #[Route('/company/{id}', name: 'show_by_company', methods: ['GET'])]
     public function showAnnonceByCompany(
         Company $company,

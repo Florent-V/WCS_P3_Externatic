@@ -3,9 +3,13 @@ import { Controller } from '@hotwired/stimulus';
 export default class extends Controller {
     connect()
     {
-        let bookmark = document.getElementById('fav-company');
+        //let bookmark = document.getElementById('fav-company');
+        let bookmarks = document.getElementsByClassName('fav-company');
 
-        bookmark.addEventListener('click', addToFavorite);
+        //bookmark.addEventListener('click', addToFavorite);
+        for (let book of bookmarks) {
+            book.addEventListener('click', addToFavorite);
+        }
 
         function addToFavorite(event)
         {

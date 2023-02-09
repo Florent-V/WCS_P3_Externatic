@@ -20,6 +20,7 @@
             }
             tr {
                 height: 2rem;
+
                 &.messageHeader {
                     cursor: pointer;
                     .messageContent {
@@ -31,6 +32,11 @@
                             text-decoration: none;
                             color: inherit;
                         }
+                        * {
+                            display:inline;
+                            margin:0;
+                        }
+
                     }
                 }
             }

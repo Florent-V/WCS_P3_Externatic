@@ -63,9 +63,11 @@
         {% else %}
             <a href="{{ path('app_company_show', {id: company.id}) }}"
                class="btn btn-primary">Candidature Spontanée</a>
+            <a href="{{ path('annonce_show_by_company', {id: company.id}) }}"
+               class="btn btn-primary mt-2">Voir les annonces</a>
 
-            <a href="{{ path('app_company_add_favorite', {id: company.id}) }}" id="fav-company"
-               class="btn btn-primary fav-icon mt-2">
+            <a href="{{ path('app_company_add_favorite', {id: company.id}) }}"
+               class="btn btn-primary fav-icon mt-2 fav-company">
                 <span>{{ app.user.candidat.isCompanyFavorite(company) ? 'Retirer l\'entreprise des favoris' : 'Mettre l\'entreprise en favoris' }}</span>
                 <i class="bi {{ app.user.candidat.isCompanyFavorite(company) ? 'bi-heart-fill' : 'bi-heart' }}"></i>
             </a>

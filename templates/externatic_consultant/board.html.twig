@@ -21,7 +21,7 @@
                     {% for appointment in weekAppointment %}
                         <tr>
                             <td>{{ appointment.date|format_datetime('full', 'short', locale='fr') }}</td>
-                            <td>With</td>
+                            <td>avec</td>
                             <td>{{ appointment.recruitmentProcess.candidat.user.firstname|upper }} {{ appointment.recruitmentProcess.candidat.user.lastName|capitalize }}</td>
                         </tr>
                     {% endfor %}
@@ -35,7 +35,7 @@
                     {% for appointment in otherAppointment %}
                         <tr>
                             <td>{{ appointment.date|format_datetime('full', 'short', locale='fr') }}</td>
-                            <td>With</td>
+                            <td>avec</td>
                             <td>{{ appointment.recruitmentProcess.candidat.user.lastName|upper }} {{ appointment.recruitmentProcess.candidat.user.firstname|capitalize }}</td>
                         </tr>
                     {% endfor %}

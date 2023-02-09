@@ -57,6 +57,10 @@
                             <a class="nav-link {{ app.request.pathInfo == path('app_candidat_profile') ? "active" : "" }}" href="{{ path('app_candidat_profile') }}">Mon Compte</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link {{ app.request.pathInfo == path('app_candidat_complete') ? "active" : "" }}" href="{{ path('app_candidat_complete') }}">Compléter mon profil
+                                candidat</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link {{ app.request.pathInfo == path('annonce_search_results') ? "active" : "" }}" href="{{ path('annonce_search_results') }}">Rechercher une offre</a>
                         </li>
                         <li class="nav-item">
@@ -72,10 +76,7 @@
                             <a class="nav-link {{ app.request.pathInfo == path('app_search_profile_index') ? "active" : "" }}" href="{{ path('app_search_profile_index') }}">Mes recherches
                                 sauvegardées</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ app.request.pathInfo == path('app_candidat_complete') ? "active" : "" }}" href="{{ path('app_candidat_complete') }}">Compléter mon profil
-                                candidat</a>
-                        </li>
+
                     {% elseif is_granted("ROLE_CONSULTANT") %}
                         <li class="nav-item">
                             <a class="nav-link {{ app.request.pathInfo == path('consultant_board') ? "active" : "" }}" href="{{ path('consultant_board') }}">Tableau de bord</a>
