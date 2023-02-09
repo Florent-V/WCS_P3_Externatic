@@ -81,8 +81,6 @@ class CandidatFixtures extends Fixture implements DependentFixtureInterface
     public static int $candidatIndex = 0;
     public function load(ObjectManager $manager): void
     {
-        $faker = Factory::create('fr_FR');
-
         foreach (self::CANDIDATS as $candidatinf) {
             self::$candidatIndex++;
             $candidat = new Candidat();
