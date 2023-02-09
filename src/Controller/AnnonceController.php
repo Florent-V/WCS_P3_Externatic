@@ -19,6 +19,7 @@ use App\Service\NewNotif;
 use DateTime;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -137,7 +138,7 @@ class AnnonceController extends AbstractController
         ]);
     }
 
-    #[IsGranted(['ROLE_CANDIDAT', ''])]
+    #[Security("is_granted('ROLE_CANDIDAT') or is_granted('ROLE_CONSULTANT')")]
     #[Route('/company/{id}', name: 'show_by_company', methods: ['GET'])]
     public function showAnnonceByCompany(
         Company $company,

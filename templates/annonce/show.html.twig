@@ -2,7 +2,7 @@
 
 {% block body %}
     <a class="retour-bouton btn btn-primary m-5 ms-4" href="{{ path("annonce_search_results") }}">Retours aux offres</a>
-    <main style="position: relative" class="show_annonce container-lg" {{ stimulus_controller('favoriteoffer') }}>
+    <main class="show_annonce container-lg" {{ stimulus_controller('favoriteoffer') }}>
         <div class="d-flex" {{ stimulus_controller('heartcompany') }}>
             <img src="{{ vich_uploader_asset(annonce.company) }}" alt="logo de l'entreprise" class="ms-5 logo">
             <div class="w-100 d-flex flex-column justify-content-center">

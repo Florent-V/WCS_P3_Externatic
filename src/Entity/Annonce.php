@@ -33,7 +33,7 @@ class Annonce
     private ?bool $remote = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Assert\NotBlank(message: 'Vous devez cmettre une description à votre annonce')]
+    #[Assert\NotBlank(message: 'Vous devez mettre une description à votre annonce')]
     private ?string $description = null;
 
     #[ORM\Column(nullable: true)]
