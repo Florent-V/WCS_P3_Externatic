@@ -60,6 +60,7 @@ class NewNotif extends AbstractController
 
     private function annonceByCriteria(Annonce $annonce, array &$sentNotif): void
     {
+
         if ($annonce->getWorkTime()->h > 35) {
             $worktime = 1;
         } else {
@@ -67,8 +68,10 @@ class NewNotif extends AbstractController
         }
         foreach ($this->profileRepository->findBySearchProfile($annonce, $worktime) as $searchProfile) {
             if (
-                $searchProfile->getSearchQuery()['searchQuery'] == "" ||
-                strpos($annonce->getTitle(), $searchProfile->getSearchQuery()['searchQuery'])
+                ($searchProfile->getSearchQuery()['searchQuery'] == "" ||
+                strpos($annonce->getTitle(), $searchProfile->getSearchQuery()['searchQuery'])) &&
+                (empty($searchProfile->getContractType()) ||
+                in_array($annonce->getContractType(), $searchProfile->getContractType()))
             ) {
                 array_push($sentNotif, $searchProfile->getCandidat()->getUser()->getId());
                 $notification = new Notif();

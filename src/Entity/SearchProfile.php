@@ -177,7 +177,7 @@ class SearchProfile
         return $this;
     }
 
-    public function getContractType(): array
+    public function getContractType(): ?array
     {
         return $this->contractType;
     }
