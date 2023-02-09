@@ -44,7 +44,8 @@
                                 <a href="{{ path('annonce_show', {"id": annonce.id}) }}"><strong>{{ annonce.title }}</strong></a><small>-
                                     terminée depuis
                                     le {{ annonce.endingAt|format_datetime('full', 'none', locale='fr') }}</small></div>
-                            <div>créée {{ annonce.createdAt|date("d-m-y") }}</div>
+                            <div>créée {{ annonce.createdAt|date("d-m-y") }} - <a class="btn btn-primary p-1"
+                                                                                  href="{{ path('annonce_edit', {"id": annonce.id}) }}">edit</a></div>
                             <span class="form-check form-switch annonceSwiper">
                                 <input data-annonce="{{ annonce.id }}" class="annonceSwiper form-check-input"
                                        type="checkbox" role="switch"

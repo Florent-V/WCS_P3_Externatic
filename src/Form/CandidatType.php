@@ -30,6 +30,7 @@ class CandidatType extends AbstractType
             ])
             ->add('description', null, [
                 'purify_html' => true,
+                'help' => '500 caractères maximum',
             ])
         ;
     }

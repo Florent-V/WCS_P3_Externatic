@@ -64,6 +64,10 @@ class Candidat
     private ?string $city = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Assert\Length(
+        max: 500,
+        maxMessage: 'Attention, {{ limit }} caractères maximum.'
+    )]
     private ?string $description = null;
 
     #[ORM\Column]

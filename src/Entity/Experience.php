@@ -56,6 +56,10 @@ class Experience
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     #[Assert\NotBlank(message: 'Ce champ ne doit pas être vide')]
     #[Assert\Type('string')]
+    #[Assert\Length(
+        max: 500,
+        maxMessage: 'Attention, {{ limit }} caractères maximum.'
+    )]
     private ?string $description = null;
 
     #[ORM\Column(length: 100, nullable: true)]
