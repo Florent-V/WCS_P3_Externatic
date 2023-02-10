@@ -84,6 +84,7 @@ class CandidatController extends AbstractController
         }
         return $this->renderForm('user/update.html.twig', [
             'userForm' => $userForm,
+            'user' => $user,
         ]);
     }
 

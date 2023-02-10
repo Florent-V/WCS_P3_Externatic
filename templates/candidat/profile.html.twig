@@ -8,9 +8,9 @@
 
         <h1 class="text-center mt-3">Profil de {{ user.firstname }}  {{ user.lastname }}</h1>
 
-        <div class="cardsSection d-md-flex gap-4">
+        <div class="cardsSection row">
 
-            <div class="firstColumn w-md-50">
+            <div class="firstColumn col-md-6">
                 <div class="candidatInfos mb-3">
                     {% include 'candidat/_accountCard.html.twig' %}
                 </div>
@@ -22,7 +22,7 @@
                 </div>
             </div>
 
-            <div class="secondColumn w-md-50">
+            <div class="secondColumn col-md-6">
                 <div class="candidatInfos mb-3">
                     {% include 'candidat/_professionalCard.html.twig' %}
                 </div>
